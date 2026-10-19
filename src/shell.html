@@ -1,0 +1,273 @@
+<title>Kelime Atölyesi</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=Source+Sans+3:ital,wght@0,400;0,600;0,700;1,400&display=swap">
+<style>
+/*CSS*/
+</style>
+
+<header class="top">
+  <div class="top-in">
+    <a class="brand" href="#ana">
+      <span class="mark" aria-hidden="true">Aa</span>
+      <span class="brand-t"><b>Kelime Atölyesi</b><small>İngilizce çalışma alanın</small></span>
+    </a>
+    <nav class="nav" id="nav" aria-label="Bölümler"></nav>
+    <span class="streak" id="streak" title="Art arda çalıştığın gün sayısı"></span>
+  </div>
+</header>
+
+<main class="wrap">
+
+  <!-- ================= ANA SAYFA ================= -->
+  <section class="view" id="v-ana">
+    <div class="hero">
+      <div class="hero-txt">
+        <span class="eyebrow">Merhaba!</span>
+        <h1 class="h-display">İngilizceni bugün bir adım ileri taşı.</h1>
+        <p class="lead">Kelime öğren, dil bilgisi konularını çalış, yarışmayla kendini dene ve gerçek metinleri çevir.</p>
+        <div class="stats" id="homeStats"></div>
+      </div>
+      <article class="wotd" id="wotd"></article>
+    </div>
+
+    <div class="sec-head"><h2>Çalışma alanları</h2></div>
+    <div class="modules" id="modules"></div>
+
+    <div class="sec-head"><h2>Kaldığın yerden devam et</h2></div>
+    <div class="continue" id="continue"></div>
+  </section>
+
+  <!-- ================= KELİME ÖĞREN: DESTELER ================= -->
+  <section class="view" id="v-ogren" hidden>
+    <div class="page-head">
+      <div>
+        <span class="eyebrow c-learn">Kelime Öğren</span>
+        <h1 class="h-page">Konu konu kelime desteleri</h1>
+        <p class="lead">Kartı çevir, anlamını ve örnek cümlesini gör, telaffuzunu dinle. Bildiklerini ayır, zorlandıklarını tekrar et.</p>
+      </div>
+      <div class="ph-stat" id="learnTotal"></div>
+    </div>
+    <div class="decks" id="decks"></div>
+  </section>
+
+  <!-- ================= KELİME ÖĞREN: ÇALIŞMA ================= -->
+  <section class="view" id="v-calis" hidden>
+    <div class="study">
+      <div class="study-top">
+        <a class="backlink" href="#ogren"><svg class="ic"><use href="#i-left"/></svg>Desteler</a>
+        <span class="deck-chip" id="sDeck"></span>
+      </div>
+      <div class="sbar"><i id="sBar"></i></div>
+      <div class="scount"><span id="sPos">1 / 12</span><span><b class="k-ok" id="sKnown">0</b> biliyorum · <b class="k-rev" id="sRev">0</b> tekrar</span></div>
+
+      <div class="flip-scene" id="scene">
+        <div class="flipcard" id="flip" tabindex="0" role="button" aria-label="Kartı çevir">
+          <div class="face front">
+            <div class="face-top"><span class="pill" id="fPos">isim</span><span class="lvl" id="fLvl"></span></div>
+            <p class="fword" id="fWord">word</p>
+            <button class="speak big" id="fSpeak" aria-label="Kelimeyi seslendir"><svg class="ic"><use href="#i-speaker"/></svg></button>
+            <p class="tap">Anlamını görmek için karta dokun</p>
+          </div>
+          <div class="face back">
+            <div class="face-top"><span class="pill" id="bWordSmall">word</span><button class="speak" id="bSpeak" aria-label="Kelimeyi seslendir"><svg class="ic"><use href="#i-speaker"/></svg></button></div>
+            <p class="bmean" id="bMean">anlamı</p>
+            <div class="bex">
+              <div class="bex-en"><p id="bEx">Example.</p><button class="speak sm" id="bExSpeak" aria-label="Cümleyi seslendir"><svg class="ic"><use href="#i-speaker"/></svg></button></div>
+              <p class="bex-tr" id="bExTr">Örnek.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="judge">
+        <button class="jbtn rev" id="jRev"><svg class="ic"><use href="#i-refresh"/></svg>Tekrar et</button>
+        <button class="jbtn ok" id="jOk"><svg class="ic"><use href="#i-check"/></svg>Biliyorum</button>
+      </div>
+      <p class="keys">Klavye: <kbd>Boşluk</kbd> çevir · <kbd>←</kbd> tekrar et · <kbd>→</kbd> biliyorum · Telefonda kartı sağa/sola kaydır</p>
+    </div>
+  </section>
+
+  <!-- ================= KELİME ÖĞREN: SONUÇ ================= -->
+  <section class="view" id="v-deckend" hidden>
+    <div class="card endcard">
+      <span class="deck-chip" id="dDeck" style="align-self:center"></span>
+      <h2 class="h-page" id="dTitle">Desteyi bitirdin!</h2>
+      <div class="split">
+        <div class="splitbox ok"><b id="dOk">0</b><span>biliyorum</span></div>
+        <div class="splitbox rev"><b id="dRev">0</b><span>tekrar edilecek</span></div>
+      </div>
+      <div class="mlist" id="dRevList"></div>
+      <div class="endbtns">
+        <a class="ghost" href="#ogren">Desteler</a>
+        <button class="ghost" id="dRestart">Baştan çalış</button>
+        <button class="primary" id="dReview">Tekrar edilecekleri çalış</button>
+        <button class="primary alt" id="dQuiz"><svg class="ic"><use href="#i-trophy"/></svg>Bu desteyle yarış</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= YARIŞMA ================= -->
+  <section class="view" id="v-yarisma" hidden>
+    <div class="page-head" id="quizHead">
+      <div>
+        <span class="eyebrow c-quiz">Kelime Yarışması</span>
+        <h1 class="h-page">Seviyeni seç, yarışma başlasın</h1>
+        <div class="rules"><span>10 kelime</span><span>Süre sınırı</span><span>Hızlı cevap = bonus</span><span>Seri yap, puanı katla</span></div>
+      </div>
+    </div>
+
+    <div id="lobby" class="levelgrid"></div>
+
+    <div id="game" class="card game" hidden>
+      <div class="hud">
+        <span class="badge" id="gLevel">Kolay</span>
+        <span class="qn" id="gQn">1 / 10</span>
+        <div class="points"><b id="gPts">0</b><small>puan</small></div>
+      </div>
+      <div class="steps" id="gSteps"></div>
+      <div class="timer"><div class="tbar" id="gTbar"><i id="gTfill"></i></div><span class="sec" id="gSec">15s</span></div>
+      <div class="stage" id="gStage">
+        <span class="combo" id="gCombo" hidden>x2</span>
+        <div id="gWordBox" class="gwbox">
+          <p class="word" id="gWord">—</p>
+          <div class="wmeta">
+            <span class="pill" id="gPos">isim</span>
+            <button class="speak" id="gSpeak" aria-label="Kelimeyi seslendir"><svg class="ic"><use href="#i-speaker"/></svg></button>
+          </div>
+        </div>
+        <span class="count" id="gCount" hidden>3</span>
+      </div>
+      <div class="opts" id="gOpts"></div>
+      <div class="feedback" id="gFb"></div>
+      <div class="jokers">
+        <div class="jk">
+          <button class="joker" id="jHalf" title="İki yanlış şıkkı siler">50:50 <em id="jHalfN">1</em></button>
+          <button class="joker" id="jPass" title="Kelimeyi puan kaybetmeden geç">Pas <em id="jPassN">2</em></button>
+        </div>
+        <button class="linkbtn" id="gQuit">Yarışmayı bitir</button>
+      </div>
+    </div>
+
+    <div id="end" class="card end game" hidden>
+      <span class="badge" id="eLevel" style="align-self:center">Kolay</span>
+      <div class="stars" id="eStars"></div>
+      <div><div class="final" id="eScore">0</div><p class="note">toplam puan</p></div>
+      <span class="record" id="eRecord" hidden>Yeni rekor!</span>
+      <div class="stats4">
+        <div class="stat"><b id="eOk">0</b><span>Doğru</span></div>
+        <div class="stat"><b id="eNo">0</b><span>Yanlış</span></div>
+        <div class="stat"><b id="ePass">0</b><span>Pas</span></div>
+        <div class="stat"><b id="eStreak">0</b><span>En uzun seri</span></div>
+      </div>
+      <div class="missed" id="eMissedWrap"><h3>Tekrar etmen gereken kelimeler</h3><div class="mlist" id="eMissed"></div></div>
+      <div class="endbtns">
+        <button class="ghost" id="eLobby">Seviyeler</button>
+        <button class="primary" id="eAgain">Tekrar oyna</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= DİL BİLGİSİ: KONULAR ================= -->
+  <section class="view" id="v-gramer" hidden>
+    <div class="page-head">
+      <div>
+        <span class="eyebrow c-gram">Dil Bilgisi</span>
+        <h1 class="h-page">Adım adım İngilizce gramer</h1>
+        <p class="lead">Her konu Türkçe anlatım, yapı tabloları, örnek cümleler, sık yapılan hatalar ve alıştırmalarla geliyor. Konuları seviye sırasıyla çalışman önerilir.</p>
+      </div>
+      <div class="ph-stat" id="gramTotal"></div>
+    </div>
+    <div class="chips-row" id="gramFilter"></div>
+    <div id="gramList"></div>
+  </section>
+
+  <!-- ================= DİL BİLGİSİ: KONU ================= -->
+  <section class="view" id="v-konu" hidden>
+    <div class="topic">
+      <aside class="toc" id="toc"></aside>
+      <article class="tmain" id="tmain"></article>
+    </div>
+  </section>
+
+  <!-- ================= METİN ÇEVİRİSİ ================= -->
+  <section class="view" id="v-ceviri" hidden>
+    <div class="page-head">
+      <div>
+        <span class="eyebrow c-trans">Metin Çevirisi</span>
+        <h1 class="h-page">Oku, anla, Türkçeye çevir</h1>
+        <p class="lead">Bilmediğin kelimeye dokun, anlamını gör. Çevirini yaz ve puanını öğren.</p>
+      </div>
+    </div>
+    <div class="card transcard">
+      <div class="seg" id="tLevels"></div>
+      <div class="wtop"><span class="badge" id="tLevel">Kolay</span><span class="note" id="tCount">Metin 1</span></div>
+      <div class="paper" id="tPaper">
+        <div class="paper-head"><span class="flag">EN</span><span>İngilizce metin</span><button class="speak sm" id="tSpeak" aria-label="Metni seslendir" style="margin-left:auto"><svg class="ic"><use href="#i-speaker"/></svg></button></div>
+        <p class="passage" id="tPassage"></p>
+        <div class="pop" id="tPop" hidden><span class="pop-en" id="tPopEn"></span><span class="pop-tr" id="tPopTr"></span></div>
+        <p class="hint">Anlamını görmek için bir kelimeye dokun</p>
+      </div>
+      <div class="looked" id="tLookedWrap" hidden><small>Baktığın kelimeler</small><div class="looked-list" id="tLooked"></div></div>
+      <div class="notebook">
+        <div class="paper-head"><span class="flag tr">TR</span><label for="tInput">Senin çevirin</label></div>
+        <textarea id="tInput" placeholder="Çevirini buraya yaz…"></textarea>
+      </div>
+      <div class="tactions">
+        <button class="ghost" id="tSkip"><svg class="ic"><use href="#i-refresh"/></svg>Başka metin</button>
+        <button class="ghost" id="tShow"><svg class="ic"><use href="#i-eye"/></svg><span>Türkçesini göster</span></button>
+        <button class="primary" id="tCheck">Kontrol et</button>
+      </div>
+      <div class="ref" id="tReveal" hidden><small>Türkçesi</small><span id="tRevealText"></span></div>
+      <div class="result" id="tResult" hidden>
+        <div class="rhead">
+          <div class="bigring">
+            <svg viewBox="0 0 80 80"><circle class="trk" cx="40" cy="40" r="34"/><circle class="val" id="tRing" cx="40" cy="40" r="34" stroke-dasharray="213.6" stroke-dashoffset="213.6"/></svg>
+            <span id="tScore">0</span>
+          </div>
+          <div style="min-width:0"><strong id="tVerdict">Değerlendirme</strong><p id="tComment" style="margin:4px 0 0"></p></div>
+        </div>
+        <div class="chips" id="tChips"></div>
+        <div class="ref"><small>Örnek çeviri</small><span id="tRef"></span></div>
+        <button class="primary" id="tNext" style="align-self:flex-end">Sonraki metin</button>
+      </div>
+    </div>
+  </section>
+</main>
+
+<nav class="tabbar" id="tabbar" aria-label="Bölümler"></nav>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <symbol id="i-home" viewBox="0 0 24 24"><path d="M3 11l9-8 9 8M5 10v10h5v-6h4v6h5V10"/></symbol>
+    <symbol id="i-cards" viewBox="0 0 24 24"><path d="M4 9a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2zM8 3h10a2 2 0 0 1 2 2v11"/></symbol>
+    <symbol id="i-trophy" viewBox="0 0 24 24"><path d="M8 4h8v5a4 4 0 0 1-8 0zM8 6H5a3 3 0 0 0 3 4M16 6h3a3 3 0 0 1-3 4M12 13v4M8 21h8M9 17h6"/></symbol>
+    <symbol id="i-book" viewBox="0 0 24 24"><path d="M4 5a2 2 0 0 1 2-2h13v16H6a2 2 0 0 0-2 2zM4 21V5M8 7h7M8 11h5"/></symbol>
+    <symbol id="i-translate" viewBox="0 0 24 24"><path d="M3 5h9M7.5 3v2M5 5c.5 3.5 3 6.5 6 8M10 5c-.8 3.6-3 6.6-6.5 8M13 21l4-9 4 9M14.4 18h5.2"/></symbol>
+    <symbol id="i-sun" viewBox="0 0 24 24"><path d="M12 8a4 4 0 1 0 0 8 4 4 0 0 0 0-8zM12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></symbol>
+    <symbol id="i-cup" viewBox="0 0 24 24"><path d="M4 9h13v5a5 5 0 0 1-5 5H9a5 5 0 0 1-5-5zM17 10h1.5a2.5 2.5 0 0 1 0 5H17M8 3c0 1.5 1 1.5 1 3M12 3c0 1.5 1 1.5 1 3"/></symbol>
+    <symbol id="i-plane" viewBox="0 0 24 24"><path d="M22 2L11 13M22 2l-7 20-4-9-9-4z"/></symbol>
+    <symbol id="i-briefcase" viewBox="0 0 24 24"><path d="M3 8a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2zM9 6V4h6v2M3 13h18"/></symbol>
+    <symbol id="i-heart" viewBox="0 0 24 24"><path d="M12 20s-7-4.5-9-9a4.5 4.5 0 0 1 9-3 4.5 4.5 0 0 1 9 3c-2 4.5-9 9-9 9z"/></symbol>
+    <symbol id="i-leaf" viewBox="0 0 24 24"><path d="M5 19C5 10 11 5 20 5c0 9-5 15-14 15zM5 19l8-8"/></symbol>
+    <symbol id="i-chip" viewBox="0 0 24 24"><path d="M7 7h10v10H7zM10 3v4M14 3v4M10 17v4M14 17v4M3 10h4M3 14h4M17 10h4M17 14h4"/></symbol>
+    <symbol id="i-pulse" viewBox="0 0 24 24"><path d="M3 12h4l2-5 4 10 2-5h6"/></symbol>
+    <symbol id="i-arrows" viewBox="0 0 24 24"><path d="M4 7h14l-3-3M20 17H6l3 3"/></symbol>
+    <symbol id="i-chat" viewBox="0 0 24 24"><path d="M4 5h16v11H9l-5 4zM8 9h8M8 12h5"/></symbol>
+    <symbol id="i-spark" viewBox="0 0 24 24"><path d="M12 3l2 6 6 2-6 2-2 6-2-6-6-2 6-2zM19 3v4M17 5h4"/></symbol>
+    <symbol id="i-flame" viewBox="0 0 24 24"><path d="M12 22c4 0 7-3 7-7 0-4-3-6-4-10-2 2-3 4-3 6-1-1-2-2-2-4-3 3-5 5-5 8 0 4 3 7 7 7z"/></symbol>
+    <symbol id="i-speaker" viewBox="0 0 24 24"><path d="M11 5L6 9H2v6h4l5 4zM15.5 8.5a5 5 0 0 1 0 7M19 5a10 10 0 0 1 0 14"/></symbol>
+    <symbol id="i-check" viewBox="0 0 24 24"><path d="M5 12l5 5 9-10"/></symbol>
+    <symbol id="i-x" viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"/></symbol>
+    <symbol id="i-left" viewBox="0 0 24 24"><path d="M15 5l-7 7 7 7"/></symbol>
+    <symbol id="i-right" viewBox="0 0 24 24"><path d="M9 5l7 7-7 7"/></symbol>
+    <symbol id="i-refresh" viewBox="0 0 24 24"><path d="M20 11a8 8 0 1 0-2.3 5.7M20 4v7h-7"/></symbol>
+    <symbol id="i-eye" viewBox="0 0 24 24"><path d="M2 12s4-7 10-7 10 7 10 7-4 7-10 7S2 12 2 12zM12 9a3 3 0 1 0 0 6 3 3 0 0 0 0-6z"/></symbol>
+    <symbol id="i-bulb" viewBox="0 0 24 24"><path d="M9 18h6M10 21h4M12 3a6 6 0 0 0-4 10.5c.7.7 1 1.5 1 2.5h6c0-1 .3-1.8 1-2.5A6 6 0 0 0 12 3z"/></symbol>
+    <symbol id="i-alert" viewBox="0 0 24 24"><path d="M12 3l10 18H2zM12 10v5M12 18v.5"/></symbol>
+  </defs>
+</svg>
+
+<script>
+/*JS*/
+</script>
