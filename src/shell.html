@@ -1,7 +1,7 @@
 <title>Kelime Atölyesi</title>
 <meta name="claude:viewport-fit-sides" content="cover">
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=Source+Sans+3:ital,wght@0,400;0,600;0,700;1,400&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Onest:wght@400;500;600;700&display=swap">
 <style>
 /*CSS*/
 </style>
@@ -10,7 +10,7 @@
   <div class="top-in">
     <a class="brand" href="#ana">
       <span class="mark" aria-hidden="true">Aa</span>
-      <span class="brand-t"><b>Kelime Atölyesi</b><small>İngilizce çalışma alanın</small></span>
+      <span class="brand-t"><b>Kelime Atölyesi</b></span>
     </a>
     <nav class="nav" id="nav" aria-label="Bölümler"></nav>
     <span class="streak" id="streak" title="Art arda çalıştığın gün sayısı"></span>
@@ -22,13 +22,30 @@
   <!-- ================= ANA SAYFA ================= -->
   <section class="view" id="v-ana">
     <div class="hero">
-      <div class="hero-txt">
-        <span class="eyebrow">Merhaba!</span>
-        <h1 class="h-display">İngilizceni bugün bir adım ileri taşı.</h1>
-        <p class="lead">Kelime öğren, dil bilgisi konularını çalış, yarışmayla kendini dene ve gerçek metinleri çevir.</p>
-        <div class="stats" id="homeStats"></div>
+      <span class="kicker"><svg class="ic"><use href="#i-spark"/></svg>Türkçe anlatımlı İngilizce çalışma alanı</span>
+      <h1 class="h-display">İngilizceni bugün<br><span class="grad">bir adım ileri taşı.</span></h1>
+      <p class="lead">Kelime öğren, dil bilgisi konularını çalış, yarışmayla kendini dene ve gerçek metinleri çevir.</p>
+      <div class="hero-cta">
+        <a class="primary" href="#ogren">Kelime öğrenmeye başla<span class="arr"><svg class="ic"><use href="#i-right"/></svg></span></a>
+        <a class="ghost" href="#gramer">Dil bilgisine göz at</a>
       </div>
-      <article class="wotd" id="wotd"></article>
+      <p class="tiny">Ücretsiz · Üyelik gerekmez · İlerlemen bu cihazda saklanır</p>
+    </div>
+
+    <div class="showcase aurora">
+      <nav class="seg-pill" aria-label="Hızlı geçiş">
+        <a href="#ogren"><svg class="ic"><use href="#i-cards"/></svg>Kelime</a>
+        <a href="#gramer"><svg class="ic"><use href="#i-book"/></svg>Gramer</a>
+        <a href="#yarisma"><svg class="ic"><use href="#i-trophy"/></svg>Yarışma</a>
+        <a href="#ceviri"><svg class="ic"><use href="#i-translate"/></svg>Çeviri</a>
+      </nav>
+      <div class="float-row">
+        <article class="wotd" id="wotd"></article>
+        <div class="statcard">
+          <span class="eyebrow"><svg class="ic"><use href="#i-pulse"/></svg>İlerlemen</span>
+          <div class="stats" id="homeStats"></div>
+        </div>
+      </div>
     </div>
 
     <div class="sec-head"><h2>Çalışma alanları</h2></div>

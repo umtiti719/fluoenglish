@@ -22,5 +22,13 @@ Türkçe arayüzlü, genel İngilizce öğrenme uygulaması.
 - `build.py` — `src/` dosyalarını `index.html` olarak birleştirir: `python3 build.py`
 - `kelime_atolyesi.xlsx` — ilk sürümdeki kelime ve metin listesi
 
+## Sürümler
+Eski tasarımlar kaybolmasın diye her sürüm ayrı saklanır:
+- `surumler/v1-ilk-surum.html` — ilk sürüm (kelime yarışması + metin çevirisi). GitHub dalı: `surum-v1-ilk`
+- `surumler/v2-yesil-tasarim.html` — yeşil tasarım (ana sayfa, kelime öğren, dil bilgisi). GitHub dalı: `surum-v2-yesil`
+- `index.html` — güncel sürüm: v3 açık tasarım (pastel degradeler, yüzen menü)
+
+Eski bir sürüme dönmek için ilgili dosyayı açman ya da dalı seçmen yeterli.
+
 ## Not
 Yapay zekâ ile çeviri değerlendirmesi yalnızca claude.ai üzerinde yayınlanan sürümde çalışır; dosya doğrudan açıldığında anahtar kelimeye dayalı puanlama kullanılır.
