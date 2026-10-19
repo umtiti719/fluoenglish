@@ -521,3 +521,10 @@ kbd{font-family:inherit;font-size:.76rem;background:var(--surface);border:1px so
   .view,.flip-in,.opt.no,.count,.gain{animation:none}
   .flipcard,.mod,.deck,.lvcard,.gt,.sbar i,.bigring .val,.ring .val,.primary,.cont,.jbtn{transition:none}
 }
+
+/* Fluo marka işareti */
+.mark{font-size:1.15rem;font-weight:700;letter-spacing:-.06em;padding-bottom:2px}
+.brand-t{display:flex;align-items:baseline;gap:8px;min-width:0}
+.brand-t b{font-size:1.08rem;letter-spacing:-.04em}
+.brand-t small{font-size:.78rem;color:var(--muted);white-space:nowrap}
+@media (max-width:1000px){.brand-t small{display:none}}

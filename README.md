@@ -1,5 +1,7 @@
-# Kelime Atölyesi
+# Fluo
 
+
+*(Önceki adı: Kelime Atölyesi)*
 Türkçe arayüzlü, genel İngilizce öğrenme uygulaması.
 
 ## Bölümler
