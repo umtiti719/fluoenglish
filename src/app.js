@@ -818,11 +818,15 @@ $("trInput").addEventListener("keydown",e=>{if(e.key==="Enter"&&!e.shiftKey){e.p
 $("trForm").addEventListener("submit",e=>{e.preventDefault();doTranslate()});
 function trSay(en,cls){return canSpeak(en)?sayBtn(en,cls):""}
 function trSave(en,tr,pos,ex,exTr){if(!WINFO[en]&&!P.saved[en])EXTRA[en]=[en,tr,pos||"",ex||"",exTr||""];return savBtn(en)}
-function wordCard(r){
-  const en=r.head,ex=r.examples||[],enDir=TR.dir==="en";
-  return '<article class="trcard"><div class="trhead"><div><h2>'+esc(en)+'</h2>'+(r.pos?'<span class="pill">'+esc(r.pos)+'</span>':'')+(r.pron?'<span class="pron">'+esc(r.pron)+'</span>':'')+'</div>'+
-    '<div class="dbtns">'+trSay(en)+trSave(en,(r.senses||[])[0]||"",r.pos,ex[0]&&ex[0][0],ex[0]&&ex[0][1])+'</div></div>'+
-    '<ol class="senses">'+(r.senses||[]).map(s=>'<li>'+esc(s)+'</li>').join("")+'</ol>'+
+function wordCard(r,big){
+  /* big="tr": büyük yazı ilk Türkçe karşılık (İngilizce->Türkçe), "en": büyük yazı İngilizce karşılık (Türkçe->İngilizce) */
+  const en=r.head,ex=r.examples||[],senses=r.senses||[];
+  const main=big==="tr"?(senses[0]||en):en;
+  const rest=big==="tr"?senses.slice(1):senses;
+  return '<article class="trcard"><div class="trhead"><div class="trmain"><small class="trlbl">'+(big==="tr"?"Türkçesi":"İngilizcesi")+'</small><h2>'+esc(main)+'</h2>'+
+    '<div class="trorig">'+(big==="tr"?'<b>'+esc(en)+'</b>':'')+(r.pos?'<span class="pill">'+esc(r.pos)+'</span>':'')+(r.pron?'<span class="pron">'+esc(r.pron)+'</span>':'')+'</div></div>'+
+    '<div class="dbtns">'+trSay(en)+trSave(en,senses[0]||"",r.pos,ex[0]&&ex[0][0],ex[0]&&ex[0][1])+'</div></div>'+
+    (rest.length?'<div class="trsec"><small>'+(big==="tr"?"Diğer anlamlar":"Anlamı")+'</small><ol class="senses"'+(big==="tr"?' start="2"':'')+'>'+rest.map(x=>'<li>'+esc(x)+'</li>').join("")+'</ol></div>':'')+
     (r.note?'<p class="trnote2">'+ic("bulb")+esc(r.note)+'</p>':'')+
     (ex.length?'<div class="trsec"><small>Örnek cümleler</small>'+ex.map(e=>'<div class="ex"><div><p>'+hl(e[0])+'</p><small>'+esc(e[1]||"")+'</small></div>'+trSay(plain(e[0]),"sm")+'</div>').join("")+'</div>':'')+
     (r.syn&&r.syn.length?'<div class="trsec"><small>Benzer kelimeler</small><div class="chips-s">'+r.syn.map(w=>'<button class="chip-s" data-q="'+esc(w)+'" data-d="en">'+esc(w)+'</button>').join("")+'</div></div>':'')+
@@ -831,8 +835,8 @@ function wordCard(r){
 function renderTr(r,q){
   const box=$("trResult");box.dataset.out="";
   if(!r){box.innerHTML='<div class="empty"><span class="mod-ic">'+ic("search")+'</span><h3>Sonuç bulunamadı</h3><p>"'+esc(q)+'" uygulamanın sözlüğünde yok.'+(sampleFn?' Yazımı kontrol edip tekrar dene.':' Bu sürümde yalnızca uygulamanın kendi sözlüğü kullanılabiliyor. Her kelime ve cümlenin çevirisi paylaşılan Fluo bağlantısında yapay zekâyla yapılır.')+'</p></div>';return}
-  if(r.type==="word"){box.innerHTML=wordCard(r);box.dataset.out=TR.dir==="en"?(r.senses||[])[0]||"":r.head}
-  else if(r.type==="words"){box.innerHTML='<p class="note">"'+esc(q)+'" için İngilizce karşılıklar:</p>'+r.items.map(it=>wordCard({head:it.head,pos:it.pos,senses:[it.mean],examples:it.ex?[it.ex]:[],src:r.src})).join("");box.dataset.out=r.items[0].head}
+  if(r.type==="word"){box.innerHTML=wordCard(r,"tr");box.dataset.out=TR.dir==="en"?(r.senses||[])[0]||"":r.head}
+  else if(r.type==="words"){box.innerHTML='<p class="note">"'+esc(q)+'" için İngilizce karşılıklar:</p>'+r.items.map(it=>wordCard({head:it.head,pos:it.pos,senses:[it.mean],examples:it.ex?[it.ex]:[],src:r.src},"en")).join("");box.dataset.out=r.items[0].head}
   else{
     const out=r.translation||"",enOut=TR.dir==="tr";
     box.dataset.out=out;
