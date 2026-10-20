@@ -108,7 +108,7 @@ function finishSpeak(){if(curBtn)curBtn.classList.remove("on");curBtn=null;if(cu
 player.onended=finishSpeak;player.onerror=finishSpeak;
 function deviceSpeak(text,rate){
   if(!enVoice)pickVoice();
-  if(!enVoice){toast("Bu ifadenin ses kaydı yok");finishSpeak();return}
+  if(!enVoice){toast("Bu sesin kaydı hazırlanıyor, birazdan eklenecek");finishSpeak();return}
   try{const u=new SpeechSynthesisUtterance(plain(text));u.voice=enVoice;u.lang=enVoice.lang;u.rate=rate&&rate<.8?.7:.9;
     u.onend=u.onerror=finishSpeak;speechSynthesis.speak(u)}catch(e){finishSpeak()}
 }
