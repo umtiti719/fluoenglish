@@ -66,29 +66,61 @@ function virtualDeck(id){
   return null;
 }
 
-/* ================= SESLENDİRME ================= */
+/* ================= SESLENDİRME =================
+   Tüm kelime ve cümleler önceden doğal bir İngilizce sesle kaydedildi (audio-w/s/t.js).
+   AIDX: metin anahtarının özeti -> hangi ses dosyasında olduğu. Kaydı olmayan nadir durumlarda
+   yalnızca cihazda İngilizce ses varsa cihaz sesi kullanılır; Türkçe sesle İngilizce okunmaz. */
+const AIDX=/*AIDX*/{};
+const SILENT=/*SILENT*/"";
+const akey=t=>{t=plain(t).trim().replace(/\s+/g," ");return /\s/.test(t)?t:t.toLowerCase()};
+const fnv=s=>{let h=0x811c9dc5;for(let i=0;i<s.length;i++){h^=s.charCodeAt(i);h=Math.imul(h,0x01000193)>>>0}return h.toString(36)};
+window.FLUO_AUDIO=window.FLUO_AUDIO||{};
+const aLoad={};
+function loadAudio(g){
+  return aLoad[g]||(aLoad[g]=new Promise((res,rej)=>{const sc=document.createElement("script");sc.src="audio-"+g+".js";sc.async=true;
+    sc.onload=res;sc.onerror=()=>{aLoad[g]=null;rej()};document.head.appendChild(sc)}));
+}
+const player=new Audio();player.preload="auto";
+let unlocked=false;
+function unlockAudio(){if(unlocked||!SILENT)return;unlocked=true;try{player.src="data:audio/mpeg;base64,"+SILENT;const p=player.play();if(p)p.catch(()=>{})}catch(e){}}
+document.addEventListener("pointerdown",unlockAudio,{once:true,capture:true});
+document.addEventListener("keydown",unlockAudio,{once:true,capture:true});
+// Ses dosyalarını sayfa açıldıktan sonra arka planda sırayla yükle
+setTimeout(()=>{loadAudio("w").catch(()=>{}).then(()=>loadAudio("s")).catch(()=>{}).then(()=>loadAudio("t")).catch(()=>{})},1200);
 let enVoice=null;
-const PREFER=[/natural/i,/online/i,/google us english/i,/google uk english/i,/samantha/i,/ava/i,/allison/i,/aria/i,/jenny/i,/guy/i,/daniel/i,/karen/i,/serena/i,/zira/i,/david/i];
 function pickVoice(){
   try{
     const vs=speechSynthesis.getVoices().filter(v=>/^en([-_]|$)/i.test(v.lang));
     if(!vs.length){enVoice=null;return}
-    const score=v=>{let s=0;PREFER.forEach((r,i)=>{if(r.test(v.name))s+=100-i*3});
-      if(/en[-_]us/i.test(v.lang))s+=20;else if(/en[-_]gb/i.test(v.lang))s+=15;if(!v.localService)s+=10;return s};
+    const PREF=[/natural/i,/online/i,/google us english/i,/google uk english/i,/samantha/i,/ava/i,/aria/i,/jenny/i];
+    const score=v=>{let s=0;PREF.forEach((r,i)=>{if(r.test(v.name))s+=100-i*3});if(/en[-_]us/i.test(v.lang))s+=20;if(!v.localService)s+=10;return s};
     enVoice=vs.sort((a,b)=>score(b)-score(a))[0];
   }catch(e){enVoice=null}
 }
 try{pickVoice();speechSynthesis.addEventListener("voiceschanged",pickVoice)}catch(e){}
+let curBtn=null,curEnd=null;
+function stopSpeak(){
+  try{player.pause()}catch(e){}try{speechSynthesis.cancel()}catch(e){}
+  if(curBtn)curBtn.classList.remove("on");curBtn=null;
+  if(curEnd){const f=curEnd;curEnd=null;f()}
+}
+function finishSpeak(){if(curBtn)curBtn.classList.remove("on");curBtn=null;if(curEnd){const f=curEnd;curEnd=null;f()}}
+player.onended=finishSpeak;player.onerror=finishSpeak;
+function deviceSpeak(text,rate){
+  if(!enVoice)pickVoice();
+  if(!enVoice){toast("Bu ifadenin ses kaydı yok");finishSpeak();return}
+  try{const u=new SpeechSynthesisUtterance(plain(text));u.voice=enVoice;u.lang=enVoice.lang;u.rate=rate&&rate<.8?.7:.9;
+    u.onend=u.onerror=finishSpeak;speechSynthesis.speak(u)}catch(e){finishSpeak()}
+}
 function speak(text,btn,rate,onend){
-  try{
-    if(!enVoice)pickVoice();
-    const u=new SpeechSynthesisUtterance(plain(text));
-    u.lang=enVoice?enVoice.lang:"en-US";if(enVoice)u.voice=enVoice;u.rate=rate||.88;
-    document.querySelectorAll(".speak.on").forEach(b=>b.classList.remove("on"));
-    if(btn)btn.classList.add("on");
-    u.onend=u.onerror=()=>{if(btn)btn.classList.remove("on");if(onend)onend()};
-    speechSynthesis.cancel();speechSynthesis.speak(u);
-  }catch(e){}
+  stopSpeak();
+  curBtn=btn||null;curEnd=onend||null;if(btn)btn.classList.add("on");
+  const h=fnv(akey(text)),g=AIDX[h];
+  if(!g){deviceSpeak(text,rate);return}
+  const play=()=>{const b64=window.FLUO_AUDIO[h];if(!b64){deviceSpeak(text,rate);return}
+    try{player.src="data:audio/mpeg;base64,"+b64;player.playbackRate=rate&&rate<.8?.72:1;player.preservesPitch=true;
+      const p=player.play();if(p)p.catch(()=>finishSpeak())}catch(e){finishSpeak()}};
+  if(window.FLUO_AUDIO[h])play();else loadAudio(g).then(play,()=>deviceSpeak(text,rate));
 }
 document.addEventListener("click",e=>{const b=e.target.closest("[data-say]");if(b){e.stopPropagation();speak(b.dataset.say,b)}},true);
 const isSaved=en=>!!P.saved[en];
@@ -129,7 +161,7 @@ function route(){
   const h=(location.hash.slice(1)||"ana").toLowerCase();
   if(h===lastHash)return;lastHash=h;
   if(h!=="yarisma")pauseGame();
-  if(h!=="dinle")try{speechSynthesis.cancel()}catch(e){}
+  stopSpeak();
   hidePop();
   if(h==="ana"){renderHome();showView("ana","ana")}
   else if(h==="ogren"){if(S&&S.done)S=null;renderDecks();showView("ogren","ogren")}
