@@ -643,6 +643,53 @@ kbd{font-family:inherit;font-size:.76rem;background:var(--surface);border:1px so
 .hero .h-display{font-size:clamp(2rem,5.2vw,3.4rem)}
 .hero{padding-top:26px}
 
+/* ================= Çeviri (sözlük) ================= */
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
+.trbox{max-width:820px;width:100%;gap:14px}
+.trdir{display:grid;grid-template-columns:1fr auto 1fr;align-items:center;gap:10px}
+.trlang{font-weight:600;padding:9px 14px;border-radius:999px;background:var(--surface2);text-align:center}
+.swap{cursor:pointer;width:42px;height:42px;border-radius:50%;border:1px solid var(--line);background:var(--surface);display:grid;place-items:center;transition:transform .25s}
+.swap:hover{transform:rotate(180deg)}
+.trform{display:flex;gap:10px;align-items:flex-end;border:1px solid var(--line);border-radius:22px;padding:10px 10px 10px 18px;background:var(--surface)}
+.trform:focus-within{border-color:var(--ink)}
+.trform textarea{flex:1;min-width:0;font:inherit;font-size:1.25rem;font-weight:500;letter-spacing:-.02em;color:var(--ink);border:0;background:transparent;resize:none;padding:8px 0;line-height:1.4;max-height:180px}
+.trform textarea:focus{outline:none}
+.trform .primary{flex:none}
+.trhint{display:flex;flex-direction:column;gap:6px}
+.trhint small,.trsec>small,.trlbl{font-size:.78rem;font-weight:600;color:var(--muted)}
+.chips-s{display:flex;flex-wrap:wrap;gap:6px}
+.chip-s{cursor:pointer;font-size:.86rem;font-weight:500;padding:5px 12px;border-radius:999px;background:var(--surface2);border:1px solid transparent}
+.chip-s:hover{border-color:var(--line);background:var(--surface)}
+.chip-s.ghosty{background:transparent;border:1px dashed var(--line);color:var(--muted)}
+.trnote{display:flex;gap:6px;align-items:flex-start;margin-top:6px}
+.trnote .ic,.trnote2 .ic{width:16px;height:16px;color:var(--marigold);margin-top:2px;flex:none}
+#trResult{display:flex;flex-direction:column;gap:12px;max-width:820px;width:100%}
+.trcard{background:var(--surface);border:1px solid var(--line);border-radius:24px;padding:20px;display:flex;flex-direction:column;gap:12px;box-shadow:var(--shadow)}
+.trhead{display:flex;justify-content:space-between;align-items:flex-start;gap:10px}
+.trhead>div:first-child{display:flex;flex-wrap:wrap;align-items:center;gap:8px;min-width:0}
+.trhead h2{margin:0;font-weight:600;font-size:clamp(1.7rem,5vw,2.4rem);letter-spacing:-.04em;line-height:1.05;overflow-wrap:anywhere;width:100%}
+.pron{font-size:.86rem;color:var(--muted)}
+.senses{margin:0;padding-left:22px;display:flex;flex-direction:column;gap:4px;font-size:1.08rem}
+.senses li::marker{color:var(--m-gram);font-weight:600}
+.senses li:first-child{font-weight:600}
+.trsec{display:flex;flex-direction:column;gap:8px}
+.trsec .ex{background:var(--surface2);border:0}
+.trnote2{margin:0;display:flex;gap:8px;color:var(--muted);font-size:.93rem;padding:10px 12px;border-radius:14px;background:var(--surface2)}
+.trtext{margin:0;font-size:1.3rem;font-weight:500;letter-spacing:-.02em;line-height:1.45}
+.tractions{display:flex;gap:8px;align-items:center}
+.glossrow{display:flex;flex-wrap:wrap;gap:6px}
+.srcb{align-self:flex-start;font-size:.74rem;font-weight:600;color:var(--muted);padding:3px 10px;border-radius:999px;border:1px solid var(--line)}
+.trload{display:flex;align-items:center;gap:6px;color:var(--muted);font-weight:500;padding:18px}
+.trload span{width:8px;height:8px;border-radius:50%;background:var(--g2);animation:dot 1s infinite ease-in-out}
+.trload span:nth-child(2){animation-delay:.15s;background:var(--g5)}.trload span:nth-child(3){animation-delay:.3s;background:var(--g3)}
+@keyframes dot{0%,100%{transform:translateY(0);opacity:.5}50%{transform:translateY(-5px);opacity:1}}
+@media (max-width:520px){.trform{flex-direction:column;align-items:stretch;padding:10px 10px 10px 14px}.trform .primary{align-self:flex-end}}
+/* 6 bölümlü menü */
+@media (max-width:880px){.tabbar{grid-template-columns:repeat(6,1fr)}.tabbar a{font-size:.64rem}}
+@media (min-width:881px) and (max-width:1100px){.nav a{padding:7px 9px;font-size:.88rem}.nav a .ic{display:none}.brand-t small{display:none}}
+@media (prefers-reduced-motion:reduce){.swap,.trload span{transition:none;animation:none}}
+@media (max-width:1400px){.brand-t small{display:none}}
+
 </style>
 
 <header class="top">
@@ -672,7 +719,8 @@ kbd{font-family:inherit;font-size:.76rem;background:var(--surface);border:1px so
         <a href="#ogren"><svg class="ic"><use href="#i-cards"/></svg>Kelime</a>
         <a href="#gramer"><svg class="ic"><use href="#i-book"/></svg>Gramer</a>
         <a href="#yarisma"><svg class="ic"><use href="#i-trophy"/></svg>Yarışma</a>
-        <a href="#ceviri"><svg class="ic"><use href="#i-translate"/></svg>Çeviri</a>
+        <a href="#cevir"><svg class="ic"><use href="#i-translate"/></svg>Çeviri</a>
+        <a href="#metin"><svg class="ic"><use href="#i-doc"/></svg>Metin Çevirisi</a>
         <a href="#dinle"><svg class="ic"><use href="#i-headphones"/></svg>Dinleme</a>
       </nav>
       <div class="float-row">
@@ -902,6 +950,31 @@ kbd{font-family:inherit;font-size:.76rem;background:var(--surface);border:1px so
     </div>
   </section>
 
+  <!-- ================= ÇEVİRİ (SÖZLÜK) ================= -->
+  <section class="view" id="v-cevir" hidden>
+    <div class="page-head">
+      <div>
+        <span class="eyebrow c-gram">Çeviri</span>
+        <h1 class="h-page">Kelime ve cümle çevir</h1>
+        <p class="lead">Bir kelime ya da cümle yaz. Anlamlarını, örnek cümleleri ve eş anlamlılarını gör, telaffuzunu dinle, Defterine kaydet.</p>
+      </div>
+    </div>
+    <div class="card trbox">
+      <div class="trdir">
+        <span class="trlang" id="trFrom">İngilizce</span>
+        <button class="swap" id="trSwap" aria-label="Çeviri yönünü değiştir" title="Yönü değiştir"><svg class="ic"><use href="#i-swap"/></svg></button>
+        <span class="trlang" id="trTo">Türkçe</span>
+      </div>
+      <form class="trform" id="trForm" autocomplete="off">
+        <label class="sr" for="trInput">Çevrilecek kelime ya da cümle</label>
+        <textarea id="trInput" rows="1" placeholder="Bir kelime ya da cümle yaz…" spellcheck="false" autocapitalize="off"></textarea>
+        <button class="primary" id="trGo" type="submit">Çevir<span class="arr"><svg class="ic"><use href="#i-right"/></svg></span></button>
+      </form>
+      <div class="trhint" id="trHint"></div>
+    </div>
+    <div id="trResult"></div>
+  </section>
+
   <!-- ================= METİN ÇEVİRİSİ ================= -->
   <section class="view" id="v-ceviri" hidden>
     <div class="page-head">
@@ -983,6 +1056,9 @@ kbd{font-family:inherit;font-size:.76rem;background:var(--surface);border:1px so
     <symbol id="i-pause" viewBox="0 0 24 24"><path d="M7 5h3.5v14H7zM13.5 5H17v14h-3.5z"/></symbol>
     <symbol id="i-slow" viewBox="0 0 24 24"><path d="M12 7v5l3 2M12 3a9 9 0 1 0 9 9"/></symbol>
     <symbol id="i-search" viewBox="0 0 24 24"><path d="M11 4a7 7 0 1 0 0 14 7 7 0 0 0 0-14zM20 20l-4-4"/></symbol>
+    <symbol id="i-doc" viewBox="0 0 24 24"><path d="M6 3h8l4 4v14H6zM14 3v4h4M9 12h6M9 16h6"/></symbol>
+    <symbol id="i-swap" viewBox="0 0 24 24"><path d="M7 7h12l-3-3M17 17H5l3 3"/></symbol>
+    <symbol id="i-copy" viewBox="0 0 24 24"><path d="M9 9h10v12H9zM5 15V3h10"/></symbol>
     <symbol id="i-alert" viewBox="0 0 24 24"><path d="M12 3l10 18H2zM12 10v5M12 18v.5"/></symbol>
   </defs>
 </svg>
@@ -1724,7 +1800,7 @@ function virtualDeck(id){
    Tüm kelime ve cümleler önceden doğal bir İngilizce sesle kaydedildi (audio-w/s/t.js).
    AIDX: metin anahtarının özeti -> hangi ses dosyasında olduğu. Kaydı olmayan nadir durumlarda
    yalnızca cihazda İngilizce ses varsa cihaz sesi kullanılır; Türkçe sesle İngilizce okunmaz. */
-const AIDX={"1tp6k76":"w","4a1f4m":"s","16s92ee":"w","quefew":"s","51sghr":"w","1425u5m":"s","pae38o":"w","1l2x0yx":"s","y5ipd2":"w","1kyjlvu":"s","ssc84w":"w","1werk3a":"s","skwp1e":"w","155cc8k":"s","10bq9fe":"w","10xj11q":"s","rlwagd":"w","fdu8ti":"s","16tc5e4":"w","1wel7ob":"s","174vvib":"w","wcpvmn":"s","4vdta8":"w","5u1y2q":"s","1tm9zv3":"w","7y3lbh":"s","kl3gpa":"w","w0uyqp":"s","ey0l8m":"w","t790z9":"s","1ct6wvd":"w","1mm2aet":"s","1rfrahn":"w","r3uu7s":"s","1dwebyw":"w","1vur67n":"s","sq7l1t":"w","1y4lwbh":"s","1wggxjf":"w","l8gukf":"s","1fyyrrw":"w","mn1w7n":"s","2n13jv":"w","8mi8bc":"s","1e2oe22":"w","1pce7u8":"s","1evi889":"w","13v4u28":"s","1dmo43j":"w","1m24p12":"s","a2rz23":"w","1w7axo3":"s","a19jyy":"w","1wg5cqn":"s","lvb8bc":"w","vp8q67":"s","1hpma7s":"w","1wmlekn":"s","1uhvyzb":"w","1ehkq92":"s","9qlss4":"w","mkzapw":"s","c75buy":"w","2q06ta":"s","12lik7s":"w","7zydce":"s","1jkjbl":"w","ocuwyd":"s","1w4azkb":"w","onw5j5":"s","14yrt4c":"w","vk5owq":"s","jrjir9":"w","ettwvh":"s","p9t0ec":"w","l7na3d":"s","q5c5dv":"w","qn5u50":"s","a6xv7f":"w","8koxee":"s","lxqs9g":"w","h3rkik":"s","3ysw2y":"w","1s0aiae":"s","1jnvbj5":"w","1w11kkw":"s","1b7lhos":"w","1alx1j9":"s","15bryb7":"w","wa8el3":"s","1k2kmd2":"w","1fhbylg":"s","1d6uhhx":"w","53d0tb":"s","brbrmk":"w","ib2t3j":"s","11i216n":"w","1ttqrsw":"s","pakpdu":"w","1sx2w8u":"s","d6r69j":"w","nlaq08":"s","2f9bne":"w","k0zgo6":"s","1hhhg0b":"w","1q46gkb":"s","1w07mpa":"w","2yz04s":"s","npwchx":"w","qu97yp":"s","m4yn46":"w","ni3467":"s","44ej3l":"w","7l6vo3":"s","tog6sf":"w","fr2bqa":"s","gw5jfh":"w","isqgva":"s","zrutsu":"w","1bjpb42":"s","1ou5sr8":"w","161u40h":"s","1u4umhl":"w","1d5nvdc":"s","1pkeh9q":"w","1sa3owa":"s","1nhp8xk":"w","1u6aofm":"s","1i2tuxn":"w","18d288i":"s","t9e0zz":"w","5v6c3o":"s","meuc4g":"w","i1oy2n":"s","1l6atvm":"w","15sufgw":"s","zbbph1":"w","gdtpfq":"s","1axfl02":"w","1r9pi6d":"s","1h0kdq6":"w","34wjzc":"s","nll7ta":"w","1ce27u5":"s","1lu1ipf":"w","zuzhox":"s","dlsbuh":"w","1xazktt":"s","b45n5g":"w","ovdhgg":"s","f2by1k":"w","1mnupnq":"s","nsqmfl":"w","1hregd2":"s","1yba8i6":"w","7zggeo":"s","98s7on":"w","4hjps8":"s","1a02u08":"w","sggm2h":"s","x2r4dt":"w","e333pd":"s","hw6li":"w","fojktq":"s","oy5dk3":"w","16ehoas":"s","1urwiww":"w","1r4pudx":"s","1r9yw6o":"w","12vdahl":"s","17pgyel":"w","1fh10nn":"s","1lmjo4o":"w","1oda5ok":"s","1msfp3v":"w","1utcbag":"s","1r1289y":"w","855b7a":"s","1wqonks":"w","19z82tn":"s","qpkrdg":"w","1nbiqpf":"s","1gzom1w":"w","1418e8q":"s","ocgeo2":"w","u9bmcl":"s","1w39ce3":"w","1v6xbgb":"s","rdnn4y":"w","dgdeb0":"s","owgdar":"w","hq5ekv":"s","15jpz6h":"w","d684r":"s","1x84g0s":"w","1wwgwn4":"s","bl8dyq":"w","9d6384":"s","bvaimf":"w","ui58iw":"s","q28tpz":"w","hxhy1k":"s","efkmh6":"w","188zngy":"s","98byuu":"w","j6z4w9":"s","pss325":"w","5h2btr":"s","skhhgf":"w","cwgrkc":"s","10ygyt0":"w","9znp21":"s","7ilz0e":"w","h7rhgo":"s","1ydw718":"w","18660t4":"s","1wf2vyv":"w","1fyxcme":"s","ol2sir":"w","19jbxwr":"s","xsuihn":"w","1noui6a":"s","805gzq":"w","bx2481":"s","87rxzv":"w","1u6j76n":"s","maq1ed":"w","1cbhwn3":"s","rpiqmg":"w","1czj4v0":"s","1bv1iao":"w","1h8sz2j":"s","1h10o36":"w","1jp3q4j":"s","1yplcwo":"w","1cbuvge":"s","nqaiw7":"w","1898wmv":"s","1liovt7":"w","1qykyox":"s","1gk0i31":"w","xhurtg":"s","17e63c":"w","1jqh238":"s","1vpu6x0":"w","yy6u53":"s","4aqx64":"w","q35g2s":"s","1seu57w":"w","ovkulv":"s","w17d18":"w","18q37i0":"s","19foak7":"w","dacyq4":"s","ie59h0":"w","mwb9e0":"s","11kabg3":"w","21pvig":"s","bkecf3":"w","1i3bg3i":"s","xsf6cb":"w","19fqj05":"s","7rop04":"w","18eah9c":"s","4n5tbz":"w","3lo2u3":"w","kgxbtc":"w","1rxhqfd":"w","1sh0cn":"w","18hsyp":"w","1khz72l":"w","187e2tl":"w","18snrod":"w","1jlnylh":"w","pq0cju":"w","ue7a39":"w","1q8iyjl":"w","9f7qy1":"w","ms7go9":"w","3tiqte":"w","yh2ur3":"w","1qim4b3":"w","vhy1h":"w","jizlsh":"w","1731wz6":"w","eeeucv":"w","126ubwz":"w","bzv6e3":"w","16lie6p":"w","n8z649":"w","195uvm4":"w","1t01pu7":"w","1yorp3o":"w","pr3cf":"w","b9jhu9":"w","8rgvro":"w","4peu0s":"w","vn6x1x":"w","142jlds":"w","15ereke":"w","1h7863":"w","mbe0xq":"w","psrqtc":"w","u32v51":"w","bvjc22":"w","1grd3rw":"w","129m39k":"w","1mnbg09":"w","s96u7f":"w","gfnkiu":"w","18foljk":"w","fnsvzu":"w","1229eow":"w","zcokr9":"w","ibe1mm":"w","smyztw":"w","16u4po7":"w","1bseo86":"w","wo8lck":"w","s6ocxs":"w","1u27rxd":"w","jy6vrf":"w","d4scke":"w","548cws":"w","gv56u4":"w","wszl1h":"w","1172pm2":"w","n5qg3d":"w","x3ygh3":"w","gfr9pk":"w","1pm9rb":"w","3hihs5":"w","1iv6vvp":"w","1gr0u5w":"w","ns72fp":"w","8jguwi":"w","1tzb2nu":"w","d1npvs":"w","q67o65":"w","2duuzu":"w","heegvf":"w","hqkyyi":"w","14rskrt":"w","1lajssz":"w","919oe":"w","1wzks2h":"w","1xnvfgh":"w"};
+const AIDX={"1tp6k76":"w","4a1f4m":"s","16s92ee":"w","quefew":"s","51sghr":"w","1425u5m":"s","pae38o":"w","1l2x0yx":"s","y5ipd2":"w","1kyjlvu":"s","ssc84w":"w","1werk3a":"s","skwp1e":"w","155cc8k":"s","10bq9fe":"w","10xj11q":"s","rlwagd":"w","fdu8ti":"s","16tc5e4":"w","1wel7ob":"s","174vvib":"w","wcpvmn":"s","4vdta8":"w","5u1y2q":"s","1tm9zv3":"w","7y3lbh":"s","kl3gpa":"w","w0uyqp":"s","ey0l8m":"w","t790z9":"s","1ct6wvd":"w","1mm2aet":"s","1rfrahn":"w","r3uu7s":"s","1dwebyw":"w","1vur67n":"s","sq7l1t":"w","1y4lwbh":"s","1wggxjf":"w","l8gukf":"s","1fyyrrw":"w","mn1w7n":"s","2n13jv":"w","8mi8bc":"s","1e2oe22":"w","1pce7u8":"s","1evi889":"w","13v4u28":"s","1dmo43j":"w","1m24p12":"s","a2rz23":"w","1w7axo3":"s","a19jyy":"w","1wg5cqn":"s","lvb8bc":"w","vp8q67":"s","1hpma7s":"w","1wmlekn":"s","1uhvyzb":"w","1ehkq92":"s","9qlss4":"w","mkzapw":"s","c75buy":"w","2q06ta":"s","12lik7s":"w","7zydce":"s","1jkjbl":"w","ocuwyd":"s","1w4azkb":"w","onw5j5":"s","14yrt4c":"w","vk5owq":"s","jrjir9":"w","ettwvh":"s","p9t0ec":"w","l7na3d":"s","q5c5dv":"w","qn5u50":"s","a6xv7f":"w","8koxee":"s","lxqs9g":"w","h3rkik":"s","3ysw2y":"w","1s0aiae":"s","1jnvbj5":"w","1w11kkw":"s","1b7lhos":"w","1alx1j9":"s","15bryb7":"w","wa8el3":"s","1k2kmd2":"w","1fhbylg":"s","1d6uhhx":"w","53d0tb":"s","brbrmk":"w","ib2t3j":"s","11i216n":"w","1ttqrsw":"s","pakpdu":"w","1sx2w8u":"s","d6r69j":"w","nlaq08":"s","2f9bne":"w","k0zgo6":"s","1hhhg0b":"w","1q46gkb":"s","1w07mpa":"w","2yz04s":"s","npwchx":"w","qu97yp":"s","m4yn46":"w","ni3467":"s","44ej3l":"w","7l6vo3":"s","tog6sf":"w","fr2bqa":"s","gw5jfh":"w","isqgva":"s","zrutsu":"w","1bjpb42":"s","1ou5sr8":"w","161u40h":"s","1u4umhl":"w","1d5nvdc":"s","1pkeh9q":"w","1sa3owa":"s","1nhp8xk":"w","1u6aofm":"s","1i2tuxn":"w","18d288i":"s","t9e0zz":"w","5v6c3o":"s","meuc4g":"w","i1oy2n":"s","1l6atvm":"w","15sufgw":"s","zbbph1":"w","gdtpfq":"s","1axfl02":"w","1r9pi6d":"s","1h0kdq6":"w","34wjzc":"s","nll7ta":"w","1ce27u5":"s","1lu1ipf":"w","zuzhox":"s","dlsbuh":"w","1xazktt":"s","b45n5g":"w","ovdhgg":"s","f2by1k":"w","1mnupnq":"s","nsqmfl":"w","1hregd2":"s","1yba8i6":"w","7zggeo":"s","98s7on":"w","4hjps8":"s","1a02u08":"w","sggm2h":"s","x2r4dt":"w","e333pd":"s","hw6li":"w","fojktq":"s","oy5dk3":"w","16ehoas":"s","1urwiww":"w","1r4pudx":"s","1r9yw6o":"w","12vdahl":"s","17pgyel":"w","1fh10nn":"s","1lmjo4o":"w","1oda5ok":"s","1msfp3v":"w","1utcbag":"s","1r1289y":"w","855b7a":"s","1wqonks":"w","19z82tn":"s","qpkrdg":"w","1nbiqpf":"s","1gzom1w":"w","1418e8q":"s","ocgeo2":"w","u9bmcl":"s","1w39ce3":"w","1v6xbgb":"s","rdnn4y":"w","dgdeb0":"s","owgdar":"w","hq5ekv":"s","15jpz6h":"w","d684r":"s","1x84g0s":"w","1wwgwn4":"s","bl8dyq":"w","9d6384":"s","bvaimf":"w","ui58iw":"s","q28tpz":"w","hxhy1k":"s","efkmh6":"w","188zngy":"s","98byuu":"w","j6z4w9":"s","pss325":"w","5h2btr":"s","skhhgf":"w","cwgrkc":"s","10ygyt0":"w","9znp21":"s","7ilz0e":"w","h7rhgo":"s","1ydw718":"w","18660t4":"s","1wf2vyv":"w","1fyxcme":"s","ol2sir":"w","19jbxwr":"s","xsuihn":"w","1noui6a":"s","805gzq":"w","bx2481":"s","87rxzv":"w","1u6j76n":"s","maq1ed":"w","1cbhwn3":"s","rpiqmg":"w","1czj4v0":"s","1bv1iao":"w","1h8sz2j":"s","1h10o36":"w","1jp3q4j":"s","1yplcwo":"w","1cbuvge":"s","nqaiw7":"w","1898wmv":"s","1liovt7":"w","1qykyox":"s","1gk0i31":"w","xhurtg":"s","17e63c":"w","1jqh238":"s","1vpu6x0":"w","yy6u53":"s","4aqx64":"w","q35g2s":"s","1seu57w":"w","ovkulv":"s","w17d18":"w","18q37i0":"s","19foak7":"w","dacyq4":"s","ie59h0":"w","mwb9e0":"s","11kabg3":"w","21pvig":"s","bkecf3":"w","1i3bg3i":"s","xsf6cb":"w","19fqj05":"s","7rop04":"w","18eah9c":"s","4n5tbz":"w","3lo2u3":"w","kgxbtc":"w","1rxhqfd":"w","1sh0cn":"w","18hsyp":"w","1khz72l":"w","187e2tl":"w","18snrod":"w","1jlnylh":"w","pq0cju":"w","ue7a39":"w","1q8iyjl":"w","9f7qy1":"w","ms7go9":"w","3tiqte":"w","yh2ur3":"w","1qim4b3":"w","vhy1h":"w","jizlsh":"w","1731wz6":"w","eeeucv":"w","126ubwz":"w","bzv6e3":"w","16lie6p":"w","n8z649":"w","195uvm4":"w","1t01pu7":"w","1yorp3o":"w","pr3cf":"w","b9jhu9":"w","8rgvro":"w","4peu0s":"w","vn6x1x":"w","142jlds":"w","15ereke":"w","1h7863":"w","mbe0xq":"w","psrqtc":"w","u32v51":"w","bvjc22":"w","1grd3rw":"w","129m39k":"w","1mnbg09":"w","s96u7f":"w","gfnkiu":"w","18foljk":"w","fnsvzu":"w","1229eow":"w","zcokr9":"w","ibe1mm":"w","smyztw":"w","16u4po7":"w","1bseo86":"w","wo8lck":"w","s6ocxs":"w","1u27rxd":"w","jy6vrf":"w","d4scke":"w","548cws":"w","gv56u4":"w","wszl1h":"w","1172pm2":"w","n5qg3d":"w","x3ygh3":"w","gfr9pk":"w","1pm9rb":"w","3hihs5":"w","1iv6vvp":"w","1gr0u5w":"w","ns72fp":"w","8jguwi":"w","1tzb2nu":"w","d1npvs":"w","q67o65":"w","2duuzu":"w","heegvf":"w","hqkyyi":"w","14rskrt":"w","1lajssz":"w","919oe":"w","1wzks2h":"w","1xnvfgh":"w","1ctbthw":"w","xgqbfi":"w","1uzhvt3":"w","1mfq46n":"w","a2lc13":"w","skramw":"w","1prieb6":"w","18ow2dz":"w","1qvb8xg":"w","jfcp2r":"w","11e7zc4":"w","13lzhl5":"w","gvruj2":"w","j25ntf":"w","qc9kby":"w","17i1lr1":"w","1vg4rrn":"w","wgi10d":"w","68irb1":"w","1l8lh2g":"w","rv916y":"w","1y940fg":"w","p1k57s":"w","bix4rw":"w","1ud5v5h":"w","1q2jppl":"w","3yftnq":"w","nl8ek1":"w","gagvss":"w","9he0e9":"w","10y5h77":"w","g9t27n":"w","g7vuoe":"w","1n3s02b":"w","1r8x8ng":"w","7jvlxt":"w","amxkff":"w","10v4w58":"w","1mg5kb7":"w","17zzniu":"w","191z7l7":"w","pvhcf":"w","1yfh52d":"w","1k9rc2u":"w","f7w2u9":"w","1p1tvah":"w","opfrt8":"w","1gv35y9":"w","18uryx2":"w","136phce":"w","1nh8nr8":"w","ixkchf":"w","1de38gx":"w","whwgtx":"w","1hg8az":"w","1w36puz":"w","seytw8":"w","ap0fvl":"w","zrm04b":"w","1arpt4z":"w","by7ol0":"w","xv3yq1":"w","1m7oswu":"w","19vnbf8":"w","1czuwnn":"w","140yn0n":"w","hosjoa":"w","fjk7wm":"w","13r7zq7":"w","1m84oga":"w","1p8a6jg":"w","13ski0b":"w","uqxf3r":"w","11vzplu":"w","1afa76k":"w","1i2cydj":"w","1p8yra":"w","1y5o65x":"w","lcqihj":"w","1furz48":"w","basieu":"w","1ffro7w":"w","284ied":"w","1vgpp2e":"w","1ykxjku":"w","18hzymt":"w","j9v5yi":"w","xwc7sc":"w","jujr95":"w","v2w5l0":"w","1igibiv":"w","an7ig2":"w","304gsy":"w","1rjpnr8":"w","x3wmm3":"w","1mbelro":"w","49bbi5":"w","1dffya8":"w","13k79px":"w","y1td2e":"w","186h8vk":"w","d8ahkc":"w","wn4hnj":"w","1rhwr2g":"w","zasvpn":"s","lel98r":"s","c7kmne":"s","1jjz53m":"s","y3h4jv":"s","ejn6hk":"s","jisft0":"s","um07mh":"s","n25jd8":"s","tkj6sg":"s","82mg0y":"s","olfwvu":"s","1tqiei4":"s","1wom92m":"s","1hcxodd":"s","liwav5":"s","3y5u73":"s","nlcsuc":"s","15y8epx":"s","1lm7cdq":"s","18xw3yb":"s","reb8z2":"s","xp94wk":"s","1rn3tqt":"s","tsjc2w":"s","40awo3":"s","1ftaamp":"s","16tx4pw":"s","14uqlk4":"s","1bnjrzb":"s","1e538iu":"s","1ycs7yk":"s","1ngemmd":"s","jk0r77":"s","vc8ct9":"s","1sg6h6r":"s","1nrwjjg":"s","1we3gxx":"s","1qf1z6z":"s","pua8te":"s","khhgkg":"s","jeddro":"s","c7rfx8":"s","19p3pai":"s","1p6cb24":"s","11n2njg":"s","1p4n8qt":"s","ygrp7r":"s","1s7o1gl":"s","gfler4":"s","kp4f5q":"s","1hg160u":"s","y4uf91":"s","1gd9qgd":"s","1fcwmy6":"s","bldzyf":"s","84ebhq":"s","1ahkr9d":"s","nzv7n6":"s","1s2l6dx":"s","1cvk9ky":"s","12ojykm":"s","jxfkjc":"s","nrcvun":"s","jp9noc":"s","rsgkpz":"s","1jh4yyl":"s","c7si1l":"s","1f8ne05":"s","1o77r0y":"s","1df58fa":"s","16igs2m":"s","1uu20l4":"s","1d65sfy":"s","19or2rs":"s","q7fngl":"s","e0m2c":"s","32oqtt":"s","d53hh8":"s","14ethqv":"s","1ky9dvh":"s","89c1t9":"s","1gu92h6":"s","ztbcon":"s","64izx8":"s","10k27u5":"s","164w4sh":"s","6u3zmb":"t"};
 const SILENT="SUQzBAAAAAAAI1RTU0UAAAAPAAADTGF2ZjYwLjE2LjEwMAAAAAAAAAAAAAAA//OEwAAAAAAAAAAAAEluZm8AAAAPAAAABwAAA2AAVVVVVVVVVVVVVVVVVVVxcXFxcXFxcXFxcXFxcY6Ojo6Ojo6Ojo6Ojo6Oqqqqqqqqqqqqqqqqqqqqx8fHx8fHx8fHx8fHx8fj4+Pj4+Pj4+Pj4+Pj4///////////////////AAAAAExhdmM2MC4zMQAAAAAAAAAAAAAAACQEIAAAAAAAAANgmVBi7QAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA//NExAAAAANIAAAAAExBTUUzLjEwMFVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVTEFNRTMu//NExFMAAANIAAAAADEwMFVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVTEFNRTMu//NExKYAAANIAAAAADEwMFVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVTEFNRTMu//NExKwAAANIAAAAADEwMFVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVTEFNRTMu//NExKwAAANIAAAAADEwMFVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVV//NExKwAAANIAAAAAFVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVV//NExKwAAANIAAAAAFVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVV";
 const akey=t=>{t=plain(t).trim().replace(/\s+/g," ");return /\s/.test(t)?t:t.toLowerCase()};
 const fnv=s=>{let h=0x811c9dc5;for(let i=0;i<s.length;i++){h^=s.charCodeAt(i);h=Math.imul(h,0x01000193)>>>0}return h.toString(36)};
@@ -1760,9 +1836,11 @@ function stopSpeak(){
 }
 function finishSpeak(){if(curBtn)curBtn.classList.remove("on");curBtn=null;if(curEnd){const f=curEnd;curEnd=null;f()}}
 player.onended=finishSpeak;player.onerror=finishSpeak;
-function deviceSpeak(text,rate){
+const hasAudio=t=>!!AIDX[fnv(akey(t))];
+const canSpeak=t=>hasAudio(t)||(pickVoice(),!!enVoice);
+function deviceSpeak(text,rate,noRec){
   if(!enVoice)pickVoice();
-  if(!enVoice){toast("Bu sesin kaydı hazırlanıyor, birazdan eklenecek");finishSpeak();return}
+  if(!enVoice){toast(noRec?"Bu ifadenin ses kaydı yok":"Ses yüklenemedi, bağlantını kontrol et");finishSpeak();return}
   try{const u=new SpeechSynthesisUtterance(plain(text));u.voice=enVoice;u.lang=enVoice.lang;u.rate=rate&&rate<.8?.7:.9;
     u.onend=u.onerror=finishSpeak;speechSynthesis.speak(u)}catch(e){finishSpeak()}
 }
@@ -1770,7 +1848,7 @@ function speak(text,btn,rate,onend){
   stopSpeak();
   curBtn=btn||null;curEnd=onend||null;if(btn)btn.classList.add("on");
   const h=fnv(akey(text)),g=AIDX[h];
-  if(!g){deviceSpeak(text,rate);return}
+  if(!g){deviceSpeak(text,rate,true);return}
   const play=()=>{const b64=window.FLUO_AUDIO[h];if(!b64){deviceSpeak(text,rate);return}
     try{player.src="data:audio/mpeg;base64,"+b64;player.playbackRate=rate&&rate<.8?.72:1;player.preservesPitch=true;
       const p=player.play();if(p)p.catch(()=>finishSpeak())}catch(e){finishSpeak()}};
@@ -1799,20 +1877,22 @@ const SECTIONS=[
   {id:"ogren",label:"Kelime Öğren",short:"Öğren",icon:"cards",c:"var(--m-learn)"},
   {id:"yarisma",label:"Yarışma",short:"Yarışma",icon:"trophy",c:"var(--m-quiz)"},
   {id:"gramer",label:"Dil Bilgisi",short:"Gramer",icon:"book",c:"var(--m-gram)"},
-  {id:"ceviri",label:"Çeviri",short:"Çeviri",icon:"translate",c:"var(--m-trans)"}
+  {id:"cevir",label:"Çeviri",short:"Çeviri",icon:"translate",c:"var(--m-gram)"},
+  {id:"metin",label:"Metin Çevirisi",short:"Metin",icon:"doc",c:"var(--m-trans)"}
 ];
 function renderNav(){
   $("nav").innerHTML=SECTIONS.map(s=>'<a href="#'+s.id+'" data-sec="'+s.id+'" style="--c:'+s.c+'">'+ic(s.icon)+s.label+'</a>').join("");
   $("tabbar").innerHTML=SECTIONS.map(s=>'<a href="#'+s.id+'" data-sec="'+s.id+'" style="--c:'+s.c+'">'+ic(s.icon)+'<span>'+s.short+'</span></a>').join("");
 }
-const VIEWS=["ana","ogren","calis","deckend","defter","dinle","yarisma","gramer","konu","ceviri"];
+const VIEWS=["ana","ogren","calis","deckend","defter","dinle","yarisma","gramer","konu","cevir","ceviri"];
 function showView(v,sec){
   VIEWS.forEach(x=>$("v-"+x).hidden=x!==v);
   document.querySelectorAll("[data-sec]").forEach(a=>{if(a.dataset.sec===sec)a.setAttribute("aria-current","page");else a.removeAttribute("aria-current")});
 }
 let lastHash=null;
 function route(){
-  const h=(location.hash.slice(1)||"ana").toLowerCase();
+  let h=(location.hash.slice(1)||"ana").toLowerCase();
+  if(h==="ceviri"){location.replace("#metin");return}
   if(h===lastHash)return;lastHash=h;
   if(h!=="yarisma")pauseGame();
   stopSpeak();
@@ -1837,7 +1917,8 @@ function route(){
     const t=GRAMMAR.find(x=>x.id===h.slice(2));if(!t){location.hash="gramer";return}
     renderTopic(t);showView("konu","gramer");
   }
-  else if(h==="ceviri"){showView("ceviri","ceviri")}
+  else if(h==="metin"){showView("ceviri","metin")}
+  else if(h==="cevir"){renderTrHint();showView("cevir","cevir");setTimeout(()=>{try{$("trInput").focus({preventScroll:true})}catch(e){}},50)}
   else{location.hash="ana";return}
   window.scrollTo({top:0,behavior:"auto"});
 }
@@ -1862,7 +1943,7 @@ function renderHome(){
     {id:"ogren",t:"Kelime Öğren",c:"var(--m-learn)",tint:"var(--t-learn)",icon:"cards",d:"11 konu destesi, örnek cümleler ve telaffuzla kalıcı kelime öğrenimi.",f:learned+" / "+totalW+" kelime",p:learned/totalW},
     {id:"yarisma",t:"Kelime Yarışması",c:"var(--m-quiz)",tint:"var(--t-quiz)",icon:"trophy",d:"Süreye karşı 10 soruluk turlar, jokerler ve seri çarpanı.",f:rec+" / 4 seviyede rekor",p:rec/4},
     {id:"gramer",t:"Dil Bilgisi",c:"var(--m-gram)",tint:"var(--t-gram)",icon:"book",d:"A1'den B2'ye "+GRAMMAR.length+" konu: anlatım, tablolar, örnekler ve alıştırmalar.",f:gd+" / "+GRAMMAR.length+" konu",p:gd/GRAMMAR.length},
-    {id:"ceviri",t:"Metin Çevirisi",c:"var(--m-trans)",tint:"var(--t-trans)",icon:"translate",d:"Gerçek metinleri oku, kelimelere dokun, çevir ve puan al.",f:P.trans+" çeviri yapıldı",p:Math.min(1,P.trans/16)}
+    {id:"metin",t:"Metin Çevirisi",c:"var(--m-trans)",tint:"var(--t-trans)",icon:"doc",d:"Gerçek metinleri oku, kelimelere dokun, çevir ve puan al.",f:P.trans+" çeviri yapıldı",p:Math.min(1,P.trans/16)}
   ];
   $("modules").innerHTML=mods.map(m=>'<a class="mod" href="#'+m.id+'" style="--c:'+m.c+';--t:'+m.tint+'"><span class="mod-ic">'+ic(m.icon)+'</span><h3>'+m.t+'</h3><p>'+m.d+'</p>'+
     '<div class="mod-foot"><span>'+m.f+'</span><div class="mbar"><i style="width:'+Math.round(m.p*100)+'%"></i></div><span class="mod-go">Başla '+ic("right")+'</span></div></a>').join("");
@@ -2430,6 +2511,98 @@ function answerListen(ok,btn,extra){
   $("lNext").onclick=()=>{newListen();playListen()};$("lNext").focus({preventScroll:true});
 }
 renderListenLevels();
+
+
+/* ================= ÇEVİRİ (SÖZLÜK) =================
+   Önce uygulamanın kendi sözlüğü (desteler, yarışma, metin sözlüğü), sonra varsa yapay zekâ. */
+P.hist=P.hist||[];
+const TR={dir:"en",busy:0};
+const trNorm=s=>s.toLocaleLowerCase("tr").replace(/[’`]/g,"'").replace(/[.,!?;:"()]/g,"").replace(/\s+/g," ").trim();
+const TRIDX=(()=>{const m={};const add=(tr,en)=>{tr.split(/[,;/]|\(|\)/).map(x=>trNorm(x.replace(/^-/,""))).filter(x=>x.length>1).forEach(k=>{(m[k]=m[k]||[]).includes(en)||m[k].push(en)})};
+  Object.values(WINFO).forEach(w=>add(w[1],w[0]));return m})();
+function localLookup(q,dir){
+  const k=trNorm(q);if(!k)return null;
+  if(dir==="en"){
+    const key=Object.keys(WINFO).find(x=>x.toLowerCase()===k);
+    if(key){const w=WINFO[key];return{type:"word",head:w[0],pos:w[2],senses:[w[1]],examples:w[3]?[[w[3],w[4]]]:[],src:"Fluo sözlüğü"}}
+    if(GLOSS[k])return{type:"word",head:k,pos:"",senses:[GLOSS[k]],examples:[],src:"Fluo sözlüğü"};
+    return null;
+  }
+  const hits=TRIDX[k]||[];
+  if(!hits.length)return null;
+  return{type:"words",items:hits.slice(0,6).map(en=>{const w=WINFO[en];return{head:en,pos:w[2],mean:w[1],ex:w[3]?[w[3],w[4]]:null}}),src:"Fluo sözlüğü"};
+}
+function renderTrHint(){
+  $("trFrom").textContent=TR.dir==="en"?"İngilizce":"Türkçe";$("trTo").textContent=TR.dir==="en"?"Türkçe":"İngilizce";
+  $("trInput").placeholder=TR.dir==="en"?"Örn. serendipity ya da How's it going?":"Örn. kahvaltı ya da Yarın görüşürüz";
+  const sugg=TR.dir==="en"?["breakfast","look forward to","resilient","Could we have the bill, please?"]:["kahvaltı","sabırlı","yolculuk","Yarın görüşürüz"];
+  $("trHint").innerHTML=(P.hist.length?'<small>Son aramalar</small><div class="chips-s">'+P.hist.slice(0,8).map(h=>'<button class="chip-s" data-q="'+esc(h.q)+'" data-d="'+h.d+'">'+esc(h.q)+'</button>').join("")+'</div>':'')+
+    '<small>Örnekler</small><div class="chips-s">'+sugg.map(q=>'<button class="chip-s ghosty" data-q="'+esc(q)+'" data-d="'+TR.dir+'">'+esc(q)+'</button>').join("")+'</div>'+
+    (sampleFn?'':'<p class="note trnote">'+ic("bulb")+' Bu sürümde yalnızca uygulamanın kendi sözlüğündeki yaklaşık 800 kelime çevrilir. Her kelime ve cümlenin çevirisi paylaşılan Fluo bağlantısında yapay zekâyla yapılır.</p>');
+  $("trHint").querySelectorAll("[data-q]").forEach(b=>b.onclick=()=>{TR.dir=b.dataset.d;$("trInput").value=b.dataset.q;renderTrHint();doTranslate()});
+}
+$("trSwap").onclick=()=>{TR.dir=TR.dir==="en"?"tr":"en";const r=$("trResult").dataset.out;if(r){$("trInput").value=r}renderTrHint();autoGrow();$("trInput").focus()};
+function autoGrow(){const t=$("trInput");t.style.height="auto";t.style.height=Math.min(t.scrollHeight,180)+"px"}
+$("trInput").addEventListener("input",autoGrow);
+$("trInput").addEventListener("keydown",e=>{if(e.key==="Enter"&&!e.shiftKey){e.preventDefault();doTranslate()}});
+$("trForm").addEventListener("submit",e=>{e.preventDefault();doTranslate()});
+function trSay(en,cls){return canSpeak(en)?sayBtn(en,cls):""}
+function trSave(en,tr,pos,ex,exTr){if(!WINFO[en]&&!P.saved[en])EXTRA[en]=[en,tr,pos||"",ex||"",exTr||""];return savBtn(en)}
+function wordCard(r){
+  const en=r.head,ex=r.examples||[],enDir=TR.dir==="en";
+  return '<article class="trcard"><div class="trhead"><div><h2>'+esc(en)+'</h2>'+(r.pos?'<span class="pill">'+esc(r.pos)+'</span>':'')+(r.pron?'<span class="pron">'+esc(r.pron)+'</span>':'')+'</div>'+
+    '<div class="dbtns">'+trSay(en)+trSave(en,(r.senses||[])[0]||"",r.pos,ex[0]&&ex[0][0],ex[0]&&ex[0][1])+'</div></div>'+
+    '<ol class="senses">'+(r.senses||[]).map(s=>'<li>'+esc(s)+'</li>').join("")+'</ol>'+
+    (r.note?'<p class="trnote2">'+ic("bulb")+esc(r.note)+'</p>':'')+
+    (ex.length?'<div class="trsec"><small>Örnek cümleler</small>'+ex.map(e=>'<div class="ex"><div><p>'+hl(e[0])+'</p><small>'+esc(e[1]||"")+'</small></div>'+trSay(plain(e[0]),"sm")+'</div>').join("")+'</div>':'')+
+    (r.syn&&r.syn.length?'<div class="trsec"><small>Benzer kelimeler</small><div class="chips-s">'+r.syn.map(w=>'<button class="chip-s" data-q="'+esc(w)+'" data-d="en">'+esc(w)+'</button>').join("")+'</div></div>':'')+
+    '<span class="srcb">'+esc(r.src)+'</span></article>';
+}
+function renderTr(r,q){
+  const box=$("trResult");box.dataset.out="";
+  if(!r){box.innerHTML='<div class="empty"><span class="mod-ic">'+ic("search")+'</span><h3>Sonuç bulunamadı</h3><p>"'+esc(q)+'" uygulamanın sözlüğünde yok.'+(sampleFn?' Yazımı kontrol edip tekrar dene.':' Bu sürümde yalnızca uygulamanın kendi sözlüğü kullanılabiliyor. Her kelime ve cümlenin çevirisi paylaşılan Fluo bağlantısında yapay zekâyla yapılır.')+'</p></div>';return}
+  if(r.type==="word"){box.innerHTML=wordCard(r);box.dataset.out=TR.dir==="en"?(r.senses||[])[0]||"":r.head}
+  else if(r.type==="words"){box.innerHTML='<p class="note">"'+esc(q)+'" için İngilizce karşılıklar:</p>'+r.items.map(it=>wordCard({head:it.head,pos:it.pos,senses:[it.mean],examples:it.ex?[it.ex]:[],src:r.src})).join("");box.dataset.out=r.items[0].head}
+  else{
+    const out=r.translation||"",enOut=TR.dir==="tr";
+    box.dataset.out=out;
+    box.innerHTML='<article class="trcard"><small class="trlbl">'+(enOut?"İngilizcesi":"Türkçesi")+'</small><p class="trtext">'+esc(out)+'</p>'+
+      '<div class="tractions">'+(enOut?trSay(out):"")+'<button class="ghost" id="trCopy">'+ic("copy")+'Kopyala</button></div>'+
+      (r.note?'<p class="trnote2">'+ic("bulb")+esc(r.note)+'</p>':'')+
+      (r.words&&r.words.length?'<div class="trsec"><small>Önemli kelimeler</small><div class="glossrow">'+r.words.map(w=>'<span class="lw"><b>'+esc(w.en)+'</b> = '+esc(w.tr)+trSave(w.en,w.tr,"",TR.dir==="en"?q:out,TR.dir==="en"?out:q).replace('class="savebtn ','class="savebtn xs ')+'</span>').join("")+'</div></div>':'')+
+      '<span class="srcb">'+esc(r.src)+'</span></article>';
+    $("trCopy").onclick=async()=>{try{await navigator.clipboard.writeText(out);toast("Kopyalandı")}catch(e){const sel=window.getSelection(),rg=document.createRange();rg.selectNodeContents(box.querySelector(".trtext"));sel.removeAllRanges();sel.addRange(rg);toast("Metin seçildi, kopyalayabilirsin")}};
+  }
+  box.querySelectorAll(".chip-s[data-q]").forEach(b=>b.onclick=()=>{TR.dir=b.dataset.d;$("trInput").value=b.dataset.q;renderTrHint();doTranslate()});
+}
+async function doTranslate(){
+  const q=$("trInput").value.trim();if(!q){$("trInput").focus();return}
+  markActive();const id=++TR.busy,dir=TR.dir;
+  P.hist=[{q,d:dir}].concat(P.hist.filter(h=>h.q.toLowerCase()!==q.toLowerCase())).slice(0,12);save();renderTrHint();
+  const isWord=q.split(/\s+/).length<=3&&!/[.?!]$/.test(q);
+  const local=isWord?localLookup(q,dir):null;
+  if(!sampleFn){renderTr(local,q);return}
+  if(local)renderTr(local,q);else $("trResult").innerHTML='<div class="trload"><span></span><span></span><span></span> Çevriliyor…</div>';
+  $("trGo").disabled=true;
+  const from=dir==="en"?"İngilizce":"Türkçe",to=dir==="en"?"Türkçe":"İngilizce";
+  const prompt=isWord
+    ?"Sen Türk öğrencilere İngilizce öğreten bir sözlüksün. "+from+" ifadeyi "+to+" diline çevir: \""+q+"\"\n"+
+     (dir==="en"
+      ?'Sadece şu JSON\'u döndür: {"head": "kelimenin sözlük biçimi (İngilizce)", "pos": "isim/fiil/sıfat/zarf/kalıp gibi Türkçe tür", "pron": "Türk okura yönelik okunuş, örn. sı-REN-dip-ı-ti", "senses": ["en yaygın Türkçe anlam", "diğer anlamlar (en fazla 4)"], "examples": [["İngilizce örnek cümle, kelime **yıldızla** vurgulu", "Türkçesi"], ["…","…"]], "syn": ["İngilizce eş anlamlılar, en fazla 4"], "note": "kısa kullanım notu (isteğe bağlı, Türkçe)"}'
+      :'Sadece şu JSON\'u döndür: {"items": [{"head": "İngilizce karşılık", "pos": "Türkçe tür", "mean": "bu karşılığın Türkçe anlam/nüansı", "ex": ["İngilizce örnek, karşılık **yıldızla** vurgulu", "Türkçesi"]}] }  (en yaygın karşılık ilk sırada, en fazla 4 karşılık)')
+    :"Şu "+from+" metni doğal bir "+to+" diline çevir: \""+q+"\"\n"+
+     'Sadece şu JSON\'u döndür: {"translation": "çeviri", "note": "varsa kısa bir dil notu (Türkçe, isteğe bağlı)", "words": [{"en": "metindeki önemli İngilizce kelime", "tr": "Türkçe anlamı"}] }  (words en fazla 5)';
+  try{
+    const r=await sampleFn.json(prompt,{modelTier:"quick"});
+    if(id!==TR.busy)return;
+    let out=null;
+    if(isWord&&dir==="en"&&r&&r.senses)out={type:"word",head:r.head||q,pos:r.pos,pron:r.pron,senses:r.senses,examples:r.examples||[],syn:r.syn||[],note:r.note,src:"Yapay zekâ çevirisi"};
+    else if(isWord&&dir==="tr"&&r&&r.items&&r.items.length)out={type:"words",items:r.items.map(it=>({head:it.head,pos:it.pos,mean:it.mean,ex:it.ex})),src:"Yapay zekâ çevirisi"};
+    else if(r&&r.translation)out={type:"text",translation:r.translation,note:r.note,words:r.words||[],src:"Yapay zekâ çevirisi"};
+    renderTr(out||local,q);
+  }catch(e){if(id===TR.busy){if(!local)renderTr(null,q);toast("Yapay zekâ çevirisi şu an yapılamadı")}}
+  finally{if(id===TR.busy)$("trGo").disabled=false}
+}
 
 /* ================= BAŞLAT ================= */
 renderNav();renderStreak();renderTextLevels();newText();

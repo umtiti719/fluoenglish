@@ -1386,5 +1386,773 @@
 "purpose": [
 "w",
 "4d066bbb0e40.mp3"
+],
+"behaviour": [
+"w",
+"4f5ce9544341.mp3"
+],
+"income": [
+"w",
+"34ae67734109.mp3"
+],
+"agreement": [
+"w",
+"5ba320525152.mp3"
+],
+"effort": [
+"w",
+"740457010945.mp3"
+],
+"careful": [
+"w",
+"4623a63aa002.mp3"
+],
+"available": [
+"w",
+"e4894ca167b0.mp3"
+],
+"honest": [
+"w",
+"eeaf118e5d97.mp3"
+],
+"worried": [
+"w",
+"00285b01ad3e.mp3"
+],
+"polite": [
+"w",
+"f3c2011639f8.mp3"
+],
+"dangerous": [
+"w",
+"0a8113941d35.mp3"
+],
+"necessary": [
+"w",
+"ec94c63d602e.mp3"
+],
+"proud": [
+"w",
+"a3e0f6576a75.mp3"
+],
+"familiar": [
+"w",
+"cd8193113f5c.mp3"
+],
+"ordinary": [
+"w",
+"178ac33dfc50.mp3"
+],
+"rarely": [
+"w",
+"e770021b529c.mp3"
+],
+"recently": [
+"w",
+"9d37489d0dc3.mp3"
+],
+"although": [
+"w",
+"94ede22f3c8c.mp3"
+],
+"however": [
+"w",
+"3e63afd0565f.mp3"
+],
+"reluctant": [
+"w",
+"da85e91ce9da.mp3"
+],
+"inevitable": [
+"w",
+"c2a094f7d35f.mp3"
+],
+"tedious": [
+"w",
+"b66b5e4dd754.mp3"
+],
+"profound": [
+"w",
+"6681a88e6288.mp3"
+],
+"scarce": [
+"w",
+"619559e8f553.mp3"
+],
+"plausible": [
+"w",
+"478b5d64bfbd.mp3"
+],
+"vulnerable": [
+"w",
+"25890deab107.mp3"
+],
+"arbitrary": [
+"w",
+"4d268fe1f1f6.mp3"
+],
+"obsolete": [
+"w",
+"28a39c5d0e09.mp3"
+],
+"sufficient": [
+"w",
+"d2436a554392.mp3"
+],
+"temporary": [
+"w",
+"d5197d93c063.mp3"
+],
+"consistent": [
+"w",
+"3a6713def834.mp3"
+],
+"substantial": [
+"w",
+"cc70cc6becf3.mp3"
+],
+"mitigate": [
+"w",
+"ec258f8320ff.mp3"
+],
+"undermine": [
+"w",
+"8d5d9bb86a97.mp3"
+],
+"deteriorate": [
+"w",
+"aed4291ea0b2.mp3"
+],
+"advocate": [
+"w",
+"b3a7cc7edf24.mp3"
+],
+"comply": [
+"w",
+"ce4ce34e750e.mp3"
+],
+"endorse": [
+"w",
+"2b4eea69b5e0.mp3"
+],
+"fluctuate": [
+"w",
+"3e147b639620.mp3"
+],
+"acquire": [
+"w",
+"86a4fa105ff5.mp3"
+],
+"emphasise": [
+"w",
+"552e7bb57072.mp3"
+],
+"assess": [
+"w",
+"dc03bfc312b7.mp3"
+],
+"pursue": [
+"w",
+"bf497f9e19a2.mp3"
+],
+"restrict": [
+"w",
+"279dd2ff4023.mp3"
+],
+"abandon": [
+"w",
+"b0bbb2218aa3.mp3"
+],
+"anticipate": [
+"w",
+"d33ddd3fc3de.mp3"
+],
+"enhance": [
+"w",
+"03265faca14f.mp3"
+],
+"consensus": [
+"w",
+"078eb6dc4e96.mp3"
+],
+"hindrance": [
+"w",
+"daf728bb56da.mp3"
+],
+"dilemma": [
+"w",
+"34f263578d8b.mp3"
+],
+"perseverance": [
+"w",
+"6e49f0d79bde.mp3"
+],
+"liability": [
+"w",
+"c91db3c2cfd8.mp3"
+],
+"outcome": [
+"w",
+"3032ad6aed6c.mp3"
+],
+"threat": [
+"w",
+"58e95539b680.mp3"
+],
+"burden": [
+"w",
+"813ba5ded4d2.mp3"
+],
+"framework": [
+"w",
+"756457dc85f1.mp3"
+],
+"insight": [
+"w",
+"a463c4285602.mp3"
+],
+"whereas": [
+"w",
+"856dcb6362c3.mp3"
+],
+"nevertheless": [
+"w",
+"21a0a48efad2.mp3"
+],
+"despite": [
+"w",
+"0010c6d8214b.mp3"
+],
+"unless": [
+"w",
+"5c3f182888d5.mp3"
+],
+"consumption": [
+"w",
+"e2d58d16fcce.mp3"
+],
+"meticulous": [
+"w",
+"6c5448179e20.mp3"
+],
+"candid": [
+"w",
+"176bfb879de0.mp3"
+],
+"frugal": [
+"w",
+"d9b491dbd0ea.mp3"
+],
+"ubiquitous": [
+"w",
+"7b8c8bd8b6b6.mp3"
+],
+"pragmatic": [
+"w",
+"e7c09ee82a73.mp3"
+],
+"superfluous": [
+"w",
+"c0efeecd2db2.mp3"
+],
+"idiosyncratic": [
+"w",
+"d61731951d49.mp3"
+],
+"benevolent": [
+"w",
+"2d6aa36467c2.mp3"
+],
+"ambivalent": [
+"w",
+"8bb93245d8d9.mp3"
+],
+"tenacious": [
+"w",
+"560c14f8339a.mp3"
+],
+"complacent": [
+"w",
+"bc534eda9646.mp3"
+],
+"gregarious": [
+"w",
+"99c8ecd7579f.mp3"
+],
+"insidious": [
+"w",
+"e65ef900b84d.mp3"
+],
+"magnanimous": [
+"w",
+"5a398ce9b72d.mp3"
+],
+"unprecedented": [
+"w",
+"9d7cb3e73832.mp3"
+],
+"lucid": [
+"w",
+"cc61b28cd394.mp3"
+],
+"cogent": [
+"w",
+"b2d92073365f.mp3"
+],
+"ambiguous": [
+"w",
+"1f2a1ba9f974.mp3"
+],
+"scrutinise": [
+"w",
+"112267f321f1.mp3"
+],
+"alleviate": [
+"w",
+"2c0f79c24b77.mp3"
+],
+"procrastinate": [
+"w",
+"ff62dbeae276.mp3"
+],
+"exacerbate": [
+"w",
+"c70dff3f07b6.mp3"
+],
+"juxtapose": [
+"w",
+"a2911071d7de.mp3"
+],
+"acquiesce": [
+"w",
+"2f38a131b80b.mp3"
+],
+"obfuscate": [
+"w",
+"3ae3fb672275.mp3"
+],
+"vindicate": [
+"w",
+"a21bc35d56f9.mp3"
+],
+"wane": [
+"w",
+"7b6e91a0c3ea.mp3"
+],
+"corroborate": [
+"w",
+"bbc6aca7529a.mp3"
+],
+"discrepancy": [
+"w",
+"5136bda470db.mp3"
+],
+"nuance": [
+"w",
+"d93ec4361dc8.mp3"
+],
+"leverage": [
+"w",
+"3775a8328ad8.mp3"
+],
+"subsidy": [
+"w",
+"1da828e9a0ea.mp3"
+],
+"conundrum": [
+"w",
+"1e45039ceca4.mp3"
+],
+"prerogative": [
+"w",
+"901f678390c3.mp3"
+],
+"propensity": [
+"w",
+"0ed0b6ba9b6b.mp3"
+],
+"ramification": [
+"w",
+"6d6a039b8017.mp3"
+],
+"anachronism": [
+"w",
+"75f5782e6b20.mp3"
+],
+"zeal": [
+"w",
+"d5fb36981654.mp3"
+],
+"notwithstanding": [
+"w",
+"ac62d93bea02.mp3"
+],
+"hitherto": [
+"w",
+"f81b826dc69b.mp3"
+],
+"albeit": [
+"w",
+"6cba26e8a775.mp3"
+],
+"ostensibly": [
+"w",
+"cc07b8375059.mp3"
+],
+"tantamount": [
+"w",
+"0b00a3582c71.mp3"
+],
+"I am from Izmir.": [
+"s",
+"78c7cb5ebf28.mp3"
+],
+"My brother is an engineer.": [
+"s",
+"296d2cbf95de.mp3"
+],
+"Are they your friends?": [
+"s",
+"78b2af98a4c0.mp3"
+],
+"It isn't cold today.": [
+"s",
+"19c86a5bf347.mp3"
+],
+"I drink tea every morning.": [
+"s",
+"b6f4b202e26c.mp3"
+],
+"My father reads the newspaper.": [
+"s",
+"2faebcdfd022.mp3"
+],
+"She doesn't watch TV.": [
+"s",
+"283d843f3503.mp3"
+],
+"Does he play football?": [
+"s",
+"65e3fb653338.mp3"
+],
+"I have a car. The car is blue.": [
+"s",
+"6f3d919ce05f.mp3"
+],
+"She is an honest person.": [
+"s",
+"3f6d1127771a.mp3"
+],
+"The moon is bright tonight.": [
+"s",
+"b2e26f1a8aca.mp3"
+],
+"Can you close the door, please?": [
+"s",
+"bbd7040443f7.mp3"
+],
+"There is a park behind my house.": [
+"s",
+"77c34b2e75aa.mp3"
+],
+"There are twenty students in the class.": [
+"s",
+"671ec2f0109a.mp3"
+],
+"There isn't any sugar in my tea.": [
+"s",
+"451d2f386929.mp3"
+],
+"Are there any good restaurants here?": [
+"s",
+"8c35a4387b04.mp3"
+],
+"My grandmother can use a smartphone.": [
+"s",
+"63f94d0c967f.mp3"
+],
+"We can't come to the party.": [
+"s",
+"f937bb7c2655.mp3"
+],
+"Can I sit here?": [
+"s",
+"7661a02d77b3.mp3"
+],
+"My name is Elif.": [
+"s",
+"260c2a370fbb.mp3"
+],
+"Is this your umbrella? No, it's hers.": [
+"s",
+"d6ba10f8efd7.mp3"
+],
+"This is Murat's office.": [
+"s",
+"3fc86f259a74.mp3"
+],
+"Their house is next to ours.": [
+"s",
+"deb29cfaa138.mp3"
+],
+"Be quiet! The baby is sleeping.": [
+"s",
+"5c7e77cde0d5.mp3"
+],
+"What are you doing right now?": [
+"s",
+"dade2c98684d.mp3"
+],
+"I'm reading a great book these days.": [
+"s",
+"af33c782470b.mp3"
+],
+"We're flying to Antalya on Friday.": [
+"s",
+"74dc4aec3d12.mp3"
+],
+"We moved to Istanbul last year.": [
+"s",
+"c3396c0bf923.mp3"
+],
+"I bought a new phone yesterday.": [
+"s",
+"e02eae2b3e70.mp3"
+],
+"She didn't call me.": [
+"s",
+"d705d41e7d74.mp3"
+],
+"Did you enjoy the party?": [
+"s",
+"5a2ce647f3d1.mp3"
+],
+"My brother is taller than me.": [
+"s",
+"d9975670dd46.mp3"
+],
+"This phone is more expensive than that one.": [
+"s",
+"9441145b0a3f.mp3"
+],
+"Everest is the highest mountain in the world.": [
+"s",
+"c52c583d5397.mp3"
+],
+"Today is worse than yesterday.": [
+"s",
+"6911b8f7c450.mp3"
+],
+"The phone is ringing. I'll answer it.": [
+"s",
+"d09e2b7404d6.mp3"
+],
+"I think you'll love this film.": [
+"s",
+"bab582d5b40d.mp3"
+],
+"They're going to get married in June.": [
+"s",
+"b8e2c1b888ea.mp3"
+],
+"Be careful! You're going to fall!": [
+"s",
+"6e3420947252.mp3"
+],
+"We need some eggs and some flour.": [
+"s",
+"4f23b2e2fa25.mp3"
+],
+"I don't have any money.": [
+"s",
+"6359917e932b.mp3"
+],
+"How many brothers do you have?": [
+"s",
+"d1cc8600b553.mp3"
+],
+"There isn't much time.": [
+"s",
+"832f05f4115f.mp3"
+],
+"The meeting is at 3 pm on Friday.": [
+"s",
+"6269ecf29cd3.mp3"
+],
+"I was born in 1998.": [
+"s",
+"2cff1a5c002a.mp3"
+],
+"Your keys are on the kitchen table.": [
+"s",
+"9f8bc3eebd9a.mp3"
+],
+"She is at work now.": [
+"s",
+"2a672f31956d.mp3"
+],
+"I've never tried Indian food.": [
+"s",
+"9029ab90f066.mp3"
+],
+"She has worked here for ten years.": [
+"s",
+"de819287102a.mp3"
+],
+"Have you finished your homework yet?": [
+"s",
+"194d2caf627e.mp3"
+],
+"They've just arrived.": [
+"s",
+"74591a2d3e72.mp3"
+],
+"I was walking home when it started to rain.": [
+"s",
+"afa9c8424b3c.mp3"
+],
+"While she was studying, her brother was playing games.": [
+"s",
+"2934c3e0ad67.mp3"
+],
+"What were you doing at 10 last night?": [
+"s",
+"d989a0dca7b8.mp3"
+],
+"Drivers must stop at a red light.": [
+"s",
+"fe3eda5e6f09.mp3"
+],
+"I have to get up early on weekdays.": [
+"s",
+"c58c4daa3c0c.mp3"
+],
+"You don't have to pay. It's free.": [
+"s",
+"2c35080215db.mp3"
+],
+"You should drink more water.": [
+"s",
+"eb41e64e3247.mp3"
+],
+"If you heat ice, it melts.": [
+"s",
+"8d048a9b8e64.mp3"
+],
+"If it rains tomorrow, we'll stay at home.": [
+"s",
+"6a159e1f6ede.mp3"
+],
+"If I had more money, I would travel the world.": [
+"s",
+"102d92113d0f.mp3"
+],
+"If I were you, I'd accept the offer.": [
+"s",
+"1ed2316758f7.mp3"
+],
+"This bridge was built in 1973.": [
+"s",
+"07b83c7997f9.mp3"
+],
+"Turkish coffee is served with water.": [
+"s",
+"2a380b517e83.mp3"
+],
+"The novel Snow was written by Orhan Pamuk.": [
+"s",
+"409b4e160344.mp3"
+],
+"The winners will be announced tomorrow.": [
+"s",
+"f7a5bdee316c.mp3"
+],
+"I enjoy reading before bed.": [
+"s",
+"09a2788e69a8.mp3"
+],
+"She decided to quit her job.": [
+"s",
+"50779ab7d273.mp3"
+],
+"He avoided answering the question.": [
+"s",
+"4fc356fabc9b.mp3"
+],
+"Thank you for helping me.": [
+"s",
+"c9596a3f8269.mp3"
+],
+"When we got to the station, the train had already left.": [
+"s",
+"5a22b61644db.mp3"
+],
+"She was nervous because she had never flown before.": [
+"s",
+"1bcfb9802a39.mp3"
+],
+"I hadn't seen him for years.": [
+"s",
+"8055e30a4879.mp3"
+],
+"If I had left earlier, I wouldn't have missed the bus.": [
+"s",
+"aaec5a3ced19.mp3"
+],
+"If you had told me, I would have helped you.": [
+"s",
+"110d0e8fa75d.mp3"
+],
+"We would have won if our best player hadn't been injured.": [
+"s",
+"f87e8dbacd30.mp3"
+],
+"\"I love this city.\" → She said she loved that city.": [
+"s",
+"07654d5fbc02.mp3"
+],
+"\"Where do you work?\" → He asked me where I worked.": [
+"s",
+"2e8a66c82ad5.mp3"
+],
+"\"Don't be late.\" → She told us not to be late.": [
+"s",
+"e2563ea823e0.mp3"
+],
+"The woman who lives next door is a pilot.": [
+"s",
+"8ccc7032082f.mp3"
+],
+"This is the phone which I told you about.": [
+"s",
+"e26f829c27ce.mp3"
+],
+"I have a friend whose father is a famous chef.": [
+"s",
+"aeb6a23c1260.mp3"
+],
+"That's the restaurant where we had our first date.": [
+"s",
+"0b0a63ad2281.mp3"
+],
+"I wish I lived by the sea.": [
+"s",
+"fc6498a3e820.mp3"
+],
+"If only I hadn't said that!": [
+"s",
+"265fd6793a83.mp3"
+],
+"She wishes she could speak Italian.": [
+"s",
+"2176989f5ffa.mp3"
+],
+"I wish it would stop raining.": [
+"s",
+"e7c4ea44ddd0.mp3"
+],
+"My name is Ali. I live in a small house with my family. We have a cat and a dog.": [
+"t",
+"9d2d7db6bea8.mp3"
 ]
 }

@@ -106,9 +106,11 @@ function stopSpeak(){
 }
 function finishSpeak(){if(curBtn)curBtn.classList.remove("on");curBtn=null;if(curEnd){const f=curEnd;curEnd=null;f()}}
 player.onended=finishSpeak;player.onerror=finishSpeak;
-function deviceSpeak(text,rate){
+const hasAudio=t=>!!AIDX[fnv(akey(t))];
+const canSpeak=t=>hasAudio(t)||(pickVoice(),!!enVoice);
+function deviceSpeak(text,rate,noRec){
   if(!enVoice)pickVoice();
-  if(!enVoice){toast("Bu sesin kaydı hazırlanıyor, birazdan eklenecek");finishSpeak();return}
+  if(!enVoice){toast(noRec?"Bu ifadenin ses kaydı yok":"Ses yüklenemedi, bağlantını kontrol et");finishSpeak();return}
   try{const u=new SpeechSynthesisUtterance(plain(text));u.voice=enVoice;u.lang=enVoice.lang;u.rate=rate&&rate<.8?.7:.9;
     u.onend=u.onerror=finishSpeak;speechSynthesis.speak(u)}catch(e){finishSpeak()}
 }
@@ -116,7 +118,7 @@ function speak(text,btn,rate,onend){
   stopSpeak();
   curBtn=btn||null;curEnd=onend||null;if(btn)btn.classList.add("on");
   const h=fnv(akey(text)),g=AIDX[h];
-  if(!g){deviceSpeak(text,rate);return}
+  if(!g){deviceSpeak(text,rate,true);return}
   const play=()=>{const b64=window.FLUO_AUDIO[h];if(!b64){deviceSpeak(text,rate);return}
     try{player.src="data:audio/mpeg;base64,"+b64;player.playbackRate=rate&&rate<.8?.72:1;player.preservesPitch=true;
       const p=player.play();if(p)p.catch(()=>finishSpeak())}catch(e){finishSpeak()}};
@@ -145,20 +147,22 @@ const SECTIONS=[
   {id:"ogren",label:"Kelime Öğren",short:"Öğren",icon:"cards",c:"var(--m-learn)"},
   {id:"yarisma",label:"Yarışma",short:"Yarışma",icon:"trophy",c:"var(--m-quiz)"},
   {id:"gramer",label:"Dil Bilgisi",short:"Gramer",icon:"book",c:"var(--m-gram)"},
-  {id:"ceviri",label:"Çeviri",short:"Çeviri",icon:"translate",c:"var(--m-trans)"}
+  {id:"cevir",label:"Çeviri",short:"Çeviri",icon:"translate",c:"var(--m-gram)"},
+  {id:"metin",label:"Metin Çevirisi",short:"Metin",icon:"doc",c:"var(--m-trans)"}
 ];
 function renderNav(){
   $("nav").innerHTML=SECTIONS.map(s=>'<a href="#'+s.id+'" data-sec="'+s.id+'" style="--c:'+s.c+'">'+ic(s.icon)+s.label+'</a>').join("");
   $("tabbar").innerHTML=SECTIONS.map(s=>'<a href="#'+s.id+'" data-sec="'+s.id+'" style="--c:'+s.c+'">'+ic(s.icon)+'<span>'+s.short+'</span></a>').join("");
 }
-const VIEWS=["ana","ogren","calis","deckend","defter","dinle","yarisma","gramer","konu","ceviri"];
+const VIEWS=["ana","ogren","calis","deckend","defter","dinle","yarisma","gramer","konu","cevir","ceviri"];
 function showView(v,sec){
   VIEWS.forEach(x=>$("v-"+x).hidden=x!==v);
   document.querySelectorAll("[data-sec]").forEach(a=>{if(a.dataset.sec===sec)a.setAttribute("aria-current","page");else a.removeAttribute("aria-current")});
 }
 let lastHash=null;
 function route(){
-  const h=(location.hash.slice(1)||"ana").toLowerCase();
+  let h=(location.hash.slice(1)||"ana").toLowerCase();
+  if(h==="ceviri"){location.replace("#metin");return}
   if(h===lastHash)return;lastHash=h;
   if(h!=="yarisma")pauseGame();
   stopSpeak();
@@ -183,7 +187,8 @@ function route(){
     const t=GRAMMAR.find(x=>x.id===h.slice(2));if(!t){location.hash="gramer";return}
     renderTopic(t);showView("konu","gramer");
   }
-  else if(h==="ceviri"){showView("ceviri","ceviri")}
+  else if(h==="metin"){showView("ceviri","metin")}
+  else if(h==="cevir"){renderTrHint();showView("cevir","cevir");setTimeout(()=>{try{$("trInput").focus({preventScroll:true})}catch(e){}},50)}
   else{location.hash="ana";return}
   window.scrollTo({top:0,behavior:"auto"});
 }
@@ -208,7 +213,7 @@ function renderHome(){
     {id:"ogren",t:"Kelime Öğren",c:"var(--m-learn)",tint:"var(--t-learn)",icon:"cards",d:"11 konu destesi, örnek cümleler ve telaffuzla kalıcı kelime öğrenimi.",f:learned+" / "+totalW+" kelime",p:learned/totalW},
     {id:"yarisma",t:"Kelime Yarışması",c:"var(--m-quiz)",tint:"var(--t-quiz)",icon:"trophy",d:"Süreye karşı 10 soruluk turlar, jokerler ve seri çarpanı.",f:rec+" / 4 seviyede rekor",p:rec/4},
     {id:"gramer",t:"Dil Bilgisi",c:"var(--m-gram)",tint:"var(--t-gram)",icon:"book",d:"A1'den B2'ye "+GRAMMAR.length+" konu: anlatım, tablolar, örnekler ve alıştırmalar.",f:gd+" / "+GRAMMAR.length+" konu",p:gd/GRAMMAR.length},
-    {id:"ceviri",t:"Metin Çevirisi",c:"var(--m-trans)",tint:"var(--t-trans)",icon:"translate",d:"Gerçek metinleri oku, kelimelere dokun, çevir ve puan al.",f:P.trans+" çeviri yapıldı",p:Math.min(1,P.trans/16)}
+    {id:"metin",t:"Metin Çevirisi",c:"var(--m-trans)",tint:"var(--t-trans)",icon:"doc",d:"Gerçek metinleri oku, kelimelere dokun, çevir ve puan al.",f:P.trans+" çeviri yapıldı",p:Math.min(1,P.trans/16)}
   ];
   $("modules").innerHTML=mods.map(m=>'<a class="mod" href="#'+m.id+'" style="--c:'+m.c+';--t:'+m.tint+'"><span class="mod-ic">'+ic(m.icon)+'</span><h3>'+m.t+'</h3><p>'+m.d+'</p>'+
     '<div class="mod-foot"><span>'+m.f+'</span><div class="mbar"><i style="width:'+Math.round(m.p*100)+'%"></i></div><span class="mod-go">Başla '+ic("right")+'</span></div></a>').join("");
@@ -776,6 +781,98 @@ function answerListen(ok,btn,extra){
   $("lNext").onclick=()=>{newListen();playListen()};$("lNext").focus({preventScroll:true});
 }
 renderListenLevels();
+
+
+/* ================= ÇEVİRİ (SÖZLÜK) =================
+   Önce uygulamanın kendi sözlüğü (desteler, yarışma, metin sözlüğü), sonra varsa yapay zekâ. */
+P.hist=P.hist||[];
+const TR={dir:"en",busy:0};
+const trNorm=s=>s.toLocaleLowerCase("tr").replace(/[’`]/g,"'").replace(/[.,!?;:"()]/g,"").replace(/\s+/g," ").trim();
+const TRIDX=(()=>{const m={};const add=(tr,en)=>{tr.split(/[,;/]|\(|\)/).map(x=>trNorm(x.replace(/^-/,""))).filter(x=>x.length>1).forEach(k=>{(m[k]=m[k]||[]).includes(en)||m[k].push(en)})};
+  Object.values(WINFO).forEach(w=>add(w[1],w[0]));return m})();
+function localLookup(q,dir){
+  const k=trNorm(q);if(!k)return null;
+  if(dir==="en"){
+    const key=Object.keys(WINFO).find(x=>x.toLowerCase()===k);
+    if(key){const w=WINFO[key];return{type:"word",head:w[0],pos:w[2],senses:[w[1]],examples:w[3]?[[w[3],w[4]]]:[],src:"Fluo sözlüğü"}}
+    if(GLOSS[k])return{type:"word",head:k,pos:"",senses:[GLOSS[k]],examples:[],src:"Fluo sözlüğü"};
+    return null;
+  }
+  const hits=TRIDX[k]||[];
+  if(!hits.length)return null;
+  return{type:"words",items:hits.slice(0,6).map(en=>{const w=WINFO[en];return{head:en,pos:w[2],mean:w[1],ex:w[3]?[w[3],w[4]]:null}}),src:"Fluo sözlüğü"};
+}
+function renderTrHint(){
+  $("trFrom").textContent=TR.dir==="en"?"İngilizce":"Türkçe";$("trTo").textContent=TR.dir==="en"?"Türkçe":"İngilizce";
+  $("trInput").placeholder=TR.dir==="en"?"Örn. serendipity ya da How's it going?":"Örn. kahvaltı ya da Yarın görüşürüz";
+  const sugg=TR.dir==="en"?["breakfast","look forward to","resilient","Could we have the bill, please?"]:["kahvaltı","sabırlı","yolculuk","Yarın görüşürüz"];
+  $("trHint").innerHTML=(P.hist.length?'<small>Son aramalar</small><div class="chips-s">'+P.hist.slice(0,8).map(h=>'<button class="chip-s" data-q="'+esc(h.q)+'" data-d="'+h.d+'">'+esc(h.q)+'</button>').join("")+'</div>':'')+
+    '<small>Örnekler</small><div class="chips-s">'+sugg.map(q=>'<button class="chip-s ghosty" data-q="'+esc(q)+'" data-d="'+TR.dir+'">'+esc(q)+'</button>').join("")+'</div>'+
+    (sampleFn?'':'<p class="note trnote">'+ic("bulb")+' Bu sürümde yalnızca uygulamanın kendi sözlüğündeki yaklaşık 800 kelime çevrilir. Her kelime ve cümlenin çevirisi paylaşılan Fluo bağlantısında yapay zekâyla yapılır.</p>');
+  $("trHint").querySelectorAll("[data-q]").forEach(b=>b.onclick=()=>{TR.dir=b.dataset.d;$("trInput").value=b.dataset.q;renderTrHint();doTranslate()});
+}
+$("trSwap").onclick=()=>{TR.dir=TR.dir==="en"?"tr":"en";const r=$("trResult").dataset.out;if(r){$("trInput").value=r}renderTrHint();autoGrow();$("trInput").focus()};
+function autoGrow(){const t=$("trInput");t.style.height="auto";t.style.height=Math.min(t.scrollHeight,180)+"px"}
+$("trInput").addEventListener("input",autoGrow);
+$("trInput").addEventListener("keydown",e=>{if(e.key==="Enter"&&!e.shiftKey){e.preventDefault();doTranslate()}});
+$("trForm").addEventListener("submit",e=>{e.preventDefault();doTranslate()});
+function trSay(en,cls){return canSpeak(en)?sayBtn(en,cls):""}
+function trSave(en,tr,pos,ex,exTr){if(!WINFO[en]&&!P.saved[en])EXTRA[en]=[en,tr,pos||"",ex||"",exTr||""];return savBtn(en)}
+function wordCard(r){
+  const en=r.head,ex=r.examples||[],enDir=TR.dir==="en";
+  return '<article class="trcard"><div class="trhead"><div><h2>'+esc(en)+'</h2>'+(r.pos?'<span class="pill">'+esc(r.pos)+'</span>':'')+(r.pron?'<span class="pron">'+esc(r.pron)+'</span>':'')+'</div>'+
+    '<div class="dbtns">'+trSay(en)+trSave(en,(r.senses||[])[0]||"",r.pos,ex[0]&&ex[0][0],ex[0]&&ex[0][1])+'</div></div>'+
+    '<ol class="senses">'+(r.senses||[]).map(s=>'<li>'+esc(s)+'</li>').join("")+'</ol>'+
+    (r.note?'<p class="trnote2">'+ic("bulb")+esc(r.note)+'</p>':'')+
+    (ex.length?'<div class="trsec"><small>Örnek cümleler</small>'+ex.map(e=>'<div class="ex"><div><p>'+hl(e[0])+'</p><small>'+esc(e[1]||"")+'</small></div>'+trSay(plain(e[0]),"sm")+'</div>').join("")+'</div>':'')+
+    (r.syn&&r.syn.length?'<div class="trsec"><small>Benzer kelimeler</small><div class="chips-s">'+r.syn.map(w=>'<button class="chip-s" data-q="'+esc(w)+'" data-d="en">'+esc(w)+'</button>').join("")+'</div></div>':'')+
+    '<span class="srcb">'+esc(r.src)+'</span></article>';
+}
+function renderTr(r,q){
+  const box=$("trResult");box.dataset.out="";
+  if(!r){box.innerHTML='<div class="empty"><span class="mod-ic">'+ic("search")+'</span><h3>Sonuç bulunamadı</h3><p>"'+esc(q)+'" uygulamanın sözlüğünde yok.'+(sampleFn?' Yazımı kontrol edip tekrar dene.':' Bu sürümde yalnızca uygulamanın kendi sözlüğü kullanılabiliyor. Her kelime ve cümlenin çevirisi paylaşılan Fluo bağlantısında yapay zekâyla yapılır.')+'</p></div>';return}
+  if(r.type==="word"){box.innerHTML=wordCard(r);box.dataset.out=TR.dir==="en"?(r.senses||[])[0]||"":r.head}
+  else if(r.type==="words"){box.innerHTML='<p class="note">"'+esc(q)+'" için İngilizce karşılıklar:</p>'+r.items.map(it=>wordCard({head:it.head,pos:it.pos,senses:[it.mean],examples:it.ex?[it.ex]:[],src:r.src})).join("");box.dataset.out=r.items[0].head}
+  else{
+    const out=r.translation||"",enOut=TR.dir==="tr";
+    box.dataset.out=out;
+    box.innerHTML='<article class="trcard"><small class="trlbl">'+(enOut?"İngilizcesi":"Türkçesi")+'</small><p class="trtext">'+esc(out)+'</p>'+
+      '<div class="tractions">'+(enOut?trSay(out):"")+'<button class="ghost" id="trCopy">'+ic("copy")+'Kopyala</button></div>'+
+      (r.note?'<p class="trnote2">'+ic("bulb")+esc(r.note)+'</p>':'')+
+      (r.words&&r.words.length?'<div class="trsec"><small>Önemli kelimeler</small><div class="glossrow">'+r.words.map(w=>'<span class="lw"><b>'+esc(w.en)+'</b> = '+esc(w.tr)+trSave(w.en,w.tr,"",TR.dir==="en"?q:out,TR.dir==="en"?out:q).replace('class="savebtn ','class="savebtn xs ')+'</span>').join("")+'</div></div>':'')+
+      '<span class="srcb">'+esc(r.src)+'</span></article>';
+    $("trCopy").onclick=async()=>{try{await navigator.clipboard.writeText(out);toast("Kopyalandı")}catch(e){const sel=window.getSelection(),rg=document.createRange();rg.selectNodeContents(box.querySelector(".trtext"));sel.removeAllRanges();sel.addRange(rg);toast("Metin seçildi, kopyalayabilirsin")}};
+  }
+  box.querySelectorAll(".chip-s[data-q]").forEach(b=>b.onclick=()=>{TR.dir=b.dataset.d;$("trInput").value=b.dataset.q;renderTrHint();doTranslate()});
+}
+async function doTranslate(){
+  const q=$("trInput").value.trim();if(!q){$("trInput").focus();return}
+  markActive();const id=++TR.busy,dir=TR.dir;
+  P.hist=[{q,d:dir}].concat(P.hist.filter(h=>h.q.toLowerCase()!==q.toLowerCase())).slice(0,12);save();renderTrHint();
+  const isWord=q.split(/\s+/).length<=3&&!/[.?!]$/.test(q);
+  const local=isWord?localLookup(q,dir):null;
+  if(!sampleFn){renderTr(local,q);return}
+  if(local)renderTr(local,q);else $("trResult").innerHTML='<div class="trload"><span></span><span></span><span></span> Çevriliyor…</div>';
+  $("trGo").disabled=true;
+  const from=dir==="en"?"İngilizce":"Türkçe",to=dir==="en"?"Türkçe":"İngilizce";
+  const prompt=isWord
+    ?"Sen Türk öğrencilere İngilizce öğreten bir sözlüksün. "+from+" ifadeyi "+to+" diline çevir: \""+q+"\"\n"+
+     (dir==="en"
+      ?'Sadece şu JSON\'u döndür: {"head": "kelimenin sözlük biçimi (İngilizce)", "pos": "isim/fiil/sıfat/zarf/kalıp gibi Türkçe tür", "pron": "Türk okura yönelik okunuş, örn. sı-REN-dip-ı-ti", "senses": ["en yaygın Türkçe anlam", "diğer anlamlar (en fazla 4)"], "examples": [["İngilizce örnek cümle, kelime **yıldızla** vurgulu", "Türkçesi"], ["…","…"]], "syn": ["İngilizce eş anlamlılar, en fazla 4"], "note": "kısa kullanım notu (isteğe bağlı, Türkçe)"}'
+      :'Sadece şu JSON\'u döndür: {"items": [{"head": "İngilizce karşılık", "pos": "Türkçe tür", "mean": "bu karşılığın Türkçe anlam/nüansı", "ex": ["İngilizce örnek, karşılık **yıldızla** vurgulu", "Türkçesi"]}] }  (en yaygın karşılık ilk sırada, en fazla 4 karşılık)')
+    :"Şu "+from+" metni doğal bir "+to+" diline çevir: \""+q+"\"\n"+
+     'Sadece şu JSON\'u döndür: {"translation": "çeviri", "note": "varsa kısa bir dil notu (Türkçe, isteğe bağlı)", "words": [{"en": "metindeki önemli İngilizce kelime", "tr": "Türkçe anlamı"}] }  (words en fazla 5)';
+  try{
+    const r=await sampleFn.json(prompt,{modelTier:"quick"});
+    if(id!==TR.busy)return;
+    let out=null;
+    if(isWord&&dir==="en"&&r&&r.senses)out={type:"word",head:r.head||q,pos:r.pos,pron:r.pron,senses:r.senses,examples:r.examples||[],syn:r.syn||[],note:r.note,src:"Yapay zekâ çevirisi"};
+    else if(isWord&&dir==="tr"&&r&&r.items&&r.items.length)out={type:"words",items:r.items.map(it=>({head:it.head,pos:it.pos,mean:it.mean,ex:it.ex})),src:"Yapay zekâ çevirisi"};
+    else if(r&&r.translation)out={type:"text",translation:r.translation,note:r.note,words:r.words||[],src:"Yapay zekâ çevirisi"};
+    renderTr(out||local,q);
+  }catch(e){if(id===TR.busy){if(!local)renderTr(null,q);toast("Yapay zekâ çevirisi şu an yapılamadı")}}
+  finally{if(id===TR.busy)$("trGo").disabled=false}
+}
 
 /* ================= BAŞLAT ================= */
 renderNav();renderStreak();renderTextLevels();newText();
