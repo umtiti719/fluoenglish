@@ -223,7 +223,19 @@ function renderHome(){
     (Object.keys(P.saved).length?'<a class="cont" href="#defter" style="--c:var(--g3)"><span class="mod-ic">'+ic("bookmark")+'</span><div><small>Defterim</small><b>'+Object.keys(P.saved).length+' kayıtlı kelime</b><span>Kaydettiklerini çalış</span></div>'+ic("right")+'</a>':'');
 }
 
+/* Kişisel karşılama ("İyi akşamlar, bugün ne çalışalım?") üye girişi eklenince açılacak.
+   Şimdilik herkes genel karşılamayı görür. */
+const PERSONAL_HERO=false;
 function renderHero(){
+  if(!PERSONAL_HERO){
+    $("heroDate").innerHTML=ic("spark")+"Türkçe anlatımlı İngilizce çalışma alanı";
+    $("heroHello").textContent="İngilizceni bugün";
+    $("heroAsk").textContent="bir adım ileri taşı.";
+    $("heroLead").textContent="Kelime öğren, dil bilgisi konularını çalış, yarışmayla kendini dene ve gerçek metinleri çevir.";
+    $("heroCta").innerHTML='<a class="primary" href="#ogren">Kelime öğrenmeye başla<span class="arr">'+ic("right")+'</span></a><a class="ghost" href="#gramer">Dil bilgisine göz at</a>';
+    return;
+  }
+  $("heroAsk").textContent="bugün ne çalışalım?";
   const now=new Date(),h=now.getHours();
   $("heroHello").textContent=h<5?"İyi geceler,":h<11?"Günaydın,":h<17?"Merhaba,":h<23?"İyi akşamlar,":"İyi geceler,";
   $("heroDate").innerHTML=ic(h>=6&&h<19?"sun":"spark")+esc(now.toLocaleDateString("tr-TR",{day:"numeric",month:"long",weekday:"long"}));

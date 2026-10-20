@@ -635,3 +635,5 @@ kbd{font-family:inherit;font-size:.76rem;background:var(--surface);border:1px so
 .kicker{text-transform:none}
 .kicker .ic{color:var(--marigold)}
 .hero-cta .ghost .ic{color:var(--m-gram)}
+.hero .h-display{font-size:clamp(2rem,5.2vw,3.4rem)}
+.hero{padding-top:26px}
