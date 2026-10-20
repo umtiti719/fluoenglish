@@ -388,12 +388,12 @@ kbd{font-family:inherit;font-size:.76rem;background:var(--surface);border:1px so
 
 /* ---------- Konu sayfası ---------- */
 .topic{display:grid;grid-template-columns:220px 1fr;gap:30px;align-items:start}
-@media (max-width:920px){.topic{grid-template-columns:1fr}.toc{display:none}}
 .toc{position:sticky;top:calc(env(safe-area-inset-top,0px) + 90px);display:flex;flex-direction:column;gap:2px;font-size:.9rem}
 .toc small{font-size:.76rem;font-weight:600;color:var(--muted);margin:0 0 6px 12px}
 .toc a{text-decoration:none;color:var(--muted);font-weight:500;padding:7px 12px;border-radius:999px}
 .toc a:hover{background:var(--surface);color:var(--ink);box-shadow:var(--shadow)}
 .toc .toc-nav{margin-top:14px;padding-top:14px;border-top:1px solid var(--line);display:flex;flex-direction:column;gap:6px}
+@media (max-width:920px){.topic{grid-template-columns:1fr}.toc{display:none}}
 .tmain{--c:var(--m-gram);display:flex;flex-direction:column;gap:26px;min-width:0}
 .thero{position:relative;overflow:hidden;isolation:isolate;border-radius:30px;padding:30px 28px 28px;background:var(--surface);border:1px solid var(--line);display:flex;flex-direction:column;gap:8px;box-shadow:var(--shadow)}
 .thero::before{content:"";position:absolute;inset:0;z-index:-1;opacity:var(--aur-a);

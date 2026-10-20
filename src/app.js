@@ -413,7 +413,7 @@ function renderPractice(){
   const parts=esc(q[0]).split("___");
   box.innerHTML='<div class="pr-top"><span class="badge">Soru '+(PR.i+1)+' / '+n+'</span><div class="dots">'+Array.from({length:n},(_,i)=>'<i class="'+(PR.res[i]||(i===PR.i?"cur":""))+'"></i>').join("")+'</div></div>'+
     '<p class="pr-q">'+parts[0]+'<span class="blank" id="prBlank">&nbsp;</span>'+(parts[1]||"")+'</p>'+
-    '<div class="opts" id="prOpts">'+q[1].map((o,i)=>'<button class="opt" data-i="'+i+'"><span class="k">'+"ABCD"[i]+'</span><span>'+esc(o)+'</span></button>').join("")+'</div>'+
+    '<div class="opts" id="prOpts">'+shuffle(q[1].map((_,i)=>i)).map((oi,pos)=>'<button class="opt" data-i="'+oi+'"><span class="k">'+"ABCD"[pos]+'</span><span>'+esc(q[1][oi])+'</span></button>').join("")+'</div>'+
     '<div id="prEx"></div><div class="pr-act"><button class="primary" id="prNext" hidden>'+(PR.i+1<n?"Sonraki soru":"Sonucu gör")+ic("right")+'</button></div>';
   box.querySelectorAll(".opt").forEach(b=>b.onclick=()=>{
     if(PR.answered)return;PR.answered=true;markActive();
