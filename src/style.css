@@ -742,3 +742,6 @@ kbd{font-family:inherit;font-size:.76rem;background:var(--surface);border:1px so
 :root.fs-buyuk .streak{font-size:14px}
 :root.fs-buyuk .tabbar a{font-size:10.5px}
 @media (min-width:881px) and (max-width:1100px){:root.fs-buyuk .top .nav a{font-size:14px;padding:7px 9px}}
+/* Logo alanı daralmasın; slogan yalnızca yer varsa görünsün */
+.brand{flex:none}
+@media (max-width:1500px){.brand-t small{display:none}}

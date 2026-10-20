@@ -25,8 +25,11 @@ function streakCount(){
   if(!s.has(dayKey(d)))d.setDate(d.getDate()-1);
   let n=0;while(s.has(dayKey(d))){n++;d.setDate(d.getDate()-1)}return n;
 }
+/* Günlük seri göstergesi üye girişi eklenince açılacak; seri arka planda sayılmaya devam eder */
+const SHOW_STREAK=false;
 function renderStreak(){
   const n=streakCount(),el=$("streak");
+  el.hidden=!SHOW_STREAK;
   el.className="streak"+(n?"":" off");
   el.innerHTML='<svg class="ic"><use href="#i-flame"/></svg>'+n+" gün";
 }
@@ -201,7 +204,7 @@ function renderHome(){
   renderHero();
   const learned=Object.keys(P.learned).length,best=Math.max(0,...Object.values(P.best));
   $("homeStats").innerHTML=[
-    [learned,"öğrenilen kelime"],[gramDone()+"/"+GRAMMAR.length,"gramer konusu"],[best,"en yüksek puan"],[streakCount(),"günlük seri"]
+    [learned,"öğrenilen kelime"],[gramDone()+"/"+GRAMMAR.length,"gramer konusu"],[best,"en yüksek puan"],SHOW_STREAK?[streakCount(),"günlük seri"]:[Object.keys(P.saved).length,"defterdeki kelime"]
   ].map(([b,s])=>'<div class="stat"><b>'+b+'</b><span>'+s+'</span></div>').join("");
   // günün kelimesi
   const n=Math.floor(Date.now()/864e5),pick=ALLWORDS[(n*7)%ALLWORDS.length],w=pick.w;
