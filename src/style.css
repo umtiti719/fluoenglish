@@ -632,3 +632,6 @@ kbd{font-family:inherit;font-size:.76rem;background:var(--surface);border:1px so
 .opts.one{grid-template-columns:1fr}
 .player.playing .playbtn .ic{margin-left:0}
 @media (max-width:520px){.player{padding:16px 12px 14px;gap:10px}.playbtn{width:70px;height:70px}.playbtn .ic{width:28px;height:28px}.pctl{flex-wrap:nowrap}.pctl .ghost{padding:9px 13px;font-size:.86rem}.wave{height:26px}}
+.kicker{text-transform:none}
+.kicker .ic{color:var(--marigold)}
+.hero-cta .ghost .ic{color:var(--m-gram)}

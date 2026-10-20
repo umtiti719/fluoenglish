@@ -637,6 +637,9 @@ kbd{font-family:inherit;font-size:.76rem;background:var(--surface);border:1px so
 .opts.one{grid-template-columns:1fr}
 .player.playing .playbtn .ic{margin-left:0}
 @media (max-width:520px){.player{padding:16px 12px 14px;gap:10px}.playbtn{width:70px;height:70px}.playbtn .ic{width:28px;height:28px}.pctl{flex-wrap:nowrap}.pctl .ghost{padding:9px 13px;font-size:.86rem}.wave{height:26px}}
+.kicker{text-transform:none}
+.kicker .ic{color:var(--marigold)}
+.hero-cta .ghost .ic{color:var(--m-gram)}
 
 </style>
 
@@ -656,14 +659,10 @@ kbd{font-family:inherit;font-size:.76rem;background:var(--surface);border:1px so
   <!-- ================= ANA SAYFA ================= -->
   <section class="view" id="v-ana">
     <div class="hero">
-      <span class="kicker"><svg class="ic"><use href="#i-spark"/></svg>Türkçe anlatımlı İngilizce çalışma alanı</span>
-      <h1 class="h-display">İngilizceni bugün<br><span class="grad">bir adım ileri taşı.</span></h1>
-      <p class="lead">Kelime öğren, dil bilgisi konularını çalış, yarışmayla kendini dene ve gerçek metinleri çevir.</p>
-      <div class="hero-cta">
-        <a class="primary" href="#ogren">Kelime öğrenmeye başla<span class="arr"><svg class="ic"><use href="#i-right"/></svg></span></a>
-        <a class="ghost" href="#gramer">Dil bilgisine göz at</a>
-      </div>
-      <p class="tiny">Ücretsiz · Üyelik gerekmez · İlerlemen bu cihazda saklanır</p>
+      <span class="kicker" id="heroDate"><svg class="ic"><use href="#i-sun"/></svg>Bugün</span>
+      <h1 class="h-display"><span id="heroHello">Merhaba,</span><br><span class="grad">bugün ne çalışalım?</span></h1>
+      <p class="lead" id="heroLead"></p>
+      <div class="hero-cta" id="heroCta"></div>
     </div>
 
     <div class="showcase aurora">
@@ -1844,6 +1843,7 @@ window.addEventListener("hashchange",route);
 
 /* ================= ANA SAYFA ================= */
 function renderHome(){
+  renderHero();
   const learned=Object.keys(P.learned).length,best=Math.max(0,...Object.values(P.best));
   $("homeStats").innerHTML=[
     [learned,"öğrenilen kelime"],[gramDone()+"/"+GRAMMAR.length,"gramer konusu"],[best,"en yüksek puan"],[streakCount(),"günlük seri"]
@@ -1873,6 +1873,26 @@ function renderHome(){
     '<a class="cont" href="#ogren-'+nextD.id+'" style="--c:'+nextD.hue+'"><span class="mod-ic">'+ic(nextD.icon)+'</span><div><small>Kelime destesi · '+learnedIn(nextD)+'/'+nextD.words.length+'</small><b>'+esc(nextD.name)+'</b><span>'+esc(nextD.en)+'</span></div>'+ic("right")+'</a>'+
     '<a class="cont" href="#dinle" style="--c:var(--m-learn)"><span class="mod-ic">'+ic("headphones")+'</span><div><small>Dinleme · '+P.listen.ok+' doğru</small><b>Dinle ve anla</b><span>Cümleyi duy, kelimeyi seç ya da yaz</span></div>'+ic("right")+'</a>'+
     (Object.keys(P.saved).length?'<a class="cont" href="#defter" style="--c:var(--g3)"><span class="mod-ic">'+ic("bookmark")+'</span><div><small>Defterim</small><b>'+Object.keys(P.saved).length+' kayıtlı kelime</b><span>Kaydettiklerini çalış</span></div>'+ic("right")+'</a>':'');
+}
+
+function renderHero(){
+  const now=new Date(),h=now.getHours();
+  $("heroHello").textContent=h<5?"İyi geceler,":h<11?"Günaydın,":h<17?"Merhaba,":h<23?"İyi akşamlar,":"İyi geceler,";
+  $("heroDate").innerHTML=ic(h>=6&&h<19?"sun":"spark")+esc(now.toLocaleDateString("tr-TR",{day:"numeric",month:"long",weekday:"long"}));
+  const due=dueWords().length,st=streakCount(),started=P.days.length>0||Object.keys(P.learned).length>0;
+  const nextT=GRAMMAR.find(t=>!P.gram[t.id]?.done)||GRAMMAR[0];
+  const inProg=DECKS.find(d=>{const l=learnedIn(d);return l>0&&l<d.words.length});
+  const parts=[];
+  if(due)parts.push(due+" kelime tekrarını bekliyor");
+  if(st>1)parts.push(st+" günlük serin devam ediyor");
+  else if(st===1)parts.push("bugün serini başlattın");
+  $("heroLead").textContent=!started?"İlk adım için bir kelime destesi seçebilir ya da ilk gramer konusuyla başlayabilirsin."
+    :parts.length?parts.join(", ").replace(/^./,c=>c.toLocaleUpperCase("tr"))+".":"Kısa bir tekrar ya da yeni bir konu için iyi bir zaman.";
+  const primary=due?{h:"#ogren-tekrar",t:"Tekrara başla ("+due+")"}
+    :inProg?{h:"#ogren-"+inProg.id,t:inProg.name+" destesine dön"}
+    :{h:"#ogren",t:"Bir kelime destesi seç"};
+  $("heroCta").innerHTML='<a class="primary" href="'+primary.h+'">'+esc(primary.t)+'<span class="arr">'+ic("right")+'</span></a>'+
+    '<a class="ghost" href="#g-'+nextT.id+'">'+ic("book")+'Sıradaki konu: '+esc(nextT.title)+'</a>';
 }
 
 /* ================= KELİME ÖĞREN ================= */

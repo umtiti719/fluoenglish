@@ -191,6 +191,7 @@ window.addEventListener("hashchange",route);
 
 /* ================= ANA SAYFA ================= */
 function renderHome(){
+  renderHero();
   const learned=Object.keys(P.learned).length,best=Math.max(0,...Object.values(P.best));
   $("homeStats").innerHTML=[
     [learned,"öğrenilen kelime"],[gramDone()+"/"+GRAMMAR.length,"gramer konusu"],[best,"en yüksek puan"],[streakCount(),"günlük seri"]
@@ -220,6 +221,26 @@ function renderHome(){
     '<a class="cont" href="#ogren-'+nextD.id+'" style="--c:'+nextD.hue+'"><span class="mod-ic">'+ic(nextD.icon)+'</span><div><small>Kelime destesi · '+learnedIn(nextD)+'/'+nextD.words.length+'</small><b>'+esc(nextD.name)+'</b><span>'+esc(nextD.en)+'</span></div>'+ic("right")+'</a>'+
     '<a class="cont" href="#dinle" style="--c:var(--m-learn)"><span class="mod-ic">'+ic("headphones")+'</span><div><small>Dinleme · '+P.listen.ok+' doğru</small><b>Dinle ve anla</b><span>Cümleyi duy, kelimeyi seç ya da yaz</span></div>'+ic("right")+'</a>'+
     (Object.keys(P.saved).length?'<a class="cont" href="#defter" style="--c:var(--g3)"><span class="mod-ic">'+ic("bookmark")+'</span><div><small>Defterim</small><b>'+Object.keys(P.saved).length+' kayıtlı kelime</b><span>Kaydettiklerini çalış</span></div>'+ic("right")+'</a>':'');
+}
+
+function renderHero(){
+  const now=new Date(),h=now.getHours();
+  $("heroHello").textContent=h<5?"İyi geceler,":h<11?"Günaydın,":h<17?"Merhaba,":h<23?"İyi akşamlar,":"İyi geceler,";
+  $("heroDate").innerHTML=ic(h>=6&&h<19?"sun":"spark")+esc(now.toLocaleDateString("tr-TR",{day:"numeric",month:"long",weekday:"long"}));
+  const due=dueWords().length,st=streakCount(),started=P.days.length>0||Object.keys(P.learned).length>0;
+  const nextT=GRAMMAR.find(t=>!P.gram[t.id]?.done)||GRAMMAR[0];
+  const inProg=DECKS.find(d=>{const l=learnedIn(d);return l>0&&l<d.words.length});
+  const parts=[];
+  if(due)parts.push(due+" kelime tekrarını bekliyor");
+  if(st>1)parts.push(st+" günlük serin devam ediyor");
+  else if(st===1)parts.push("bugün serini başlattın");
+  $("heroLead").textContent=!started?"İlk adım için bir kelime destesi seçebilir ya da ilk gramer konusuyla başlayabilirsin."
+    :parts.length?parts.join(", ").replace(/^./,c=>c.toLocaleUpperCase("tr"))+".":"Kısa bir tekrar ya da yeni bir konu için iyi bir zaman.";
+  const primary=due?{h:"#ogren-tekrar",t:"Tekrara başla ("+due+")"}
+    :inProg?{h:"#ogren-"+inProg.id,t:inProg.name+" destesine dön"}
+    :{h:"#ogren",t:"Bir kelime destesi seç"};
+  $("heroCta").innerHTML='<a class="primary" href="'+primary.h+'">'+esc(primary.t)+'<span class="arr">'+ic("right")+'</span></a>'+
+    '<a class="ghost" href="#g-'+nextT.id+'">'+ic("book")+'Sıradaki konu: '+esc(nextT.title)+'</a>';
 }
 
 /* ================= KELİME ÖĞREN ================= */
