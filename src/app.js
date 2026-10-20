@@ -813,8 +813,8 @@ function renderTrHint(){
 }
 $("trSwap").onclick=()=>{TR.dir=TR.dir==="en"?"tr":"en";const r=$("trResult").dataset.out;if(r){$("trInput").value=r}renderTrHint();autoGrow();$("trInput").focus()};
 function autoGrow(){const t=$("trInput");t.style.height="auto";t.style.height=Math.min(t.scrollHeight,180)+"px"}
-$("trInput").addEventListener("input",autoGrow);
-$("trInput").addEventListener("keydown",e=>{if(e.key==="Enter"&&!e.shiftKey){e.preventDefault();doTranslate()}});
+$("trInput").addEventListener("input",()=>{autoGrow();liveTranslate()});
+$("trInput").addEventListener("keydown",e=>{if(e.key==="Enter"&&!e.shiftKey){e.preventDefault();clearTimeout(TR.t1);clearTimeout(TR.t2);doTranslate()}});
 $("trForm").addEventListener("submit",e=>{e.preventDefault();doTranslate()});
 function trSay(en,cls){return canSpeak(en)?sayBtn(en,cls):""}
 function trSave(en,tr,pos,ex,exTr){if(!WINFO[en]&&!P.saved[en])EXTRA[en]=[en,tr,pos||"",ex||"",exTr||""];return savBtn(en)}
@@ -849,10 +849,36 @@ function renderTr(r,q){
   }
   box.querySelectorAll(".chip-s[data-q]").forEach(b=>b.onclick=()=>{TR.dir=b.dataset.d;$("trInput").value=b.dataset.q;renderTrHint();doTranslate()});
 }
-async function doTranslate(){
+/* Yazarken çeviri: sözlükte varsa hemen, yoksa önerileri göster; yazma durunca yapay zekâ */
+function addHist(q,dir){P.hist=[{q,d:dir}].concat(P.hist.filter(h=>h.q.toLowerCase()!==q.toLowerCase())).slice(0,12);save()}
+function suggest(q,dir){
+  const k=trNorm(q);if(k.length<2)return[];
+  const keys=dir==="en"?Object.keys(WINFO):Object.keys(TRIDX);
+  return keys.filter(x=>x.toLowerCase().startsWith(k)&&x.toLowerCase()!==k).sort((a,b)=>a.length-b.length).slice(0,8);
+}
+function liveTranslate(){
+  clearTimeout(TR.t1);clearTimeout(TR.t2);
+  const q=$("trInput").value.trim(),dir=TR.dir;
+  if(!q){TR.busy++;$("trResult").innerHTML="";$("trResult").dataset.out="";$("trGo").disabled=false;return}
+  TR.t1=setTimeout(()=>{
+    const isWord=q.split(/\s+/).length<=3&&!/[.?!]$/.test(q);
+    const local=isWord?localLookup(q,dir):null;
+    if(local){TR.busy++;renderTr(local,q);TR.liveLocal=q}
+    else{
+      TR.liveLocal=null;const sg=isWord?suggest(q,dir):[];
+      if(sg.length){TR.busy++;$("trResult").innerHTML='<div class="sugg"><small>'+(dir==="en"?"Bunu mu arıyorsun?":"Şunlardan biri olabilir:")+'</small><div class="chips-s">'+sg.map(w=>'<button class="chip-s" data-q="'+esc(w)+'" data-d="'+dir+'">'+esc(w)+(dir==="en"&&WINFO[w]?' <span class="sg-tr">'+esc(WINFO[w][1])+'</span>':'')+'</button>').join("")+'</div></div>';
+        $("trResult").querySelectorAll("[data-q]").forEach(b=>b.onclick=()=>{$("trInput").value=b.dataset.q;autoGrow();clearTimeout(TR.t2);doTranslate()})}
+      else if(!sampleFn&&q.length>2){TR.busy++;renderTr(null,q)}
+    }
+    // yapay zekâ: yazma durunca (sözlükte olmayanlar için)
+    if(sampleFn&&!local&&q.length>=2)TR.t2=setTimeout(()=>{if($("trInput").value.trim()===q)doTranslate(true)},900);
+    else if(local)TR.t2=setTimeout(()=>{if($("trInput").value.trim()===q){addHist(q,dir);renderTrHint();markActive()}},1500);
+  },120);
+}
+async function doTranslate(auto){
   const q=$("trInput").value.trim();if(!q){$("trInput").focus();return}
   markActive();const id=++TR.busy,dir=TR.dir;
-  P.hist=[{q,d:dir}].concat(P.hist.filter(h=>h.q.toLowerCase()!==q.toLowerCase())).slice(0,12);save();renderTrHint();
+  addHist(q,dir);renderTrHint();
   const isWord=q.split(/\s+/).length<=3&&!/[.?!]$/.test(q);
   const local=isWord?localLookup(q,dir):null;
   if(!sampleFn){renderTr(local,q);return}

@@ -691,3 +691,6 @@ kbd{font-family:inherit;font-size:.76rem;background:var(--surface);border:1px so
 .senses li:first-child{font-weight:400}
 .trhead>div.trmain:first-child{flex-direction:column;align-items:flex-start;flex-wrap:nowrap;gap:2px}
 .trmain h2{font-size:clamp(1.35rem,3.6vw,1.8rem);letter-spacing:-.03em}
+.sugg{display:flex;flex-direction:column;gap:8px;padding:4px 2px}
+.sugg small{font-size:.78rem;font-weight:600;color:var(--muted)}
+.sg-tr{color:var(--muted);font-weight:400;margin-left:4px}
