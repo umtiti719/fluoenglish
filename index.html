@@ -629,6 +629,14 @@ kbd{font-family:inherit;font-size:.76rem;background:var(--surface);border:1px so
 @media (prefers-reduced-motion:reduce){.player.playing .wave i{animation:none;height:18px}.toast,.savebtn,.tool,.playbtn{transition:none}}
 .page-head .backlink{display:flex;width:fit-content;margin:0 0 4px -4px}
 .page-head .backlink+.eyebrow{margin-top:4px!important}
+/* Dinleme seçimleri */
+.lsel{display:grid;grid-template-columns:1fr;gap:12px}
+.lsel-l{display:block;font-size:.78rem;font-weight:600;color:var(--muted);margin:0 0 6px 4px}
+.seg.three{grid-template-columns:repeat(3,1fr)}
+@media (max-width:520px){.seg.three button small{display:none}.seg.three button{font-size:.84rem;padding:9px 8px}}
+.opts.one{grid-template-columns:1fr}
+.player.playing .playbtn .ic{margin-left:0}
+@media (max-width:520px){.player{padding:16px 12px 14px;gap:10px}.playbtn{width:70px;height:70px}.playbtn .ic{width:28px;height:28px}.pctl{flex-wrap:nowrap}.pctl .ghost{padding:9px 13px;font-size:.86rem}.wave{height:26px}}
 
 </style>
 
@@ -781,18 +789,22 @@ kbd{font-family:inherit;font-size:.76rem;background:var(--surface);border:1px so
         <a class="backlink" href="#ogren"><svg class="ic"><use href="#i-left"/></svg>Kelime Öğren</a>
         <span class="eyebrow c-learn" style="margin-top:10px">Dinleme</span>
         <h1 class="h-page">Dinle, anla, yaz</h1>
-        <p class="lead">Cümleyi dinle. Kolay modda duyduğun kelimeyi seç, dikte modunda cümlenin tamamını yaz. Cümle ancak cevap verdikten sonra görünür.</p>
+        <p class="lead">Seviyeni ve alıştırmayı seç, sonra dinle. Kelimenin ya da cümlenin yazılışı ancak cevap verdikten sonra görünür.</p>
       </div>
       <div class="ph-stat" id="listenStat"></div>
     </div>
     <div class="card listen">
-      <div class="seg two" id="lModes">
-        <button data-m="kolay" aria-pressed="true">Kelimeyi seç<small>Kolay</small></button>
-        <button data-m="dikte" aria-pressed="false">Cümleyi yaz<small>Dikte</small></button>
+      <div class="lsel">
+        <div><small class="lsel-l">Seviye</small><div class="seg" id="lLevels"></div></div>
+        <div><small class="lsel-l">Alıştırma</small><div class="seg three" id="lModes">
+          <button data-m="kelime" aria-pressed="true">Kelime dinle<small>Yazılışını seç</small></button>
+          <button data-m="cumle" aria-pressed="false">Cümle dinle<small>Doğru cümleyi seç</small></button>
+          <button data-m="dikte" aria-pressed="false">Cümleyi yaz<small>Dikte</small></button>
+        </div></div>
       </div>
       <div class="player aurora" id="lPlayer">
         <span class="badge" id="lSrc">Kaynak</span>
-        <button class="playbtn" id="lPlay" aria-label="Cümleyi dinle"><svg class="ic"><use href="#i-play"/></svg></button>
+        <button class="playbtn" id="lPlay" aria-label="Dinle"><svg class="ic"><use href="#i-play" id="lPlayIc"/></svg></button>
         <div class="wave" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
         <div class="pctl">
           <button class="ghost" id="lAgain"><svg class="ic"><use href="#i-refresh"/></svg>Tekrar dinle</button>
@@ -967,6 +979,7 @@ kbd{font-family:inherit;font-size:.76rem;background:var(--surface);border:1px so
     <symbol id="i-bookmark" viewBox="0 0 24 24"><path d="M6 3h12v18l-6-4.5L6 21z"/></symbol>
     <symbol id="i-headphones" viewBox="0 0 24 24"><path d="M4 15v-3a8 8 0 0 1 16 0v3M4 15a2 2 0 0 1 2-2h1v7H6a2 2 0 0 1-2-2zM20 15a2 2 0 0 0-2-2h-1v7h1a2 2 0 0 0 2-2z"/></symbol>
     <symbol id="i-play" viewBox="0 0 24 24"><path d="M8 5l11 7-11 7z"/></symbol>
+    <symbol id="i-pause" viewBox="0 0 24 24"><path d="M7 5h3.5v14H7zM13.5 5H17v14h-3.5z"/></symbol>
     <symbol id="i-slow" viewBox="0 0 24 24"><path d="M12 7v5l3 2M12 3a9 9 0 1 0 9 9"/></symbol>
     <symbol id="i-search" viewBox="0 0 24 24"><path d="M11 4a7 7 0 1 0 0 14 7 7 0 0 0 0-14zM20 20l-4-4"/></symbol>
     <symbol id="i-alert" viewBox="0 0 24 24"><path d="M12 3l10 18H2zM12 10v5M12 18v.5"/></symbol>
@@ -1074,6 +1087,104 @@ const GLOSS={
  "author":"yazar","meticulous":"titiz","research":"araştırma","notwithstanding":"-e rağmen","critics":"eleştirmenler","argued":"savundu (argue)","book":"kitap","conclusions":"sonuçlar","too":"fazla, çok (too…to: -emeyecek kadar)","ambiguous":"belirsiz, iki anlamlı","practical":"pratik, işe yarar",
  "rapid":"hızlı","urbanization":"kentleşme","exacerbated":"kötüleştirdi (exacerbate)","existing":"mevcut","inequalities":"eşitsizlikler","leaving":"bırakarak (leave)","most":"en, en çok","vulnerable":"savunmasız","communities":"topluluklar","scarce":"kıt","access":"erişim","clean":"temiz","water":"su"
 };
+
+/* Yarışma kelimeleri için örnek cümleler: kelime -> [örnek (**vurgu**), Türkçesi]
+   Tekrar kartlarında ve dinleme alıştırmasında kullanılır. */
+const QEX={
+ /* ---- Zor (B2) ---- */
+ "reluctant":["She was **reluctant** to leave her hometown.","Memleketinden ayrılmaya isteksizdi."],
+ "inevitable":["Some mistakes are **inevitable** when you learn a language.","Dil öğrenirken bazı hatalar kaçınılmazdır."],
+ "resilient":["The city proved **resilient** after the earthquake.","Şehir depremden sonra dayanıklı olduğunu kanıtladı."],
+ "tedious":["Filling in these forms is a **tedious** job.","Bu formları doldurmak sıkıcı bir iş."],
+ "profound":["The book had a **profound** effect on me.","Kitap üzerimde derin bir etki bıraktı."],
+ "scarce":["Water becomes **scarce** in the summer months.","Yaz aylarında su kıtlaşıyor."],
+ "plausible":["His excuse sounded **plausible**, so we believed him.","Bahanesi akla yatkın geldi, bu yüzden ona inandık."],
+ "vulnerable":["Young children are more **vulnerable** to the cold.","Küçük çocuklar soğuğa karşı daha savunmasızdır."],
+ "arbitrary":["The new rules seem completely **arbitrary**.","Yeni kurallar tamamen keyfi görünüyor."],
+ "obsolete":["Fax machines are almost **obsolete** today.","Faks makineleri bugün neredeyse kullanılmıyor."],
+ "reliable":["I need a **reliable** car for long journeys.","Uzun yolculuklar için güvenilir bir arabaya ihtiyacım var."],
+ "sufficient":["Two hours should be **sufficient** for the exam.","Sınav için iki saat yeterli olmalı."],
+ "temporary":["This is only a **temporary** solution.","Bu sadece geçici bir çözüm."],
+ "consistent":["Her results have been **consistent** all year.","Sonuçları yıl boyunca tutarlıydı."],
+ "substantial":["They made a **substantial** profit last year.","Geçen yıl kayda değer bir kâr elde ettiler."],
+ "mitigate":["Planting trees can **mitigate** the effects of heat.","Ağaç dikmek sıcağın etkilerini hafifletebilir."],
+ "undermine":["Constant criticism can **undermine** your confidence.","Sürekli eleştiri özgüvenini zayıflatabilir."],
+ "deteriorate":["His health began to **deteriorate** in the winter.","Sağlığı kışın kötüleşmeye başladı."],
+ "advocate":["Many doctors **advocate** a diet rich in vegetables.","Birçok doktor sebze ağırlıklı bir beslenmeyi savunuyor."],
+ "comply":["All visitors must **comply** with the safety rules.","Tüm ziyaretçiler güvenlik kurallarına uymak zorunda."],
+ "endorse":["The minister refused to **endorse** the plan.","Bakan planı onaylamayı reddetti."],
+ "fluctuate":["Prices **fluctuate** from week to week.","Fiyatlar haftadan haftaya dalgalanıyor."],
+ "acquire":["It takes years to **acquire** a new language.","Yeni bir dil edinmek yıllar alır."],
+ "emphasise":["The teacher wanted to **emphasise** this point.","Öğretmen bu noktayı vurgulamak istedi."],
+ "assess":["We need to **assess** the damage first.","Önce hasarı değerlendirmemiz gerekiyor."],
+ "pursue":["She decided to **pursue** a career in medicine.","Tıp alanında kariyer yapmaya karar verdi."],
+ "restrict":["The city plans to **restrict** traffic in the centre.","Şehir merkezde trafiği kısıtlamayı planlıyor."],
+ "abandon":["They had to **abandon** the car in the snow.","Arabayı karda bırakmak zorunda kaldılar."],
+ "anticipate":["We don't **anticipate** any problems.","Herhangi bir sorun beklemiyoruz."],
+ "enhance":["Good lighting can **enhance** a small room.","İyi aydınlatma küçük bir odayı güzelleştirebilir."],
+ "consensus":["There is no **consensus** on this issue yet.","Bu konuda henüz bir fikir birliği yok."],
+ "hindrance":["The heavy bag was more of a **hindrance** than a help.","Ağır çanta yardımdan çok engel oldu."],
+ "dilemma":["I'm facing a real **dilemma** about this job offer.","Bu iş teklifi konusunda gerçek bir ikilemdeyim."],
+ "perseverance":["Learning to play the violin requires **perseverance**.","Keman çalmayı öğrenmek azim gerektirir."],
+ "liability":["The company accepted full **liability** for the accident.","Şirket kazanın tüm sorumluluğunu kabul etti."],
+ "outcome":["Nobody can predict the **outcome** of the match.","Kimse maçın sonucunu tahmin edemez."],
+ "threat":["Climate change is a serious **threat** to farmers.","İklim değişikliği çiftçiler için ciddi bir tehdit."],
+ "burden":["I don't want to be a **burden** to my family.","Aileme yük olmak istemiyorum."],
+ "framework":["The law provides a **framework** for online trade.","Yasa, internet ticareti için bir çerçeve sunuyor."],
+ "insight":["This study gives us a new **insight** into sleep.","Bu çalışma bize uyku hakkında yeni bir bakış açısı sunuyor."],
+ "whereas":["I love the sea, **whereas** my sister prefers the mountains.","Ben denizi severim, oysa kız kardeşim dağları tercih eder."],
+ "nevertheless":["It was raining. **Nevertheless**, we went for a walk.","Yağmur yağıyordu. Yine de yürüyüşe çıktık."],
+ "despite":["**Despite** the traffic, we arrived on time.","Trafiğe rağmen zamanında vardık."],
+ "unless":["You won't improve **unless** you practise.","Pratik yapmazsan gelişemezsin."],
+ "consumption":["We should reduce our sugar **consumption**.","Şeker tüketimimizi azaltmalıyız."],
+ /* ---- Uzman (C1–C2) ---- */
+ "meticulous":["He kept **meticulous** records of every payment.","Her ödemenin titiz kayıtlarını tuttu."],
+ "eloquent":["She wrote an **eloquent** letter of thanks.","Etkileyici bir teşekkür mektubu yazdı."],
+ "candid":["I'll be **candid** with you: the plan won't work.","Sana açık konuşacağım: plan işe yaramayacak."],
+ "frugal":["My grandparents lived a **frugal** but happy life.","Büyükannemle büyükbabam tutumlu ama mutlu bir hayat yaşadı."],
+ "ubiquitous":["Smartphones have become **ubiquitous** in modern life.","Akıllı telefonlar modern hayatta her yerde bulunur hâle geldi."],
+ "pragmatic":["We need a **pragmatic** approach to this problem.","Bu soruna gerçekçi bir yaklaşım gerekiyor."],
+ "ephemeral":["Fame on social media is often **ephemeral**.","Sosyal medyadaki şöhret çoğu zaman gelip geçicidir."],
+ "superfluous":["Remove any **superfluous** words from your essay.","Makalendeki gereksiz kelimeleri çıkar."],
+ "idiosyncratic":["The writer has a very **idiosyncratic** style.","Yazarın kendine özgü bir üslubu var."],
+ "benevolent":["The village was supported by a **benevolent** landowner.","Köy, iyiliksever bir toprak sahibi tarafından desteklendi."],
+ "ambivalent":["I feel **ambivalent** about moving to a big city.","Büyük bir şehre taşınma konusunda karışık duygular içindeyim."],
+ "tenacious":["She is a **tenacious** reporter who never gives up.","Asla pes etmeyen azimli bir muhabir."],
+ "complacent":["Don't become **complacent** after one good result.","Tek bir iyi sonuçtan sonra rehavete kapılma."],
+ "gregarious":["My **gregarious** brother makes friends everywhere.","Sokulgan kardeşim her yerde arkadaş edinir."],
+ "insidious":["Stress can have an **insidious** effect on health.","Stres sağlık üzerinde sinsi bir etki yaratabilir."],
+ "magnanimous":["He was **magnanimous** in victory and thanked his rivals.","Zaferinde yüce gönüllüydü ve rakiplerine teşekkür etti."],
+ "unprecedented":["The city saw **unprecedented** rainfall this year.","Şehir bu yıl eşi görülmemiş bir yağış aldı."],
+ "lucid":["Her explanation was clear and **lucid**.","Açıklaması net ve anlaşılırdı."],
+ "cogent":["He made a **cogent** argument for the new policy.","Yeni politika için ikna edici bir argüman ortaya koydu."],
+ "ambiguous":["The last sentence of the contract is **ambiguous**.","Sözleşmenin son cümlesi belirsiz."],
+ "scrutinise":["Investors will **scrutinise** the company's accounts.","Yatırımcılar şirketin hesaplarını dikkatle inceleyecek."],
+ "alleviate":["This medicine will **alleviate** the pain.","Bu ilaç ağrıyı dindirecek."],
+ "procrastinate":["I tend to **procrastinate** when a task is difficult.","Bir iş zor olduğunda ertelemeye meyilliyim."],
+ "exacerbate":["Cutting the budget will only **exacerbate** the problem.","Bütçeyi kısmak sorunu sadece kötüleştirir."],
+ "juxtapose":["The exhibition **juxtaposes** old and new photographs.","Sergi eski ve yeni fotoğrafları yan yana koyuyor."],
+ "acquiesce":["In the end, the manager had to **acquiesce** to their demands.","Sonunda müdür taleplerine boyun eğmek zorunda kaldı."],
+ "obfuscate":["Politicians sometimes **obfuscate** the facts.","Politikacılar bazen gerçekleri bulanıklaştırır."],
+ "vindicate":["The new evidence will **vindicate** her decision.","Yeni kanıtlar onun kararını haklı çıkaracak."],
+ "wane":["Interest in the project began to **wane**.","Projeye olan ilgi azalmaya başladı."],
+ "corroborate":["Two witnesses **corroborated** his story.","İki tanık onun anlattıklarını doğruladı."],
+ "discrepancy":["There is a **discrepancy** between the two reports.","İki rapor arasında bir tutarsızlık var."],
+ "nuance":["Translators must pay attention to every **nuance**.","Çevirmenler her nüansa dikkat etmelidir."],
+ "leverage":["Small companies have little **leverage** in negotiations.","Küçük şirketlerin pazarlıklarda pek etki gücü yoktur."],
+ "subsidy":["Farmers receive a government **subsidy** for organic crops.","Çiftçiler organik ürünler için devlet desteği alıyor."],
+ "conundrum":["Finding affordable housing is a real **conundrum**.","Uygun fiyatlı konut bulmak gerçek bir çetrefil sorun."],
+ "prerogative":["It's your **prerogative** to change your mind.","Fikrini değiştirmek senin hakkın."],
+ "propensity":["He has a **propensity** to exaggerate.","Abartmaya eğilimi var."],
+ "ramification":["We didn't consider every **ramification** of the decision.","Kararın tüm dolaylı sonuçlarını düşünmedik."],
+ "anachronism":["Paper tickets are becoming an **anachronism**.","Kâğıt biletler zamanın gerisinde kalıyor."],
+ "zeal":["She approached every task with great **zeal**.","Her işe büyük bir şevkle yaklaştı."],
+ "notwithstanding":["**Notwithstanding** the bad weather, the festival was a success.","Kötü havaya rağmen festival başarılı geçti."],
+ "hitherto":["The study revealed a **hitherto** unknown species.","Çalışma şimdiye kadar bilinmeyen bir türü ortaya çıkardı."],
+ "albeit":["The plan worked, **albeit** more slowly than expected.","Plan işe yaradı, her ne kadar beklenenden yavaş olsa da."],
+ "ostensibly":["He left early, **ostensibly** to catch a train.","Görünüşte bir trene yetişmek için erken ayrıldı."],
+ "tantamount":["Staying silent was **tantamount** to agreeing.","Sessiz kalmak, kabul etmekle eşdeğerdi."]
+};
+Object.values(WORDS).flat().forEach(w=>{const e=QEX[w[0]];if(e){w[3]=e[0];w[4]=e[1]}});
 
 /* Kelime öğrenme desteleri
    words: [İngilizce, Türkçe, tür, örnek cümle (**vurgu**), örnek cümlenin Türkçesi] */
@@ -1598,7 +1709,7 @@ function pickFresh(items,keyFn,n,dueFn){
 }
 /* Kelime bilgisi: desteler (örnekli) > yarışma > defter > metinden kaydedilen */
 const WINFO={};
-Object.values(WORDS).flat().forEach(w=>WINFO[w[0]]=[w[0],w[1],w[2],"",""]);
+Object.values(WORDS).flat().forEach(w=>WINFO[w[0]]=[w[0],w[1],w[2],w[3]||"",w[4]||""]);
 DECKS.forEach(d=>d.words.forEach(w=>WINFO[w[0]]=w));
 const EXTRA={};
 const winfo=en=>WINFO[en]||P.saved[en]||EXTRA[en];
@@ -1608,29 +1719,61 @@ function virtualDeck(id){
   return null;
 }
 
-/* ================= SESLENDİRME ================= */
+/* ================= SESLENDİRME =================
+   Tüm kelime ve cümleler önceden doğal bir İngilizce sesle kaydedildi (audio-w/s/t.js).
+   AIDX: metin anahtarının özeti -> hangi ses dosyasında olduğu. Kaydı olmayan nadir durumlarda
+   yalnızca cihazda İngilizce ses varsa cihaz sesi kullanılır; Türkçe sesle İngilizce okunmaz. */
+const AIDX={"1tp6k76":"w","4a1f4m":"s","16s92ee":"w","quefew":"s","51sghr":"w","1425u5m":"s","pae38o":"w","1l2x0yx":"s","y5ipd2":"w","1kyjlvu":"s","ssc84w":"w","1werk3a":"s","skwp1e":"w","155cc8k":"s","10bq9fe":"w","10xj11q":"s","rlwagd":"w","fdu8ti":"s","16tc5e4":"w","1wel7ob":"s","174vvib":"w","wcpvmn":"s","4vdta8":"w","5u1y2q":"s","1tm9zv3":"w","7y3lbh":"s","kl3gpa":"w","w0uyqp":"s","ey0l8m":"w","t790z9":"s","1ct6wvd":"w","1mm2aet":"s","1rfrahn":"w","r3uu7s":"s","1dwebyw":"w","1vur67n":"s","sq7l1t":"w","1y4lwbh":"s","1wggxjf":"w","l8gukf":"s","1fyyrrw":"w","mn1w7n":"s","2n13jv":"w","8mi8bc":"s","1e2oe22":"w","1pce7u8":"s","1evi889":"w","13v4u28":"s","1dmo43j":"w","1m24p12":"s","a2rz23":"w","1w7axo3":"s","a19jyy":"w","1wg5cqn":"s","lvb8bc":"w","vp8q67":"s","1hpma7s":"w","1wmlekn":"s","1uhvyzb":"w","1ehkq92":"s","9qlss4":"w","mkzapw":"s","c75buy":"w","2q06ta":"s","12lik7s":"w","7zydce":"s","1jkjbl":"w","ocuwyd":"s","1w4azkb":"w","onw5j5":"s","14yrt4c":"w","vk5owq":"s","jrjir9":"w","ettwvh":"s","p9t0ec":"w","l7na3d":"s","q5c5dv":"w","qn5u50":"s","a6xv7f":"w","8koxee":"s","lxqs9g":"w","h3rkik":"s","3ysw2y":"w","1s0aiae":"s","1jnvbj5":"w","1w11kkw":"s","1b7lhos":"w","1alx1j9":"s","15bryb7":"w","wa8el3":"s","1k2kmd2":"w","1fhbylg":"s","1d6uhhx":"w","53d0tb":"s","brbrmk":"w","ib2t3j":"s","11i216n":"w","1ttqrsw":"s","pakpdu":"w","1sx2w8u":"s","d6r69j":"w","nlaq08":"s","2f9bne":"w","k0zgo6":"s","1hhhg0b":"w","1q46gkb":"s","1w07mpa":"w","2yz04s":"s","npwchx":"w","qu97yp":"s","m4yn46":"w","ni3467":"s","44ej3l":"w","7l6vo3":"s","tog6sf":"w","fr2bqa":"s","gw5jfh":"w","isqgva":"s","zrutsu":"w","1bjpb42":"s","1ou5sr8":"w","161u40h":"s","1u4umhl":"w","1d5nvdc":"s","1pkeh9q":"w","1sa3owa":"s","1nhp8xk":"w","1u6aofm":"s","1i2tuxn":"w","18d288i":"s","t9e0zz":"w","5v6c3o":"s","meuc4g":"w","i1oy2n":"s","1l6atvm":"w","15sufgw":"s","zbbph1":"w","gdtpfq":"s","1axfl02":"w","1r9pi6d":"s","1h0kdq6":"w","34wjzc":"s","nll7ta":"w","1ce27u5":"s","1lu1ipf":"w","zuzhox":"s","dlsbuh":"w","1xazktt":"s","b45n5g":"w","ovdhgg":"s","f2by1k":"w","1mnupnq":"s","nsqmfl":"w","1hregd2":"s","1yba8i6":"w","7zggeo":"s","98s7on":"w","4hjps8":"s","1a02u08":"w","sggm2h":"s","x2r4dt":"w","e333pd":"s","hw6li":"w","fojktq":"s","oy5dk3":"w","16ehoas":"s","1urwiww":"w","1r4pudx":"s","1r9yw6o":"w","12vdahl":"s","17pgyel":"w","1fh10nn":"s"};
+const SILENT="SUQzBAAAAAAAI1RTU0UAAAAPAAADTGF2ZjYwLjE2LjEwMAAAAAAAAAAAAAAA//OEwAAAAAAAAAAAAEluZm8AAAAPAAAABwAAA2AAVVVVVVVVVVVVVVVVVVVxcXFxcXFxcXFxcXFxcY6Ojo6Ojo6Ojo6Ojo6Oqqqqqqqqqqqqqqqqqqqqx8fHx8fHx8fHx8fHx8fj4+Pj4+Pj4+Pj4+Pj4///////////////////AAAAAExhdmM2MC4zMQAAAAAAAAAAAAAAACQEIAAAAAAAAANgmVBi7QAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA//NExAAAAANIAAAAAExBTUUzLjEwMFVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVTEFNRTMu//NExFMAAANIAAAAADEwMFVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVTEFNRTMu//NExKYAAANIAAAAADEwMFVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVTEFNRTMu//NExKwAAANIAAAAADEwMFVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVTEFNRTMu//NExKwAAANIAAAAADEwMFVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVV//NExKwAAANIAAAAAFVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVV//NExKwAAANIAAAAAFVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVV";
+const akey=t=>{t=plain(t).trim().replace(/\s+/g," ");return /\s/.test(t)?t:t.toLowerCase()};
+const fnv=s=>{let h=0x811c9dc5;for(let i=0;i<s.length;i++){h^=s.charCodeAt(i);h=Math.imul(h,0x01000193)>>>0}return h.toString(36)};
+window.FLUO_AUDIO=window.FLUO_AUDIO||{};
+const aLoad={};
+function loadAudio(g){
+  return aLoad[g]||(aLoad[g]=new Promise((res,rej)=>{const sc=document.createElement("script");sc.src="audio-"+g+".js";sc.async=true;
+    sc.onload=res;sc.onerror=()=>{aLoad[g]=null;rej()};document.head.appendChild(sc)}));
+}
+const player=new Audio();player.preload="auto";
+let unlocked=false;
+function unlockAudio(){if(unlocked||!SILENT)return;unlocked=true;try{player.src="data:audio/mpeg;base64,"+SILENT;const p=player.play();if(p)p.catch(()=>{})}catch(e){}}
+document.addEventListener("pointerdown",unlockAudio,{once:true,capture:true});
+document.addEventListener("keydown",unlockAudio,{once:true,capture:true});
+// Ses dosyalarını sayfa açıldıktan sonra arka planda sırayla yükle
+setTimeout(()=>{loadAudio("w").catch(()=>{}).then(()=>loadAudio("s")).catch(()=>{}).then(()=>loadAudio("t")).catch(()=>{})},1200);
 let enVoice=null;
-const PREFER=[/natural/i,/online/i,/google us english/i,/google uk english/i,/samantha/i,/ava/i,/allison/i,/aria/i,/jenny/i,/guy/i,/daniel/i,/karen/i,/serena/i,/zira/i,/david/i];
 function pickVoice(){
   try{
     const vs=speechSynthesis.getVoices().filter(v=>/^en([-_]|$)/i.test(v.lang));
     if(!vs.length){enVoice=null;return}
-    const score=v=>{let s=0;PREFER.forEach((r,i)=>{if(r.test(v.name))s+=100-i*3});
-      if(/en[-_]us/i.test(v.lang))s+=20;else if(/en[-_]gb/i.test(v.lang))s+=15;if(!v.localService)s+=10;return s};
+    const PREF=[/natural/i,/online/i,/google us english/i,/google uk english/i,/samantha/i,/ava/i,/aria/i,/jenny/i];
+    const score=v=>{let s=0;PREF.forEach((r,i)=>{if(r.test(v.name))s+=100-i*3});if(/en[-_]us/i.test(v.lang))s+=20;if(!v.localService)s+=10;return s};
     enVoice=vs.sort((a,b)=>score(b)-score(a))[0];
   }catch(e){enVoice=null}
 }
 try{pickVoice();speechSynthesis.addEventListener("voiceschanged",pickVoice)}catch(e){}
+let curBtn=null,curEnd=null;
+function stopSpeak(){
+  try{player.pause()}catch(e){}try{speechSynthesis.cancel()}catch(e){}
+  if(curBtn)curBtn.classList.remove("on");curBtn=null;
+  if(curEnd){const f=curEnd;curEnd=null;f()}
+}
+function finishSpeak(){if(curBtn)curBtn.classList.remove("on");curBtn=null;if(curEnd){const f=curEnd;curEnd=null;f()}}
+player.onended=finishSpeak;player.onerror=finishSpeak;
+function deviceSpeak(text,rate){
+  if(!enVoice)pickVoice();
+  if(!enVoice){toast("Bu ifadenin ses kaydı yok");finishSpeak();return}
+  try{const u=new SpeechSynthesisUtterance(plain(text));u.voice=enVoice;u.lang=enVoice.lang;u.rate=rate&&rate<.8?.7:.9;
+    u.onend=u.onerror=finishSpeak;speechSynthesis.speak(u)}catch(e){finishSpeak()}
+}
 function speak(text,btn,rate,onend){
-  try{
-    if(!enVoice)pickVoice();
-    const u=new SpeechSynthesisUtterance(plain(text));
-    u.lang=enVoice?enVoice.lang:"en-US";if(enVoice)u.voice=enVoice;u.rate=rate||.88;
-    document.querySelectorAll(".speak.on").forEach(b=>b.classList.remove("on"));
-    if(btn)btn.classList.add("on");
-    u.onend=u.onerror=()=>{if(btn)btn.classList.remove("on");if(onend)onend()};
-    speechSynthesis.cancel();speechSynthesis.speak(u);
-  }catch(e){}
+  stopSpeak();
+  curBtn=btn||null;curEnd=onend||null;if(btn)btn.classList.add("on");
+  const h=fnv(akey(text)),g=AIDX[h];
+  if(!g){deviceSpeak(text,rate);return}
+  const play=()=>{const b64=window.FLUO_AUDIO[h];if(!b64){deviceSpeak(text,rate);return}
+    try{player.src="data:audio/mpeg;base64,"+b64;player.playbackRate=rate&&rate<.8?.72:1;player.preservesPitch=true;
+      const p=player.play();if(p)p.catch(()=>finishSpeak())}catch(e){finishSpeak()}};
+  if(window.FLUO_AUDIO[h])play();else loadAudio(g).then(play,()=>deviceSpeak(text,rate));
 }
 document.addEventListener("click",e=>{const b=e.target.closest("[data-say]");if(b){e.stopPropagation();speak(b.dataset.say,b)}},true);
 const isSaved=en=>!!P.saved[en];
@@ -1671,7 +1814,7 @@ function route(){
   const h=(location.hash.slice(1)||"ana").toLowerCase();
   if(h===lastHash)return;lastHash=h;
   if(h!=="yarisma")pauseGame();
-  if(h!=="dinle")try{speechSynthesis.cancel()}catch(e){}
+  stopSpeak();
   hidePop();
   if(h==="ana"){renderHome();showView("ana","ana")}
   else if(h==="ogren"){if(S&&S.done)S=null;renderDecks();showView("ogren","ogren")}
@@ -2149,23 +2292,53 @@ function renderDefter(){
 $("defterSearch").addEventListener("input",renderDefter);
 $("defterQuiz").onclick=()=>startDeckQuiz(virtualDeck("defter"));
 
-/* ================= DİNLEME ================= */
-const LPOOL=[
-  ...DECKS.flatMap(d=>d.words.map(w=>({en:w[3],tr:w[4],key:(w[3].match(/\*\*(.+?)\*\*/)||[,w[0]])[1],word:w[0],src:d.name}))),
-  ...GRAMMAR.flatMap(t=>t.examples.map(e=>({en:e[0],tr:e[1],key:(e[0].match(/\*\*(.+?)\*\*/)||[,""])[1],word:null,src:t.title})))
-].filter(x=>x.key);
-const L={mode:"kolay",cur:null,plays:0,answered:false};
+/* ================= DİNLEME =================
+   Seviye: kolay (A1–A2), orta (B1), zor (B2), uzman (C1–C2)
+   Modlar: kelime (yalnız kelime çalınır, yazılışı seçilir) · cumle (doğru cümle seçilir) · dikte (cümle yazılır) */
+const lvOf=s=>{const m=String(s).match(/[ABC][12]/g);const c=m?m[m.length-1]:"A1";return{A1:"kolay",A2:"kolay",B1:"orta",B2:"zor",C1:"uzman",C2:"uzman"}[c]};
+const LWORDS=(()=>{const seen={},out=[];const add=(en,tr,lv)=>{if(seen[en.toLowerCase()]||en.split(" ").length>2||/[?!.]/.test(en))return;seen[en.toLowerCase()]=1;out.push({en,tr,lv})};
+  DECKS.forEach(d=>d.words.forEach(w=>{if(w[2]!=="kalıp")add(w[0],w[1],lvOf(d.level))}));
+  Object.entries(WORDS).forEach(([k,ws])=>ws.forEach(w=>add(w[0],w[1],k)));return out})();
+const LSENT=(()=>{const seen={},out=[];const add=(en,tr,lv,src,word)=>{const k=plain(en);if(seen[k])return;seen[k]=1;out.push({en,tr,lv,src,word})};
+  DECKS.forEach(d=>d.words.forEach(w=>add(w[3],w[4],lvOf(d.level),d.name,w[0])));
+  Object.entries(WORDS).forEach(([k,ws])=>ws.forEach(w=>{if(w[3])add(w[3],w[4],k,"Yarışma kelimesi",w[0])}));
+  GRAMMAR.forEach(t=>t.examples.forEach(e=>add(e[0],e[1],lvOf(t.level),t.title,null)));
+  Object.entries(TEXTS).forEach(([k,ts])=>ts.forEach(t=>{const ss=t.en.match(/[^.!?]+[.!?]+/g)||[t.en];ss.forEach(x=>add(x.trim(),ss.length>1?"Metnin tamamı: "+t.tr:t.tr,k,"Okuma metni",null))}));
+  return out})();
+const L={lv:"kolay",mode:"kelime",cur:null,plays:0,answered:false,state:"idle",dev:false};
+function lev(a,b){a=a.toLowerCase();b=b.toLowerCase();const d=Array.from({length:a.length+1},(_,i)=>[i]);for(let j=1;j<=b.length;j++)d[0][j]=j;
+  for(let i=1;i<=a.length;i++)for(let j=1;j<=b.length;j++)d[i][j]=Math.min(d[i-1][j]+1,d[i][j-1]+1,d[i-1][j-1]+(a[i-1]===b[j-1]?0:1));return d[a.length][b.length]}
+const wset=s=>new Set(words_(s));
 function renderListenStat(){$("listenStat").innerHTML='<div><b>'+P.listen.ok+'</b><span>/ '+P.listen.n+' doğru</span></div>'}
+function renderListenLevels(){
+  $("lLevels").innerHTML=Object.entries(LEVELS).map(([k,Lv])=>'<button style="--c:var(--lv-'+k+')" aria-pressed="'+(k===L.lv)+'" data-k="'+k+'">'+Lv.name+'<small>'+Lv.cefr+'</small></button>').join("");
+  $("lLevels").querySelectorAll("button").forEach(b=>b.onclick=()=>{L.lv=b.dataset.k;renderListenLevels();newListen()});
+}
+function setPlayState(st){
+  L.state=st;$("lPlayer").classList.toggle("playing",st==="playing");
+  $("lPlayIc").setAttribute("href",st==="playing"?"#i-pause":"#i-play");
+  $("lPlay").setAttribute("aria-label",st==="playing"?"Duraklat":st==="paused"?"Devam et":"Dinle");
+  if(st==="paused")$("lPlays").textContent="Duraklatıldı · devam etmek için dokun";
+}
 function newListen(){
-  L.cur=pickFresh(LPOOL,x=>"l:"+x.en,1)[0];L.plays=0;L.answered=false;
-  $("lSrc").textContent=L.cur.src;$("lPlays").textContent="Dinlemek için oynat düğmesine dokun";
+  stopSpeak();
+  const isW=L.mode==="kelime",pool=(isW?LWORDS:LSENT).filter(x=>x.lv===L.lv);
+  L.cur=pickFresh(pool,x=>"l:"+x.en,1)[0];L.plays=0;L.answered=false;setPlayState("idle");
+  $("lSrc").textContent=isW?(LEVELS[L.lv].name+" · kelime"):L.cur.src;
+  $("lPlays").textContent="Dinlemek için oynat düğmesine dokun";
   $("lResult").hidden=true;$("lResult").innerHTML="";
-  const plain_=plain(L.cur.en);
-  if(L.mode==="kolay"){
-    const others=shuffle(LPOOL.filter(x=>x.key.toLowerCase()!==L.cur.key.toLowerCase()&&!plain_.toLowerCase().includes(x.key.toLowerCase())));
-    const opts=[L.cur.key];for(const o of others){if(!opts.some(k=>k.toLowerCase()===o.key.toLowerCase()))opts.push(o.key);if(opts.length===4)break}
-    $("lAsk").innerHTML='<p class="lq">Cümlede hangi ifadeyi duydun?</p><div class="opts" id="lOpts">'+shuffle(opts).map((o,i)=>'<button class="opt" data-v="'+esc(o)+'"><span class="k">'+"ABCD"[i]+'</span><span>'+esc(o)+'</span></button>').join("")+'</div>';
-    $("lOpts").querySelectorAll(".opt").forEach(b=>b.onclick=()=>answerListen(b.dataset.v===L.cur.key,b));
+  if(L.mode==="kelime"){
+    const others=pool.filter(x=>x.en.toLowerCase()!==L.cur.en.toLowerCase());
+    const close=others.map(x=>({x,d:lev(x.en,L.cur.en)})).sort((a,b)=>a.d-b.d).slice(0,6).map(o=>o.x);
+    const opts=[L.cur.en];for(const o of shuffle(close).concat(shuffle(others))){if(!opts.some(e=>e.toLowerCase()===o.en.toLowerCase()))opts.push(o.en);if(opts.length===4)break}
+    $("lAsk").innerHTML='<p class="lq">Duyduğun kelimenin doğru yazılışı hangisi?</p><div class="opts" id="lOpts">'+shuffle(opts).map((o,i)=>'<button class="opt" data-v="'+esc(o)+'"><span class="k">'+"ABCD"[i]+'</span><span>'+esc(o)+'</span></button>').join("")+'</div>';
+    $("lOpts").querySelectorAll(".opt").forEach(b=>b.onclick=()=>answerListen(b.dataset.v===L.cur.en,b));
+  }else if(L.mode==="cumle"){
+    const tw=wset(L.cur.en),pc=plain(L.cur.en);
+    const others=pool.filter(x=>plain(x.en)!==pc).map(x=>{const w=wset(x.en);let c=0;w.forEach(v=>{if(tw.has(v))c++});return{x,s:c/(w.size+tw.size-c||1)-Math.abs(w.size-tw.size)*.02}}).sort((a,b)=>b.s-a.s);
+    const opts=[pc].concat(shuffle(others.slice(0,8)).slice(0,3).map(o=>plain(o.x.en)));
+    $("lAsk").innerHTML='<p class="lq">Duyduğun cümle hangisi?</p><div class="opts one" id="lOpts">'+shuffle(opts).map((o,i)=>'<button class="opt" data-v="'+esc(o)+'"><span class="k">'+"ABCD"[i]+'</span><span>'+esc(o)+'</span></button>').join("")+'</div>';
+    $("lOpts").querySelectorAll(".opt").forEach(b=>b.onclick=()=>answerListen(b.dataset.v===pc,b));
   }else{
     $("lAsk").innerHTML='<label class="lq" for="lInput">Duyduğun cümleyi yaz</label><div class="notebook dict"><textarea id="lInput" rows="2" placeholder="Duyduğunu buraya yaz…" autocomplete="off" autocapitalize="off" spellcheck="false"></textarea></div>'+
       '<div class="tactions"><button class="ghost" id="lGive">Bilmiyorum, göster</button><button class="primary" id="lCheck">Kontrol et</button></div>';
@@ -2176,11 +2349,17 @@ function newListen(){
 }
 function playListen(rate){
   if(!L.cur)return;L.plays++;
-  $("lPlayer").classList.add("playing");
-  $("lPlays").textContent=L.plays+". dinleme"+(rate?" · yavaş":"");
-  speak(L.cur.en,null,rate||.9,()=>$("lPlayer").classList.remove("playing"));
+  L.dev=!AIDX[fnv(akey(L.cur.en))];
+  speak(L.cur.en,null,rate||1,()=>{if(L.state!=="paused")setPlayState("idle")});
+  setPlayState("playing");
+  $("lPlays").textContent=L.plays+". dinleme"+(rate&&rate<.8?" · yavaş":"");
 }
-$("lPlay").onclick=()=>playListen();$("lAgain").onclick=()=>playListen();$("lSlow").onclick=()=>playListen(.6);
+function togglePlay(){
+  if(L.state==="playing"){try{L.dev?speechSynthesis.pause():player.pause()}catch(e){}setPlayState("paused");return}
+  if(L.state==="paused"){try{if(L.dev)speechSynthesis.resume();else{const p=player.play();if(p)p.catch(()=>{})}}catch(e){}setPlayState("playing");$("lPlays").textContent=L.plays+". dinleme";return}
+  playListen();
+}
+$("lPlay").onclick=togglePlay;$("lAgain").onclick=()=>playListen();$("lSlow").onclick=()=>playListen(.6);
 $("lModes").querySelectorAll("button").forEach(b=>b.onclick=()=>{
   L.mode=b.dataset.m;$("lModes").querySelectorAll("button").forEach(x=>x.setAttribute("aria-pressed",x===b));newListen();
 });
@@ -2202,17 +2381,21 @@ function checkDictation(give){
 function answerListen(ok,btn,extra){
   if(L.answered)return;L.answered=true;markActive();
   P.listen.n++;if(ok)P.listen.ok++;touch("l:"+L.cur.en);
-  if(L.cur.word){if(ok)srsOk(L.cur.word);else if(P.srs[L.cur.word]||P.learned[L.cur.word])srsWrong(L.cur.word)}
+  const w=L.mode==="kelime"?L.cur.en:L.cur.word;
+  if(w&&winfo(w)){if(ok)srsOk(w);else srsWrong(w)}
   save();renderListenStat();
-  if(btn){$("lOpts").querySelectorAll(".opt").forEach(b=>{b.disabled=true;if(b.dataset.v===L.cur.key)b.classList.add("ok")});if(!ok)btn.classList.add("no")}
+  if(btn){const right=L.mode==="cumle"?plain(L.cur.en):L.cur.en;$("lOpts").querySelectorAll(".opt").forEach(b=>{b.disabled=true;if(b.dataset.v===right)b.classList.add("ok")});if(!ok)btn.classList.add("no")}
   if(L.mode==="dikte"){$("lInput").disabled=true;$("lCheck").disabled=true;$("lGive").disabled=true}
+  const tip=ok?"Kulağın alışıyor.":L.mode==="kelime"?"Doğru yazılış: "+esc(L.cur.en)+". Bir kez daha dinle.":L.mode==="cumle"?"Doğru cümleyi yeşil şıkta görebilirsin. Bir kez daha dinle.":"Kırmızı kelimeleri kaçırdın. Yavaş dinleyip tekrar dene.";
+  const reveal=L.mode==="kelime"
+    ?'<div class="lreveal"><div><p><b>'+esc(L.cur.en)+'</b></p><small>'+esc(L.cur.tr)+'</small></div><div class="dbtns">'+sayBtn(L.cur.en,"sm")+(winfo(L.cur.en)?savBtn(L.cur.en,"sm"):"")+'</div></div>'
+    :'<div class="lreveal"><div><p>'+hl(L.cur.en)+'</p><small>'+esc(L.cur.tr)+'</small></div><div class="dbtns">'+sayBtn(L.cur.en,"sm")+(L.cur.word&&winfo(L.cur.word)?savBtn(L.cur.word,"sm"):"")+'</div></div>';
   const r=$("lResult");r.hidden=false;
-  r.innerHTML='<div class="pr-ex '+(ok?"g":"r")+'">'+ic(ok?"check":"x")+'<div>'+(ok?"Doğru!":"Bu sefer olmadı.")+' <span>'+(ok?"Kulağın alışıyor.":L.mode==="kolay"?"Doğru cevap: "+esc(L.cur.key)+". Cümleyi bir kez daha dinle.":"Kırmızı kelimeleri kaçırdın. Yavaş dinleyip tekrar dene.")+'</span></div></div>'+
-    (extra||"")+
-    '<div class="lreveal"><div><p>'+hl(L.cur.en)+'</p><small>'+esc(L.cur.tr)+'</small></div><div class="dbtns">'+sayBtn(L.cur.en,"sm")+(L.cur.word?savBtn(L.cur.word,"sm"):"")+'</div></div>'+
-    '<div class="pr-act"><button class="primary" id="lNext">Sonraki cümle'+ic("right")+'</button></div>';
+  r.innerHTML='<div class="pr-ex '+(ok?"g":"r")+'">'+ic(ok?"check":"x")+'<div>'+(ok?"Doğru!":"Bu sefer olmadı.")+' <span>'+tip+'</span></div></div>'+(extra||"")+reveal+
+    '<div class="pr-act"><button class="primary" id="lNext">Sonraki'+ic("right")+'</button></div>';
   $("lNext").onclick=()=>{newListen();playListen()};$("lNext").focus({preventScroll:true});
 }
+renderListenLevels();
 
 /* ================= BAŞLAT ================= */
 renderNav();renderStreak();renderTextLevels();newText();

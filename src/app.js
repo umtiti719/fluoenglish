@@ -56,7 +56,7 @@ function pickFresh(items,keyFn,n,dueFn){
 }
 /* Kelime bilgisi: desteler (örnekli) > yarışma > defter > metinden kaydedilen */
 const WINFO={};
-Object.values(WORDS).flat().forEach(w=>WINFO[w[0]]=[w[0],w[1],w[2],"",""]);
+Object.values(WORDS).flat().forEach(w=>WINFO[w[0]]=[w[0],w[1],w[2],w[3]||"",w[4]||""]);
 DECKS.forEach(d=>d.words.forEach(w=>WINFO[w[0]]=w));
 const EXTRA={};
 const winfo=en=>WINFO[en]||P.saved[en]||EXTRA[en];
@@ -639,23 +639,53 @@ function renderDefter(){
 $("defterSearch").addEventListener("input",renderDefter);
 $("defterQuiz").onclick=()=>startDeckQuiz(virtualDeck("defter"));
 
-/* ================= DİNLEME ================= */
-const LPOOL=[
-  ...DECKS.flatMap(d=>d.words.map(w=>({en:w[3],tr:w[4],key:(w[3].match(/\*\*(.+?)\*\*/)||[,w[0]])[1],word:w[0],src:d.name}))),
-  ...GRAMMAR.flatMap(t=>t.examples.map(e=>({en:e[0],tr:e[1],key:(e[0].match(/\*\*(.+?)\*\*/)||[,""])[1],word:null,src:t.title})))
-].filter(x=>x.key);
-const L={mode:"kolay",cur:null,plays:0,answered:false};
+/* ================= DİNLEME =================
+   Seviye: kolay (A1–A2), orta (B1), zor (B2), uzman (C1–C2)
+   Modlar: kelime (yalnız kelime çalınır, yazılışı seçilir) · cumle (doğru cümle seçilir) · dikte (cümle yazılır) */
+const lvOf=s=>{const m=String(s).match(/[ABC][12]/g);const c=m?m[m.length-1]:"A1";return{A1:"kolay",A2:"kolay",B1:"orta",B2:"zor",C1:"uzman",C2:"uzman"}[c]};
+const LWORDS=(()=>{const seen={},out=[];const add=(en,tr,lv)=>{if(seen[en.toLowerCase()]||en.split(" ").length>2||/[?!.]/.test(en))return;seen[en.toLowerCase()]=1;out.push({en,tr,lv})};
+  DECKS.forEach(d=>d.words.forEach(w=>{if(w[2]!=="kalıp")add(w[0],w[1],lvOf(d.level))}));
+  Object.entries(WORDS).forEach(([k,ws])=>ws.forEach(w=>add(w[0],w[1],k)));return out})();
+const LSENT=(()=>{const seen={},out=[];const add=(en,tr,lv,src,word)=>{const k=plain(en);if(seen[k])return;seen[k]=1;out.push({en,tr,lv,src,word})};
+  DECKS.forEach(d=>d.words.forEach(w=>add(w[3],w[4],lvOf(d.level),d.name,w[0])));
+  Object.entries(WORDS).forEach(([k,ws])=>ws.forEach(w=>{if(w[3])add(w[3],w[4],k,"Yarışma kelimesi",w[0])}));
+  GRAMMAR.forEach(t=>t.examples.forEach(e=>add(e[0],e[1],lvOf(t.level),t.title,null)));
+  Object.entries(TEXTS).forEach(([k,ts])=>ts.forEach(t=>{const ss=t.en.match(/[^.!?]+[.!?]+/g)||[t.en];ss.forEach(x=>add(x.trim(),ss.length>1?"Metnin tamamı: "+t.tr:t.tr,k,"Okuma metni",null))}));
+  return out})();
+const L={lv:"kolay",mode:"kelime",cur:null,plays:0,answered:false,state:"idle",dev:false};
+function lev(a,b){a=a.toLowerCase();b=b.toLowerCase();const d=Array.from({length:a.length+1},(_,i)=>[i]);for(let j=1;j<=b.length;j++)d[0][j]=j;
+  for(let i=1;i<=a.length;i++)for(let j=1;j<=b.length;j++)d[i][j]=Math.min(d[i-1][j]+1,d[i][j-1]+1,d[i-1][j-1]+(a[i-1]===b[j-1]?0:1));return d[a.length][b.length]}
+const wset=s=>new Set(words_(s));
 function renderListenStat(){$("listenStat").innerHTML='<div><b>'+P.listen.ok+'</b><span>/ '+P.listen.n+' doğru</span></div>'}
+function renderListenLevels(){
+  $("lLevels").innerHTML=Object.entries(LEVELS).map(([k,Lv])=>'<button style="--c:var(--lv-'+k+')" aria-pressed="'+(k===L.lv)+'" data-k="'+k+'">'+Lv.name+'<small>'+Lv.cefr+'</small></button>').join("");
+  $("lLevels").querySelectorAll("button").forEach(b=>b.onclick=()=>{L.lv=b.dataset.k;renderListenLevels();newListen()});
+}
+function setPlayState(st){
+  L.state=st;$("lPlayer").classList.toggle("playing",st==="playing");
+  $("lPlayIc").setAttribute("href",st==="playing"?"#i-pause":"#i-play");
+  $("lPlay").setAttribute("aria-label",st==="playing"?"Duraklat":st==="paused"?"Devam et":"Dinle");
+  if(st==="paused")$("lPlays").textContent="Duraklatıldı · devam etmek için dokun";
+}
 function newListen(){
-  L.cur=pickFresh(LPOOL,x=>"l:"+x.en,1)[0];L.plays=0;L.answered=false;
-  $("lSrc").textContent=L.cur.src;$("lPlays").textContent="Dinlemek için oynat düğmesine dokun";
+  stopSpeak();
+  const isW=L.mode==="kelime",pool=(isW?LWORDS:LSENT).filter(x=>x.lv===L.lv);
+  L.cur=pickFresh(pool,x=>"l:"+x.en,1)[0];L.plays=0;L.answered=false;setPlayState("idle");
+  $("lSrc").textContent=isW?(LEVELS[L.lv].name+" · kelime"):L.cur.src;
+  $("lPlays").textContent="Dinlemek için oynat düğmesine dokun";
   $("lResult").hidden=true;$("lResult").innerHTML="";
-  const plain_=plain(L.cur.en);
-  if(L.mode==="kolay"){
-    const others=shuffle(LPOOL.filter(x=>x.key.toLowerCase()!==L.cur.key.toLowerCase()&&!plain_.toLowerCase().includes(x.key.toLowerCase())));
-    const opts=[L.cur.key];for(const o of others){if(!opts.some(k=>k.toLowerCase()===o.key.toLowerCase()))opts.push(o.key);if(opts.length===4)break}
-    $("lAsk").innerHTML='<p class="lq">Cümlede hangi ifadeyi duydun?</p><div class="opts" id="lOpts">'+shuffle(opts).map((o,i)=>'<button class="opt" data-v="'+esc(o)+'"><span class="k">'+"ABCD"[i]+'</span><span>'+esc(o)+'</span></button>').join("")+'</div>';
-    $("lOpts").querySelectorAll(".opt").forEach(b=>b.onclick=()=>answerListen(b.dataset.v===L.cur.key,b));
+  if(L.mode==="kelime"){
+    const others=pool.filter(x=>x.en.toLowerCase()!==L.cur.en.toLowerCase());
+    const close=others.map(x=>({x,d:lev(x.en,L.cur.en)})).sort((a,b)=>a.d-b.d).slice(0,6).map(o=>o.x);
+    const opts=[L.cur.en];for(const o of shuffle(close).concat(shuffle(others))){if(!opts.some(e=>e.toLowerCase()===o.en.toLowerCase()))opts.push(o.en);if(opts.length===4)break}
+    $("lAsk").innerHTML='<p class="lq">Duyduğun kelimenin doğru yazılışı hangisi?</p><div class="opts" id="lOpts">'+shuffle(opts).map((o,i)=>'<button class="opt" data-v="'+esc(o)+'"><span class="k">'+"ABCD"[i]+'</span><span>'+esc(o)+'</span></button>').join("")+'</div>';
+    $("lOpts").querySelectorAll(".opt").forEach(b=>b.onclick=()=>answerListen(b.dataset.v===L.cur.en,b));
+  }else if(L.mode==="cumle"){
+    const tw=wset(L.cur.en),pc=plain(L.cur.en);
+    const others=pool.filter(x=>plain(x.en)!==pc).map(x=>{const w=wset(x.en);let c=0;w.forEach(v=>{if(tw.has(v))c++});return{x,s:c/(w.size+tw.size-c||1)-Math.abs(w.size-tw.size)*.02}}).sort((a,b)=>b.s-a.s);
+    const opts=[pc].concat(shuffle(others.slice(0,8)).slice(0,3).map(o=>plain(o.x.en)));
+    $("lAsk").innerHTML='<p class="lq">Duyduğun cümle hangisi?</p><div class="opts one" id="lOpts">'+shuffle(opts).map((o,i)=>'<button class="opt" data-v="'+esc(o)+'"><span class="k">'+"ABCD"[i]+'</span><span>'+esc(o)+'</span></button>').join("")+'</div>';
+    $("lOpts").querySelectorAll(".opt").forEach(b=>b.onclick=()=>answerListen(b.dataset.v===pc,b));
   }else{
     $("lAsk").innerHTML='<label class="lq" for="lInput">Duyduğun cümleyi yaz</label><div class="notebook dict"><textarea id="lInput" rows="2" placeholder="Duyduğunu buraya yaz…" autocomplete="off" autocapitalize="off" spellcheck="false"></textarea></div>'+
       '<div class="tactions"><button class="ghost" id="lGive">Bilmiyorum, göster</button><button class="primary" id="lCheck">Kontrol et</button></div>';
@@ -666,11 +696,17 @@ function newListen(){
 }
 function playListen(rate){
   if(!L.cur)return;L.plays++;
-  $("lPlayer").classList.add("playing");
-  $("lPlays").textContent=L.plays+". dinleme"+(rate?" · yavaş":"");
-  speak(L.cur.en,null,rate||.9,()=>$("lPlayer").classList.remove("playing"));
+  L.dev=!AIDX[fnv(akey(L.cur.en))];
+  speak(L.cur.en,null,rate||1,()=>{if(L.state!=="paused")setPlayState("idle")});
+  setPlayState("playing");
+  $("lPlays").textContent=L.plays+". dinleme"+(rate&&rate<.8?" · yavaş":"");
 }
-$("lPlay").onclick=()=>playListen();$("lAgain").onclick=()=>playListen();$("lSlow").onclick=()=>playListen(.6);
+function togglePlay(){
+  if(L.state==="playing"){try{L.dev?speechSynthesis.pause():player.pause()}catch(e){}setPlayState("paused");return}
+  if(L.state==="paused"){try{if(L.dev)speechSynthesis.resume();else{const p=player.play();if(p)p.catch(()=>{})}}catch(e){}setPlayState("playing");$("lPlays").textContent=L.plays+". dinleme";return}
+  playListen();
+}
+$("lPlay").onclick=togglePlay;$("lAgain").onclick=()=>playListen();$("lSlow").onclick=()=>playListen(.6);
 $("lModes").querySelectorAll("button").forEach(b=>b.onclick=()=>{
   L.mode=b.dataset.m;$("lModes").querySelectorAll("button").forEach(x=>x.setAttribute("aria-pressed",x===b));newListen();
 });
@@ -692,17 +728,21 @@ function checkDictation(give){
 function answerListen(ok,btn,extra){
   if(L.answered)return;L.answered=true;markActive();
   P.listen.n++;if(ok)P.listen.ok++;touch("l:"+L.cur.en);
-  if(L.cur.word){if(ok)srsOk(L.cur.word);else if(P.srs[L.cur.word]||P.learned[L.cur.word])srsWrong(L.cur.word)}
+  const w=L.mode==="kelime"?L.cur.en:L.cur.word;
+  if(w&&winfo(w)){if(ok)srsOk(w);else srsWrong(w)}
   save();renderListenStat();
-  if(btn){$("lOpts").querySelectorAll(".opt").forEach(b=>{b.disabled=true;if(b.dataset.v===L.cur.key)b.classList.add("ok")});if(!ok)btn.classList.add("no")}
+  if(btn){const right=L.mode==="cumle"?plain(L.cur.en):L.cur.en;$("lOpts").querySelectorAll(".opt").forEach(b=>{b.disabled=true;if(b.dataset.v===right)b.classList.add("ok")});if(!ok)btn.classList.add("no")}
   if(L.mode==="dikte"){$("lInput").disabled=true;$("lCheck").disabled=true;$("lGive").disabled=true}
+  const tip=ok?"Kulağın alışıyor.":L.mode==="kelime"?"Doğru yazılış: "+esc(L.cur.en)+". Bir kez daha dinle.":L.mode==="cumle"?"Doğru cümleyi yeşil şıkta görebilirsin. Bir kez daha dinle.":"Kırmızı kelimeleri kaçırdın. Yavaş dinleyip tekrar dene.";
+  const reveal=L.mode==="kelime"
+    ?'<div class="lreveal"><div><p><b>'+esc(L.cur.en)+'</b></p><small>'+esc(L.cur.tr)+'</small></div><div class="dbtns">'+sayBtn(L.cur.en,"sm")+(winfo(L.cur.en)?savBtn(L.cur.en,"sm"):"")+'</div></div>'
+    :'<div class="lreveal"><div><p>'+hl(L.cur.en)+'</p><small>'+esc(L.cur.tr)+'</small></div><div class="dbtns">'+sayBtn(L.cur.en,"sm")+(L.cur.word&&winfo(L.cur.word)?savBtn(L.cur.word,"sm"):"")+'</div></div>';
   const r=$("lResult");r.hidden=false;
-  r.innerHTML='<div class="pr-ex '+(ok?"g":"r")+'">'+ic(ok?"check":"x")+'<div>'+(ok?"Doğru!":"Bu sefer olmadı.")+' <span>'+(ok?"Kulağın alışıyor.":L.mode==="kolay"?"Doğru cevap: "+esc(L.cur.key)+". Cümleyi bir kez daha dinle.":"Kırmızı kelimeleri kaçırdın. Yavaş dinleyip tekrar dene.")+'</span></div></div>'+
-    (extra||"")+
-    '<div class="lreveal"><div><p>'+hl(L.cur.en)+'</p><small>'+esc(L.cur.tr)+'</small></div><div class="dbtns">'+sayBtn(L.cur.en,"sm")+(L.cur.word?savBtn(L.cur.word,"sm"):"")+'</div></div>'+
-    '<div class="pr-act"><button class="primary" id="lNext">Sonraki cümle'+ic("right")+'</button></div>';
+  r.innerHTML='<div class="pr-ex '+(ok?"g":"r")+'">'+ic(ok?"check":"x")+'<div>'+(ok?"Doğru!":"Bu sefer olmadı.")+' <span>'+tip+'</span></div></div>'+(extra||"")+reveal+
+    '<div class="pr-act"><button class="primary" id="lNext">Sonraki'+ic("right")+'</button></div>';
   $("lNext").onclick=()=>{newListen();playListen()};$("lNext").focus({preventScroll:true});
 }
+renderListenLevels();
 
 /* ================= BAŞLAT ================= */
 renderNav();renderStreak();renderTextLevels();newText();

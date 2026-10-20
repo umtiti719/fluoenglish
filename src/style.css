@@ -624,3 +624,11 @@ kbd{font-family:inherit;font-size:.76rem;background:var(--surface);border:1px so
 @media (prefers-reduced-motion:reduce){.player.playing .wave i{animation:none;height:18px}.toast,.savebtn,.tool,.playbtn{transition:none}}
 .page-head .backlink{display:flex;width:fit-content;margin:0 0 4px -4px}
 .page-head .backlink+.eyebrow{margin-top:4px!important}
+/* Dinleme seçimleri */
+.lsel{display:grid;grid-template-columns:1fr;gap:12px}
+.lsel-l{display:block;font-size:.78rem;font-weight:600;color:var(--muted);margin:0 0 6px 4px}
+.seg.three{grid-template-columns:repeat(3,1fr)}
+@media (max-width:520px){.seg.three button small{display:none}.seg.three button{font-size:.84rem;padding:9px 8px}}
+.opts.one{grid-template-columns:1fr}
+.player.playing .playbtn .ic{margin-left:0}
+@media (max-width:520px){.player{padding:16px 12px 14px;gap:10px}.playbtn{width:70px;height:70px}.playbtn .ic{width:28px;height:28px}.pctl{flex-wrap:nowrap}.pctl .ghost{padding:9px 13px;font-size:.86rem}.wave{height:26px}}

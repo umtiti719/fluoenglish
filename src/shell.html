@@ -155,18 +155,22 @@
         <a class="backlink" href="#ogren"><svg class="ic"><use href="#i-left"/></svg>Kelime Öğren</a>
         <span class="eyebrow c-learn" style="margin-top:10px">Dinleme</span>
         <h1 class="h-page">Dinle, anla, yaz</h1>
-        <p class="lead">Cümleyi dinle. Kolay modda duyduğun kelimeyi seç, dikte modunda cümlenin tamamını yaz. Cümle ancak cevap verdikten sonra görünür.</p>
+        <p class="lead">Seviyeni ve alıştırmayı seç, sonra dinle. Kelimenin ya da cümlenin yazılışı ancak cevap verdikten sonra görünür.</p>
       </div>
       <div class="ph-stat" id="listenStat"></div>
     </div>
     <div class="card listen">
-      <div class="seg two" id="lModes">
-        <button data-m="kolay" aria-pressed="true">Kelimeyi seç<small>Kolay</small></button>
-        <button data-m="dikte" aria-pressed="false">Cümleyi yaz<small>Dikte</small></button>
+      <div class="lsel">
+        <div><small class="lsel-l">Seviye</small><div class="seg" id="lLevels"></div></div>
+        <div><small class="lsel-l">Alıştırma</small><div class="seg three" id="lModes">
+          <button data-m="kelime" aria-pressed="true">Kelime dinle<small>Yazılışını seç</small></button>
+          <button data-m="cumle" aria-pressed="false">Cümle dinle<small>Doğru cümleyi seç</small></button>
+          <button data-m="dikte" aria-pressed="false">Cümleyi yaz<small>Dikte</small></button>
+        </div></div>
       </div>
       <div class="player aurora" id="lPlayer">
         <span class="badge" id="lSrc">Kaynak</span>
-        <button class="playbtn" id="lPlay" aria-label="Cümleyi dinle"><svg class="ic"><use href="#i-play"/></svg></button>
+        <button class="playbtn" id="lPlay" aria-label="Dinle"><svg class="ic"><use href="#i-play" id="lPlayIc"/></svg></button>
         <div class="wave" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
         <div class="pctl">
           <button class="ghost" id="lAgain"><svg class="ic"><use href="#i-refresh"/></svg>Tekrar dinle</button>
@@ -341,6 +345,7 @@
     <symbol id="i-bookmark" viewBox="0 0 24 24"><path d="M6 3h12v18l-6-4.5L6 21z"/></symbol>
     <symbol id="i-headphones" viewBox="0 0 24 24"><path d="M4 15v-3a8 8 0 0 1 16 0v3M4 15a2 2 0 0 1 2-2h1v7H6a2 2 0 0 1-2-2zM20 15a2 2 0 0 0-2-2h-1v7h1a2 2 0 0 0 2-2z"/></symbol>
     <symbol id="i-play" viewBox="0 0 24 24"><path d="M8 5l11 7-11 7z"/></symbol>
+    <symbol id="i-pause" viewBox="0 0 24 24"><path d="M7 5h3.5v14H7zM13.5 5H17v14h-3.5z"/></symbol>
     <symbol id="i-slow" viewBox="0 0 24 24"><path d="M12 7v5l3 2M12 3a9 9 0 1 0 9 9"/></symbol>
     <symbol id="i-search" viewBox="0 0 24 24"><path d="M11 4a7 7 0 1 0 0 14 7 7 0 0 0 0-14zM20 20l-4-4"/></symbol>
     <symbol id="i-alert" viewBox="0 0 24 24"><path d="M12 3l10 18H2zM12 10v5M12 18v.5"/></symbol>
