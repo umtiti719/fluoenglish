@@ -13,7 +13,10 @@
       <span class="brand-t"><b>Fluo</b><small>İngilizce çalışma alanın</small></span>
     </a>
     <nav class="nav" id="nav" aria-label="Bölümler"></nav>
-    <span class="streak" id="streak" title="Art arda çalıştığın gün sayısı"></span>
+    <div class="top-r">
+      <a class="gear" href="#ayarlar" id="gearBtn" aria-label="Ayarlar" title="Ayarlar"><svg class="ic"><use href="#i-gear"/></svg></a>
+      <span class="streak" id="streak" title="Art arda çalıştığın gün sayısı"></span>
+    </div>
   </div>
 </header>
 
@@ -289,6 +292,18 @@
     <div id="trResult"></div>
   </section>
 
+  <!-- ================= AYARLAR ================= -->
+  <section class="view" id="v-ayarlar" hidden>
+    <div class="page-head">
+      <div>
+        <span class="eyebrow"><svg class="ic"><use href="#i-gear"/></svg>Ayarlar</span>
+        <h1 class="h-page">Fluo'yu kendine göre ayarla</h1>
+        <p class="lead">Ayarların bu cihazda saklanır ve hemen uygulanır.</p>
+      </div>
+    </div>
+    <div class="settings" id="settings"></div>
+  </section>
+
   <!-- ================= METİN ÇEVİRİSİ ================= -->
   <section class="view" id="v-ceviri" hidden>
     <div class="page-head">
@@ -373,6 +388,9 @@
     <symbol id="i-doc" viewBox="0 0 24 24"><path d="M6 3h8l4 4v14H6zM14 3v4h4M9 12h6M9 16h6"/></symbol>
     <symbol id="i-swap" viewBox="0 0 24 24"><path d="M7 7h12l-3-3M17 17H5l3 3"/></symbol>
     <symbol id="i-copy" viewBox="0 0 24 24"><path d="M9 9h10v12H9zM5 15V3h10"/></symbol>
+    <symbol id="i-gear" viewBox="0 0 24 24"><path d="M12 9a3 3 0 1 0 0 6 3 3 0 0 0 0-6z"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></symbol>
+    <symbol id="i-moon" viewBox="0 0 24 24"><path d="M21 13A9 9 0 1 1 11 3a7 7 0 0 0 10 10z"/></symbol>
+    <symbol id="i-monitor" viewBox="0 0 24 24"><path d="M3 4h18v12H3zM8 20h8M12 16v4"/></symbol>
     <symbol id="i-alert" viewBox="0 0 24 24"><path d="M12 3l10 18H2zM12 10v5M12 18v.5"/></symbol>
   </defs>
 </svg>

@@ -6,7 +6,7 @@ const plain=s=>String(s).replace(/\*\*/g,"");
 const ic=n=>'<svg class="ic"><use href="#i-'+n+'"/></svg>';
 const shuffle=a=>{a=a.slice();for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a};
 const store={get(k){try{return JSON.parse(localStorage.getItem(k))}catch(e){return null}},set(k,v){try{localStorage.setItem(k,JSON.stringify(v))}catch(e){}}};
-const reduceMotion=()=>window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+const reduceMotion=()=>document.documentElement.classList.contains("rm")||window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 let sampleFn=null;
 (async()=>{try{sampleFn=await window.claude?.use?.("sample")}catch(e){sampleFn=null}})();
 
@@ -111,7 +111,7 @@ const canSpeak=t=>hasAudio(t)||(pickVoice(),!!enVoice);
 function deviceSpeak(text,rate,noRec){
   if(!enVoice)pickVoice();
   if(!enVoice){toast(noRec?"Bu ifadenin ses kaydı yok":"Ses yüklenemedi, bağlantını kontrol et");finishSpeak();return}
-  try{const u=new SpeechSynthesisUtterance(plain(text));u.voice=enVoice;u.lang=enVoice.lang;u.rate=rate&&rate<.8?.7:.9;
+  try{const u=new SpeechSynthesisUtterance(plain(text));u.voice=enVoice;u.lang=enVoice.lang;u.rate=(rate&&rate<.8?.7:.9)*(P.set.rate||1);
     u.onend=u.onerror=finishSpeak;speechSynthesis.speak(u)}catch(e){finishSpeak()}
 }
 function speak(text,btn,rate,onend){
@@ -120,7 +120,7 @@ function speak(text,btn,rate,onend){
   const h=fnv(akey(text)),g=AIDX[h];
   if(!g){deviceSpeak(text,rate,true);return}
   const play=()=>{const b64=window.FLUO_AUDIO[h];if(!b64){deviceSpeak(text,rate);return}
-    try{player.src="data:audio/mpeg;base64,"+b64;player.playbackRate=rate&&rate<.8?.72:1;player.preservesPitch=true;
+    try{player.src="data:audio/mpeg;base64,"+b64;player.playbackRate=(rate&&rate<.8?.72:1)*(P.set.rate||1);player.preservesPitch=true;
       const p=player.play();if(p)p.catch(()=>finishSpeak())}catch(e){finishSpeak()}};
   if(window.FLUO_AUDIO[h])play();else loadAudio(g).then(play,()=>deviceSpeak(text,rate));
 }
@@ -154,10 +154,11 @@ function renderNav(){
   $("nav").innerHTML=SECTIONS.map(s=>'<a href="#'+s.id+'" data-sec="'+s.id+'" style="--c:'+s.c+'">'+ic(s.icon)+s.label+'</a>').join("");
   $("tabbar").innerHTML=SECTIONS.map(s=>'<a href="#'+s.id+'" data-sec="'+s.id+'" style="--c:'+s.c+'">'+ic(s.icon)+'<span>'+s.short+'</span></a>').join("");
 }
-const VIEWS=["ana","ogren","calis","deckend","defter","dinle","yarisma","gramer","konu","cevir","ceviri"];
+const VIEWS=["ayarlar","ana","ogren","calis","deckend","defter","dinle","yarisma","gramer","konu","cevir","ceviri"];
 function showView(v,sec){
   VIEWS.forEach(x=>$("v-"+x).hidden=x!==v);
   document.querySelectorAll("[data-sec]").forEach(a=>{if(a.dataset.sec===sec)a.setAttribute("aria-current","page");else a.removeAttribute("aria-current")});
+  if(sec==="ayarlar")$("gearBtn").setAttribute("aria-current","page");else $("gearBtn").removeAttribute("aria-current");
 }
 let lastHash=null;
 function route(){
@@ -188,6 +189,7 @@ function route(){
     renderTopic(t);showView("konu","gramer");
   }
   else if(h==="metin"){showView("ceviri","metin")}
+  else if(h==="ayarlar"){renderSettings();showView("ayarlar","ayarlar")}
   else if(h==="cevir"){renderTrHint();showView("cevir","cevir");setTimeout(()=>{try{$("trInput").focus({preventScroll:true})}catch(e){}},50)}
   else{location.hash="ana";return}
   window.scrollTo({top:0,behavior:"auto"});
@@ -292,6 +294,7 @@ function showCard(){
   $("fPos").textContent=w[2];$("fLvl").textContent=d.level;$("fWord").textContent=w[0];
   $("bWordSmall").textContent=w[0];$("bMean").textContent=w[1];$("bEx").innerHTML=hl(w[3]||"");$("bExTr").textContent=w[4]||"";
   $("bexBox").hidden=!w[3];setSaveBtn($("sSave"),w[0]);
+  if(P.set.autoSpeak)setTimeout(()=>{if(!$("v-calis").hidden)speak(w[0],$("fSpeak"))},350);
   $("flip").classList.remove("flipped");S.flipped=false;
   const sc=$("scene");sc.style.transition="none";sc.style.transform="";sc.style.opacity="";
   if(!reduceMotion()){sc.classList.remove("flip-in");void sc.offsetWidth;sc.classList.add("flip-in")}
@@ -359,7 +362,7 @@ function renderLobby(){
     return '<button class="lvcard" data-lv="'+k+'" style="--c:var(--lv-'+k+')">'+
       '<div class="lvtop"><span class="cefr">'+L.cefr+'</span><span class="bars">'+[1,2,3,4].map(i=>'<i class="'+(i<=L.bars?"on":"")+'"></i>').join("")+'</span></div>'+
       '<p class="lvname">'+L.name+'</p><p class="lvdesc">'+L.desc+'</p><div class="lvsample">'+sample+'</div>'+
-      '<div class="lvfoot"><span>Rekor <b>'+(P.best[k]||0)+'</b> · '+L.time+' sn</span><span class="lvgo">Başla →</span></div></button>';
+      '<div class="lvfoot"><span>Rekor <b>'+(P.best[k]||0)+'</b> · '+Math.round(L.time*(P.set.quizTime==="uzun"?1.5:1))+' sn</span><span class="lvgo">Başla →</span></div></button>';
   }).join("");
   $("lobby").querySelectorAll(".lvcard").forEach(b=>b.onclick=()=>{const k=b.dataset.lv;startGame({key:k,name:LEVELS[k].name,cefr:LEVELS[k].cefr,c:"var(--lv-"+k+")",words:WORDS[k],time:LEVELS[k].time})});
 }
@@ -369,7 +372,7 @@ function startDeckQuiz(d){
   if(location.hash==="#yarisma")startGame(G.pending);else location.hash="yarisma";
 }
 function startGame(cfg){
-  G.pending=null;
+  G.pending=null;cfg=Object.assign({},cfg,{time:Math.round((cfg.baseTime||cfg.time)*(P.set.quizTime==="uzun"?1.5:1)),baseTime:cfg.baseTime||cfg.time});
   const Q=Math.min(10,cfg.words.length);
   Object.assign(G,{cfg,Q,phase:"game",active:true,list:shuffle(pickFresh(cfg.words,w=>"w:"+w[0],Q,w=>isDue(w[0]))),i:0,pts:0,streak:0,maxStreak:0,ok:0,no:0,pass:0,half:1,passes:2,res:[],missed:[],left:cfg.time,locked:true,cur:null,paused:false});
   ["game","end"].forEach(x=>$(x).style.setProperty("--c",cfg.c));$("gLevel").style.setProperty("--c",cfg.c);$("eLevel").style.setProperty("--c",cfg.c);
@@ -400,6 +403,7 @@ function ask(){
   const w=G.list[G.i];G.cur=w;G.locked=false;
   $("gQn").textContent=(G.i+1)+" / "+G.Q;renderSteps();
   $("gWord").textContent=w[0];$("gPos").textContent=w[2];setSaveBtn($("gSave"),w[0]);touch("w:"+w[0]);
+  if(P.set.autoSpeak)speak(w[0],$("gSpeak"));
   $("gFb").textContent="";$("gFb").className="feedback";
   const st=$("gStage");if(!reduceMotion()){st.classList.remove("flip-in");void st.offsetWidth;st.classList.add("flip-in")}
   const pool=G.cfg.words.filter(x=>x!==w&&x[1]!==w[1]);
@@ -930,6 +934,55 @@ async function doTranslate(auto){
   }
   finally{if(id===TR.busy)$("trGo").disabled=false}
 }
+
+/* ================= AYARLAR ================= */
+P.set=Object.assign({theme:"system",palette:"aurora",font:"normal",motion:false,rate:1,autoSpeak:false,quizTime:"normal"},P.set||{});
+const HOST_THEME=document.documentElement.getAttribute("data-theme");
+function applySettings(){
+  const r=document.documentElement,st=P.set;
+  if(st.theme==="system"){if(HOST_THEME)r.setAttribute("data-theme",HOST_THEME);else r.removeAttribute("data-theme")}
+  else r.setAttribute("data-theme",st.theme);
+  ["pal-okyanus","pal-gunbatimi","pal-orman"].forEach(c=>r.classList.remove(c));if(st.palette!=="aurora")r.classList.add("pal-"+st.palette);
+  r.classList.toggle("fs-buyuk",st.font==="buyuk");r.classList.toggle("rm",!!st.motion);
+}
+const PALETTES=[["aurora","Aurora","#4F80EC,#8A5CF0,#EB6D9F"],["okyanus","Okyanus","#2E7DD7,#22A6C9,#2FC7A0"],["gunbatimi","Gün batımı","#F28C38,#E8505B,#C2449B"],["orman","Orman","#2E8B57,#58A55C,#A3C24A"]];
+function renderSettings(){
+  const st=P.set;
+  const pills=(key,opts)=>'<div class="pills" role="group">'+opts.map(([v,l,icn])=>'<button data-k="'+key+'" data-v="'+v+'" aria-pressed="'+(String(st[key])===String(v))+'">'+(icn?ic(icn):"")+l+'</button>').join("")+'</div>';
+  const sw=(key,label)=>'<button class="switch" role="switch" data-sw="'+key+'" aria-checked="'+!!st[key]+'" aria-label="'+label+'"></button>';
+  const row=(t,d,ctl)=>'<div class="srow"><div><b>'+t+'</b><small>'+d+'</small></div>'+ctl+'</div>';
+  $("settings").innerHTML=
+    '<section class="sgroup"><h2>'+ic("sun")+'Görünüm</h2>'+
+      row("Tema","Sistem seçiliyse bilgisayarının ya da telefonunun temasını izler.",pills("theme",[["system","Sistem","monitor"],["light","Açık","sun"],["dark","Koyu","moon"]]))+
+      row("Renk paleti","Başlıklardaki degrade ve arka plan renkleri.",'<div class="swatches">'+PALETTES.map(([v,l,c])=>'<button class="swatch" data-k="palette" data-v="'+v+'" aria-pressed="'+(st.palette===v)+'"><i style="background:linear-gradient(135deg,'+c+')"></i>'+l+'</button>').join("")+'</div>')+
+      row("Yazı boyutu","Tüm yazıları büyütür.",pills("font",[["normal","Normal"],["buyuk","Büyük"]]))+
+      row("Animasyonları azalt","Kart dönme ve geçiş efektlerini kapatır.",sw("motion","Animasyonları azalt"))+
+    '</section>'+
+    '<section class="sgroup"><h2>'+ic("speaker")+'Ses</h2>'+
+      row("Konuşma hızı","Kelime ve cümlelerin okunma hızı.",pills("rate",[["1","Normal"],["0.85","Yavaş"]]))+
+      row("Otomatik seslendirme","Kelime kartı ya da yarışma kelimesi açılınca kendiliğinden okunur.",sw("autoSpeak","Otomatik seslendirme"))+
+      '<div class="srow"><div><b>Sesi dene</b><small>Ayarlarınla bir örnek dinle.</small></div>'+sayBtn("Could we have the bill, please?")+'</div>'+
+    '</section>'+
+    '<section class="sgroup"><h2>'+ic("trophy")+'Çalışma</h2>'+
+      row("Yarışma süresi","Uzun seçilirse her soruya %50 daha fazla süre verilir.",pills("quizTime",[["normal","Normal"],["uzun","Uzun"]]))+
+    '</section>'+
+    '<section class="sgroup"><h2>'+ic("alert")+'Veriler</h2>'+
+      row("Çeviri geçmişi","Son aramaları ve kaydedilmiş çevirileri siler.",'<button class="danger" id="clrTr">Temizle</button>')+
+      row("Tüm ilerlemeyi sıfırla","Öğrenilen kelimeler, tekrar takvimi, Defterim, rekorlar ve seri silinir. Geri alınamaz.",'<button class="danger" id="rstAll">Sıfırla</button>')+
+      '<p class="sabout">Fluo · ilerlemen ve ayarların yalnızca bu cihazdaki tarayıcıda saklanır.</p>'+
+    '</section>';
+  $("settings").querySelectorAll("[data-k]").forEach(b=>b.onclick=()=>{const k=b.dataset.k;let v=b.dataset.v;if(k==="rate")v=+v;P.set[k]=v;save();applySettings();renderSettings()});
+  $("settings").querySelectorAll("[data-sw]").forEach(b=>b.onclick=()=>{const k=b.dataset.sw;P.set[k]=!P.set[k];save();applySettings();renderSettings()});
+  $("clrTr").onclick=()=>{P.hist=[];TRC={};save();saveTRC();try{localStorage.removeItem("fluo_trc")}catch(e){}toast("Çeviri geçmişi temizlendi")};
+  const rb=$("rstAll");let armed=null;
+  rb.onclick=()=>{
+    if(!armed){rb.classList.add("armed");rb.textContent="Emin misin? Tekrar dokun";armed=setTimeout(()=>{armed=null;rb.classList.remove("armed");rb.textContent="Sıfırla"},4000);return}
+    clearTimeout(armed);const keep=P.set;try{["ka_p","fluo_trc","best_kolay","best_orta","best_zor","best_uzman"].forEach(k=>localStorage.removeItem(k));localStorage.setItem("ka_p",JSON.stringify({set:keep}))}catch(e){}
+    toast("İlerleme sıfırlandı");setTimeout(()=>{location.hash="ana";location.reload()},700);
+  };
+}
+applySettings();
+
 /* ================= BAŞLAT ================= */
 renderNav();renderStreak();renderTextLevels();newText();
 route();

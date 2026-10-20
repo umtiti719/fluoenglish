@@ -10,7 +10,7 @@
   --accent:#1B1F25; --accent-ink:#FFFFFF; --brand:#5260CF;
   --marigold:#F7AA4E; --on-marigold:#2A1A00;
   --good:#1E9E63; --good-bg:#E7F6EE; --bad:#D9485F; --bad-bg:#FDECEF; --warn:#C47414; --warn-bg:#FEF2E2;
-  --g1:#5CBFEB; --g2:#5260CF; --g3:#EB6D9F; --g4:#F7AA4E; --g5:#A87BE8;
+  --g1:#5CBFEB; --g2:#5260CF; --g3:#EB6D9F; --g4:#F7AA4E; --g5:#A87BE8; --gr1:#4F80EC; --gr2:#8A5CF0; --gr3:#EB6D9F;
   --tile1:#EEF4FE; --tile2:#FCEFF5;
   --m-learn:#2B93CF; --m-quiz:#E2832A; --m-gram:#5260CF; --m-trans:#D4558A;
   --t-learn:#E9F5FC; --t-quiz:#FEF2E3; --t-gram:#EDEFFC; --t-trans:#FCEDF3;
@@ -56,7 +56,7 @@
 
 *{box-sizing:border-box}
 html{scroll-behavior:smooth}
-body{background:var(--bg);color:var(--ink);font-family:var(--body);font-size:16.5px;line-height:1.55;margin:0;letter-spacing:-.005em}
+body{background:var(--bg);color:var(--ink);font-family:var(--body);font-size:1.03rem;line-height:1.55;margin:0;letter-spacing:-.005em}
 body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:30;background:var(--bg)}
 body::after{content:"";position:absolute;left:0;right:0;top:0;height:560px;z-index:-1;pointer-events:none;
   background:radial-gradient(40% 70% at 20% 0%,color-mix(in srgb,var(--g1) 16%,transparent),transparent 70%),radial-gradient(40% 70% at 80% 0%,color-mix(in srgb,var(--g3) 14%,transparent),transparent 70%)}
@@ -75,7 +75,7 @@ button{font:inherit;color:inherit}
     radial-gradient(42% 60% at 74% 88%,var(--g2),transparent 72%),
     radial-gradient(40% 55% at 28% 92%,var(--g3),transparent 72%),
     radial-gradient(30% 40% at 52% 48%,var(--g5),transparent 75%)}
-.grad{background:linear-gradient(90deg,#4F80EC,#8A5CF0 48%,#EB6D9F);-webkit-background-clip:text;background-clip:text;color:transparent}
+.grad{background:linear-gradient(90deg,var(--gr1),var(--gr2) 48%,var(--gr3));-webkit-background-clip:text;background-clip:text;color:transparent}
 
 /* ---------- Yüzen menü ---------- */
 .top{position:sticky;top:env(safe-area-inset-top,0px);z-index:20;padding-top:12px;padding-bottom:10px;background:linear-gradient(var(--bg) 55%,color-mix(in srgb,var(--bg) 0%,transparent));
@@ -85,7 +85,7 @@ button{font:inherit;color:inherit}
   border:1px solid var(--line);box-shadow:var(--shadow)}
 .brand{display:flex;align-items:center;gap:9px;text-decoration:none;min-width:0}
 .mark{display:grid;place-items:center;width:30px;height:30px;border-radius:9px;color:#fff;font-weight:700;font-size:.82rem;letter-spacing:-.03em;flex:none;
-  background:linear-gradient(135deg,#4F80EC,#8A5CF0 55%,#EB6D9F)}
+  background:linear-gradient(135deg,var(--gr1),var(--gr2) 55%,var(--gr3))}
 .brand-t b{font-weight:600;font-size:1rem;white-space:nowrap;letter-spacing:-.02em}
 .nav{display:flex;gap:2px;margin:0 auto}
 .nav a{display:flex;align-items:center;gap:6px;text-decoration:none;font-weight:500;font-size:.92rem;color:var(--muted);padding:7px 12px;border-radius:999px;white-space:nowrap}
@@ -139,7 +139,7 @@ button{font:inherit;color:inherit}
 .primary .arr,.primary .ic{flex:none}
 .primary .arr{display:grid;place-items:center;width:24px;height:24px;border-radius:50%;background:var(--accent-ink);color:var(--accent);margin-right:-10px}
 .primary .arr .ic{width:15px;height:15px}
-.primary.alt{background:linear-gradient(90deg,#4F80EC,#8A5CF0 55%,#EB6D9F);color:#fff}
+.primary.alt{background:linear-gradient(90deg,var(--gr1),var(--gr2) 55%,var(--gr3));color:#fff}
 .primary:disabled{opacity:.45;cursor:default;transform:none;box-shadow:none}
 .ghost{background:var(--surface2);border:1px solid var(--line);color:var(--ink)}
 .ghost:hover{background:var(--surface)}
@@ -358,7 +358,7 @@ kbd{font-family:inherit;font-size:.76rem;background:var(--surface);border:1px so
 .stars svg{width:42px;height:42px}
 .stars .on{fill:var(--marigold)}.stars .off{fill:var(--surface2)}
 .final{font-weight:600;font-size:3.6rem;line-height:1;letter-spacing:-.05em;font-variant-numeric:tabular-nums}
-.record{align-self:center;font-weight:600;font-size:.84rem;background:linear-gradient(90deg,#4F80EC,#8A5CF0 55%,#EB6D9F);color:#fff;padding:5px 14px;border-radius:999px}
+.record{align-self:center;font-weight:600;font-size:.84rem;background:linear-gradient(90deg,var(--gr1),var(--gr2) 55%,var(--gr3));color:#fff;padding:5px 14px;border-radius:999px}
 .stats4{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
 @media (max-width:460px){.stats4{grid-template-columns:repeat(2,1fr)}}
 .missed{text-align:left;display:flex;flex-direction:column;gap:8px}
@@ -486,7 +486,7 @@ kbd{font-family:inherit;font-size:.76rem;background:var(--surface);border:1px so
 .paper::before{content:"";position:absolute;inset:0;z-index:-1;border-radius:inherit;opacity:calc(var(--aur-a) * .7);background:radial-gradient(40% 70% at 0% 0%,var(--g1),transparent 72%),radial-gradient(40% 70% at 100% 100%,var(--g3),transparent 72%)}
 .paper-head{display:flex;align-items:center;gap:8px;font-size:.82rem;font-weight:600;color:var(--muted)}
 .flag{font-size:.7rem;font-weight:700;padding:3px 8px;border-radius:999px;background:var(--accent);color:var(--accent-ink);letter-spacing:.04em}
-.flag.tr{background:linear-gradient(90deg,#8A5CF0,#EB6D9F);color:#fff}
+.flag.tr{background:linear-gradient(90deg,var(--gr2),var(--gr3));color:#fff}
 .passage{margin:0;font-size:1.2rem;line-height:1.9}
 .w{cursor:pointer;border-radius:6px;padding:1px 2px;margin:0 -2px;border-bottom:1.5px dashed transparent;transition:background .15s}
 .w:hover{background:var(--surface);border-bottom-color:var(--muted)}
@@ -702,6 +702,52 @@ kbd{font-family:inherit;font-size:.76rem;background:var(--surface);border:1px so
 .trload.sm{padding:6px 4px;font-size:.88rem}
 .trload.sm span{width:6px;height:6px}
 
+/* ================= Ayarlar ================= */
+.top-r{display:flex;align-items:center;gap:8px;flex:none}
+@media (max-width:880px){.top-r{margin-left:auto}.streak{margin-left:0}}
+.gear{display:grid;place-items:center;width:36px;height:36px;border-radius:50%;color:var(--muted);text-decoration:none;transition:transform .3s,background .15s,color .15s}
+.gear:hover{background:var(--surface2);color:var(--ink);transform:rotate(45deg)}
+.gear[aria-current="page"]{background:var(--surface2);color:var(--ink)}
+.settings{display:grid;grid-template-columns:1fr 1fr;gap:16px;align-items:start}
+@media (max-width:900px){.settings{grid-template-columns:1fr}}
+.sgroup{background:var(--surface);border:1px solid var(--line);border-radius:24px;padding:8px 20px;box-shadow:var(--shadow);min-width:0}
+.sgroup>h2{display:flex;align-items:center;gap:10px;margin:12px 0 4px;font-weight:600;font-size:1.15rem;letter-spacing:-.02em}
+.sgroup>h2 .ic{width:32px;height:32px;padding:7px;border-radius:50%;background:var(--surface2);color:var(--brand)}
+.srow{display:flex;align-items:center;justify-content:space-between;gap:14px;padding:14px 0;border-top:1px solid var(--line);flex-wrap:wrap}
+.sgroup>h2+.srow{border-top:0}
+.srow>div:first-child{min-width:0;flex:1 1 200px}
+.srow b{display:block;font-weight:600}
+.srow small{display:block;color:var(--muted);font-size:.86rem;line-height:1.35;margin-top:2px}
+.pills{display:flex;gap:3px;padding:4px;border-radius:999px;background:var(--surface2);flex-wrap:wrap}
+.pills button{cursor:pointer;border:0;background:transparent;font-weight:600;font-size:.86rem;padding:7px 13px;border-radius:999px;color:var(--muted);display:flex;align-items:center;gap:6px}
+.pills button .ic{width:15px;height:15px}
+.pills button[aria-pressed="true"]{background:var(--surface);color:var(--ink);box-shadow:var(--shadow)}
+.swatches{display:flex;gap:10px;flex-wrap:wrap}
+.swatch{cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:5px;border:0;background:transparent;font-size:.78rem;font-weight:600;color:var(--muted);padding:0}
+.swatch i{display:block;width:40px;height:40px;border-radius:50%;box-shadow:inset 0 0 0 2px var(--surface),0 0 0 2px transparent;transition:box-shadow .15s}
+.swatch[aria-pressed="true"]{color:var(--ink)}
+.swatch[aria-pressed="true"] i{box-shadow:inset 0 0 0 3px var(--surface),0 0 0 2px var(--ink)}
+.switch{cursor:pointer;position:relative;width:48px;height:28px;border-radius:999px;border:0;background:var(--line);flex:none;transition:background .2s}
+.switch::after{content:"";position:absolute;left:3px;top:3px;width:22px;height:22px;border-radius:50%;background:#fff;box-shadow:0 1px 3px rgba(0,0,0,.25);transition:transform .2s}
+.switch[aria-checked="true"]{background:var(--good)}
+.switch[aria-checked="true"]::after{transform:translateX(20px)}
+.danger{cursor:pointer;font-weight:600;font-size:.88rem;padding:9px 16px;border-radius:999px;border:1px solid color-mix(in srgb,var(--bad) 40%,var(--line));background:var(--surface);color:var(--bad)}
+.danger.armed{background:var(--bad);color:#fff;border-color:var(--bad)}
+.sabout{color:var(--muted);font-size:.86rem;padding:14px 0;border-top:1px solid var(--line);margin:0}
+/* Renk paletleri (dosyanın sonunda: tema bloklarını ezer) */
+:root.pal-okyanus{--g1:#4CC9F0;--g2:#2E7DD7;--g3:#3DD6B5;--g4:#9AD7FF;--g5:#5E8BFF;--gr1:#2E7DD7;--gr2:#22A6C9;--gr3:#2FC7A0;--brand:#2E7DD7}
+:root.pal-gunbatimi{--g1:#FFB36B;--g2:#E8505B;--g3:#F47CA6;--g4:#FFD166;--g5:#F28C38;--gr1:#F28C38;--gr2:#E8505B;--gr3:#C2449B;--brand:#D9485F}
+:root.pal-orman{--g1:#8BD17C;--g2:#2E8B57;--g3:#C5E384;--g4:#F2C14E;--g5:#5CB88A;--gr1:#2E8B57;--gr2:#58A55C;--gr3:#A3C24A;--brand:#2E8B57}
+:root.fs-buyuk{font-size:112.5%}
+:root.rm *,:root.rm *::before,:root.rm *::after{animation:none!important;transition:none!important}
+/* Büyük yazıda üst menü aynı boyutta kalsın */
+:root.fs-buyuk .top .nav a{font-size:14.7px;padding:7px 11px}
+:root.fs-buyuk .top .nav a .ic{width:17px;height:17px}
+:root.fs-buyuk .brand-t b{font-size:17px}
+:root.fs-buyuk .streak{font-size:14px}
+:root.fs-buyuk .tabbar a{font-size:10.5px}
+@media (min-width:881px) and (max-width:1100px){:root.fs-buyuk .top .nav a{font-size:14px;padding:7px 9px}}
+
 </style>
 
 <header class="top">
@@ -711,7 +757,10 @@ kbd{font-family:inherit;font-size:.76rem;background:var(--surface);border:1px so
       <span class="brand-t"><b>Fluo</b><small>İngilizce çalışma alanın</small></span>
     </a>
     <nav class="nav" id="nav" aria-label="Bölümler"></nav>
-    <span class="streak" id="streak" title="Art arda çalıştığın gün sayısı"></span>
+    <div class="top-r">
+      <a class="gear" href="#ayarlar" id="gearBtn" aria-label="Ayarlar" title="Ayarlar"><svg class="ic"><use href="#i-gear"/></svg></a>
+      <span class="streak" id="streak" title="Art arda çalıştığın gün sayısı"></span>
+    </div>
   </div>
 </header>
 
@@ -987,6 +1036,18 @@ kbd{font-family:inherit;font-size:.76rem;background:var(--surface);border:1px so
     <div id="trResult"></div>
   </section>
 
+  <!-- ================= AYARLAR ================= -->
+  <section class="view" id="v-ayarlar" hidden>
+    <div class="page-head">
+      <div>
+        <span class="eyebrow"><svg class="ic"><use href="#i-gear"/></svg>Ayarlar</span>
+        <h1 class="h-page">Fluo'yu kendine göre ayarla</h1>
+        <p class="lead">Ayarların bu cihazda saklanır ve hemen uygulanır.</p>
+      </div>
+    </div>
+    <div class="settings" id="settings"></div>
+  </section>
+
   <!-- ================= METİN ÇEVİRİSİ ================= -->
   <section class="view" id="v-ceviri" hidden>
     <div class="page-head">
@@ -1071,6 +1132,9 @@ kbd{font-family:inherit;font-size:.76rem;background:var(--surface);border:1px so
     <symbol id="i-doc" viewBox="0 0 24 24"><path d="M6 3h8l4 4v14H6zM14 3v4h4M9 12h6M9 16h6"/></symbol>
     <symbol id="i-swap" viewBox="0 0 24 24"><path d="M7 7h12l-3-3M17 17H5l3 3"/></symbol>
     <symbol id="i-copy" viewBox="0 0 24 24"><path d="M9 9h10v12H9zM5 15V3h10"/></symbol>
+    <symbol id="i-gear" viewBox="0 0 24 24"><path d="M12 9a3 3 0 1 0 0 6 3 3 0 0 0 0-6z"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></symbol>
+    <symbol id="i-moon" viewBox="0 0 24 24"><path d="M21 13A9 9 0 1 1 11 3a7 7 0 0 0 10 10z"/></symbol>
+    <symbol id="i-monitor" viewBox="0 0 24 24"><path d="M3 4h18v12H3zM8 20h8M12 16v4"/></symbol>
     <symbol id="i-alert" viewBox="0 0 24 24"><path d="M12 3l10 18H2zM12 10v5M12 18v.5"/></symbol>
   </defs>
 </svg>
@@ -1748,7 +1812,7 @@ const plain=s=>String(s).replace(/\*\*/g,"");
 const ic=n=>'<svg class="ic"><use href="#i-'+n+'"/></svg>';
 const shuffle=a=>{a=a.slice();for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a};
 const store={get(k){try{return JSON.parse(localStorage.getItem(k))}catch(e){return null}},set(k,v){try{localStorage.setItem(k,JSON.stringify(v))}catch(e){}}};
-const reduceMotion=()=>window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+const reduceMotion=()=>document.documentElement.classList.contains("rm")||window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 let sampleFn=null;
 (async()=>{try{sampleFn=await window.claude?.use?.("sample")}catch(e){sampleFn=null}})();
 
@@ -1812,7 +1876,7 @@ function virtualDeck(id){
    Tüm kelime ve cümleler önceden doğal bir İngilizce sesle kaydedildi (audio-w/s/t.js).
    AIDX: metin anahtarının özeti -> hangi ses dosyasında olduğu. Kaydı olmayan nadir durumlarda
    yalnızca cihazda İngilizce ses varsa cihaz sesi kullanılır; Türkçe sesle İngilizce okunmaz. */
-const AIDX={"1tp6k76":"w","4a1f4m":"s","16s92ee":"w","quefew":"s","51sghr":"w","1425u5m":"s","pae38o":"w","1l2x0yx":"s","y5ipd2":"w","1kyjlvu":"s","ssc84w":"w","1werk3a":"s","skwp1e":"w","155cc8k":"s","10bq9fe":"w","10xj11q":"s","rlwagd":"w","fdu8ti":"s","16tc5e4":"w","1wel7ob":"s","174vvib":"w","wcpvmn":"s","4vdta8":"w","5u1y2q":"s","1tm9zv3":"w","7y3lbh":"s","kl3gpa":"w","w0uyqp":"s","ey0l8m":"w","t790z9":"s","1ct6wvd":"w","1mm2aet":"s","1rfrahn":"w","r3uu7s":"s","1dwebyw":"w","1vur67n":"s","sq7l1t":"w","1y4lwbh":"s","1wggxjf":"w","l8gukf":"s","1fyyrrw":"w","mn1w7n":"s","2n13jv":"w","8mi8bc":"s","1e2oe22":"w","1pce7u8":"s","1evi889":"w","13v4u28":"s","1dmo43j":"w","1m24p12":"s","a2rz23":"w","1w7axo3":"s","a19jyy":"w","1wg5cqn":"s","lvb8bc":"w","vp8q67":"s","1hpma7s":"w","1wmlekn":"s","1uhvyzb":"w","1ehkq92":"s","9qlss4":"w","mkzapw":"s","c75buy":"w","2q06ta":"s","12lik7s":"w","7zydce":"s","1jkjbl":"w","ocuwyd":"s","1w4azkb":"w","onw5j5":"s","14yrt4c":"w","vk5owq":"s","jrjir9":"w","ettwvh":"s","p9t0ec":"w","l7na3d":"s","q5c5dv":"w","qn5u50":"s","a6xv7f":"w","8koxee":"s","lxqs9g":"w","h3rkik":"s","3ysw2y":"w","1s0aiae":"s","1jnvbj5":"w","1w11kkw":"s","1b7lhos":"w","1alx1j9":"s","15bryb7":"w","wa8el3":"s","1k2kmd2":"w","1fhbylg":"s","1d6uhhx":"w","53d0tb":"s","brbrmk":"w","ib2t3j":"s","11i216n":"w","1ttqrsw":"s","pakpdu":"w","1sx2w8u":"s","d6r69j":"w","nlaq08":"s","2f9bne":"w","k0zgo6":"s","1hhhg0b":"w","1q46gkb":"s","1w07mpa":"w","2yz04s":"s","npwchx":"w","qu97yp":"s","m4yn46":"w","ni3467":"s","44ej3l":"w","7l6vo3":"s","tog6sf":"w","fr2bqa":"s","gw5jfh":"w","isqgva":"s","zrutsu":"w","1bjpb42":"s","1ou5sr8":"w","161u40h":"s","1u4umhl":"w","1d5nvdc":"s","1pkeh9q":"w","1sa3owa":"s","1nhp8xk":"w","1u6aofm":"s","1i2tuxn":"w","18d288i":"s","t9e0zz":"w","5v6c3o":"s","meuc4g":"w","i1oy2n":"s","1l6atvm":"w","15sufgw":"s","zbbph1":"w","gdtpfq":"s","1axfl02":"w","1r9pi6d":"s","1h0kdq6":"w","34wjzc":"s","nll7ta":"w","1ce27u5":"s","1lu1ipf":"w","zuzhox":"s","dlsbuh":"w","1xazktt":"s","b45n5g":"w","ovdhgg":"s","f2by1k":"w","1mnupnq":"s","nsqmfl":"w","1hregd2":"s","1yba8i6":"w","7zggeo":"s","98s7on":"w","4hjps8":"s","1a02u08":"w","sggm2h":"s","x2r4dt":"w","e333pd":"s","hw6li":"w","fojktq":"s","oy5dk3":"w","16ehoas":"s","1urwiww":"w","1r4pudx":"s","1r9yw6o":"w","12vdahl":"s","17pgyel":"w","1fh10nn":"s","1lmjo4o":"w","1oda5ok":"s","1msfp3v":"w","1utcbag":"s","1r1289y":"w","855b7a":"s","1wqonks":"w","19z82tn":"s","qpkrdg":"w","1nbiqpf":"s","1gzom1w":"w","1418e8q":"s","ocgeo2":"w","u9bmcl":"s","1w39ce3":"w","1v6xbgb":"s","rdnn4y":"w","dgdeb0":"s","owgdar":"w","hq5ekv":"s","15jpz6h":"w","d684r":"s","1x84g0s":"w","1wwgwn4":"s","bl8dyq":"w","9d6384":"s","bvaimf":"w","ui58iw":"s","q28tpz":"w","hxhy1k":"s","efkmh6":"w","188zngy":"s","98byuu":"w","j6z4w9":"s","pss325":"w","5h2btr":"s","skhhgf":"w","cwgrkc":"s","10ygyt0":"w","9znp21":"s","7ilz0e":"w","h7rhgo":"s","1ydw718":"w","18660t4":"s","1wf2vyv":"w","1fyxcme":"s","ol2sir":"w","19jbxwr":"s","xsuihn":"w","1noui6a":"s","805gzq":"w","bx2481":"s","87rxzv":"w","1u6j76n":"s","maq1ed":"w","1cbhwn3":"s","rpiqmg":"w","1czj4v0":"s","1bv1iao":"w","1h8sz2j":"s","1h10o36":"w","1jp3q4j":"s","1yplcwo":"w","1cbuvge":"s","nqaiw7":"w","1898wmv":"s","1liovt7":"w","1qykyox":"s","1gk0i31":"w","xhurtg":"s","17e63c":"w","1jqh238":"s","1vpu6x0":"w","yy6u53":"s","4aqx64":"w","q35g2s":"s","1seu57w":"w","ovkulv":"s","w17d18":"w","18q37i0":"s","19foak7":"w","dacyq4":"s","ie59h0":"w","mwb9e0":"s","11kabg3":"w","21pvig":"s","bkecf3":"w","1i3bg3i":"s","xsf6cb":"w","19fqj05":"s","7rop04":"w","18eah9c":"s","4n5tbz":"w","3lo2u3":"w","kgxbtc":"w","1rxhqfd":"w","1sh0cn":"w","18hsyp":"w","1khz72l":"w","187e2tl":"w","18snrod":"w","1jlnylh":"w","pq0cju":"w","ue7a39":"w","1q8iyjl":"w","9f7qy1":"w","ms7go9":"w","3tiqte":"w","yh2ur3":"w","1qim4b3":"w","vhy1h":"w","jizlsh":"w","1731wz6":"w","eeeucv":"w","126ubwz":"w","bzv6e3":"w","16lie6p":"w","n8z649":"w","195uvm4":"w","1t01pu7":"w","1yorp3o":"w","pr3cf":"w","b9jhu9":"w","8rgvro":"w","4peu0s":"w","vn6x1x":"w","142jlds":"w","15ereke":"w","1h7863":"w","mbe0xq":"w","psrqtc":"w","u32v51":"w","bvjc22":"w","1grd3rw":"w","129m39k":"w","1mnbg09":"w","s96u7f":"w","gfnkiu":"w","18foljk":"w","fnsvzu":"w","1229eow":"w","zcokr9":"w","ibe1mm":"w","smyztw":"w","16u4po7":"w","1bseo86":"w","wo8lck":"w","s6ocxs":"w","1u27rxd":"w","jy6vrf":"w","d4scke":"w","548cws":"w","gv56u4":"w","wszl1h":"w","1172pm2":"w","n5qg3d":"w","x3ygh3":"w","gfr9pk":"w","1pm9rb":"w","3hihs5":"w","1iv6vvp":"w","1gr0u5w":"w","ns72fp":"w","8jguwi":"w","1tzb2nu":"w","d1npvs":"w","q67o65":"w","2duuzu":"w","heegvf":"w","hqkyyi":"w","14rskrt":"w","1lajssz":"w","919oe":"w","1wzks2h":"w","1xnvfgh":"w","1ctbthw":"w","xgqbfi":"w","1uzhvt3":"w","1mfq46n":"w","a2lc13":"w","skramw":"w","1prieb6":"w","18ow2dz":"w","1qvb8xg":"w","jfcp2r":"w","11e7zc4":"w","13lzhl5":"w","gvruj2":"w","j25ntf":"w","qc9kby":"w","17i1lr1":"w","1vg4rrn":"w","wgi10d":"w","68irb1":"w","1l8lh2g":"w","rv916y":"w","1y940fg":"w","p1k57s":"w","bix4rw":"w","1ud5v5h":"w","1q2jppl":"w","3yftnq":"w","nl8ek1":"w","gagvss":"w","9he0e9":"w","10y5h77":"w","g9t27n":"w","g7vuoe":"w","1n3s02b":"w","1r8x8ng":"w","7jvlxt":"w","amxkff":"w","10v4w58":"w","1mg5kb7":"w","17zzniu":"w","191z7l7":"w","pvhcf":"w","1yfh52d":"w","1k9rc2u":"w","f7w2u9":"w","1p1tvah":"w","opfrt8":"w","1gv35y9":"w","18uryx2":"w","136phce":"w","1nh8nr8":"w","ixkchf":"w","1de38gx":"w","whwgtx":"w","1hg8az":"w","1w36puz":"w","seytw8":"w","ap0fvl":"w","zrm04b":"w","1arpt4z":"w","by7ol0":"w","xv3yq1":"w","1m7oswu":"w","19vnbf8":"w","1czuwnn":"w","140yn0n":"w","hosjoa":"w","fjk7wm":"w","13r7zq7":"w","1m84oga":"w","1p8a6jg":"w","13ski0b":"w","uqxf3r":"w","11vzplu":"w","1afa76k":"w","1i2cydj":"w","1p8yra":"w","1y5o65x":"w","lcqihj":"w","1furz48":"w","basieu":"w","1ffro7w":"w","284ied":"w","1vgpp2e":"w","1ykxjku":"w","18hzymt":"w","j9v5yi":"w","xwc7sc":"w","jujr95":"w","v2w5l0":"w","1igibiv":"w","an7ig2":"w","304gsy":"w","1rjpnr8":"w","x3wmm3":"w","1mbelro":"w","49bbi5":"w","1dffya8":"w","13k79px":"w","y1td2e":"w","186h8vk":"w","d8ahkc":"w","wn4hnj":"w","1rhwr2g":"w","zasvpn":"s","lel98r":"s","c7kmne":"s","1jjz53m":"s","y3h4jv":"s","ejn6hk":"s","jisft0":"s","um07mh":"s","n25jd8":"s","tkj6sg":"s","82mg0y":"s","olfwvu":"s","1tqiei4":"s","1wom92m":"s","1hcxodd":"s","liwav5":"s","3y5u73":"s","nlcsuc":"s","15y8epx":"s","1lm7cdq":"s","18xw3yb":"s","reb8z2":"s","xp94wk":"s","1rn3tqt":"s","tsjc2w":"s","40awo3":"s","1ftaamp":"s","16tx4pw":"s","14uqlk4":"s","1bnjrzb":"s","1e538iu":"s","1ycs7yk":"s","1ngemmd":"s","jk0r77":"s","vc8ct9":"s","1sg6h6r":"s","1nrwjjg":"s","1we3gxx":"s","1qf1z6z":"s","pua8te":"s","khhgkg":"s","jeddro":"s","c7rfx8":"s","19p3pai":"s","1p6cb24":"s","11n2njg":"s","1p4n8qt":"s","ygrp7r":"s","1s7o1gl":"s","gfler4":"s","kp4f5q":"s","1hg160u":"s","y4uf91":"s","1gd9qgd":"s","1fcwmy6":"s","bldzyf":"s","84ebhq":"s","1ahkr9d":"s","nzv7n6":"s","1s2l6dx":"s","1cvk9ky":"s","12ojykm":"s","jxfkjc":"s","nrcvun":"s","jp9noc":"s","rsgkpz":"s","1jh4yyl":"s","c7si1l":"s","1f8ne05":"s","1o77r0y":"s","1df58fa":"s","16igs2m":"s","1uu20l4":"s","1d65sfy":"s","19or2rs":"s","q7fngl":"s","e0m2c":"s","32oqtt":"s","d53hh8":"s","14ethqv":"s","1ky9dvh":"s","89c1t9":"s","1gu92h6":"s","ztbcon":"s","64izx8":"s","10k27u5":"s","164w4sh":"s","6u3zmb":"t","l4xqxf":"w","136nuue":"w","lpbrx1":"w","4h9v63":"w","1thtbr8":"w","27aenj":"w","i3gxwe":"w","1r9wi7g":"w","3esgvd":"w","plrc89":"w","1w79wjf":"w","47gkh2":"w","16okdkp":"t","2kz9j8":"w","5yargx":"w","1dy1kx5":"w","18ynt7s":"w","1rks22e":"w","iciszv":"w","idyip0":"w","ncrez8":"w","ql981l":"w","gopcn":"t","1dyjk0s":"w","f1wd5f":"w","1ttel29":"w","llgpcz":"w","b1hmw3":"w","1rgrogu":"w","9eduy":"w","4gdahn":"w","13jtb3r":"t","1yl8gm9":"w","t5orj":"w","ctww6z":"w","269c7l":"w","1sp5z35":"w","1tys5b7":"w","l6bh6w":"w","t6uqnc":"w","1vwajkc":"w","fj9bp6":"w","ey28pv":"t","rpp1cp":"w","1y60r3o":"w","19abdji":"w","194bvpk":"w","69b2dh":"w","1fdflak":"w","6cll2q":"w","102bcjc":"w","1yi17ow":"w","1jgxqng":"w","1szfpjr":"w","ieghsn":"w","5d1cbj":"w","1j02n8g":"w","1de3cvt":"w","1sgpk2o":"w","1wewy2y":"w","3yxe2g":"t","fvk4cm":"w","meb4bg":"w","12m5gkv":"w","15c350b":"w","1ivcuga":"w","1leehtx":"w","z1d27f":"w","1rciku5":"w","1br7v2m":"w","oapfjo":"w","pq4mtm":"w","zd8bh5":"w","192uu89":"w","1x1b4sa":"t","15z4g8m":"w","h0g8nd":"w","bkgu4q":"w","1xgxm1k":"w","xvse53":"w","1tuu8bt":"w","3cwswb":"w","kbfdzo":"t","1qldj8i":"w","15ob10u":"w","pexppc":"w","15kc5th":"w","1mhgqdq":"w","bah8fr":"w","jrek28":"w","1uxasbl":"w","pvbdgk":"w","qv8tqk":"w","1vj1qpd":"w","1rasgdf":"w","1dq2e9p":"w","1v5y4zm":"w","hqqig3":"w","1kllaav":"w","16m15zp":"w","1828ier":"t","nrqbwb":"w","ktsfpw":"w","1034izq":"w","zte3i7":"w","1a5p1vn":"w","2twdau":"w","2hw890":"w","1kcnkfg":"w","cnlw4o":"w","ueleig":"w","83ku18":"w","tb6js6":"w","1fn8tsl":"w","1967r2v":"w","1rz7rsm":"t","ngat2n":"w","14dp4n8":"w","1yd9zx2":"w","3llbt8":"w","1uptt2d":"w","1h01x54":"w","dtio16":"w","99n4xp":"w","2g5142":"w","ynfys5":"w","12ypy20":"w","1m59ain":"w","1mc2eh5":"w","1uz475n":"t","1dn8eky":"w","1y377yb":"w","1m6juc8":"w","17xgd48":"w","ta6k7s":"w","12t0e6y":"w","1ldgg9e":"w","3tzawb":"w","1lm8tya":"w","8gnrvw":"w","wa74xa":"w","1sb63mn":"w","t6twlj":"t","1ax46k9":"w","blicgl":"w","1sgzb5k":"w","1lf86w":"w","4ggkul":"w","1d8gyf8":"w","1rl44io":"w","1t3bnwu":"w","2zxo3l":"t","ctbp52":"w","q9mgir":"w","qoyjro":"w","6y5k7z":"w","nr96l1":"w","1qc7sfo":"w","ld0yns":"w","qyxx3k":"w","hmg7h":"w","g0n05k":"w","fl2jk0":"w","7403ea":"w","iiub93":"t","1suceuu":"w","1ifc03q":"w","uhhkmd":"w","o60jj":"w","1o21o6d":"w","1qwwioi":"w","oaxf2g":"w","56zian":"w","15v6o4n":"w","6kucl3":"t","1yhtvw0":"w","rfgyq4":"w","1lmglyi":"w","t16jrr":"w","1lfk7bu":"w","4bk4jr":"w","17uvg9d":"w","1dwqkq8":"w","18yqvx4":"t","142v761":"w","1yi1itt":"w","1qmf5n7":"w","1w92ajg":"w","1vf26n6":"w","a4ixn":"w","1xqeur6":"w","2jnd12":"w","4rbl63":"w","1m0z0fc":"s","1najz01":"s","1i2jjhc":"s","1h7jdme":"s","1ybkpxi":"s","1fu0h1t":"s","ofzrxp":"s","obcwgb":"s","1fgtvc5":"s","l69376":"s","tx9m7x":"s","1ubne4d":"s","dljfjo":"s","edx4fw":"s","170v68w":"s"};
+const AIDX={"1tp6k76":"w","4a1f4m":"s","16s92ee":"w","quefew":"s","51sghr":"w","1425u5m":"s","pae38o":"w","1l2x0yx":"s","y5ipd2":"w","1kyjlvu":"s","ssc84w":"w","1werk3a":"s","skwp1e":"w","155cc8k":"s","10bq9fe":"w","10xj11q":"s","rlwagd":"w","fdu8ti":"s","16tc5e4":"w","1wel7ob":"s","174vvib":"w","wcpvmn":"s","4vdta8":"w","5u1y2q":"s","1tm9zv3":"w","7y3lbh":"s","kl3gpa":"w","w0uyqp":"s","ey0l8m":"w","t790z9":"s","1ct6wvd":"w","1mm2aet":"s","1rfrahn":"w","r3uu7s":"s","1dwebyw":"w","1vur67n":"s","sq7l1t":"w","1y4lwbh":"s","1wggxjf":"w","l8gukf":"s","1fyyrrw":"w","mn1w7n":"s","2n13jv":"w","8mi8bc":"s","1e2oe22":"w","1pce7u8":"s","1evi889":"w","13v4u28":"s","1dmo43j":"w","1m24p12":"s","a2rz23":"w","1w7axo3":"s","a19jyy":"w","1wg5cqn":"s","lvb8bc":"w","vp8q67":"s","1hpma7s":"w","1wmlekn":"s","1uhvyzb":"w","1ehkq92":"s","9qlss4":"w","mkzapw":"s","c75buy":"w","2q06ta":"s","12lik7s":"w","7zydce":"s","1jkjbl":"w","ocuwyd":"s","1w4azkb":"w","onw5j5":"s","14yrt4c":"w","vk5owq":"s","jrjir9":"w","ettwvh":"s","p9t0ec":"w","l7na3d":"s","q5c5dv":"w","qn5u50":"s","a6xv7f":"w","8koxee":"s","lxqs9g":"w","h3rkik":"s","3ysw2y":"w","1s0aiae":"s","1jnvbj5":"w","1w11kkw":"s","1b7lhos":"w","1alx1j9":"s","15bryb7":"w","wa8el3":"s","1k2kmd2":"w","1fhbylg":"s","1d6uhhx":"w","53d0tb":"s","brbrmk":"w","ib2t3j":"s","11i216n":"w","1ttqrsw":"s","pakpdu":"w","1sx2w8u":"s","d6r69j":"w","nlaq08":"s","2f9bne":"w","k0zgo6":"s","1hhhg0b":"w","1q46gkb":"s","1w07mpa":"w","2yz04s":"s","npwchx":"w","qu97yp":"s","m4yn46":"w","ni3467":"s","44ej3l":"w","7l6vo3":"s","tog6sf":"w","fr2bqa":"s","gw5jfh":"w","isqgva":"s","zrutsu":"w","1bjpb42":"s","1ou5sr8":"w","161u40h":"s","1u4umhl":"w","1d5nvdc":"s","1pkeh9q":"w","1sa3owa":"s","1nhp8xk":"w","1u6aofm":"s","1i2tuxn":"w","18d288i":"s","t9e0zz":"w","5v6c3o":"s","meuc4g":"w","i1oy2n":"s","1l6atvm":"w","15sufgw":"s","zbbph1":"w","gdtpfq":"s","1axfl02":"w","1r9pi6d":"s","1h0kdq6":"w","34wjzc":"s","nll7ta":"w","1ce27u5":"s","1lu1ipf":"w","zuzhox":"s","dlsbuh":"w","1xazktt":"s","b45n5g":"w","ovdhgg":"s","f2by1k":"w","1mnupnq":"s","nsqmfl":"w","1hregd2":"s","1yba8i6":"w","7zggeo":"s","98s7on":"w","4hjps8":"s","1a02u08":"w","sggm2h":"s","x2r4dt":"w","e333pd":"s","hw6li":"w","fojktq":"s","oy5dk3":"w","16ehoas":"s","1urwiww":"w","1r4pudx":"s","1r9yw6o":"w","12vdahl":"s","17pgyel":"w","1fh10nn":"s","1lmjo4o":"w","1oda5ok":"s","1msfp3v":"w","1utcbag":"s","1r1289y":"w","855b7a":"s","1wqonks":"w","19z82tn":"s","qpkrdg":"w","1nbiqpf":"s","1gzom1w":"w","1418e8q":"s","ocgeo2":"w","u9bmcl":"s","1w39ce3":"w","1v6xbgb":"s","rdnn4y":"w","dgdeb0":"s","owgdar":"w","hq5ekv":"s","15jpz6h":"w","d684r":"s","1x84g0s":"w","1wwgwn4":"s","bl8dyq":"w","9d6384":"s","bvaimf":"w","ui58iw":"s","q28tpz":"w","hxhy1k":"s","efkmh6":"w","188zngy":"s","98byuu":"w","j6z4w9":"s","pss325":"w","5h2btr":"s","skhhgf":"w","cwgrkc":"s","10ygyt0":"w","9znp21":"s","7ilz0e":"w","h7rhgo":"s","1ydw718":"w","18660t4":"s","1wf2vyv":"w","1fyxcme":"s","ol2sir":"w","19jbxwr":"s","xsuihn":"w","1noui6a":"s","805gzq":"w","bx2481":"s","87rxzv":"w","1u6j76n":"s","maq1ed":"w","1cbhwn3":"s","rpiqmg":"w","1czj4v0":"s","1bv1iao":"w","1h8sz2j":"s","1h10o36":"w","1jp3q4j":"s","1yplcwo":"w","1cbuvge":"s","nqaiw7":"w","1898wmv":"s","1liovt7":"w","1qykyox":"s","1gk0i31":"w","xhurtg":"s","17e63c":"w","1jqh238":"s","1vpu6x0":"w","yy6u53":"s","4aqx64":"w","q35g2s":"s","1seu57w":"w","ovkulv":"s","w17d18":"w","18q37i0":"s","19foak7":"w","dacyq4":"s","ie59h0":"w","mwb9e0":"s","11kabg3":"w","21pvig":"s","bkecf3":"w","1i3bg3i":"s","xsf6cb":"w","19fqj05":"s","7rop04":"w","18eah9c":"s","4n5tbz":"w","3lo2u3":"w","kgxbtc":"w","1rxhqfd":"w","1sh0cn":"w","18hsyp":"w","1khz72l":"w","187e2tl":"w","18snrod":"w","1jlnylh":"w","pq0cju":"w","ue7a39":"w","1q8iyjl":"w","9f7qy1":"w","ms7go9":"w","3tiqte":"w","yh2ur3":"w","1qim4b3":"w","vhy1h":"w","jizlsh":"w","1731wz6":"w","eeeucv":"w","126ubwz":"w","bzv6e3":"w","16lie6p":"w","n8z649":"w","195uvm4":"w","1t01pu7":"w","1yorp3o":"w","pr3cf":"w","b9jhu9":"w","8rgvro":"w","4peu0s":"w","vn6x1x":"w","142jlds":"w","15ereke":"w","1h7863":"w","mbe0xq":"w","psrqtc":"w","u32v51":"w","bvjc22":"w","1grd3rw":"w","129m39k":"w","1mnbg09":"w","s96u7f":"w","gfnkiu":"w","18foljk":"w","fnsvzu":"w","1229eow":"w","zcokr9":"w","ibe1mm":"w","smyztw":"w","16u4po7":"w","1bseo86":"w","wo8lck":"w","s6ocxs":"w","1u27rxd":"w","jy6vrf":"w","d4scke":"w","548cws":"w","gv56u4":"w","wszl1h":"w","1172pm2":"w","n5qg3d":"w","x3ygh3":"w","gfr9pk":"w","1pm9rb":"w","3hihs5":"w","1iv6vvp":"w","1gr0u5w":"w","ns72fp":"w","8jguwi":"w","1tzb2nu":"w","d1npvs":"w","q67o65":"w","2duuzu":"w","heegvf":"w","hqkyyi":"w","14rskrt":"w","1lajssz":"w","919oe":"w","1wzks2h":"w","1xnvfgh":"w","1ctbthw":"w","xgqbfi":"w","1uzhvt3":"w","1mfq46n":"w","a2lc13":"w","skramw":"w","1prieb6":"w","18ow2dz":"w","1qvb8xg":"w","jfcp2r":"w","11e7zc4":"w","13lzhl5":"w","gvruj2":"w","j25ntf":"w","qc9kby":"w","17i1lr1":"w","1vg4rrn":"w","wgi10d":"w","68irb1":"w","1l8lh2g":"w","rv916y":"w","1y940fg":"w","p1k57s":"w","bix4rw":"w","1ud5v5h":"w","1q2jppl":"w","3yftnq":"w","nl8ek1":"w","gagvss":"w","9he0e9":"w","10y5h77":"w","g9t27n":"w","g7vuoe":"w","1n3s02b":"w","1r8x8ng":"w","7jvlxt":"w","amxkff":"w","10v4w58":"w","1mg5kb7":"w","17zzniu":"w","191z7l7":"w","pvhcf":"w","1yfh52d":"w","1k9rc2u":"w","f7w2u9":"w","1p1tvah":"w","opfrt8":"w","1gv35y9":"w","18uryx2":"w","136phce":"w","1nh8nr8":"w","ixkchf":"w","1de38gx":"w","whwgtx":"w","1hg8az":"w","1w36puz":"w","seytw8":"w","ap0fvl":"w","zrm04b":"w","1arpt4z":"w","by7ol0":"w","xv3yq1":"w","1m7oswu":"w","19vnbf8":"w","1czuwnn":"w","140yn0n":"w","hosjoa":"w","fjk7wm":"w","13r7zq7":"w","1m84oga":"w","1p8a6jg":"w","13ski0b":"w","uqxf3r":"w","11vzplu":"w","1afa76k":"w","1i2cydj":"w","1p8yra":"w","1y5o65x":"w","lcqihj":"w","1furz48":"w","basieu":"w","1ffro7w":"w","284ied":"w","1vgpp2e":"w","1ykxjku":"w","18hzymt":"w","j9v5yi":"w","xwc7sc":"w","jujr95":"w","v2w5l0":"w","1igibiv":"w","an7ig2":"w","304gsy":"w","1rjpnr8":"w","x3wmm3":"w","1mbelro":"w","49bbi5":"w","1dffya8":"w","13k79px":"w","y1td2e":"w","186h8vk":"w","d8ahkc":"w","wn4hnj":"w","1rhwr2g":"w","zasvpn":"s","lel98r":"s","c7kmne":"s","1jjz53m":"s","y3h4jv":"s","ejn6hk":"s","jisft0":"s","um07mh":"s","n25jd8":"s","tkj6sg":"s","82mg0y":"s","olfwvu":"s","1tqiei4":"s","1wom92m":"s","1hcxodd":"s","liwav5":"s","3y5u73":"s","nlcsuc":"s","15y8epx":"s","1lm7cdq":"s","18xw3yb":"s","reb8z2":"s","xp94wk":"s","1rn3tqt":"s","tsjc2w":"s","40awo3":"s","1ftaamp":"s","16tx4pw":"s","14uqlk4":"s","1bnjrzb":"s","1e538iu":"s","1ycs7yk":"s","1ngemmd":"s","jk0r77":"s","vc8ct9":"s","1sg6h6r":"s","1nrwjjg":"s","1we3gxx":"s","1qf1z6z":"s","pua8te":"s","khhgkg":"s","jeddro":"s","c7rfx8":"s","19p3pai":"s","1p6cb24":"s","11n2njg":"s","1p4n8qt":"s","ygrp7r":"s","1s7o1gl":"s","gfler4":"s","kp4f5q":"s","1hg160u":"s","y4uf91":"s","1gd9qgd":"s","1fcwmy6":"s","bldzyf":"s","84ebhq":"s","1ahkr9d":"s","nzv7n6":"s","1s2l6dx":"s","1cvk9ky":"s","12ojykm":"s","jxfkjc":"s","nrcvun":"s","jp9noc":"s","rsgkpz":"s","1jh4yyl":"s","c7si1l":"s","1f8ne05":"s","1o77r0y":"s","1df58fa":"s","16igs2m":"s","1uu20l4":"s","1d65sfy":"s","19or2rs":"s","q7fngl":"s","e0m2c":"s","32oqtt":"s","d53hh8":"s","14ethqv":"s","1ky9dvh":"s","89c1t9":"s","1gu92h6":"s","ztbcon":"s","64izx8":"s","10k27u5":"s","164w4sh":"s","6u3zmb":"t","l4xqxf":"w","136nuue":"w","lpbrx1":"w","4h9v63":"w","1thtbr8":"w","27aenj":"w","i3gxwe":"w","1r9wi7g":"w","3esgvd":"w","plrc89":"w","1w79wjf":"w","47gkh2":"w","16okdkp":"t","2kz9j8":"w","5yargx":"w","1dy1kx5":"w","18ynt7s":"w","1rks22e":"w","iciszv":"w","idyip0":"w","ncrez8":"w","ql981l":"w","gopcn":"t","1dyjk0s":"w","f1wd5f":"w","1ttel29":"w","llgpcz":"w","b1hmw3":"w","1rgrogu":"w","9eduy":"w","4gdahn":"w","13jtb3r":"t","1yl8gm9":"w","t5orj":"w","ctww6z":"w","269c7l":"w","1sp5z35":"w","1tys5b7":"w","l6bh6w":"w","t6uqnc":"w","1vwajkc":"w","fj9bp6":"w","ey28pv":"t","rpp1cp":"w","1y60r3o":"w","19abdji":"w","194bvpk":"w","69b2dh":"w","1fdflak":"w","6cll2q":"w","102bcjc":"w","1yi17ow":"w","1jgxqng":"w","1szfpjr":"w","ieghsn":"w","5d1cbj":"w","1j02n8g":"w","1de3cvt":"w","1sgpk2o":"w","1wewy2y":"w","3yxe2g":"t","fvk4cm":"w","meb4bg":"w","12m5gkv":"w","15c350b":"w","1ivcuga":"w","1leehtx":"w","z1d27f":"w","1rciku5":"w","1br7v2m":"w","oapfjo":"w","pq4mtm":"w","zd8bh5":"w","192uu89":"w","1x1b4sa":"t","15z4g8m":"w","h0g8nd":"w","bkgu4q":"w","1xgxm1k":"w","xvse53":"w","1tuu8bt":"w","3cwswb":"w","kbfdzo":"t","1qldj8i":"w","15ob10u":"w","pexppc":"w","15kc5th":"w","1mhgqdq":"w","bah8fr":"w","jrek28":"w","1uxasbl":"w","pvbdgk":"w","qv8tqk":"w","1vj1qpd":"w","1rasgdf":"w","1dq2e9p":"w","1v5y4zm":"w","hqqig3":"w","1kllaav":"w","16m15zp":"w","1828ier":"t","nrqbwb":"w","ktsfpw":"w","1034izq":"w","zte3i7":"w","1a5p1vn":"w","2twdau":"w","2hw890":"w","1kcnkfg":"w","cnlw4o":"w","ueleig":"w","83ku18":"w","tb6js6":"w","1fn8tsl":"w","1967r2v":"w","1rz7rsm":"t","ngat2n":"w","14dp4n8":"w","1yd9zx2":"w","3llbt8":"w","1uptt2d":"w","1h01x54":"w","dtio16":"w","99n4xp":"w","2g5142":"w","ynfys5":"w","12ypy20":"w","1m59ain":"w","1mc2eh5":"w","1uz475n":"t","1dn8eky":"w","1y377yb":"w","1m6juc8":"w","17xgd48":"w","ta6k7s":"w","12t0e6y":"w","1ldgg9e":"w","3tzawb":"w","1lm8tya":"w","8gnrvw":"w","wa74xa":"w","1sb63mn":"w","t6twlj":"t","1ax46k9":"w","blicgl":"w","1sgzb5k":"w","1lf86w":"w","4ggkul":"w","1d8gyf8":"w","1rl44io":"w","1t3bnwu":"w","2zxo3l":"t","ctbp52":"w","q9mgir":"w","qoyjro":"w","6y5k7z":"w","nr96l1":"w","1qc7sfo":"w","ld0yns":"w","qyxx3k":"w","hmg7h":"w","g0n05k":"w","fl2jk0":"w","7403ea":"w","iiub93":"t","1suceuu":"w","1ifc03q":"w","uhhkmd":"w","o60jj":"w","1o21o6d":"w","1qwwioi":"w","oaxf2g":"w","56zian":"w","15v6o4n":"w","6kucl3":"t","1yhtvw0":"w","rfgyq4":"w","1lmglyi":"w","t16jrr":"w","1lfk7bu":"w","4bk4jr":"w","17uvg9d":"w","1dwqkq8":"w","18yqvx4":"t","142v761":"w","1yi1itt":"w","1qmf5n7":"w","1w92ajg":"w","1vf26n6":"w","a4ixn":"w","1xqeur6":"w","2jnd12":"w","4rbl63":"w","1m0z0fc":"s","1najz01":"s","1i2jjhc":"s","1h7jdme":"s","1ybkpxi":"s","1fu0h1t":"s","ofzrxp":"s","obcwgb":"s","1fgtvc5":"s","l69376":"s","tx9m7x":"s","1ubne4d":"s","dljfjo":"s","edx4fw":"s","170v68w":"s","1skko9l":"s","u9i47y":"s","1mcf7xc":"s","712089":"s","rtxiuu":"s","1ammhcs":"s","1vmdxqj":"s","afx98y":"s","14uaeoj":"s","gjuyx2":"s","1eoc5z8":"s","jqux0o":"s","g8r0fm":"s","u02wnd":"s","17mac83":"s","1mkokrv":"s","1iwq11m":"s","1vz64vq":"s","27p78p":"s","1mipvof":"s","bycg0p":"s","49s37i":"s","pmkrgg":"s","8hqjr3":"s","1uni2ry":"s","qgbkm5":"s","1p0e8mw":"s","mtepvk":"s","1kjpwwx":"s","1fh3085":"s","hrhr86":"s","152bck4":"s","1qskgg6":"s","qbdyhd":"s","1olrieo":"s","h5ozae":"s","snvlz1":"s","vsgwzf":"s","pq9gm":"s","1art6hz":"s","1uij82v":"s","q2jnud":"s","17qh3aa":"s","n6dpjv":"s","wa1hn1":"s","hhpcb0":"s","p4lawa":"s","z69meb":"s","v4ky31":"s","lhg4jz":"s","1txswrf":"s","1dyr9fl":"s","130xl8t":"s","1cxt5pl":"s","u2le8s":"s","trfb7e":"s","1eryw72":"s","1ac3rcb":"s","1vvswmv":"s","1qz0gs1":"s","1qks4fp":"s","jqjcol":"s","6zmkqz":"s","1xvjxs2":"s","qwpsq5":"s","9egbnf":"s"};
 const SILENT="SUQzBAAAAAAAI1RTU0UAAAAPAAADTGF2ZjYwLjE2LjEwMAAAAAAAAAAAAAAA//OEwAAAAAAAAAAAAEluZm8AAAAPAAAABwAAA2AAVVVVVVVVVVVVVVVVVVVxcXFxcXFxcXFxcXFxcY6Ojo6Ojo6Ojo6Ojo6Oqqqqqqqqqqqqqqqqqqqqx8fHx8fHx8fHx8fHx8fj4+Pj4+Pj4+Pj4+Pj4///////////////////AAAAAExhdmM2MC4zMQAAAAAAAAAAAAAAACQEIAAAAAAAAANgmVBi7QAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA//NExAAAAANIAAAAAExBTUUzLjEwMFVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVTEFNRTMu//NExFMAAANIAAAAADEwMFVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVTEFNRTMu//NExKYAAANIAAAAADEwMFVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVTEFNRTMu//NExKwAAANIAAAAADEwMFVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVTEFNRTMu//NExKwAAANIAAAAADEwMFVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVV//NExKwAAANIAAAAAFVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVV//NExKwAAANIAAAAAFVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVV";
 const akey=t=>{t=plain(t).trim().replace(/\s+/g," ");return /\s/.test(t)?t:t.toLowerCase()};
 const fnv=s=>{let h=0x811c9dc5;for(let i=0;i<s.length;i++){h^=s.charCodeAt(i);h=Math.imul(h,0x01000193)>>>0}return h.toString(36)};
@@ -1853,7 +1917,7 @@ const canSpeak=t=>hasAudio(t)||(pickVoice(),!!enVoice);
 function deviceSpeak(text,rate,noRec){
   if(!enVoice)pickVoice();
   if(!enVoice){toast(noRec?"Bu ifadenin ses kaydı yok":"Ses yüklenemedi, bağlantını kontrol et");finishSpeak();return}
-  try{const u=new SpeechSynthesisUtterance(plain(text));u.voice=enVoice;u.lang=enVoice.lang;u.rate=rate&&rate<.8?.7:.9;
+  try{const u=new SpeechSynthesisUtterance(plain(text));u.voice=enVoice;u.lang=enVoice.lang;u.rate=(rate&&rate<.8?.7:.9)*(P.set.rate||1);
     u.onend=u.onerror=finishSpeak;speechSynthesis.speak(u)}catch(e){finishSpeak()}
 }
 function speak(text,btn,rate,onend){
@@ -1862,7 +1926,7 @@ function speak(text,btn,rate,onend){
   const h=fnv(akey(text)),g=AIDX[h];
   if(!g){deviceSpeak(text,rate,true);return}
   const play=()=>{const b64=window.FLUO_AUDIO[h];if(!b64){deviceSpeak(text,rate);return}
-    try{player.src="data:audio/mpeg;base64,"+b64;player.playbackRate=rate&&rate<.8?.72:1;player.preservesPitch=true;
+    try{player.src="data:audio/mpeg;base64,"+b64;player.playbackRate=(rate&&rate<.8?.72:1)*(P.set.rate||1);player.preservesPitch=true;
       const p=player.play();if(p)p.catch(()=>finishSpeak())}catch(e){finishSpeak()}};
   if(window.FLUO_AUDIO[h])play();else loadAudio(g).then(play,()=>deviceSpeak(text,rate));
 }
@@ -1896,10 +1960,11 @@ function renderNav(){
   $("nav").innerHTML=SECTIONS.map(s=>'<a href="#'+s.id+'" data-sec="'+s.id+'" style="--c:'+s.c+'">'+ic(s.icon)+s.label+'</a>').join("");
   $("tabbar").innerHTML=SECTIONS.map(s=>'<a href="#'+s.id+'" data-sec="'+s.id+'" style="--c:'+s.c+'">'+ic(s.icon)+'<span>'+s.short+'</span></a>').join("");
 }
-const VIEWS=["ana","ogren","calis","deckend","defter","dinle","yarisma","gramer","konu","cevir","ceviri"];
+const VIEWS=["ayarlar","ana","ogren","calis","deckend","defter","dinle","yarisma","gramer","konu","cevir","ceviri"];
 function showView(v,sec){
   VIEWS.forEach(x=>$("v-"+x).hidden=x!==v);
   document.querySelectorAll("[data-sec]").forEach(a=>{if(a.dataset.sec===sec)a.setAttribute("aria-current","page");else a.removeAttribute("aria-current")});
+  if(sec==="ayarlar")$("gearBtn").setAttribute("aria-current","page");else $("gearBtn").removeAttribute("aria-current");
 }
 let lastHash=null;
 function route(){
@@ -1930,6 +1995,7 @@ function route(){
     renderTopic(t);showView("konu","gramer");
   }
   else if(h==="metin"){showView("ceviri","metin")}
+  else if(h==="ayarlar"){renderSettings();showView("ayarlar","ayarlar")}
   else if(h==="cevir"){renderTrHint();showView("cevir","cevir");setTimeout(()=>{try{$("trInput").focus({preventScroll:true})}catch(e){}},50)}
   else{location.hash="ana";return}
   window.scrollTo({top:0,behavior:"auto"});
@@ -2034,6 +2100,7 @@ function showCard(){
   $("fPos").textContent=w[2];$("fLvl").textContent=d.level;$("fWord").textContent=w[0];
   $("bWordSmall").textContent=w[0];$("bMean").textContent=w[1];$("bEx").innerHTML=hl(w[3]||"");$("bExTr").textContent=w[4]||"";
   $("bexBox").hidden=!w[3];setSaveBtn($("sSave"),w[0]);
+  if(P.set.autoSpeak)setTimeout(()=>{if(!$("v-calis").hidden)speak(w[0],$("fSpeak"))},350);
   $("flip").classList.remove("flipped");S.flipped=false;
   const sc=$("scene");sc.style.transition="none";sc.style.transform="";sc.style.opacity="";
   if(!reduceMotion()){sc.classList.remove("flip-in");void sc.offsetWidth;sc.classList.add("flip-in")}
@@ -2101,7 +2168,7 @@ function renderLobby(){
     return '<button class="lvcard" data-lv="'+k+'" style="--c:var(--lv-'+k+')">'+
       '<div class="lvtop"><span class="cefr">'+L.cefr+'</span><span class="bars">'+[1,2,3,4].map(i=>'<i class="'+(i<=L.bars?"on":"")+'"></i>').join("")+'</span></div>'+
       '<p class="lvname">'+L.name+'</p><p class="lvdesc">'+L.desc+'</p><div class="lvsample">'+sample+'</div>'+
-      '<div class="lvfoot"><span>Rekor <b>'+(P.best[k]||0)+'</b> · '+L.time+' sn</span><span class="lvgo">Başla →</span></div></button>';
+      '<div class="lvfoot"><span>Rekor <b>'+(P.best[k]||0)+'</b> · '+Math.round(L.time*(P.set.quizTime==="uzun"?1.5:1))+' sn</span><span class="lvgo">Başla →</span></div></button>';
   }).join("");
   $("lobby").querySelectorAll(".lvcard").forEach(b=>b.onclick=()=>{const k=b.dataset.lv;startGame({key:k,name:LEVELS[k].name,cefr:LEVELS[k].cefr,c:"var(--lv-"+k+")",words:WORDS[k],time:LEVELS[k].time})});
 }
@@ -2111,7 +2178,7 @@ function startDeckQuiz(d){
   if(location.hash==="#yarisma")startGame(G.pending);else location.hash="yarisma";
 }
 function startGame(cfg){
-  G.pending=null;
+  G.pending=null;cfg=Object.assign({},cfg,{time:Math.round((cfg.baseTime||cfg.time)*(P.set.quizTime==="uzun"?1.5:1)),baseTime:cfg.baseTime||cfg.time});
   const Q=Math.min(10,cfg.words.length);
   Object.assign(G,{cfg,Q,phase:"game",active:true,list:shuffle(pickFresh(cfg.words,w=>"w:"+w[0],Q,w=>isDue(w[0]))),i:0,pts:0,streak:0,maxStreak:0,ok:0,no:0,pass:0,half:1,passes:2,res:[],missed:[],left:cfg.time,locked:true,cur:null,paused:false});
   ["game","end"].forEach(x=>$(x).style.setProperty("--c",cfg.c));$("gLevel").style.setProperty("--c",cfg.c);$("eLevel").style.setProperty("--c",cfg.c);
@@ -2142,6 +2209,7 @@ function ask(){
   const w=G.list[G.i];G.cur=w;G.locked=false;
   $("gQn").textContent=(G.i+1)+" / "+G.Q;renderSteps();
   $("gWord").textContent=w[0];$("gPos").textContent=w[2];setSaveBtn($("gSave"),w[0]);touch("w:"+w[0]);
+  if(P.set.autoSpeak)speak(w[0],$("gSpeak"));
   $("gFb").textContent="";$("gFb").className="feedback";
   const st=$("gStage");if(!reduceMotion()){st.classList.remove("flip-in");void st.offsetWidth;st.classList.add("flip-in")}
   const pool=G.cfg.words.filter(x=>x!==w&&x[1]!==w[1]);
@@ -2672,6 +2740,55 @@ async function doTranslate(auto){
   }
   finally{if(id===TR.busy)$("trGo").disabled=false}
 }
+
+/* ================= AYARLAR ================= */
+P.set=Object.assign({theme:"system",palette:"aurora",font:"normal",motion:false,rate:1,autoSpeak:false,quizTime:"normal"},P.set||{});
+const HOST_THEME=document.documentElement.getAttribute("data-theme");
+function applySettings(){
+  const r=document.documentElement,st=P.set;
+  if(st.theme==="system"){if(HOST_THEME)r.setAttribute("data-theme",HOST_THEME);else r.removeAttribute("data-theme")}
+  else r.setAttribute("data-theme",st.theme);
+  ["pal-okyanus","pal-gunbatimi","pal-orman"].forEach(c=>r.classList.remove(c));if(st.palette!=="aurora")r.classList.add("pal-"+st.palette);
+  r.classList.toggle("fs-buyuk",st.font==="buyuk");r.classList.toggle("rm",!!st.motion);
+}
+const PALETTES=[["aurora","Aurora","#4F80EC,#8A5CF0,#EB6D9F"],["okyanus","Okyanus","#2E7DD7,#22A6C9,#2FC7A0"],["gunbatimi","Gün batımı","#F28C38,#E8505B,#C2449B"],["orman","Orman","#2E8B57,#58A55C,#A3C24A"]];
+function renderSettings(){
+  const st=P.set;
+  const pills=(key,opts)=>'<div class="pills" role="group">'+opts.map(([v,l,icn])=>'<button data-k="'+key+'" data-v="'+v+'" aria-pressed="'+(String(st[key])===String(v))+'">'+(icn?ic(icn):"")+l+'</button>').join("")+'</div>';
+  const sw=(key,label)=>'<button class="switch" role="switch" data-sw="'+key+'" aria-checked="'+!!st[key]+'" aria-label="'+label+'"></button>';
+  const row=(t,d,ctl)=>'<div class="srow"><div><b>'+t+'</b><small>'+d+'</small></div>'+ctl+'</div>';
+  $("settings").innerHTML=
+    '<section class="sgroup"><h2>'+ic("sun")+'Görünüm</h2>'+
+      row("Tema","Sistem seçiliyse bilgisayarının ya da telefonunun temasını izler.",pills("theme",[["system","Sistem","monitor"],["light","Açık","sun"],["dark","Koyu","moon"]]))+
+      row("Renk paleti","Başlıklardaki degrade ve arka plan renkleri.",'<div class="swatches">'+PALETTES.map(([v,l,c])=>'<button class="swatch" data-k="palette" data-v="'+v+'" aria-pressed="'+(st.palette===v)+'"><i style="background:linear-gradient(135deg,'+c+')"></i>'+l+'</button>').join("")+'</div>')+
+      row("Yazı boyutu","Tüm yazıları büyütür.",pills("font",[["normal","Normal"],["buyuk","Büyük"]]))+
+      row("Animasyonları azalt","Kart dönme ve geçiş efektlerini kapatır.",sw("motion","Animasyonları azalt"))+
+    '</section>'+
+    '<section class="sgroup"><h2>'+ic("speaker")+'Ses</h2>'+
+      row("Konuşma hızı","Kelime ve cümlelerin okunma hızı.",pills("rate",[["1","Normal"],["0.85","Yavaş"]]))+
+      row("Otomatik seslendirme","Kelime kartı ya da yarışma kelimesi açılınca kendiliğinden okunur.",sw("autoSpeak","Otomatik seslendirme"))+
+      '<div class="srow"><div><b>Sesi dene</b><small>Ayarlarınla bir örnek dinle.</small></div>'+sayBtn("Could we have the bill, please?")+'</div>'+
+    '</section>'+
+    '<section class="sgroup"><h2>'+ic("trophy")+'Çalışma</h2>'+
+      row("Yarışma süresi","Uzun seçilirse her soruya %50 daha fazla süre verilir.",pills("quizTime",[["normal","Normal"],["uzun","Uzun"]]))+
+    '</section>'+
+    '<section class="sgroup"><h2>'+ic("alert")+'Veriler</h2>'+
+      row("Çeviri geçmişi","Son aramaları ve kaydedilmiş çevirileri siler.",'<button class="danger" id="clrTr">Temizle</button>')+
+      row("Tüm ilerlemeyi sıfırla","Öğrenilen kelimeler, tekrar takvimi, Defterim, rekorlar ve seri silinir. Geri alınamaz.",'<button class="danger" id="rstAll">Sıfırla</button>')+
+      '<p class="sabout">Fluo · ilerlemen ve ayarların yalnızca bu cihazdaki tarayıcıda saklanır.</p>'+
+    '</section>';
+  $("settings").querySelectorAll("[data-k]").forEach(b=>b.onclick=()=>{const k=b.dataset.k;let v=b.dataset.v;if(k==="rate")v=+v;P.set[k]=v;save();applySettings();renderSettings()});
+  $("settings").querySelectorAll("[data-sw]").forEach(b=>b.onclick=()=>{const k=b.dataset.sw;P.set[k]=!P.set[k];save();applySettings();renderSettings()});
+  $("clrTr").onclick=()=>{P.hist=[];TRC={};save();saveTRC();try{localStorage.removeItem("fluo_trc")}catch(e){}toast("Çeviri geçmişi temizlendi")};
+  const rb=$("rstAll");let armed=null;
+  rb.onclick=()=>{
+    if(!armed){rb.classList.add("armed");rb.textContent="Emin misin? Tekrar dokun";armed=setTimeout(()=>{armed=null;rb.classList.remove("armed");rb.textContent="Sıfırla"},4000);return}
+    clearTimeout(armed);const keep=P.set;try{["ka_p","fluo_trc","best_kolay","best_orta","best_zor","best_uzman"].forEach(k=>localStorage.removeItem(k));localStorage.setItem("ka_p",JSON.stringify({set:keep}))}catch(e){}
+    toast("İlerleme sıfırlandı");setTimeout(()=>{location.hash="ana";location.reload()},700);
+  };
+}
+applySettings();
+
 /* ================= BAŞLAT ================= */
 renderNav();renderStreak();renderTextLevels();newText();
 route();
