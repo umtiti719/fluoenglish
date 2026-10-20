@@ -786,6 +786,9 @@ renderListenLevels();
 /* ================= ÇEVİRİ (SÖZLÜK) =================
    Önce uygulamanın kendi sözlüğü (desteler, yarışma, metin sözlüğü), sonra varsa yapay zekâ. */
 P.hist=P.hist||[];
+/* Çeviri önbelleği: bir kez çevrilen ifade tekrar arandığında anında gelir (bu cihazda, son 300 arama) */
+let TRC={};try{TRC=JSON.parse(localStorage.getItem("fluo_trc"))||{}}catch(e){TRC={}}
+function saveTRC(){const ks=Object.keys(TRC);if(ks.length>300)ks.slice(0,ks.length-300).forEach(k=>delete TRC[k]);try{localStorage.setItem("fluo_trc",JSON.stringify(TRC))}catch(e){}}
 const TR={dir:"en",busy:0};
 const trNorm=s=>s.toLocaleLowerCase("tr").replace(/[’`]/g,"'").replace(/[.,!?;:"()]/g,"").replace(/\s+/g," ").trim();
 const TRIDX=(()=>{const m={};const add=(tr,en)=>{tr.split(/[,;/]|\(|\)/).map(x=>trNorm(x.replace(/^-/,""))).filter(x=>x.length>1).forEach(k=>{(m[k]=m[k]||[]).includes(en)||m[k].push(en)})};
@@ -862,6 +865,8 @@ function liveTranslate(){
   if(!q){TR.busy++;$("trResult").innerHTML="";$("trResult").dataset.out="";$("trGo").disabled=false;return}
   TR.t1=setTimeout(()=>{
     const isWord=q.split(/\s+/).length<=3&&!/[.?!]$/.test(q);
+    const cached=TRC[dir+"|"+q.toLowerCase()];
+    if(cached){TR.busy++;renderTr(cached,q);TR.t2=setTimeout(()=>{if($("trInput").value.trim()===q){addHist(q,dir);renderTrHint()}},1500);return}
     const local=isWord?localLookup(q,dir):null;
     if(local){TR.busy++;renderTr(local,q);TR.liveLocal=q}
     else{
@@ -871,7 +876,7 @@ function liveTranslate(){
       else if(!sampleFn&&q.length>2){TR.busy++;renderTr(null,q)}
     }
     // yapay zekâ: yazma durunca (sözlükte olmayanlar için)
-    if(sampleFn&&!local&&q.length>=2)TR.t2=setTimeout(()=>{if($("trInput").value.trim()===q)doTranslate(true)},900);
+    if(sampleFn&&!local&&q.length>=2)TR.t2=setTimeout(()=>{if($("trInput").value.trim()===q)doTranslate(true)},450);
     else if(local)TR.t2=setTimeout(()=>{if($("trInput").value.trim()===q){addHist(q,dir);renderTrHint();markActive()}},1500);
   },120);
 }
@@ -882,14 +887,30 @@ async function doTranslate(auto){
   const isWord=q.split(/\s+/).length<=3&&!/[.?!]$/.test(q);
   const local=isWord?localLookup(q,dir):null;
   if(!sampleFn){renderTr(local,q);return}
+  const ck=dir+"|"+q.toLowerCase();
+  if(TRC[ck]){renderTr(TRC[ck],q);return}
+  const from=dir==="en"?"İngilizce":"Türkçe",to=dir==="en"?"Türkçe":"İngilizce";
   if(local)renderTr(local,q);else $("trResult").innerHTML='<div class="trload"><span></span><span></span><span></span> Çevriliyor…</div>';
   $("trGo").disabled=true;
-  const from=dir==="en"?"İngilizce":"Türkçe",to=dir==="en"?"Türkçe":"İngilizce";
+  let full=false,fast=null;
+  // 1) Hızlı istek: yalnızca kısa çeviri — birkaç saniyede gelir
+  const fastP=sampleFn(isWord
+      ?"\""+q+"\" ifadesinin "+to+" karşılığını yaz. En yaygın 1-3 karşılığı virgülle ayırarak yaz, başka hiçbir şey yazma."
+      :"Şu "+from+" metni doğal bir "+to+" diline çevir. Sadece çeviriyi yaz, başka hiçbir şey yazma:\n"+q,
+    {modelTier:"quick"}).then(r=>{
+      if(id!==TR.busy||full)return;
+      const t=(r&&r.text||"").trim().replace(/^["“]|["”]$/g,"");if(!t)return;
+      if(isWord&&dir==="en")fast={type:"word",head:q,senses:t.split(/\s*,\s*/).filter(Boolean).slice(0,3),examples:[],src:"Yapay zekâ çevirisi"};
+      else if(isWord)fast={type:"words",items:t.split(/\s*,\s*/).filter(Boolean).slice(0,3).map(en=>({head:en,pos:"",mean:q,ex:null})),src:"Yapay zekâ çevirisi"};
+      else fast={type:"text",translation:t,words:[],src:"Yapay zekâ çevirisi"};
+      renderTr(fast,q);$("trResult").insertAdjacentHTML("beforeend",'<div class="trload sm" id="trMore"><span></span><span></span><span></span> Örnek cümleler ve ayrıntılar hazırlanıyor…</div>');
+    }).catch(()=>{});
+  // 2) Ayrıntılı istek: anlamlar, örnekler, eş anlamlılar (aynı anda başlar)
   const prompt=isWord
     ?"Sen Türk öğrencilere İngilizce öğreten bir sözlüksün. "+from+" ifadeyi "+to+" diline çevir: \""+q+"\"\n"+
      (dir==="en"
-      ?'Sadece şu JSON\'u döndür: {"head": "kelimenin sözlük biçimi (İngilizce)", "pos": "isim/fiil/sıfat/zarf/kalıp gibi Türkçe tür", "pron": "Türk okura yönelik okunuş, örn. sı-REN-dip-ı-ti", "senses": ["en yaygın Türkçe anlam", "diğer anlamlar (en fazla 4)"], "examples": [["İngilizce örnek cümle, kelime **yıldızla** vurgulu", "Türkçesi"], ["…","…"]], "syn": ["İngilizce eş anlamlılar, en fazla 4"], "note": "kısa kullanım notu (isteğe bağlı, Türkçe)"}'
-      :'Sadece şu JSON\'u döndür: {"items": [{"head": "İngilizce karşılık", "pos": "Türkçe tür", "mean": "bu karşılığın Türkçe anlam/nüansı", "ex": ["İngilizce örnek, karşılık **yıldızla** vurgulu", "Türkçesi"]}] }  (en yaygın karşılık ilk sırada, en fazla 4 karşılık)')
+      ?'Sadece şu JSON\'u döndür: {"head": "kelimenin sözlük biçimi (İngilizce)", "pos": "isim/fiil/sıfat/zarf/kalıp gibi Türkçe tür", "pron": "Türk okura yönelik okunuş, örn. sı-REN-dip-ı-ti", "senses": ["en yaygın Türkçe anlam", "diğer anlamlar (en fazla 3)"], "examples": [["İngilizce örnek cümle, kelime **yıldızla** vurgulu", "Türkçesi"], ["…","…"]], "syn": ["İngilizce eş anlamlılar, en fazla 4"], "note": "kısa kullanım notu (isteğe bağlı, Türkçe)"}'
+      :'Sadece şu JSON\'u döndür: {"items": [{"head": "İngilizce karşılık", "pos": "Türkçe tür", "mean": "bu karşılığın Türkçe anlam/nüansı", "ex": ["İngilizce örnek, karşılık **yıldızla** vurgulu", "Türkçesi"]}] }  (en yaygın karşılık ilk sırada, en fazla 3 karşılık)')
     :"Şu "+from+" metni doğal bir "+to+" diline çevir: \""+q+"\"\n"+
      'Sadece şu JSON\'u döndür: {"translation": "çeviri", "note": "varsa kısa bir dil notu (Türkçe, isteğe bağlı)", "words": [{"en": "metindeki önemli İngilizce kelime", "tr": "Türkçe anlamı"}] }  (words en fazla 5)';
   try{
@@ -899,11 +920,16 @@ async function doTranslate(auto){
     if(isWord&&dir==="en"&&r&&r.senses)out={type:"word",head:r.head||q,pos:r.pos,pron:r.pron,senses:r.senses,examples:r.examples||[],syn:r.syn||[],note:r.note,src:"Yapay zekâ çevirisi"};
     else if(isWord&&dir==="tr"&&r&&r.items&&r.items.length)out={type:"words",items:r.items.map(it=>({head:it.head,pos:it.pos,mean:it.mean,ex:it.ex})),src:"Yapay zekâ çevirisi"};
     else if(r&&r.translation)out={type:"text",translation:r.translation,note:r.note,words:r.words||[],src:"Yapay zekâ çevirisi"};
-    renderTr(out||local,q);
-  }catch(e){if(id===TR.busy){if(!local)renderTr(null,q);toast("Yapay zekâ çevirisi şu an yapılamadı")}}
+    full=true;
+    if(out){TRC[ck]=out;saveTRC();renderTr(out,q)}
+    else{const m=$("trMore");if(m)m.remove();if(!fast&&!local)renderTr(null,q)}
+  }catch(e){
+    if(id!==TR.busy)return;full=true;await fastP;
+    const m=$("trMore");if(m)m.remove();
+    if(fast){TRC[ck]=fast;saveTRC()}else if(!local){renderTr(null,q);toast("Yapay zekâ çevirisi şu an yapılamadı")}
+  }
   finally{if(id===TR.busy)$("trGo").disabled=false}
 }
-
 /* ================= BAŞLAT ================= */
 renderNav();renderStreak();renderTextLevels();newText();
 route();

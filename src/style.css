@@ -694,3 +694,5 @@ kbd{font-family:inherit;font-size:.76rem;background:var(--surface);border:1px so
 .sugg{display:flex;flex-direction:column;gap:8px;padding:4px 2px}
 .sugg small{font-size:.78rem;font-weight:600;color:var(--muted)}
 .sg-tr{color:var(--muted);font-weight:400;margin-left:4px}
+.trload.sm{padding:6px 4px;font-size:.88rem}
+.trload.sm span{width:6px;height:6px}
