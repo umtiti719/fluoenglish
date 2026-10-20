@@ -38,6 +38,7 @@
         <a href="#gramer"><svg class="ic"><use href="#i-book"/></svg>Gramer</a>
         <a href="#yarisma"><svg class="ic"><use href="#i-trophy"/></svg>Yarışma</a>
         <a href="#ceviri"><svg class="ic"><use href="#i-translate"/></svg>Çeviri</a>
+        <a href="#dinle"><svg class="ic"><use href="#i-headphones"/></svg>Dinleme</a>
       </nav>
       <div class="float-row">
         <article class="wotd" id="wotd"></article>
@@ -65,6 +66,8 @@
       </div>
       <div class="ph-stat" id="learnTotal"></div>
     </div>
+    <div class="tools" id="learnTools"></div>
+    <div class="sec-head"><h2>Konu desteleri</h2></div>
     <div class="decks" id="decks"></div>
   </section>
 
@@ -73,7 +76,7 @@
     <div class="study">
       <div class="study-top">
         <a class="backlink" href="#ogren"><svg class="ic"><use href="#i-left"/></svg>Desteler</a>
-        <span class="deck-chip" id="sDeck"></span>
+        <div class="study-r"><button class="savebtn" id="sSave" aria-label="Defterime kaydet" title="Defterime kaydet"><svg class="ic"><use href="#i-bookmark"/></svg></button><span class="deck-chip" id="sDeck"></span></div>
       </div>
       <div class="sbar"><i id="sBar"></i></div>
       <div class="scount"><span id="sPos">1 / 12</span><span><b class="k-ok" id="sKnown">0</b> biliyorum · <b class="k-rev" id="sRev">0</b> tekrar</span></div>
@@ -89,7 +92,7 @@
           <div class="face back">
             <div class="face-top"><span class="pill" id="bWordSmall">word</span><button class="speak" id="bSpeak" aria-label="Kelimeyi seslendir"><svg class="ic"><use href="#i-speaker"/></svg></button></div>
             <p class="bmean" id="bMean">anlamı</p>
-            <div class="bex">
+            <div class="bex" id="bexBox">
               <div class="bex-en"><p id="bEx">Example.</p><button class="speak sm" id="bExSpeak" aria-label="Cümleyi seslendir"><svg class="ic"><use href="#i-speaker"/></svg></button></div>
               <p class="bex-tr" id="bExTr">Örnek.</p>
             </div>
@@ -124,6 +127,58 @@
     </div>
   </section>
 
+  <!-- ================= DEFTERİM ================= -->
+  <section class="view" id="v-defter" hidden>
+    <div class="page-head">
+      <div>
+        <a class="backlink" href="#ogren"><svg class="ic"><use href="#i-left"/></svg>Kelime Öğren</a>
+        <span class="eyebrow c-trans" style="margin-top:10px">Defterim</span>
+        <h1 class="h-page">Kaydettiğin kelimeler</h1>
+        <p class="lead">Kartlarda, yarışmada ve metinlerde gördüğün kelimelerin yanındaki <b>kaydet</b> işaretine dokunarak buraya ekleyebilirsin.</p>
+      </div>
+      <div class="ph-stat" id="defterCount"></div>
+    </div>
+    <div class="defter-bar" id="defterBar">
+      <label class="search"><svg class="ic"><use href="#i-search"/></svg><input id="defterSearch" type="search" placeholder="Defterde ara (İngilizce ya da Türkçe)" autocomplete="off"></label>
+      <div class="defter-act">
+        <a class="ghost" href="#ogren-defter" id="defterStudy"><svg class="ic"><use href="#i-cards"/></svg>Kartlarla çalış</a>
+        <button class="primary alt" id="defterQuiz"><svg class="ic"><use href="#i-trophy"/></svg>Yarış</button>
+      </div>
+    </div>
+    <div class="dlist" id="defterList"></div>
+  </section>
+
+  <!-- ================= DİNLEME ================= -->
+  <section class="view" id="v-dinle" hidden>
+    <div class="page-head">
+      <div>
+        <a class="backlink" href="#ogren"><svg class="ic"><use href="#i-left"/></svg>Kelime Öğren</a>
+        <span class="eyebrow c-learn" style="margin-top:10px">Dinleme</span>
+        <h1 class="h-page">Dinle, anla, yaz</h1>
+        <p class="lead">Cümleyi dinle. Kolay modda duyduğun kelimeyi seç, dikte modunda cümlenin tamamını yaz. Cümle ancak cevap verdikten sonra görünür.</p>
+      </div>
+      <div class="ph-stat" id="listenStat"></div>
+    </div>
+    <div class="card listen">
+      <div class="seg two" id="lModes">
+        <button data-m="kolay" aria-pressed="true">Kelimeyi seç<small>Kolay</small></button>
+        <button data-m="dikte" aria-pressed="false">Cümleyi yaz<small>Dikte</small></button>
+      </div>
+      <div class="player aurora" id="lPlayer">
+        <span class="badge" id="lSrc">Kaynak</span>
+        <button class="playbtn" id="lPlay" aria-label="Cümleyi dinle"><svg class="ic"><use href="#i-play"/></svg></button>
+        <div class="wave" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
+        <div class="pctl">
+          <button class="ghost" id="lAgain"><svg class="ic"><use href="#i-refresh"/></svg>Tekrar dinle</button>
+          <button class="ghost" id="lSlow"><svg class="ic"><use href="#i-slow"/></svg>Yavaş dinle</button>
+        </div>
+        <p class="tiny" id="lPlays">Henüz dinlenmedi</p>
+      </div>
+      <div id="lAsk"></div>
+      <div id="lResult" hidden></div>
+    </div>
+  </section>
+
   <!-- ================= YARIŞMA ================= -->
   <section class="view" id="v-yarisma" hidden>
     <div class="page-head" id="quizHead">
@@ -151,6 +206,7 @@
           <div class="wmeta">
             <span class="pill" id="gPos">isim</span>
             <button class="speak" id="gSpeak" aria-label="Kelimeyi seslendir"><svg class="ic"><use href="#i-speaker"/></svg></button>
+            <button class="savebtn" id="gSave" aria-label="Defterime kaydet" title="Defterime kaydet"><svg class="ic"><use href="#i-bookmark"/></svg></button>
           </div>
         </div>
         <span class="count" id="gCount" hidden>3</span>
@@ -177,7 +233,7 @@
         <div class="stat"><b id="ePass">0</b><span>Pas</span></div>
         <div class="stat"><b id="eStreak">0</b><span>En uzun seri</span></div>
       </div>
-      <div class="missed" id="eMissedWrap"><h3>Tekrar etmen gereken kelimeler</h3><div class="mlist" id="eMissed"></div></div>
+      <div class="missed" id="eMissedWrap"><h3>Tekrar etmen gereken kelimeler</h3><div class="mlist" id="eMissed"></div><p class="note" id="eMissedNote">Bu kelimeler yarın "Tekrar zamanı" bölümünde yeniden karşına çıkacak.</p></div>
       <div class="endbtns">
         <button class="ghost" id="eLobby">Seviyeler</button>
         <button class="primary" id="eAgain">Tekrar oyna</button>
@@ -253,6 +309,7 @@
 </main>
 
 <nav class="tabbar" id="tabbar" aria-label="Bölümler"></nav>
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
 
 <svg width="0" height="0" style="position:absolute" aria-hidden="true">
   <defs>
@@ -281,6 +338,11 @@
     <symbol id="i-refresh" viewBox="0 0 24 24"><path d="M20 11a8 8 0 1 0-2.3 5.7M20 4v7h-7"/></symbol>
     <symbol id="i-eye" viewBox="0 0 24 24"><path d="M2 12s4-7 10-7 10 7 10 7-4 7-10 7S2 12 2 12zM12 9a3 3 0 1 0 0 6 3 3 0 0 0 0-6z"/></symbol>
     <symbol id="i-bulb" viewBox="0 0 24 24"><path d="M9 18h6M10 21h4M12 3a6 6 0 0 0-4 10.5c.7.7 1 1.5 1 2.5h6c0-1 .3-1.8 1-2.5A6 6 0 0 0 12 3z"/></symbol>
+    <symbol id="i-bookmark" viewBox="0 0 24 24"><path d="M6 3h12v18l-6-4.5L6 21z"/></symbol>
+    <symbol id="i-headphones" viewBox="0 0 24 24"><path d="M4 15v-3a8 8 0 0 1 16 0v3M4 15a2 2 0 0 1 2-2h1v7H6a2 2 0 0 1-2-2zM20 15a2 2 0 0 0-2-2h-1v7h1a2 2 0 0 0 2-2z"/></symbol>
+    <symbol id="i-play" viewBox="0 0 24 24"><path d="M8 5l11 7-11 7z"/></symbol>
+    <symbol id="i-slow" viewBox="0 0 24 24"><path d="M12 7v5l3 2M12 3a9 9 0 1 0 9 9"/></symbol>
+    <symbol id="i-search" viewBox="0 0 24 24"><path d="M11 4a7 7 0 1 0 0 14 7 7 0 0 0 0-14zM20 20l-4-4"/></symbol>
     <symbol id="i-alert" viewBox="0 0 24 24"><path d="M12 3l10 18H2zM12 10v5M12 18v.5"/></symbol>
   </defs>
 </svg>
