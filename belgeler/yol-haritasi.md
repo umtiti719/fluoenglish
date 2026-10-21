@@ -7,6 +7,10 @@
 - Ayarlar (tema, palet, yazı boyutu, ses hızı, otomatik seslendirme, yarışma süresi, sıfırlama)
 - Ana sayfa genel karşılama; kişisel karşılama (PERSONAL_HERO) ve günlük seri (SHOW_STREAK) üye girişine kadar kapalı
 
+## Kimlik
+- Uygulamada görünen ad ve logo: **Fluo** (Akış logosu)
+- Dış kimlik: **fluoenglish** – fluoenglish.com, support@fluoenglish.com, GitHub deposu fluoenglish
+
 ## Sıradakiler (21 Ekim)
 1. **Yeni logo** – Fluo için özgün logo ve uygulama simgesi
 2. **Üye girişi** – karar: giriş yöntemi (e-posta, Google…) ve uygulamanın nerede yayınlanacağı
