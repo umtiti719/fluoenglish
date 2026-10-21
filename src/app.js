@@ -211,6 +211,24 @@ function route(){
   window.scrollTo({top:0,behavior:"auto"});
 }
 window.addEventListener("hashchange",route);
+/* Menü geri bildirimi: dokunulan öğe hafifçe basılır; zaten açık olan bölüme yeniden dokununca
+   sayfa yumuşakça başa kayar ve görünüm yeniden belirir (hiçbir şey olmuyor hissi vermesin). */
+function replayView(){
+  const v=VIEWS.map(x=>$("v-"+x)).find(e=>e&&!e.hidden);if(!v)return;
+  v.classList.remove("again");void v.offsetWidth;v.classList.add("again");
+  setTimeout(()=>v.classList.remove("again"),500);
+}
+document.addEventListener("click",e=>{
+  const a=e.target.closest(".nav a,.tabbar a,.brand,.gear");if(!a)return;
+  if(!reduceMotion()){a.classList.remove("tap");void a.offsetWidth;a.classList.add("tap");setTimeout(()=>a.classList.remove("tap"),400)}
+  if(a.classList.contains("brand"))setTimeout(playLogo,60);
+  const target=(a.getAttribute("href")||"").slice(1),cur=(location.hash.slice(1)||"ana").toLowerCase();
+  if(target!==cur)return;
+  e.preventDefault();
+  if(target==="ana")renderHome();
+  window.scrollTo({top:0,behavior:reduceMotion()?"auto":"smooth"});
+  if(!reduceMotion())replayView();
+});
 
 /* ================= ANA SAYFA ================= */
 function renderHome(){

@@ -942,3 +942,11 @@ a.stat{text-decoration:none;color:inherit}
 :root[data-theme="dark"]{--hg-bg:var(--surface2);--hg-line:var(--line);--hg-hover:var(--surface)}
 .hero-cta .ghost{background:var(--hg-bg);border-color:var(--hg-line)}
 .hero-cta .ghost:hover{background:var(--hg-hover)}
+/* Menü dokunuş geri bildirimi */
+.view.again{animation:again .45s cubic-bezier(.2,.7,.3,1)}
+@keyframes again{from{opacity:.45;transform:translateY(12px)}to{opacity:1;transform:none}}
+.nav a.tap,.tabbar a.tap,.gear.tap{animation:tap .35s cubic-bezier(.3,.7,.4,1.4)}
+.brand.tap .mark{animation:tap .35s cubic-bezier(.3,.7,.4,1.4)}
+@keyframes tap{0%{transform:scale(1)}35%{transform:scale(.9)}100%{transform:scale(1)}}
+@media (prefers-reduced-motion:reduce){.view.again,.nav a.tap,.tabbar a.tap,.gear.tap,.brand.tap .mark{animation:none}}
+.rm .view.again,.rm .nav a.tap,.rm .tabbar a.tap,.rm .gear.tap,.rm .brand.tap .mark{animation:none}

@@ -947,6 +947,14 @@ a.stat{text-decoration:none;color:inherit}
 :root[data-theme="dark"]{--hg-bg:var(--surface2);--hg-line:var(--line);--hg-hover:var(--surface)}
 .hero-cta .ghost{background:var(--hg-bg);border-color:var(--hg-line)}
 .hero-cta .ghost:hover{background:var(--hg-hover)}
+/* Menü dokunuş geri bildirimi */
+.view.again{animation:again .45s cubic-bezier(.2,.7,.3,1)}
+@keyframes again{from{opacity:.45;transform:translateY(12px)}to{opacity:1;transform:none}}
+.nav a.tap,.tabbar a.tap,.gear.tap{animation:tap .35s cubic-bezier(.3,.7,.4,1.4)}
+.brand.tap .mark{animation:tap .35s cubic-bezier(.3,.7,.4,1.4)}
+@keyframes tap{0%{transform:scale(1)}35%{transform:scale(.9)}100%{transform:scale(1)}}
+@media (prefers-reduced-motion:reduce){.view.again,.nav a.tap,.tabbar a.tap,.gear.tap,.brand.tap .mark{animation:none}}
+.rm .view.again,.rm .nav a.tap,.rm .tabbar a.tap,.rm .gear.tap,.rm .brand.tap .mark{animation:none}
 
 </style>
 
@@ -2295,6 +2303,24 @@ function route(){
   window.scrollTo({top:0,behavior:"auto"});
 }
 window.addEventListener("hashchange",route);
+/* Menü geri bildirimi: dokunulan öğe hafifçe basılır; zaten açık olan bölüme yeniden dokununca
+   sayfa yumuşakça başa kayar ve görünüm yeniden belirir (hiçbir şey olmuyor hissi vermesin). */
+function replayView(){
+  const v=VIEWS.map(x=>$("v-"+x)).find(e=>e&&!e.hidden);if(!v)return;
+  v.classList.remove("again");void v.offsetWidth;v.classList.add("again");
+  setTimeout(()=>v.classList.remove("again"),500);
+}
+document.addEventListener("click",e=>{
+  const a=e.target.closest(".nav a,.tabbar a,.brand,.gear");if(!a)return;
+  if(!reduceMotion()){a.classList.remove("tap");void a.offsetWidth;a.classList.add("tap");setTimeout(()=>a.classList.remove("tap"),400)}
+  if(a.classList.contains("brand"))setTimeout(playLogo,60);
+  const target=(a.getAttribute("href")||"").slice(1),cur=(location.hash.slice(1)||"ana").toLowerCase();
+  if(target!==cur)return;
+  e.preventDefault();
+  if(target==="ana")renderHome();
+  window.scrollTo({top:0,behavior:reduceMotion()?"auto":"smooth"});
+  if(!reduceMotion())replayView();
+});
 
 /* ================= ANA SAYFA ================= */
 function renderHome(){
