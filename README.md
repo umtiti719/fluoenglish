@@ -17,6 +17,7 @@ Türkçe arayüzlü, genel İngilizce öğrenme uygulaması.
 - **Defterim:** Kartlarda, yarışmada, metinlerde ve günün kelimesinde kaydet işaretiyle kişisel kelime listesi; kartlarla çalışma ve yarışma.
 - **Dinleme:** Cümleyi dinle; kolay modda duyduğun ifadeyi seç, dikte modunda cümleyi yaz. Yavaş dinleme ve kelime kelime karşılaştırma.
 - **Seviye testi:** Kelime, dil bilgisi, okuma ve dinleme sorularıyla (A1–C1, 45 soruluk havuz) iki aşamalı uyarlanabilir test; yetenek modeliyle seviye tahmini, beceri dağılımı ve başlangıç önerileri.
+- **Üyelik:** Google, e-posta + şifre ya da e-postaya gelen bağlantıyla giriş; ilerleme Supabase ile cihazlar arasında eşitlenir (kurulum: `belgeler/uyelik-kurulumu.md`).
 - **Metin Çevirisi:** Seviyeye göre metinler, kelimeye dokununca anlamı, çeviri puanlama.
 
 İlerleme kullanılan tarayıcıda saklanır.
@@ -30,6 +31,9 @@ Türkçe arayüzlü, genel İngilizce öğrenme uygulaması.
 - `src/app.js` — uygulama mantığı
 - `src/data-learn.js` — kelime desteleri
 - `src/data-grammar.js` — dil bilgisi konuları ve alıştırmalar
+- `src/config.js` — Supabase adresi ve herkese açık anahtar
+- `src/auth.js` — giriş, kayıt, hesap sayfası ve eşitleme
+- `vendor/supabase.js` — Supabase istemcisi (MIT)
 - `src/data-test.js` — seviye testi soruları
 - `src/data-quiz.js` — yarışma kelimeleri, çeviri metinleri ve metin sözlüğü
 - `build.py` — `src/` dosyalarını `index.html` olarak birleştirir: `python3 build.py`

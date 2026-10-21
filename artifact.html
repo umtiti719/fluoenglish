@@ -956,6 +956,79 @@ a.stat{text-decoration:none;color:inherit}
 @media (prefers-reduced-motion:reduce){.view.again,.nav a.tap,.tabbar a.tap,.gear.tap,.brand.tap .mark{animation:none}}
 .rm .view.again,.rm .nav a.tap,.rm .tabbar a.tap,.rm .gear.tap,.rm .brand.tap .mark{animation:none}
 
+/* ================= ÜYELİK ================= */
+.acct{display:flex;align-items:center;gap:7px;height:36px;padding:0 14px 0 11px;border-radius:999px;text-decoration:none;color:var(--ink);font-weight:600;font-size:.88rem;
+  background:var(--hg-bg,var(--surface2));border:1px solid var(--hg-line,var(--line));white-space:nowrap;transition:background .15s}
+.acct .ic{width:16px;height:16px;color:var(--muted)}
+.acct:hover{background:var(--surface)}
+.acct.on{width:36px;padding:0;justify-content:center;overflow:hidden;color:#fff;border:2px solid var(--surface);box-shadow:0 0 0 1px var(--line);
+  background:linear-gradient(135deg,var(--gr1,#4F80EC),var(--gr2,#8A5CF0),var(--gr3,#EB6D9F))}
+.acct.on img{width:100%;height:100%;object-fit:cover}
+.acct[aria-current="page"]{box-shadow:0 0 0 2px var(--accent)}
+.acct.tap{animation:tap .35s cubic-bezier(.3,.7,.4,1.4)}
+@media (max-width:420px){.acct:not(.on){padding:0;width:36px;justify-content:center}.acct .acct-t{display:none}.acct:not(.on) .ic{color:var(--ink)}}
+
+.auth{display:flex;flex-direction:column;align-items:center;gap:14px;padding:8px 0 24px}
+.auth-card{width:100%;max-width:440px;background:var(--surface);border:1px solid var(--line);border-radius:28px;box-shadow:var(--shadow);
+  padding:30px 28px 26px;display:flex;flex-direction:column;gap:14px;text-align:center}
+.auth-mark{width:56px;height:56px;margin:0 auto 2px;display:block}
+.auth-mark svg{width:100%;height:100%;display:block}
+.auth-card h1{margin:0;font-size:1.55rem;font-weight:600;letter-spacing:-.03em}
+.auth-lead{margin:-6px 0 2px;color:var(--muted);line-height:1.5}
+.auth-big{width:64px;height:64px;border-radius:20px;margin:0 auto;display:grid;place-items:center;color:#fff;background:linear-gradient(135deg,var(--gr1,#4F80EC),var(--gr2,#8A5CF0),var(--gr3,#EB6D9F))}
+.auth-big .ic{width:30px;height:30px}
+.auth-off{display:flex;gap:10px;align-items:flex-start;text-align:left;font-size:.88rem;line-height:1.45;padding:10px 12px;border-radius:14px;background:color-mix(in srgb,var(--marigold,#F7AA4E) 16%,var(--surface));color:var(--ink)}
+.auth-off .ic{flex:none;width:18px;height:18px;color:var(--marigold,#d98b1f);margin-top:1px}
+.wide{width:100%}
+.gbtn{display:flex;align-items:center;justify-content:center;gap:10px;font:inherit;font-weight:600;font-size:.98rem;padding:12px 18px;border-radius:999px;cursor:pointer;
+  background:var(--surface);color:var(--ink);border:1px solid color-mix(in srgb,var(--line) 70%,var(--ink));transition:background .15s}
+.gbtn:hover{background:var(--surface2)}
+.gbtn .ic{width:19px;height:19px;color:var(--gr1,#4F80EC)}
+.gbtn:disabled,.auth .primary:disabled{opacity:.55;cursor:default}
+.or{display:flex;align-items:center;gap:12px;color:var(--muted);font-size:.82rem}
+.or::before,.or::after{content:"";flex:1;height:1px;background:var(--line)}
+.auth-tabs{display:flex;gap:4px;padding:4px;border-radius:999px;background:var(--surface2);border:1px solid var(--line)}
+.auth-tabs button{flex:1;border:0;background:none;font:inherit;font-size:.9rem;font-weight:600;color:var(--muted);padding:8px 10px;border-radius:999px;cursor:pointer}
+.auth-tabs button[aria-selected="true"]{background:var(--surface);color:var(--ink);box-shadow:0 1px 3px rgba(0,0,0,.08)}
+#aForm{display:flex;flex-direction:column;gap:12px;text-align:left}
+.fld{display:flex;flex-direction:column;gap:6px}
+.fld>span{font-size:.84rem;font-weight:600;color:var(--muted)}
+.fld input{font:inherit;font-size:1rem;color:var(--ink);background:var(--surface2);border:1px solid var(--line);border-radius:14px;padding:12px 14px;width:100%;box-sizing:border-box;outline:none;transition:border-color .15s,box-shadow .15s}
+.fld input:focus{border-color:var(--accent);box-shadow:0 0 0 3px color-mix(in srgb,var(--accent) 18%,transparent);background:var(--surface)}
+.pw{position:relative}
+.pw input{padding-right:48px}
+.pw-eye{position:absolute;right:6px;top:50%;transform:translateY(-50%);width:36px;height:36px;border:0;background:none;border-radius:10px;color:var(--muted);cursor:pointer;display:grid;place-items:center}
+.pw-eye .ic{width:18px;height:18px}
+.pw-eye.on{color:var(--accent)}
+.auth-forgot{align-self:flex-end;margin-top:-4px;font-size:.85rem}
+.auth-back{align-self:center;display:flex;align-items:center;gap:4px}
+.auth-back .ic{width:16px;height:16px}
+.auth-msg{display:flex;gap:8px;align-items:flex-start;text-align:left;margin:0;font-size:.9rem;line-height:1.45;padding:10px 12px;border-radius:14px}
+.auth-msg .ic{flex:none;width:17px;height:17px;margin-top:1px}
+.auth-msg.err{background:var(--bad-bg);color:var(--bad)}
+.auth-msg.ok{background:var(--good-bg);color:var(--good)}
+.auth-note{margin:0;color:var(--muted);font-size:.85rem}
+.auth-foot{max-width:440px;text-align:center;color:var(--muted);font-size:.84rem;line-height:1.55;margin:0}
+
+.prof{display:flex;flex-direction:column;gap:16px;max-width:760px;width:100%;margin:0 auto}
+.prof-card{border-radius:32px;border:1px solid var(--line);padding:30px 24px 24px;display:flex;flex-direction:column;align-items:center;gap:6px;text-align:center}
+.prof-av{width:84px;height:84px;border-radius:50%;overflow:hidden;display:grid;place-items:center;font-size:2.1rem;font-weight:600;color:#fff;border:3px solid var(--surface);box-shadow:var(--shadow);
+  background:linear-gradient(135deg,var(--gr1,#4F80EC),var(--gr2,#8A5CF0),var(--gr3,#EB6D9F));margin-bottom:6px}
+.prof-av img{width:100%;height:100%;object-fit:cover}
+.prof-card h1{margin:0;font-size:1.6rem;font-weight:600;letter-spacing:-.03em}
+.prof-mail{margin:0;color:var(--muted)}
+.prof-via{display:flex;align-items:center;gap:6px;font-size:.82rem;font-weight:600;padding:5px 11px;border-radius:999px;background:var(--surface);border:1px solid var(--line);margin-top:6px}
+.prof-via .ic{width:14px;height:14px}
+.syncst{display:flex;align-items:center;gap:6px;font-size:.82rem;color:var(--muted);margin-top:2px}
+.syncst .ic{width:14px;height:14px}
+.syncst.s-ok .ic{color:var(--good)}
+.syncst.s-err .ic,.syncst.s-off .ic{color:var(--bad)}
+.dotspin{width:12px;height:12px;border-radius:50%;border:2px solid var(--line);border-top-color:var(--accent);animation:spin .8s linear infinite;display:inline-block}
+@keyframes spin{to{transform:rotate(360deg)}}
+.prof-stats{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
+@media (max-width:600px){.prof-stats{grid-template-columns:repeat(2,1fr)}.auth-card{padding:24px 18px 20px;border-radius:24px}}
+.auth-mark .lg1{stop-color:var(--gr1)}.auth-mark .lg2{stop-color:var(--gr2)}.auth-mark .lg3{stop-color:var(--gr3)}.auth-mark .lw1,.auth-mark .lw2{stroke-dashoffset:0}.auth-mark .lsp{opacity:1}
+
 </style>
 
 <header class="top">
@@ -966,6 +1039,7 @@ a.stat{text-decoration:none;color:inherit}
     </a>
     <nav class="nav" id="nav" aria-label="Bölümler"></nav>
     <div class="top-r">
+      <a class="acct" href="#hesap" id="acctBtn" aria-label="Giriş yap"></a>
       <a class="gear" href="#ayarlar" id="gearBtn" aria-label="Ayarlar" title="Ayarlar"><svg class="ic"><use href="#i-gear"/></svg></a>
       <span class="streak" id="streak" title="Art arda çalıştığın gün sayısı"></span>
     </div>
@@ -1251,6 +1325,10 @@ a.stat{text-decoration:none;color:inherit}
   </section>
 
   <!-- ================= AYARLAR ================= -->
+  <section class="view" id="v-hesap" hidden>
+    <div id="acct"></div>
+  </section>
+
   <section class="view" id="v-ayarlar" hidden>
     <div class="page-head">
       <div>
@@ -1330,6 +1408,10 @@ a.stat{text-decoration:none;color:inherit}
     <symbol id="i-spark" viewBox="0 0 24 24"><path d="M12 3l2 6 6 2-6 2-2 6-2-6-6-2 6-2zM19 3v4M17 5h4"/></symbol>
     <symbol id="i-flame" viewBox="0 0 24 24"><path d="M12 22c4 0 7-3 7-7 0-4-3-6-4-10-2 2-3 4-3 6-1-1-2-2-2-4-3 3-5 5-5 8 0 4 3 7 7 7z"/></symbol>
     <symbol id="i-speaker" viewBox="0 0 24 24"><path d="M11 5L6 9H2v6h4l5 4zM15.5 8.5a5 5 0 0 1 0 7M19 5a10 10 0 0 1 0 14"/></symbol>
+    <symbol id="i-user" viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 21c1.5-4 4.5-6 8-6s6.5 2 8 6"/></symbol>
+    <symbol id="i-mail" viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="3"/><path d="M4 7l8 6 8-6"/></symbol>
+    <symbol id="i-eye" viewBox="0 0 24 24"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/></symbol>
+    <symbol id="i-globe" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c2.5 2.6 3.8 5.6 3.8 9s-1.3 6.4-3.8 9c-2.5-2.6-3.8-5.6-3.8-9S9.5 5.6 12 3z"/></symbol>
     <symbol id="i-check" viewBox="0 0 24 24"><path d="M5 12l5 5 9-10"/></symbol>
     <symbol id="i-x" viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"/></symbol>
     <symbol id="i-left" viewBox="0 0 24 24"><path d="M15 5l-7 7 7 7"/></symbol>
@@ -1355,6 +1437,30 @@ a.stat{text-decoration:none;color:inherit}
 </svg>
 
 <script>
+/* ================= AYARLAR (dışa bağlantılar) =================
+   Supabase projesinin adresi ve "anon public" anahtarı. Bu anahtar herkese açık olacak şekilde tasarlanmıştır;
+   verileri veritabanındaki satır güvenliği kuralları (RLS) korur. Boş kalırsa üye girişi kapalı çalışır.
+   Kurulum: belgeler/uyelik-kurulumu.md */
+const FLUO_CONFIG={
+  supabaseUrl:"",
+  supabaseAnonKey:""
+};
+
+/* Üyelik durumu (auth.js doldurur; diğer bölümler okur) */
+const AUTH={
+  configured:!!(FLUO_CONFIG.supabaseUrl&&FLUO_CONFIG.supabaseAnonKey),
+  on:false,        // giriş bu ortamda gerçekten çalışıyor mu (Claude önizlemesinde ve dosyadan açılınca kapalı)
+  ready:false,     // oturum durumu öğrenildi mi
+  user:null,       // giriş yapan kullanıcı
+  sb:null,         // Supabase istemcisi
+  mode:"login",    // giriş ekranının hâli: login | signup | magic | forgot | recover | sent
+  sentTo:"",sentKind:"",
+  msg:null,        // {t:"err"|"ok", s:"metin"}
+  busy:false,
+  sync:{state:"idle",at:null,dirty:false,timer:null,pulledAt:0}
+};
+const signedIn=()=>!!AUTH.user;
+
 /* Yarışma kelimeleri, çeviri metinleri ve metin sözlüğü */
 const LEVELS={
  kolay:{name:"Kolay",cefr:"A1–A2",bars:1,time:12,desc:"Günlük hayatın temel kelimeleri: ev, okul, yemek, basit fiiller."},
@@ -2113,7 +2219,7 @@ const P=(()=>{
   ["kolay","orta","zor","uzman"].forEach(k=>{const old=store.get("best_"+k);if(old&&!(p.best[k]>=old))p.best[k]=old});
   return p;
 })();
-const save=()=>store.set(BRAND.id+"_progress",P);
+const save=()=>{P._t=Date.now();store.set(BRAND.id+"_progress",P);if(typeof onSaved==="function")onSaved()};
 try{if(localStorage.getItem("fluo_trc")!==null&&localStorage.getItem(BRAND.id+"_translations")===null){localStorage.setItem(BRAND.id+"_translations",localStorage.getItem("fluo_trc"));localStorage.removeItem("fluo_trc")}}catch(e){}
 try{if(localStorage.getItem("ka_p")!==null){save();localStorage.removeItem("ka_p");["kolay","orta","zor","uzman"].forEach(k=>localStorage.removeItem("best_"+k))}}catch(e){}
 const dayKey=d=>d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0")+"-"+String(d.getDate()).padStart(2,"0");
@@ -2123,11 +2229,10 @@ function streakCount(){
   if(!s.has(dayKey(d)))d.setDate(d.getDate()-1);
   let n=0;while(s.has(dayKey(d))){n++;d.setDate(d.getDate()-1)}return n;
 }
-/* Günlük seri göstergesi üye girişi eklenince açılacak; seri arka planda sayılmaya devam eder */
-const SHOW_STREAK=false;
+/* Günlük seri göstergesi yalnızca giriş yapınca görünür; seri arka planda her zaman sayılır */
 function renderStreak(){
   const n=streakCount(),el=$("streak");
-  el.hidden=!SHOW_STREAK;
+  el.hidden=!signedIn();
   el.className="streak"+(n?"":" off");
   el.innerHTML='<svg class="ic"><use href="#i-flame"/></svg>'+n+" gün";
 }
@@ -2237,8 +2342,9 @@ function toast(msg){const t=$("toast");t.textContent=msg;t.classList.add("show")
 function setSaveBtn(b,en){b.dataset.save=en;const on=isSaved(en);b.classList.toggle("on",on);b.setAttribute("aria-pressed",on)}
 function toggleSave(en){
   if(!en)return;
-  if(isSaved(en)){delete P.saved[en];toast("Defterinden çıkarıldı")}
-  else{const w=winfo(en);if(!w)return;P.saved[en]=w.slice(0,5);toast("Defterine eklendi: "+en)}
+  P._del=P._del||{};
+  if(isSaved(en)){delete P.saved[en];P._del[en]=Date.now();toast("Defterinden çıkarıldı")}
+  else{const w=winfo(en);if(!w)return;P.saved[en]=w.slice(0,5);delete P._del[en];toast("Defterine eklendi: "+en)}
   save();
   document.querySelectorAll('[data-save]').forEach(b=>{if(b.dataset.save===en)setSaveBtn(b,en)});
   if(!$("v-defter").hidden)renderDefter();
@@ -2259,12 +2365,13 @@ function renderNav(){
   $("nav").innerHTML=SECTIONS.map(s=>'<a href="#'+s.id+'" data-sec="'+s.id+'" style="--c:'+s.c+'">'+ic(s.icon)+s.label+'</a>').join("");
   $("tabbar").innerHTML=SECTIONS.map(s=>'<a href="#'+s.id+'" data-sec="'+s.id+'" style="--c:'+s.c+'">'+ic(s.icon)+'<span>'+s.short+'</span></a>').join("");
 }
-const VIEWS=["seviye","ayarlar","ana","ogren","calis","deckend","defter","dinle","yarisma","gramer","konu","cevir","ceviri"];
+const VIEWS=["hesap","seviye","ayarlar","ana","ogren","calis","deckend","defter","dinle","yarisma","gramer","konu","cevir","ceviri"];
 function setFocus(){document.body.classList.toggle("focus",(!$("v-calis").hidden)||(!$("v-yarisma").hidden&&G.phase==="game")||(!$("v-seviye").hidden&&T.phase==="run"))}
 function showView(v,sec){
   VIEWS.forEach(x=>$("v-"+x).hidden=x!==v);setTimeout(setFocus,0);
   document.querySelectorAll("[data-sec]").forEach(a=>{if(a.dataset.sec===sec)a.setAttribute("aria-current","page");else a.removeAttribute("aria-current")});
   if(sec==="ayarlar")$("gearBtn").setAttribute("aria-current","page");else $("gearBtn").removeAttribute("aria-current");
+  if(sec==="hesap")$("acctBtn").setAttribute("aria-current","page");else $("acctBtn").removeAttribute("aria-current");
 }
 let lastHash=null;
 function route(){
@@ -2297,6 +2404,7 @@ function route(){
   }
   else if(h==="metin"){showView("ceviri","metin")}
   else if(h==="ayarlar"){renderSettings();showView("ayarlar","ayarlar")}
+  else if(h==="hesap"||h==="giris"){renderAccount();showView("hesap","hesap")}
   else if(h==="seviye"){renderTest();showView("seviye","ana")}
   else if(h==="cevir"){renderTrHint();showView("cevir","cevir");setTimeout(()=>{try{$("trInput").focus({preventScroll:true})}catch(e){}},50)}
   else{location.hash="ana";return}
@@ -2311,7 +2419,7 @@ function replayView(){
   setTimeout(()=>v.classList.remove("again"),500);
 }
 document.addEventListener("click",e=>{
-  const a=e.target.closest(".nav a,.tabbar a,.brand,.gear");if(!a)return;
+  const a=e.target.closest(".nav a,.tabbar a,.brand,.gear,.acct");if(!a)return;
   if(!reduceMotion()){a.classList.remove("tap");void a.offsetWidth;a.classList.add("tap");setTimeout(()=>a.classList.remove("tap"),400)}
   if(a.classList.contains("brand"))setTimeout(playLogo,60);
   const target=(a.getAttribute("href")||"").slice(1),cur=(location.hash.slice(1)||"ana").toLowerCase();
@@ -2327,7 +2435,7 @@ function renderHome(){
   renderHero();
   const learned=Object.keys(P.learned).length,best=Math.max(0,...Object.values(P.best));
   $("homeStats").innerHTML=[
-    [learned,"öğrenilen kelime"],[gramDone()+"/"+GRAMMAR.length,"gramer konusu"],P.level?[CEFR[P.level.idx].code,"seviyen"]:[best,"en yüksek puan"],SHOW_STREAK?[streakCount(),"günlük seri"]:[Object.keys(P.saved).length,"defterdeki kelime"]
+    [learned,"öğrenilen kelime"],[gramDone()+"/"+GRAMMAR.length,"gramer konusu"],P.level?[CEFR[P.level.idx].code,"seviyen"]:[best,"en yüksek puan"],signedIn()?[streakCount(),"günlük seri"]:[Object.keys(P.saved).length,"defterdeki kelime"]
   ].map(([b,s])=>s==="seviyen"?'<a class="stat" href="#seviye"><b>'+b+'</b><span>'+s+'</span></a>':'<div class="stat"><b>'+b+'</b><span>'+s+'</span></div>').join("");
   // günün kelimesi
   const n=Math.floor(Date.now()/864e5),pick=ALLWORDS[(n*7)%ALLWORDS.length],w=pick.w;
@@ -2358,11 +2466,9 @@ function renderHome(){
     (P.level?'<a class="cont" href="#seviye" style="--c:var(--g5)"><span class="mod-ic">'+ic("target")+'</span><div><small>Seviye testi</small><b>Testi yeniden çöz</b><span>Kelime, dil bilgisi, okuma ve dinleme</span></div>'+ic("right")+'</a>':'');
 }
 
-/* Kişisel karşılama ("İyi akşamlar, bugün ne çalışalım?") üye girişi eklenince açılacak.
-   Şimdilik herkes genel karşılamayı görür. */
-const PERSONAL_HERO=false;
+/* Kişisel karşılama ("İyi akşamlar Ümit, bugün ne çalışalım?") giriş yapanlara; diğerleri genel karşılamayı görür. */
 function renderHero(){
-  if(!PERSONAL_HERO){
+  if(!signedIn()){
     $("heroDate").innerHTML=ic("spark")+"Türkçe anlatımlı İngilizce çalışma alanı";
     $("heroHello").textContent="İngilizceni bugün";
     $("heroAsk").textContent="bir adım ileri taşı.";
@@ -2374,7 +2480,8 @@ function renderHero(){
   }
   $("heroAsk").textContent="bugün ne çalışalım?";
   const now=new Date(),h=now.getHours();
-  $("heroHello").textContent=h<5?"İyi geceler,":h<11?"Günaydın,":h<17?"Merhaba,":h<23?"İyi akşamlar,":"İyi geceler,";
+  const nm=firstName();
+  $("heroHello").textContent=(h<5?"İyi geceler":h<11?"Günaydın":h<17?"Merhaba":h<23?"İyi akşamlar":"İyi geceler")+(nm?" "+nm:"")+",";
   $("heroDate").innerHTML=ic(h>=6&&h<19?"sun":"spark")+esc(now.toLocaleDateString("tr-TR",{day:"numeric",month:"long",weekday:"long"}));
   const due=dueWords().length,st=streakCount(),started=P.days.length>0||Object.keys(P.learned).length>0;
   const nextT=GRAMMAR.find(t=>!P.gram[t.id]?.done)||GRAMMAR[0];
@@ -2388,8 +2495,9 @@ function renderHero(){
   const primary=due?{h:"#ogren-tekrar",t:"Tekrara başla ("+due+")"}
     :inProg?{h:"#ogren-"+inProg.id,t:inProg.name+" destesine dön"}
     :{h:"#ogren",t:"Bir kelime destesi seç"};
-  $("heroCta").innerHTML='<a class="primary" href="'+primary.h+'">'+esc(primary.t)+'<span class="arr">'+ic("right")+'</span></a>'+
-    '<a class="ghost" href="#g-'+nextT.id+'">'+ic("book")+'Sıradaki konu: '+esc(nextT.title)+'</a>';
+  $("heroCta").innerHTML='<div class="hero-row"><a class="primary" href="'+primary.h+'">'+esc(primary.t)+'<span class="arr">'+ic("right")+'</span></a>'+
+    '<a class="ghost" href="#g-'+nextT.id+'">'+ic("book")+'Sıradaki konu: '+esc(nextT.title)+'</a></div>'+
+    '<a class="ghost hero-test" href="#seviye">'+ic("target")+(P.level?'Seviye testi':'Seviyeni öğren')+'</a>';
 }
 
 /* ================= KELİME ÖĞREN ================= */
@@ -3082,6 +3190,10 @@ function renderSettings(){
   const sw=(key,label)=>'<button class="switch" role="switch" data-sw="'+key+'" aria-checked="'+!!st[key]+'" aria-label="'+label+'"></button>';
   const row=(t,d,ctl)=>'<div class="srow"><div><b>'+t+'</b><small>'+d+'</small></div>'+ctl+'</div>';
   $("settings").innerHTML=
+    '<section class="sgroup"><h2>'+ic("user")+'Hesap</h2>'+
+      (signedIn()?row(esc(fullName()),esc(AUTH.user.email||"")+" · ilerlemen bu hesapla eşitleniyor.",'<a class="ghost" href="#hesap">Hesabım</a>')
+        :row("Giriş yapmadın","Giriş yaparsan ilerlemen tüm cihazlarında seninle olur.",'<a class="primary" href="#hesap">Giriş yap</a>'))+
+    '</section>'+
     '<section class="sgroup"><h2>'+ic("sun")+'Görünüm</h2>'+
       row("Tema","Sistem seçiliyse bilgisayarının ya da telefonunun temasını izler.",pills("theme",[["system","Sistem","monitor"],["light","Açık","sun"],["dark","Koyu","moon"]]))+
       row("Renk paleti","Başlıklardaki degrade ve arka plan renkleri.",'<div class="swatches">'+PALETTES.map(([v,l,c])=>'<button class="swatch" data-k="palette" data-v="'+v+'" aria-pressed="'+(st.palette===v)+'"><i style="background:linear-gradient(135deg,'+c+')"></i>'+l+'</button>').join("")+'</div>')+
@@ -3099,8 +3211,8 @@ function renderSettings(){
     '</section>'+
     '<section class="sgroup"><h2>'+ic("alert")+'Veriler</h2>'+
       row("Çeviri geçmişi","Son aramaları ve kaydedilmiş çevirileri siler.",'<button class="danger" id="clrTr">Temizle</button>')+
-      row("Tüm ilerlemeyi sıfırla","Öğrenilen kelimeler, tekrar takvimi, Defterim, rekorlar ve seri silinir. Geri alınamaz.",'<button class="danger" id="rstAll">Sıfırla</button>')+
-      '<p class="sabout">Fluo · ilerlemen ve ayarların yalnızca bu cihazdaki tarayıcıda saklanır.</p>'+
+      row("Tüm ilerlemeyi sıfırla","Öğrenilen kelimeler, tekrar takvimi, Defterim, rekorlar ve seri silinir"+(signedIn()?"; hesabındaki kayıt da sıfırlanır":"")+". Geri alınamaz.",'<button class="danger" id="rstAll">Sıfırla</button>')+
+      '<p class="sabout">Fluo · '+(signedIn()?"ilerlemen ve ayarların hesabında saklanır ve cihazların arasında eşitlenir.":"ilerlemen ve ayarların yalnızca bu cihazdaki tarayıcıda saklanır.")+'</p>'+
     '</section>';
   $("settings").querySelectorAll("[data-k]").forEach(b=>b.onclick=()=>{const k=b.dataset.k;let v=b.dataset.v;if(k==="rate")v=+v;P.set[k]=v;save();applySettings();renderSettings()});
   $("settings").querySelectorAll("[data-sw]").forEach(b=>b.onclick=()=>{const k=b.dataset.sw;P.set[k]=!P.set[k];save();applySettings();renderSettings()});
@@ -3108,7 +3220,9 @@ function renderSettings(){
   const rb=$("rstAll");let armed=null;
   rb.onclick=()=>{
     if(!armed){rb.classList.add("armed");rb.textContent="Emin misin? Tekrar dokun";armed=setTimeout(()=>{armed=null;rb.classList.remove("armed");rb.textContent="Sıfırla"},4000);return}
-    clearTimeout(armed);const keep=P.set;try{["ka_p","fluo_trc",BRAND.id+"_progress",BRAND.id+"_translations","best_kolay","best_orta","best_zor","best_uzman"].forEach(k=>localStorage.removeItem(k));localStorage.setItem(BRAND.id+"_progress",JSON.stringify({set:keep}))}catch(e){}
+    clearTimeout(armed);const keep=P.set;
+    if(signedIn()){replaceP({set:keep,_uid:AUTH.user.id,_reset:Date.now(),_t:Date.now()});pushProgress().finally(()=>{toast("İlerleme sıfırlandı");setTimeout(()=>{location.hash="ana";location.reload()},700)});return}
+    try{["ka_p","fluo_trc",BRAND.id+"_progress",BRAND.id+"_translations","best_kolay","best_orta","best_zor","best_uzman"].forEach(k=>localStorage.removeItem(k));localStorage.setItem(BRAND.id+"_progress",JSON.stringify({set:keep}))}catch(e){}
     toast("İlerleme sıfırlandı");setTimeout(()=>{location.hash="ana";location.reload()},700);
   };
 }
@@ -3265,5 +3379,296 @@ function L_applyLevel(idx){
 /* ================= BAŞLAT ================= */
 renderNav();renderStreak();renderTextLevels();newText();
 route();
+
+/* ================= ÜYELİK VE EŞİTLEME (Supabase) =================
+   Giriş yolları: Google, e-posta + şifre, e-postaya giriş bağlantısı (şifresiz).
+   İlerleme (P) "progress" tablosunda kullanıcı başına tek satır olarak tutulur ve cihazlar arasında birleştirilir.
+   Misafirken yapılan çalışma, ilk girişte hesaba eklenir. */
+var SITE_URL=location.origin+location.pathname;
+AUTH.on=AUTH.configured&&/^https?:$/.test(location.protocol)&&!(window.claude||/claude|anthropic/.test(location.hostname));
+
+function firstName(){const u=AUTH.user;if(!u)return "";const m=u.user_metadata||{};
+  const n=(m.full_name||m.name||"").trim();return n?n.split(/\s+/)[0]:(u.email||"").split("@")[0]}
+function fullName(){const u=AUTH.user;if(!u)return "";const m=u.user_metadata||{};return (m.full_name||m.name||"").trim()||(u.email||"").split("@")[0]}
+function avatarUrl(){const m=AUTH.user?.user_metadata||{};return m.avatar_url||m.picture||""}
+function viaGoogle(){return (AUTH.user?.app_metadata?.providers||[AUTH.user?.app_metadata?.provider]).includes("google")}
+
+function loadScript(src){return new Promise((ok,no)=>{const s=document.createElement("script");s.src=src;s.onload=ok;s.onerror=no;document.head.appendChild(s)})}
+
+async function initAuth(){
+  renderAcctBtn();
+  if(!AUTH.on){AUTH.ready=true;renderAcctBtn();return}
+  try{
+    if(!window.supabase)await loadScript("vendor/supabase.js");
+    AUTH.sb=window.supabase.createClient(FLUO_CONFIG.supabaseUrl,FLUO_CONFIG.supabaseAnonKey,{
+      auth:{flowType:"pkce",detectSessionInUrl:true,persistSession:true,autoRefreshToken:true,storageKey:BRAND.id+"_auth"}});
+  }catch(e){AUTH.on=false;AUTH.ready=true;renderAcctBtn();return}
+  // Dönüş adresindeki hata (ör. süresi geçmiş bağlantı)
+  const qs=new URLSearchParams(location.search),hs=new URLSearchParams(location.hash.slice(1));
+  const urlErr=qs.get("error_description")||hs.get("error_description");
+  AUTH.welcome=qs.has("code");
+  AUTH.sb.auth.onAuthStateChange((ev,session)=>{
+    // Supabase çağrıları bu geri çağrının dışında yapılmalı
+    setTimeout(()=>onAuthEvent(ev,session),0);
+  });
+  if(urlErr){setTimeout(()=>{toast(trErr({message:urlErr}));},300);cleanUrl(true)}
+}
+function cleanUrl(dropHash){
+  if(location.search||dropHash&&/access_token|error/.test(location.hash)){
+    try{history.replaceState(null,"",location.pathname+(dropHash?"":location.hash))}catch(e){}
+  }
+}
+
+async function onAuthEvent(ev,session){
+  const before=AUTH.user?.id||null;
+  AUTH.user=session?.user||null;AUTH.ready=true;
+  if(ev==="PASSWORD_RECOVERY"){AUTH.mode="recover";AUTH.msg=null;cleanUrl();location.hash="hesap";if(lastHash==="hesap")renderAccount()}
+  if(/SIGNED_IN|INITIAL_SESSION/.test(ev))cleanUrl();
+  renderAcctBtn();
+  if(AUTH.user&&AUTH.user.id!==before){
+    if((ev==="SIGNED_IN"||AUTH.welcome)&&before===null&&AUTH.mode!=="recover"&&ev!=="PASSWORD_RECOVERY"){AUTH.welcome=false;
+      toast("Hoş geldin"+(firstName()?", "+firstName():"")+"!");
+      if(lastHash==="hesap"&&AUTH.mode!=="recover")AUTH.mode="login";
+    }
+    await pullProgress(true);
+  }
+  if(!AUTH.user&&before){/* başka sekmede çıkış yapıldı */}
+  refreshUserViews();
+}
+function refreshUserViews(){
+  renderStreak();
+  if(lastHash==="ana")renderHome();
+  else if(lastHash==="hesap")renderAccount();
+  else if(lastHash==="ayarlar")renderSettings();
+}
+
+/* ---------- İlerlemeyi birleştirme ---------- */
+var isObj=x=>x&&typeof x==="object"&&!Array.isArray(x);
+function mergeP(a,b){
+  a=a||{};b=b||{};
+  const ta=a._t||0,tb=b._t||0,newer=ta>=tb?a:b,older=newer===a?b:a;
+  // "Tüm ilerlemeyi sıfırla" diğer cihazdaki eski verilerle geri gelmesin
+  if(newer._reset&&newer._reset>=(older._t||0))return JSON.parse(JSON.stringify(newer));
+  const r={};
+  const keys=new Set([...Object.keys(a),...Object.keys(b)]);
+  const maxMap=(x={},y={})=>{const o={...x};for(const k in y){const v=y[k],u=o[k];o[k]=(typeof v==="number"&&typeof u==="number")?Math.max(u,v):(u??v)}return o};
+  for(const k of keys){
+    const x=a[k],y=b[k];
+    if(x===undefined){r[k]=y;continue}
+    if(y===undefined){r[k]=x;continue}
+    switch(k){
+      case "learned":case "best":case "seen":r[k]=maxMap(x,y);break;
+      case "trans":r[k]=Math.max(+x||0,+y||0);break;
+      case "days":r[k]=[...new Set([...x,...y])].sort().slice(-90);break;
+      case "gram":{const o={...x};for(const id in y){const p=o[id],q=y[id];o[id]=p?{best:Math.max(p.best||0,q.best||0),total:Math.max(p.total||0,q.total||0),done:!!(p.done||q.done)}:q}r[k]=o;break}
+      case "srs":{const o={...x};for(const w in y){const p=o[w],q=y[w];if(!p){o[w]=q;continue}
+        const np=(p.ok||0)+(p.no||0),nq=(q.ok||0)+(q.no||0);o[w]=nq>np||(nq===np&&(q.d||0)>(p.d||0))?q:p}r[k]=o;break}
+      case "listen":r[k]=(y.n||0)>(x.n||0)?y:x;break;
+      case "level":r[k]=(y.date||0)>(x.date||0)?y:x;break;
+      case "saved":{const del=maxMap(a._del||{},b._del||{}),o={...older.saved,...newer.saved};
+        for(const w in del){if(!(newer.saved||{})[w])delete o[w]}r[k]=o;break}
+      case "_del":r[k]=maxMap(x,y);break;
+      case "hist":r[k]=newer.hist;break;
+      case "_t":r[k]=Math.max(ta,tb);break;
+      default:r[k]=isObj(newer[k])&&isObj(older[k])&&k!=="set"?{...older[k],...newer[k]}:newer[k];
+    }
+  }
+  return r;
+}
+function replaceP(np){
+  Object.keys(P).forEach(k=>delete P[k]);Object.assign(P,np);
+  P.learned=P.learned||{};P.gram=P.gram||{};P.best=P.best||{};P.trans=P.trans||0;P.days=P.days||[];
+  P.srs=P.srs||{};P.seen=P.seen||{};P.saved=P.saved||{};P.listen=P.listen||{n:0,ok:0};
+  P.set=Object.assign({theme:"system",palette:"aurora",font:"normal",motion:false,rate:1,autoSpeak:false,quizTime:"normal"},P.set||{});
+  store.set(BRAND.id+"_progress",P);
+}
+const stripLocal=p=>{const o={...p};delete o._uid;return o};
+
+async function pullProgress(first){
+  if(!AUTH.user||!AUTH.sb)return;
+  const S=AUTH.sync;S.state="sync";renderSyncState();
+  try{
+    const {data,error}=await AUTH.sb.from("progress").select("data,updated_at").eq("user_id",AUTH.user.id).maybeSingle();
+    if(error)throw error;
+    S.pulledAt=Date.now();
+    const remote=data?.data||null,mine=AUTH.user.id;
+    let next;
+    if(!remote)next={...P};
+    else if(P._uid&&P._uid!==mine)next=remote;          // bu cihazdaki kayıt başka bir hesabın
+    else next=mergeP(P,remote);
+    next._uid=mine;
+    const changedLocal=JSON.stringify(stripLocal(next))!==JSON.stringify(stripLocal(P));
+    replaceP(next);
+    if(changedLocal){applySettings();lastHash=null;route()}
+    if(!remote||JSON.stringify(stripLocal(next))!==JSON.stringify(remote))await pushProgress();
+    else{S.state="ok";S.at=Date.now();S.dirty=false}
+  }catch(e){S.state=navigator.onLine?"err":"off"}
+  renderSyncState();
+}
+async function pushProgress(){
+  if(!AUTH.user||!AUTH.sb)return;
+  const S=AUTH.sync;clearTimeout(S.timer);S.timer=null;S.state="sync";renderSyncState();
+  try{
+    const {error}=await AUTH.sb.from("progress").upsert({user_id:AUTH.user.id,data:stripLocal(P),updated_at:new Date().toISOString()});
+    if(error)throw error;
+    S.state="ok";S.at=Date.now();S.dirty=false;
+  }catch(e){S.state=navigator.onLine?"err":"off";S.dirty=true}
+  renderSyncState();
+}
+// app.js içindeki save() her kayıttan sonra bunu çağırır
+function onSaved(){
+  if(!AUTH.user)return;
+  const S=AUTH.sync;S.dirty=true;clearTimeout(S.timer);S.timer=setTimeout(pushProgress,1500);
+}
+document.addEventListener("visibilitychange",()=>{
+  if(!AUTH.user)return;
+  if(document.hidden){if(AUTH.sync.dirty)pushProgress()}
+  else if(Date.now()-AUTH.sync.pulledAt>30000&&!AUTH.sync.dirty)pullProgress();
+});
+window.addEventListener("online",()=>{if(AUTH.user&&AUTH.sync.dirty)pushProgress()});
+
+/* ---------- Hata iletileri ---------- */
+function trErr(e){
+  const m=String(e?.message||e||"");
+  if(/invalid login credentials/i.test(m))return "E-posta ya da şifre hatalı.";
+  if(/email not confirmed/i.test(m))return "E-postanı henüz onaylamadın. Gelen kutundaki onay bağlantısına dokun.";
+  if(/already registered|already been registered|user already exists/i.test(m))return "Bu e-posta ile zaten bir hesap var. Giriş yapmayı dene.";
+  if(/password should be at least|weak password/i.test(m))return "Şifre çok zayıf. En az 8 karakter, harf ve rakam kullan.";
+  if(/rate limit|only request this after|too many/i.test(m))return "Çok sık denendi. Biraz bekleyip yeniden dene.";
+  if(/invalid email|unable to validate email|email address .* is invalid/i.test(m))return "Geçerli bir e-posta adresi yaz.";
+  if(/expired|invalid.*(link|token|code)|otp/i.test(m))return "Bağlantının süresi dolmuş ya da daha önce kullanılmış. Yeni bir bağlantı iste.";
+  if(/provider is not enabled|unsupported provider/i.test(m))return "Bu giriş yolu henüz açılmadı.";
+  if(/signups not allowed/i.test(m))return "Şu an yeni kayıt alınmıyor.";
+  if(/same.*password|different from the old/i.test(m))return "Yeni şifre eskisinden farklı olmalı.";
+  if(/failed to fetch|network/i.test(m))return "Bağlantı kurulamadı. İnternetini kontrol et.";
+  return "Bir sorun oldu: "+m;
+}
+
+/* ---------- Üst menüdeki hesap düğmesi ---------- */
+function renderAcctBtn(){
+  const el=$("acctBtn");if(!el)return;
+  if(AUTH.user){
+    const img=avatarUrl(),n=fullName();
+    el.className="acct on";el.title=n;el.setAttribute("aria-label","Hesabım: "+n);
+    el.innerHTML=img?'<img src="'+esc(img)+'" alt="" referrerpolicy="no-referrer">':'<span>'+esc((n[0]||"?").toLocaleUpperCase("tr"))+'</span>';
+  }else{
+    el.className="acct";el.title="Giriş yap";el.setAttribute("aria-label","Giriş yap");
+    el.innerHTML=ic("user")+'<span class="acct-t">Giriş yap</span>';
+  }
+}
+
+/* ---------- Hesap sayfası ---------- */
+function renderSyncState(){
+  const el=$("syncState");if(!el)return;const S=AUTH.sync;
+  const t=S.at?new Date(S.at).toLocaleTimeString("tr-TR",{hour:"2-digit",minute:"2-digit"}):"";
+  el.className="syncst s-"+S.state;
+  el.innerHTML=S.state==="sync"?'<i class="dotspin"></i>Eşitleniyor…'
+    :S.state==="ok"?ic("check")+"Eşitlendi"+(t?" · "+t:"")
+    :S.state==="off"?ic("alert")+"Çevrimdışı · bağlanınca eşitlenecek"
+    :S.state==="err"?ic("alert")+"Eşitlenemedi · yeniden denenecek"
+    :ic("check")+"Hazır";
+}
+function renderAccount(){
+  const box=$("acct");if(!box)return;
+  if(AUTH.on&&!AUTH.ready){box.innerHTML='<div class="auth"><div class="auth-card"><p class="auth-lead">Hesap bilgilerin yükleniyor…</p></div></div>';return}
+  if(AUTH.user&&AUTH.mode!=="recover"){renderProfile(box);return}
+  const m=AUTH.mode,msg=AUTH.msg;
+  const logo='<span class="auth-mark" aria-hidden="true">'+$("logoMark").innerHTML.replace(/id="lg-tile"/,'id="lg-tile2"').replace(/url\(#lg-tile\)/,"url(#lg-tile2)")+'</span>';
+  const off=!AUTH.on?'<div class="auth-off">'+ic("alert")+'<span>'+(AUTH.configured?"Üye girişi bu önizlemede çalışmaz; Fluo sitesinde çalışır.":"Üye girişi hazırlanıyor. Kurulum tamamlanınca buradan giriş yapabileceksin.")+'</span></div>':"";
+  const msgH=msg?'<p class="auth-msg '+msg.t+'" role="'+(msg.t==="err"?"alert":"status")+'">'+ic(msg.t==="err"?"alert":"check")+'<span>'+esc(msg.s)+'</span></p>':"";
+  const email='<label class="fld"><span>E-posta</span><input type="email" id="aEmail" autocomplete="email" inputmode="email" required placeholder="ornek@eposta.com" value="'+esc(AUTH.sentTo||"")+'"></label>';
+  const pass=(id,lbl,ac)=>'<label class="fld"><span>'+lbl+'</span><div class="pw"><input type="password" id="'+id+'" autocomplete="'+ac+'" required minlength="8" placeholder="En az 8 karakter"><button type="button" class="pw-eye" data-for="'+id+'" aria-label="Şifreyi göster">'+ic("eye")+'</button></div></label>';
+  let h='<div class="auth-card">'+logo;
+  if(m==="sent"){
+    const k=AUTH.sentKind;
+    h+='<span class="auth-big">'+ic("mail")+'</span><h1>E-postanı kontrol et</h1>'+
+      '<p class="auth-lead"><b>'+esc(AUTH.sentTo)+'</b> adresine '+(k==="signup"?"bir onay bağlantısı":k==="forgot"?"şifre yenileme bağlantısı":"bir giriş bağlantısı")+' gönderdik. Bağlantıya bu cihazda, bu tarayıcıda dokun.</p>'+
+      '<p class="auth-note">Birkaç dakika içinde gelmezse gereksiz (spam) klasörüne bak.</p>'+
+      '<button class="ghost wide" data-mode="login">'+ic("left")+'Girişe dön</button>';
+  }else if(m==="recover"){
+    h+='<h1>Yeni şifreni belirle</h1><p class="auth-lead">Hesabın için yeni bir şifre seç.</p>'+off+msgH+
+      '<form id="aForm" novalidate>'+pass("aPass","Yeni şifre","new-password")+
+      '<button class="primary wide" type="submit"'+(AUTH.busy?" disabled":"")+'>Şifreyi kaydet</button></form>';
+  }else if(m==="forgot"||m==="magic"){
+    h+='<h1>'+(m==="forgot"?"Şifreni mi unuttun?":"Şifresiz giriş")+'</h1><p class="auth-lead">'+(m==="forgot"?"E-posta adresini yaz, şifreni yenilemen için bir bağlantı gönderelim.":"E-posta adresini yaz, tek dokunuşla giriş yapman için bir bağlantı gönderelim. Hesabın yoksa otomatik oluşturulur.")+'</p>'+off+msgH+
+      '<form id="aForm" novalidate>'+email+'<button class="primary wide" type="submit"'+(AUTH.busy?" disabled":"")+'>'+(AUTH.busy?"Gönderiliyor…":"Bağlantıyı gönder")+'</button></form>'+
+      '<button class="linkbtn auth-back" data-mode="login">'+ic("left")+'Girişe dön</button>';
+  }else{
+    const su=m==="signup";
+    h+='<h1>'+(su?"Hesap oluştur":"Fluo'ya giriş yap")+'</h1><p class="auth-lead">İlerlemen, Defterin ve seviyen tüm cihazlarında seninle olsun.</p>'+off+
+      '<button class="gbtn wide" id="aGoogle"'+(AUTH.busy?" disabled":"")+'>'+ic("globe")+'Google ile devam et</button>'+
+      '<div class="or"><span>ya da e-posta ile</span></div>'+
+      '<div class="auth-tabs" role="tablist"><button role="tab" data-mode="login" aria-selected="'+!su+'">Giriş yap</button><button role="tab" data-mode="signup" aria-selected="'+su+'">Kayıt ol</button></div>'+msgH+
+      '<form id="aForm" novalidate>'+(su?'<label class="fld"><span>Adın</span><input type="text" id="aName" autocomplete="given-name" placeholder="Adın" maxlength="40"></label>':'')+email+pass("aPass","Şifre",su?"new-password":"current-password")+
+      (su?'':'<button type="button" class="linkbtn auth-forgot" data-mode="forgot">Şifremi unuttum</button>')+
+      '<button class="primary wide" type="submit"'+(AUTH.busy?" disabled":"")+'>'+(AUTH.busy?"Bekle…":su?"Hesap oluştur":"Giriş yap")+'</button></form>'+
+      '<button class="ghost wide" data-mode="magic">'+ic("mail")+'E-postama giriş bağlantısı gönder</button>';
+  }
+  h+='</div><p class="auth-foot">Giriş yapmadan da kullanmaya devam edebilirsin; ilerlemen bu cihazda saklanır.<br>Giriş yapınca bu cihazdaki ilerlemen hesabına eklenir.</p>';
+  box.innerHTML='<div class="auth">'+h+'</div>';
+  box.querySelectorAll("[data-mode]").forEach(b=>b.onclick=()=>{const em=$("aEmail")?.value.trim();if(em)AUTH.sentTo=em;AUTH.mode=b.dataset.mode;AUTH.msg=null;renderAccount();setTimeout(()=>{const f=box.querySelector("input");if(f&&!matchMedia("(pointer:coarse)").matches)f.focus()},30)});
+  box.querySelectorAll(".pw-eye").forEach(b=>b.onclick=()=>{const i=$(b.dataset.for),show=i.type==="password";i.type=show?"text":"password";b.setAttribute("aria-label",show?"Şifreyi gizle":"Şifreyi göster");b.classList.toggle("on",show)});
+  if($("aGoogle"))$("aGoogle").onclick=googleSignIn;
+  if($("aForm"))$("aForm").onsubmit=e=>{e.preventDefault();submitAuth()};
+}
+function setMsg(t,s){AUTH.msg=s?{t,s}:null;AUTH.busy=false;renderAccount()}
+function needOn(){if(AUTH.on)return true;setMsg("err",AUTH.configured?"Üye girişi bu önizlemede çalışmaz. Fluo sitesinden dene.":"Üye girişi henüz kurulmadı.");return false}
+async function googleSignIn(){
+  if(!needOn())return;AUTH.busy=true;renderAccount();
+  const {error}=await AUTH.sb.auth.signInWithOAuth({provider:"google",options:{redirectTo:SITE_URL}});
+  if(error)setMsg("err",trErr(error));
+}
+async function submitAuth(){
+  const m=AUTH.mode,email=$("aEmail")?.value.trim(),pw=$("aPass")?.value||"",name=$("aName")?.value.trim();
+  if(email!==undefined){AUTH.sentTo=email;if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email))return setMsg("err","Geçerli bir e-posta adresi yaz.")}
+  if((m==="login"||m==="signup"||m==="recover")&&pw.length<8)return setMsg("err","Şifre en az 8 karakter olmalı.");
+  if((m==="signup"||m==="recover")&&!(/[A-Za-zÇĞİÖŞÜçğıöşü]/.test(pw)&&/\d/.test(pw)))return setMsg("err","Şifrede en az bir harf ve bir rakam olsun.");
+  if(!needOn())return;
+  AUTH.busy=true;AUTH.msg=null;renderAccount();
+  const A=AUTH.sb.auth;let r;
+  try{
+    if(m==="login"){r=await A.signInWithPassword({email,password:pw});if(r.error)throw r.error;AUTH.busy=false;AUTH.msg=null;return}
+    if(m==="signup"){
+      r=await A.signUp({email,password:pw,options:{data:name?{full_name:name}:{},emailRedirectTo:SITE_URL}});if(r.error)throw r.error;
+      AUTH.busy=false;
+      if(!r.data.session){
+        // Supabase, var olan bir e-posta için de hata vermeden döner; kimlik listesi boşsa hesap zaten vardır
+        if(r.data.user&&Array.isArray(r.data.user.identities)&&r.data.user.identities.length===0)return setMsg("err",trErr("already registered"));
+        AUTH.sentKind="signup";AUTH.mode="sent";renderAccount()}
+      return}
+    if(m==="magic"){r=await A.signInWithOtp({email,options:{emailRedirectTo:SITE_URL,shouldCreateUser:true}});if(r.error)throw r.error;AUTH.busy=false;AUTH.sentKind="magic";AUTH.mode="sent";renderAccount();return}
+    if(m==="forgot"){r=await A.resetPasswordForEmail(email,{redirectTo:SITE_URL});if(r.error)throw r.error;AUTH.busy=false;AUTH.sentKind="forgot";AUTH.mode="sent";renderAccount();return}
+    if(m==="recover"){r=await A.updateUser({password:pw});if(r.error)throw r.error;AUTH.mode="login";AUTH.busy=false;AUTH.msg=null;toast("Şifren güncellendi");renderAccount();return}
+  }catch(e){setMsg("err",trErr(e))}
+}
+function renderProfile(box){
+  const u=AUTH.user,img=avatarUrl(),n=fullName(),lv=P.level?CEFR[P.level.idx].code:"–";
+  box.innerHTML='<div class="prof">'+
+    '<div class="prof-card aurora">'+
+      '<span class="prof-av">'+(img?'<img src="'+esc(img)+'" alt="" referrerpolicy="no-referrer">':esc((n[0]||"?").toLocaleUpperCase("tr")))+'</span>'+
+      '<h1>'+esc(n)+'</h1><p class="prof-mail">'+esc(u.email||"")+'</p>'+
+      '<span class="prof-via">'+(viaGoogle()?ic("globe")+"Google hesabıyla":ic("mail")+"E-posta ile")+' bağlı</span>'+
+      '<span class="syncst" id="syncState"></span>'+
+    '</div>'+
+    '<div class="prof-stats">'+[[Object.keys(P.learned).length,"öğrenilen kelime"],[Object.keys(P.saved).length,"Defterim"],[lv,"seviye"],[streakCount(),"günlük seri"]].map(([b,s])=>'<div class="stat"><b>'+b+'</b><span>'+s+'</span></div>').join("")+'</div>'+
+    '<section class="sgroup"><h2>'+ic("user")+'Hesap</h2>'+
+      '<div class="srow"><div><b>Eşitleme</b><small>İlerlemen, Defterin, seviyen ve ayarların bu hesapla tüm cihazlarında aynı kalır.</small></div><button class="ghost" id="pSync">'+ic("refresh")+'Şimdi eşitle</button></div>'+
+      (viaGoogle()?'':'<div class="srow"><div><b>Şifre</b><small>Hesabının şifresini değiştir.</small></div><button class="ghost" id="pPass">Değiştir</button></div>')+
+      '<div class="srow"><div><b>Çıkış yap</b><small>Bu cihazdaki ilerleme silinir; hesabında saklı kalır.</small></div><button class="danger" id="pOut">Çıkış yap</button></div>'+
+      '<p class="sabout">Hesabını tamamen silmek için <b>'+BRAND.email+'</b> adresine yaz.</p>'+
+    '</section></div>';
+  renderSyncState();
+  $("pSync").onclick=()=>pullProgress();
+  if($("pPass"))$("pPass").onclick=()=>{AUTH.mode="recover";AUTH.msg=null;renderAccount()};
+  $("pOut").onclick=signOut;
+}
+async function signOut(){
+  const b=$("pOut");if(b)b.disabled=true;
+  if(AUTH.sync.dirty)await pushProgress();
+  try{await AUTH.sb.auth.signOut()}catch(e){}
+  try{const keep=P.set;localStorage.setItem(BRAND.id+"_progress",JSON.stringify({set:keep}));localStorage.removeItem(BRAND.id+"_translations")}catch(e){}
+  toast("Çıkış yapıldı");setTimeout(()=>{location.hash="ana";location.reload()},500);
+}
+initAuth();
 
 </script>

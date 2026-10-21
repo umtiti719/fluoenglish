@@ -21,7 +21,7 @@ const P=(()=>{
   ["kolay","orta","zor","uzman"].forEach(k=>{const old=store.get("best_"+k);if(old&&!(p.best[k]>=old))p.best[k]=old});
   return p;
 })();
-const save=()=>store.set(BRAND.id+"_progress",P);
+const save=()=>{P._t=Date.now();store.set(BRAND.id+"_progress",P);if(typeof onSaved==="function")onSaved()};
 try{if(localStorage.getItem("fluo_trc")!==null&&localStorage.getItem(BRAND.id+"_translations")===null){localStorage.setItem(BRAND.id+"_translations",localStorage.getItem("fluo_trc"));localStorage.removeItem("fluo_trc")}}catch(e){}
 try{if(localStorage.getItem("ka_p")!==null){save();localStorage.removeItem("ka_p");["kolay","orta","zor","uzman"].forEach(k=>localStorage.removeItem("best_"+k))}}catch(e){}
 const dayKey=d=>d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0")+"-"+String(d.getDate()).padStart(2,"0");
@@ -31,11 +31,10 @@ function streakCount(){
   if(!s.has(dayKey(d)))d.setDate(d.getDate()-1);
   let n=0;while(s.has(dayKey(d))){n++;d.setDate(d.getDate()-1)}return n;
 }
-/* Günlük seri göstergesi üye girişi eklenince açılacak; seri arka planda sayılmaya devam eder */
-const SHOW_STREAK=false;
+/* Günlük seri göstergesi yalnızca giriş yapınca görünür; seri arka planda her zaman sayılır */
 function renderStreak(){
   const n=streakCount(),el=$("streak");
-  el.hidden=!SHOW_STREAK;
+  el.hidden=!signedIn();
   el.className="streak"+(n?"":" off");
   el.innerHTML='<svg class="ic"><use href="#i-flame"/></svg>'+n+" gün";
 }
@@ -145,8 +144,9 @@ function toast(msg){const t=$("toast");t.textContent=msg;t.classList.add("show")
 function setSaveBtn(b,en){b.dataset.save=en;const on=isSaved(en);b.classList.toggle("on",on);b.setAttribute("aria-pressed",on)}
 function toggleSave(en){
   if(!en)return;
-  if(isSaved(en)){delete P.saved[en];toast("Defterinden çıkarıldı")}
-  else{const w=winfo(en);if(!w)return;P.saved[en]=w.slice(0,5);toast("Defterine eklendi: "+en)}
+  P._del=P._del||{};
+  if(isSaved(en)){delete P.saved[en];P._del[en]=Date.now();toast("Defterinden çıkarıldı")}
+  else{const w=winfo(en);if(!w)return;P.saved[en]=w.slice(0,5);delete P._del[en];toast("Defterine eklendi: "+en)}
   save();
   document.querySelectorAll('[data-save]').forEach(b=>{if(b.dataset.save===en)setSaveBtn(b,en)});
   if(!$("v-defter").hidden)renderDefter();
@@ -167,12 +167,13 @@ function renderNav(){
   $("nav").innerHTML=SECTIONS.map(s=>'<a href="#'+s.id+'" data-sec="'+s.id+'" style="--c:'+s.c+'">'+ic(s.icon)+s.label+'</a>').join("");
   $("tabbar").innerHTML=SECTIONS.map(s=>'<a href="#'+s.id+'" data-sec="'+s.id+'" style="--c:'+s.c+'">'+ic(s.icon)+'<span>'+s.short+'</span></a>').join("");
 }
-const VIEWS=["seviye","ayarlar","ana","ogren","calis","deckend","defter","dinle","yarisma","gramer","konu","cevir","ceviri"];
+const VIEWS=["hesap","seviye","ayarlar","ana","ogren","calis","deckend","defter","dinle","yarisma","gramer","konu","cevir","ceviri"];
 function setFocus(){document.body.classList.toggle("focus",(!$("v-calis").hidden)||(!$("v-yarisma").hidden&&G.phase==="game")||(!$("v-seviye").hidden&&T.phase==="run"))}
 function showView(v,sec){
   VIEWS.forEach(x=>$("v-"+x).hidden=x!==v);setTimeout(setFocus,0);
   document.querySelectorAll("[data-sec]").forEach(a=>{if(a.dataset.sec===sec)a.setAttribute("aria-current","page");else a.removeAttribute("aria-current")});
   if(sec==="ayarlar")$("gearBtn").setAttribute("aria-current","page");else $("gearBtn").removeAttribute("aria-current");
+  if(sec==="hesap")$("acctBtn").setAttribute("aria-current","page");else $("acctBtn").removeAttribute("aria-current");
 }
 let lastHash=null;
 function route(){
@@ -205,6 +206,7 @@ function route(){
   }
   else if(h==="metin"){showView("ceviri","metin")}
   else if(h==="ayarlar"){renderSettings();showView("ayarlar","ayarlar")}
+  else if(h==="hesap"||h==="giris"){renderAccount();showView("hesap","hesap")}
   else if(h==="seviye"){renderTest();showView("seviye","ana")}
   else if(h==="cevir"){renderTrHint();showView("cevir","cevir");setTimeout(()=>{try{$("trInput").focus({preventScroll:true})}catch(e){}},50)}
   else{location.hash="ana";return}
@@ -219,7 +221,7 @@ function replayView(){
   setTimeout(()=>v.classList.remove("again"),500);
 }
 document.addEventListener("click",e=>{
-  const a=e.target.closest(".nav a,.tabbar a,.brand,.gear");if(!a)return;
+  const a=e.target.closest(".nav a,.tabbar a,.brand,.gear,.acct");if(!a)return;
   if(!reduceMotion()){a.classList.remove("tap");void a.offsetWidth;a.classList.add("tap");setTimeout(()=>a.classList.remove("tap"),400)}
   if(a.classList.contains("brand"))setTimeout(playLogo,60);
   const target=(a.getAttribute("href")||"").slice(1),cur=(location.hash.slice(1)||"ana").toLowerCase();
@@ -235,7 +237,7 @@ function renderHome(){
   renderHero();
   const learned=Object.keys(P.learned).length,best=Math.max(0,...Object.values(P.best));
   $("homeStats").innerHTML=[
-    [learned,"öğrenilen kelime"],[gramDone()+"/"+GRAMMAR.length,"gramer konusu"],P.level?[CEFR[P.level.idx].code,"seviyen"]:[best,"en yüksek puan"],SHOW_STREAK?[streakCount(),"günlük seri"]:[Object.keys(P.saved).length,"defterdeki kelime"]
+    [learned,"öğrenilen kelime"],[gramDone()+"/"+GRAMMAR.length,"gramer konusu"],P.level?[CEFR[P.level.idx].code,"seviyen"]:[best,"en yüksek puan"],signedIn()?[streakCount(),"günlük seri"]:[Object.keys(P.saved).length,"defterdeki kelime"]
   ].map(([b,s])=>s==="seviyen"?'<a class="stat" href="#seviye"><b>'+b+'</b><span>'+s+'</span></a>':'<div class="stat"><b>'+b+'</b><span>'+s+'</span></div>').join("");
   // günün kelimesi
   const n=Math.floor(Date.now()/864e5),pick=ALLWORDS[(n*7)%ALLWORDS.length],w=pick.w;
@@ -266,11 +268,9 @@ function renderHome(){
     (P.level?'<a class="cont" href="#seviye" style="--c:var(--g5)"><span class="mod-ic">'+ic("target")+'</span><div><small>Seviye testi</small><b>Testi yeniden çöz</b><span>Kelime, dil bilgisi, okuma ve dinleme</span></div>'+ic("right")+'</a>':'');
 }
 
-/* Kişisel karşılama ("İyi akşamlar, bugün ne çalışalım?") üye girişi eklenince açılacak.
-   Şimdilik herkes genel karşılamayı görür. */
-const PERSONAL_HERO=false;
+/* Kişisel karşılama ("İyi akşamlar Ümit, bugün ne çalışalım?") giriş yapanlara; diğerleri genel karşılamayı görür. */
 function renderHero(){
-  if(!PERSONAL_HERO){
+  if(!signedIn()){
     $("heroDate").innerHTML=ic("spark")+"Türkçe anlatımlı İngilizce çalışma alanı";
     $("heroHello").textContent="İngilizceni bugün";
     $("heroAsk").textContent="bir adım ileri taşı.";
@@ -282,7 +282,8 @@ function renderHero(){
   }
   $("heroAsk").textContent="bugün ne çalışalım?";
   const now=new Date(),h=now.getHours();
-  $("heroHello").textContent=h<5?"İyi geceler,":h<11?"Günaydın,":h<17?"Merhaba,":h<23?"İyi akşamlar,":"İyi geceler,";
+  const nm=firstName();
+  $("heroHello").textContent=(h<5?"İyi geceler":h<11?"Günaydın":h<17?"Merhaba":h<23?"İyi akşamlar":"İyi geceler")+(nm?" "+nm:"")+",";
   $("heroDate").innerHTML=ic(h>=6&&h<19?"sun":"spark")+esc(now.toLocaleDateString("tr-TR",{day:"numeric",month:"long",weekday:"long"}));
   const due=dueWords().length,st=streakCount(),started=P.days.length>0||Object.keys(P.learned).length>0;
   const nextT=GRAMMAR.find(t=>!P.gram[t.id]?.done)||GRAMMAR[0];
@@ -296,8 +297,9 @@ function renderHero(){
   const primary=due?{h:"#ogren-tekrar",t:"Tekrara başla ("+due+")"}
     :inProg?{h:"#ogren-"+inProg.id,t:inProg.name+" destesine dön"}
     :{h:"#ogren",t:"Bir kelime destesi seç"};
-  $("heroCta").innerHTML='<a class="primary" href="'+primary.h+'">'+esc(primary.t)+'<span class="arr">'+ic("right")+'</span></a>'+
-    '<a class="ghost" href="#g-'+nextT.id+'">'+ic("book")+'Sıradaki konu: '+esc(nextT.title)+'</a>';
+  $("heroCta").innerHTML='<div class="hero-row"><a class="primary" href="'+primary.h+'">'+esc(primary.t)+'<span class="arr">'+ic("right")+'</span></a>'+
+    '<a class="ghost" href="#g-'+nextT.id+'">'+ic("book")+'Sıradaki konu: '+esc(nextT.title)+'</a></div>'+
+    '<a class="ghost hero-test" href="#seviye">'+ic("target")+(P.level?'Seviye testi':'Seviyeni öğren')+'</a>';
 }
 
 /* ================= KELİME ÖĞREN ================= */
@@ -990,6 +992,10 @@ function renderSettings(){
   const sw=(key,label)=>'<button class="switch" role="switch" data-sw="'+key+'" aria-checked="'+!!st[key]+'" aria-label="'+label+'"></button>';
   const row=(t,d,ctl)=>'<div class="srow"><div><b>'+t+'</b><small>'+d+'</small></div>'+ctl+'</div>';
   $("settings").innerHTML=
+    '<section class="sgroup"><h2>'+ic("user")+'Hesap</h2>'+
+      (signedIn()?row(esc(fullName()),esc(AUTH.user.email||"")+" · ilerlemen bu hesapla eşitleniyor.",'<a class="ghost" href="#hesap">Hesabım</a>')
+        :row("Giriş yapmadın","Giriş yaparsan ilerlemen tüm cihazlarında seninle olur.",'<a class="primary" href="#hesap">Giriş yap</a>'))+
+    '</section>'+
     '<section class="sgroup"><h2>'+ic("sun")+'Görünüm</h2>'+
       row("Tema","Sistem seçiliyse bilgisayarının ya da telefonunun temasını izler.",pills("theme",[["system","Sistem","monitor"],["light","Açık","sun"],["dark","Koyu","moon"]]))+
       row("Renk paleti","Başlıklardaki degrade ve arka plan renkleri.",'<div class="swatches">'+PALETTES.map(([v,l,c])=>'<button class="swatch" data-k="palette" data-v="'+v+'" aria-pressed="'+(st.palette===v)+'"><i style="background:linear-gradient(135deg,'+c+')"></i>'+l+'</button>').join("")+'</div>')+
@@ -1007,8 +1013,8 @@ function renderSettings(){
     '</section>'+
     '<section class="sgroup"><h2>'+ic("alert")+'Veriler</h2>'+
       row("Çeviri geçmişi","Son aramaları ve kaydedilmiş çevirileri siler.",'<button class="danger" id="clrTr">Temizle</button>')+
-      row("Tüm ilerlemeyi sıfırla","Öğrenilen kelimeler, tekrar takvimi, Defterim, rekorlar ve seri silinir. Geri alınamaz.",'<button class="danger" id="rstAll">Sıfırla</button>')+
-      '<p class="sabout">Fluo · ilerlemen ve ayarların yalnızca bu cihazdaki tarayıcıda saklanır.</p>'+
+      row("Tüm ilerlemeyi sıfırla","Öğrenilen kelimeler, tekrar takvimi, Defterim, rekorlar ve seri silinir"+(signedIn()?"; hesabındaki kayıt da sıfırlanır":"")+". Geri alınamaz.",'<button class="danger" id="rstAll">Sıfırla</button>')+
+      '<p class="sabout">Fluo · '+(signedIn()?"ilerlemen ve ayarların hesabında saklanır ve cihazların arasında eşitlenir.":"ilerlemen ve ayarların yalnızca bu cihazdaki tarayıcıda saklanır.")+'</p>'+
     '</section>';
   $("settings").querySelectorAll("[data-k]").forEach(b=>b.onclick=()=>{const k=b.dataset.k;let v=b.dataset.v;if(k==="rate")v=+v;P.set[k]=v;save();applySettings();renderSettings()});
   $("settings").querySelectorAll("[data-sw]").forEach(b=>b.onclick=()=>{const k=b.dataset.sw;P.set[k]=!P.set[k];save();applySettings();renderSettings()});
@@ -1016,7 +1022,9 @@ function renderSettings(){
   const rb=$("rstAll");let armed=null;
   rb.onclick=()=>{
     if(!armed){rb.classList.add("armed");rb.textContent="Emin misin? Tekrar dokun";armed=setTimeout(()=>{armed=null;rb.classList.remove("armed");rb.textContent="Sıfırla"},4000);return}
-    clearTimeout(armed);const keep=P.set;try{["ka_p","fluo_trc",BRAND.id+"_progress",BRAND.id+"_translations","best_kolay","best_orta","best_zor","best_uzman"].forEach(k=>localStorage.removeItem(k));localStorage.setItem(BRAND.id+"_progress",JSON.stringify({set:keep}))}catch(e){}
+    clearTimeout(armed);const keep=P.set;
+    if(signedIn()){replaceP({set:keep,_uid:AUTH.user.id,_reset:Date.now(),_t:Date.now()});pushProgress().finally(()=>{toast("İlerleme sıfırlandı");setTimeout(()=>{location.hash="ana";location.reload()},700)});return}
+    try{["ka_p","fluo_trc",BRAND.id+"_progress",BRAND.id+"_translations","best_kolay","best_orta","best_zor","best_uzman"].forEach(k=>localStorage.removeItem(k));localStorage.setItem(BRAND.id+"_progress",JSON.stringify({set:keep}))}catch(e){}
     toast("İlerleme sıfırlandı");setTimeout(()=>{location.hash="ana";location.reload()},700);
   };
 }
