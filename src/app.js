@@ -245,7 +245,7 @@ function renderHome(){
     '<a class="cont" href="#ogren-'+nextD.id+'" style="--c:'+nextD.hue+'"><span class="mod-ic">'+ic(nextD.icon)+'</span><div><small>Kelime destesi · '+learnedIn(nextD)+'/'+nextD.words.length+'</small><b>'+esc(nextD.name)+'</b><span>'+esc(nextD.en)+'</span></div>'+ic("right")+'</a>'+
     '<a class="cont" href="#dinle" style="--c:var(--m-learn)"><span class="mod-ic">'+ic("headphones")+'</span><div><small>Dinleme · '+P.listen.ok+' doğru</small><b>Dinle ve anla</b><span>Cümleyi duy, kelimeyi seç ya da yaz</span></div>'+ic("right")+'</a>'+
     (Object.keys(P.saved).length?'<a class="cont" href="#defter" style="--c:var(--g3)"><span class="mod-ic">'+ic("bookmark")+'</span><div><small>Defterim</small><b>'+Object.keys(P.saved).length+' kayıtlı kelime</b><span>Kaydettiklerini çalış</span></div>'+ic("right")+'</a>':'')+
-    (P.level?'<a class="cont" href="#seviye" style="--c:var(--g5)"><span class="mod-ic">'+ic("target")+'</span><div><small>Seviye testi · son sonucun '+CEFR[P.level.idx].code+'</small><b>Sonucunu gör ya da yeniden çöz</b><span>Cevaplarını ve becerilerini incele</span></div>'+ic("right")+'</a>':'');
+    (P.level?'<a class="cont" href="#seviye" style="--c:var(--g5)"><span class="mod-ic">'+ic("target")+'</span><div><small>Seviye testi</small><b>Testi yeniden çöz</b><span>Kelime, dil bilgisi, okuma ve dinleme</span></div>'+ic("right")+'</a>':'');
 }
 
 /* Kişisel karşılama ("İyi akşamlar, bugün ne çalışalım?") üye girişi eklenince açılacak.
@@ -257,8 +257,9 @@ function renderHero(){
     $("heroHello").textContent="İngilizceni bugün";
     $("heroAsk").textContent="bir adım ileri taşı.";
     $("heroLead").textContent="Kelime öğren, dil bilgisi konularını çalış, yarışmayla kendini dene ve gerçek metinleri çevir.";
-    $("heroCta").innerHTML='<a class="primary" href="#ogren">Kelime öğrenmeye başla<span class="arr">'+ic("right")+'</span></a>'+
-      '<a class="ghost" href="#seviye">'+ic("target")+(P.level?'Seviye testi · '+CEFR[P.level.idx].code:'Seviyeni öğren')+'</a>';
+    $("heroCta").innerHTML='<div class="hero-row"><a class="primary" href="#ogren">Kelime öğrenmeye başla<span class="arr">'+ic("right")+'</span></a>'+
+      '<a class="ghost" href="#gramer">Dil bilgisine göz at</a></div>'+
+      '<a class="ghost hero-test" href="#seviye">'+ic("target")+(P.level?'Seviye testi':'Seviyeni öğren')+'</a>';
     return;
   }
   $("heroAsk").textContent="bugün ne çalışalım?";
@@ -1126,13 +1127,14 @@ function renderTest(){
   }
   // giriş
   const last=P.level;
-  box.innerHTML='<div class="tintro aurora">'+
+  box.innerHTML=(last?'<button class="tlast" id="tLast"><span class="tlast-code">'+CEFR[last.idx].code+'</span><span class="tlast-t"><small>Son seviyen</small><b>'+CEFR[last.idx].name+'</b><span>'+new Date(last.date).toLocaleDateString("tr-TR",{day:"numeric",month:"long",year:"numeric"})+' · '+last.n+' sorudan '+last.ok+' doğru</span></span><span class="tlast-go">Sonucu gör'+ic("right")+'</span></button>':'')+'<div class="tintro aurora">'+
     '<span class="kicker">'+ic("target")+'Seviye testi</span>'+
     '<h1 class="h-display">Seviyeni <span class="grad">10 dakikada</span> öğren.</h1>'+
     '<p class="lead">Kelime, dil bilgisi, okuma ve dinleme sorularıyla İngilizce seviyeni A1–C1 ölçeğinde belirleyelim. Sorular cevaplarına göre zorlaşır ya da kolaylaşır.</p>'+
     '<div class="skchips">'+Object.values(SKILLS).map(v=>'<span>'+ic(v.icon)+v.name+'</span>').join("")+'</div>'+
     '<ul class="ttips"><li>Yaklaşık 18 soru, 8–10 dakika</li><li>Emin değilsen <b>Bilmiyorum</b>\'a dokun; tahmin etmek sonucu yanıltır</li><li>Dinleme soruları için sesin açık olsun</li></ul>'+
-    '<div class="hero-cta"><button class="primary" id="tStart">Teste başla<span class="arr">'+ic("right")+'</span></button>'+(last?'<button class="ghost" id="tLast">Son sonucum: '+CEFR[last.idx].code+'</button>':'')+'</div></div>';
+    '<div class="hero-cta"><button class="primary" id="tStart">Teste başla<span class="arr">'+ic("right")+'</span></button>'+'</div>'+
+    '</div>';
   $("tStart").onclick=startTest;
   if(last)$("tLast").onclick=()=>{T.phase="result";renderTest()};
 }
