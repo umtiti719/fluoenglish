@@ -1,3 +1,7 @@
+/* ================= MARKA =================
+   Uygulamada görünen ad ve logo: Fluo. Dışarıya dönük kimlik (web adresi, e-posta, depo, kayıt anahtarları): fluoenglish. */
+const BRAND={name:"Fluo",id:"fluoenglish",site:"fluoenglish.com",email:"support@fluoenglish.com",github:"github.com/umtiti719/fluoenglish"};
+
 /* ================= YARDIMCILAR ================= */
 const $=id=>document.getElementById(id);
 const esc=s=>String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
@@ -12,12 +16,14 @@ let sampleFn=null;
 
 /* ================= İLERLEME ================= */
 const P=(()=>{
-  const p=store.get("ka_p")||{};
+  const p=store.get(BRAND.id+"_progress")||store.get("ka_p")||{};
   p.learned=p.learned||{};p.gram=p.gram||{};p.best=p.best||{};p.trans=p.trans||0;p.days=p.days||[];
   ["kolay","orta","zor","uzman"].forEach(k=>{const old=store.get("best_"+k);if(old&&!(p.best[k]>=old))p.best[k]=old});
   return p;
 })();
-const save=()=>store.set("ka_p",P);
+const save=()=>store.set(BRAND.id+"_progress",P);
+try{if(localStorage.getItem("fluo_trc")!==null&&localStorage.getItem(BRAND.id+"_translations")===null){localStorage.setItem(BRAND.id+"_translations",localStorage.getItem("fluo_trc"));localStorage.removeItem("fluo_trc")}}catch(e){}
+try{if(localStorage.getItem("ka_p")!==null){save();localStorage.removeItem("ka_p");["kolay","orta","zor","uzman"].forEach(k=>localStorage.removeItem("best_"+k))}}catch(e){}
 const dayKey=d=>d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0")+"-"+String(d.getDate()).padStart(2,"0");
 function markActive(){const t=dayKey(new Date());if(!P.days.includes(t)){P.days.push(t);P.days=P.days.slice(-90);save()}renderStreak()}
 function streakCount(){
@@ -77,7 +83,7 @@ const AIDX=/*AIDX*/{};
 const SILENT=/*SILENT*/"";
 const akey=t=>{t=plain(t).trim().replace(/\s+/g," ");return /\s/.test(t)?t:t.toLowerCase()};
 const fnv=s=>{let h=0x811c9dc5;for(let i=0;i<s.length;i++){h^=s.charCodeAt(i);h=Math.imul(h,0x01000193)>>>0}return h.toString(36)};
-window.FLUO_AUDIO=window.FLUO_AUDIO||{};
+window.FLUO_AUDIO=window.FLUO_AUDIO||{}; /* ses paketlerinin ortak adı */
 const aLoad={};
 function loadAudio(g){
   return aLoad[g]||(aLoad[g]=new Promise((res,rej)=>{const sc=document.createElement("script");sc.src="audio-"+g+".js";sc.async=true;
@@ -800,8 +806,8 @@ renderListenLevels();
    Önce uygulamanın kendi sözlüğü (desteler, yarışma, metin sözlüğü), sonra varsa yapay zekâ. */
 P.hist=P.hist||[];
 /* Çeviri önbelleği: bir kez çevrilen ifade tekrar arandığında anında gelir (bu cihazda, son 300 arama) */
-let TRC={};try{TRC=JSON.parse(localStorage.getItem("fluo_trc"))||{}}catch(e){TRC={}}
-function saveTRC(){const ks=Object.keys(TRC);if(ks.length>300)ks.slice(0,ks.length-300).forEach(k=>delete TRC[k]);try{localStorage.setItem("fluo_trc",JSON.stringify(TRC))}catch(e){}}
+let TRC={};try{TRC=JSON.parse(localStorage.getItem(BRAND.id+"_translations")||localStorage.getItem("fluo_trc"))||{}}catch(e){TRC={}}
+function saveTRC(){const ks=Object.keys(TRC);if(ks.length>300)ks.slice(0,ks.length-300).forEach(k=>delete TRC[k]);try{localStorage.setItem(BRAND.id+"_translations",JSON.stringify(TRC));localStorage.removeItem("fluo_trc")}catch(e){}}
 const TR={dir:"en",busy:0};
 const trNorm=s=>s.toLocaleLowerCase("tr").replace(/[’`]/g,"'").replace(/[.,!?;:"()]/g,"").replace(/\s+/g," ").trim();
 const TRIDX=(()=>{const m={};const add=(tr,en)=>{tr.split(/[,;/]|\(|\)/).map(x=>trNorm(x.replace(/^-/,""))).filter(x=>x.length>1).forEach(k=>{(m[k]=m[k]||[]).includes(en)||m[k].push(en)})};
@@ -982,11 +988,11 @@ function renderSettings(){
     '</section>';
   $("settings").querySelectorAll("[data-k]").forEach(b=>b.onclick=()=>{const k=b.dataset.k;let v=b.dataset.v;if(k==="rate")v=+v;P.set[k]=v;save();applySettings();renderSettings()});
   $("settings").querySelectorAll("[data-sw]").forEach(b=>b.onclick=()=>{const k=b.dataset.sw;P.set[k]=!P.set[k];save();applySettings();renderSettings()});
-  $("clrTr").onclick=()=>{P.hist=[];TRC={};save();saveTRC();try{localStorage.removeItem("fluo_trc")}catch(e){}toast("Çeviri geçmişi temizlendi")};
+  $("clrTr").onclick=()=>{P.hist=[];TRC={};save();saveTRC();try{localStorage.removeItem("fluo_trc");localStorage.removeItem(BRAND.id+"_translations")}catch(e){}toast("Çeviri geçmişi temizlendi")};
   const rb=$("rstAll");let armed=null;
   rb.onclick=()=>{
     if(!armed){rb.classList.add("armed");rb.textContent="Emin misin? Tekrar dokun";armed=setTimeout(()=>{armed=null;rb.classList.remove("armed");rb.textContent="Sıfırla"},4000);return}
-    clearTimeout(armed);const keep=P.set;try{["ka_p","fluo_trc","best_kolay","best_orta","best_zor","best_uzman"].forEach(k=>localStorage.removeItem(k));localStorage.setItem("ka_p",JSON.stringify({set:keep}))}catch(e){}
+    clearTimeout(armed);const keep=P.set;try{["ka_p","fluo_trc",BRAND.id+"_progress",BRAND.id+"_translations","best_kolay","best_orta","best_zor","best_uzman"].forEach(k=>localStorage.removeItem(k));localStorage.setItem(BRAND.id+"_progress",JSON.stringify({set:keep}))}catch(e){}
     toast("İlerleme sıfırlandı");setTimeout(()=>{location.hash="ana";location.reload()},700);
   };
 }

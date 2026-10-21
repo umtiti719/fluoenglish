@@ -1,5 +1,9 @@
 # Fluo
 
+**Proje kimliği:** `fluoenglish` · Web: fluoenglish.com (planlanıyor) · Destek: support@fluoenglish.com (planlanıyor) · Depo: github.com/umtiti719/fluoenglish
+
+Uygulamada görünen ad ve logo **Fluo**; web adresi, e-posta, depo adı ve diğer dış kimlikler **fluoenglish**.
+
 
 *(Önceki adı: Kelime Atölyesi)*
 Türkçe arayüzlü, genel İngilizce öğrenme uygulaması.
