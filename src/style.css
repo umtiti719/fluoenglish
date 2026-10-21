@@ -883,3 +883,38 @@ button,a,.opt,.w,.flipcard,.swatch,.switch{touch-action:manipulation;-webkit-tap
 .tq-audio .playbtn{grid-area:play}
 .tq-audio>div{grid-area:txt}
 .tq-audio .ghost{grid-area:btn;justify-self:start;padding:8px 14px;font-size:.88rem}
+
+/* Seviye testi · cevap listesi */
+.trev{display:flex;flex-direction:column;gap:14px}
+.trev-head{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}
+.trev-f{display:flex;gap:4px;padding:4px;border-radius:999px;background:var(--surface2);border:1px solid var(--line)}
+.trev-f button{border:0;background:none;font:inherit;font-size:.86rem;font-weight:600;color:var(--muted);padding:7px 13px;border-radius:999px;cursor:pointer;display:flex;gap:6px;align-items:center}
+.trev-f button span{font-size:.78rem;opacity:.75}
+.trev-f button[aria-selected="true"]{background:var(--surface);color:var(--ink);box-shadow:0 1px 3px rgba(0,0,0,.08)}
+.trev-list{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:10px}
+.ritem{border:1px solid var(--line);border-radius:18px;padding:14px 16px;display:flex;flex-direction:column;gap:10px;border-left:4px solid var(--good)}
+.ritem.is-bad{border-left-color:var(--bad)}
+.ritem-top{display:flex;align-items:center;gap:10px}
+.rnum{width:24px;height:24px;border-radius:50%;display:grid;place-items:center;background:var(--good-bg);color:var(--good);flex:none}
+.is-bad .rnum{background:var(--bad-bg);color:var(--bad)}
+.rnum .ic{width:14px;height:14px}
+.rmeta{font-size:.82rem;color:var(--muted);font-weight:500}
+.rq{margin:0;font-weight:500;line-height:1.45}
+.rq .blank{display:inline-block;padding:0 3px;border-bottom:2px solid var(--good);color:var(--good);font-weight:600}
+.rans{display:flex;gap:8px;flex-wrap:wrap}
+.rv{display:flex;align-items:center;gap:8px;padding:8px 12px;border-radius:12px;font-weight:600;font-size:.92rem}
+.rv .ic{width:16px;height:16px;flex:none}
+.rv>span{display:flex;flex-direction:column;line-height:1.25}
+.rv small{font-size:.72rem;font-weight:500;opacity:.8}
+.rv.good{background:var(--good-bg);color:var(--good)}
+.rv.bad{background:var(--bad-bg);color:var(--bad)}
+.rv.bad>span{text-decoration-thickness:1px}
+.rsrc{font-size:.9rem;color:var(--muted);background:var(--surface2);border-radius:12px;padding:10px 12px}
+.rsrc summary{cursor:pointer;font-weight:600;display:flex;align-items:center;gap:6px;list-style:none}
+.rsrc summary::-webkit-details-marker{display:none}
+.rsrc summary .ic{width:16px;height:16px}
+.rsrc p{margin:8px 0 0;line-height:1.55;color:var(--ink)}
+.raud{display:flex;align-items:center;gap:10px;color:var(--ink);font-style:italic}
+.raud .speak{flex:none}
+.trev-empty{text-align:center;margin:6px 0}
+@media (max-width:600px){.trev-head{flex-direction:column;align-items:stretch}.trev-f{justify-content:space-between}.trev-f button{flex:1;justify-content:center;padding:7px 8px}.ritem{padding:12px 13px}}

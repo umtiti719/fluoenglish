@@ -1046,16 +1046,44 @@ function finishTest(){
   const per=[0,1,2,3,4].map(lv=>{const a=T.ans.filter(x=>x.q.lv===lv);return{n:a.length,ok:a.filter(x=>x.ok).length}});
   const th=estTheta(T.ans),level=thetaLevel(th),pre=(th-IRT.off)<-.5||(per[0].n>0&&per[0].ok/per[0].n<.5);
   const skills={};Object.keys(SKILLS).forEach(k=>{const a=T.ans.filter(x=>x.q.sk===k);skills[k]=a.length?Math.round(a.filter(x=>x.ok).length/a.length*100):null});
-  P.level={idx:level,pre,skills,date:Date.now(),n:T.ans.length,ok:T.ans.filter(a=>a.ok).length};save();
+  P.level={idx:level,pre,skills,date:Date.now(),n:T.ans.length,ok:T.ans.filter(a=>a.ok).length,
+    review:T.ans.map(x=>[TESTQ.indexOf(x.q),x.pick])};save();T.rf="all";
   T.phase="result";renderTest();window.scrollTo({top:0});
 }
-function answerTest(ok){
+function answerTest(pick){
   if(T.lock)return;T.lock=true;
-  T.ans.push({q:T.items[T.i],ok});T.i++;
+  const q=T.items[T.i];T.ans.push({q,ok:pick===q.a,pick});T.i++;
   setTimeout(()=>{T.lock=false;
     if(T.i>=T.items.length){if(T.stage===1){stage2();renderTest()}else finishTest()}
     else renderTest();
   },reduceMotion()?0:220);
+}
+/* Sonuç ekranı: soru soru cevaplar */
+function reviewItems(L){return (L.review||[]).map(([qi,pick],n)=>{const q=TESTQ[qi];return q?{q,pick,n,ok:pick===q.a}:null}).filter(Boolean)}
+function reviewHTML(L){
+  const it=reviewItems(L);if(!it.length)return "";
+  const nOk=it.filter(x=>x.ok).length,f=T.rf||"all";
+  return '<section class="card trev" id="tRev"><div class="trev-head"><h2 class="tres-h">Cevapların</h2>'+
+    '<div class="trev-f" role="tablist">'+[["all","Tümü",it.length],["bad","Yanlışlar",it.length-nOk],["ok","Doğrular",nOk]].map(([k,t,c])=>'<button role="tab" data-f="'+k+'" aria-selected="'+(f===k)+'">'+t+' <span>'+c+'</span></button>').join("")+'</div></div>'+
+    '<ol class="trev-list" id="tRevList">'+it.map(x=>{const q=x.q,sk=SKILLS[q.sk],dunno=x.pick<0;
+      const qtxt=esc(q.q).replace("___",'<span class="blank">'+esc(q.opts[q.a])+'</span>');
+      return '<li class="ritem '+(x.ok?"is-ok":"is-bad")+'" data-ok="'+(x.ok?1:0)+'"'+(f==="ok"&&!x.ok||f==="bad"&&x.ok?" hidden":"")+'>'+
+        '<div class="ritem-top"><span class="rnum">'+(x.ok?ic("check"):ic("x"))+'</span><span class="rmeta">Soru '+(x.n+1)+' · '+sk.name+' · '+CEFR[q.lv].code+'</span></div>'+
+        (q.text?'<details class="rsrc"><summary>'+ic("doc")+'Metni göster</summary><p>'+esc(q.text)+'</p></details>':'')+
+        (q.audio?'<div class="rsrc raud">'+sayBtn(q.audio)+'<span>'+esc(q.audio)+'</span></div>':'')+
+        '<p class="rq">'+qtxt+'</p>'+
+        '<div class="rans">'+(x.ok?'<span class="rv good">'+ic("check")+'<span><small>Cevabın</small>'+esc(q.opts[q.a])+'</span></span>':
+          '<span class="rv bad">'+ic("x")+'<span><small>Cevabın</small>'+(dunno?'<i>Bilmiyorum</i>':esc(q.opts[x.pick]))+'</span></span><span class="rv good">'+ic("check")+'<span><small>Doğrusu</small>'+esc(q.opts[q.a])+'</span></span>')+'</div></li>'}).join("")+
+    '</ol><p class="note trev-empty" hidden></p></section>';
+}
+function bindReview(L){
+  const box=$("tRev");if(!box)return;
+  const apply=()=>{const f=T.rf||"all";let n=0;
+    box.querySelectorAll(".trev-f button").forEach(b=>b.setAttribute("aria-selected",b.dataset.f===f));
+    box.querySelectorAll(".ritem").forEach(li=>{const ok=li.dataset.ok==="1",h=f==="ok"&&!ok||f==="bad"&&ok;li.hidden=h;if(!h)n++});
+    const e=box.querySelector(".trev-empty");e.hidden=n>0;e.textContent=f==="bad"?"Hiç yanlışın yok, tebrikler!":"Bu testte doğru cevabın yok.";};
+  box.querySelectorAll(".trev-f button").forEach(b=>b.onclick=()=>{T.rf=b.dataset.f;apply()});
+  apply();
 }
 function renderTest(){
   const box=$("testBox");stopSpeak();setTimeout(setFocus,0);
@@ -1070,8 +1098,8 @@ function renderTest(){
       '<p class="tq-q">'+esc(q.q).replace("___",'<span class="blank">&nbsp;</span>')+'</p>'+
       '<div class="opts" id="tqOpts">'+order.map((oi,p)=>'<button class="opt" data-i="'+oi+'"><span class="k">'+"ABCD"[p]+'</span><span>'+esc(q.opts[oi])+'</span></button>').join("")+'</div>'+
       '<div class="tq-foot"><button class="ghost" id="tqDunno">Bilmiyorum</button><span class="note">Emin değilsen tahmin etme; sonuç daha doğru çıkar.</span></div></div>';
-    box.querySelectorAll("#tqOpts .opt").forEach(b=>b.onclick=()=>{b.classList.add("picked");answerTest(+b.dataset.i===q.a)});
-    $("tqDunno").onclick=()=>answerTest(false);
+    box.querySelectorAll("#tqOpts .opt").forEach(b=>b.onclick=()=>{b.classList.add("picked");answerTest(+b.dataset.i)});
+    $("tqDunno").onclick=()=>answerTest(-1);
     $("tQuit").onclick=()=>{T.phase="intro";renderTest()};
     if(q.audio){$("tqPlay").onclick=e=>speak(q.audio,e.currentTarget);$("tqSlow").onclick=e=>speak(q.audio,$("tqPlay"),.6)}
     return;
@@ -1089,9 +1117,9 @@ function renderTest(){
           '<a class="cont" href="#ogren-'+d.id+'" style="--c:'+d.hue+'"><span class="mod-ic">'+ic(d.icon)+'</span><div><small>Kelime destesi</small><b>'+esc(d.name)+'</b></div>'+ic("right")+'</a>'+
           '<a class="cont" href="#g-'+t.id+'" style="--c:var(--m-gram)"><span class="mod-ic">'+ic("book")+'</span><div><small>Dil bilgisi · '+t.level+'</small><b>'+esc(t.title)+'</b></div>'+ic("right")+'</a>'+
           '<div class="cont" style="--c:var(--m-quiz)"><span class="mod-ic">'+ic("trophy")+'</span><div><small>Yarışma, dinleme ve metinler</small><b>'+LEVELS[rec.quiz].name+' seviyesi · '+LEVELS[rec.quiz].cefr+'</b></div></div>'+
-        '</section></div>'+
+        '</section></div>'+reviewHTML(L)+
       '<div class="endbtns"><button class="ghost" id="tAgain">'+ic("refresh")+'Testi yeniden çöz</button><button class="primary" id="tApply">Önerilen yerden başla<span class="arr">'+ic("right")+'</span></button></div></div>';
-    $("tAgain").onclick=startTest;
+    $("tAgain").onclick=startTest;bindReview(L);
     $("tApply").onclick=()=>{L_applyLevel(L.idx);location.hash="ogren-"+rec.deck};
     return;
   }
