@@ -17,7 +17,9 @@ Türkçe arayüzlü, genel İngilizce öğrenme uygulaması.
 İlerleme kullanılan tarayıcıda saklanır.
 
 ## Dosyalar
-- `index.html` — çalışan uygulama (tek dosya, tarayıcıda açılır). **Doğrudan düzenleme; `src/` içinden üretilir.**
+- `index.html` — çalışan uygulama (telefon uyumlu tam sayfa; tarayıcıda açılır). **Doğrudan düzenleme; `src/` içinden üretilir.**
+- `artifact.html` — Claude bağlantısında yayınlanan sürüm (sayfa iskeletsiz)
+- `audio-w.js`, `audio-s.js`, `audio-t.js` — kayıtlı İngilizce sesler (index.html ile aynı klasörde olmalı)
 - `src/shell.html` — sayfa iskeleti
 - `src/style.css` — tasarım
 - `src/app.js` — uygulama mantığı

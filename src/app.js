@@ -88,8 +88,12 @@ let unlocked=false;
 function unlockAudio(){if(unlocked||!SILENT)return;unlocked=true;try{player.src="data:audio/mpeg;base64,"+SILENT;const p=player.play();if(p)p.catch(()=>{})}catch(e){}}
 document.addEventListener("pointerdown",unlockAudio,{once:true,capture:true});
 document.addEventListener("keydown",unlockAudio,{once:true,capture:true});
-// Ses dosyalarını sayfa açıldıktan sonra arka planda sırayla yükle
-setTimeout(()=>{loadAudio("w").catch(()=>{}).then(()=>loadAudio("s")).catch(()=>{}).then(()=>loadAudio("t")).catch(()=>{})},1200);
+// Ses dosyaları ihtiyaç olduğunda yüklenir: kelimeler ilk dokunuşta, cümleler ve metinler ilgili bölüme girilince
+document.addEventListener("pointerdown",()=>loadAudio("w").catch(()=>{}),{once:true,capture:true});
+function prefetchAudio(h){
+  const need=/^(ogren-|dinle|g-|cevir)/.test(h)?["w","s"]:h==="metin"?["w","t"]:[];
+  need.forEach(g=>setTimeout(()=>loadAudio(g).catch(()=>{}),300));
+}
 let enVoice=null;
 function pickVoice(){
   try{
@@ -158,8 +162,9 @@ function renderNav(){
   $("tabbar").innerHTML=SECTIONS.map(s=>'<a href="#'+s.id+'" data-sec="'+s.id+'" style="--c:'+s.c+'">'+ic(s.icon)+'<span>'+s.short+'</span></a>').join("");
 }
 const VIEWS=["ayarlar","ana","ogren","calis","deckend","defter","dinle","yarisma","gramer","konu","cevir","ceviri"];
+function setFocus(){document.body.classList.toggle("focus",(!$("v-calis").hidden)||(!$("v-yarisma").hidden&&G.phase==="game"))}
 function showView(v,sec){
-  VIEWS.forEach(x=>$("v-"+x).hidden=x!==v);
+  VIEWS.forEach(x=>$("v-"+x).hidden=x!==v);setTimeout(setFocus,0);
   document.querySelectorAll("[data-sec]").forEach(a=>{if(a.dataset.sec===sec)a.setAttribute("aria-current","page");else a.removeAttribute("aria-current")});
   if(sec==="ayarlar")$("gearBtn").setAttribute("aria-current","page");else $("gearBtn").removeAttribute("aria-current");
 }
@@ -169,6 +174,7 @@ function route(){
   if(h==="ceviri"){location.replace("#metin");return}
   if(h===lastHash)return;lastHash=h;
   if(h!=="yarisma")pauseGame();
+  prefetchAudio(h);
   stopSpeak();
   hidePop();
   if(h==="ana"){renderHome();showView("ana","ana")}
@@ -381,7 +387,7 @@ function startGame(cfg){
   ["game","end"].forEach(x=>$(x).style.setProperty("--c",cfg.c));$("gLevel").style.setProperty("--c",cfg.c);$("eLevel").style.setProperty("--c",cfg.c);
   $("gSteps").style.setProperty("--n",Q);
   $("gLevel").textContent=cfg.name+" · "+cfg.cefr;$("gPts").textContent="0";
-  $("lobby").hidden=true;$("end").hidden=true;$("quizHead").hidden=true;$("game").hidden=false;
+  $("lobby").hidden=true;$("end").hidden=true;$("quizHead").hidden=true;$("game").hidden=false;setTimeout(setFocus,0);
   renderSteps();updJokers();
   $("gWordBox").hidden=true;$("gOpts").innerHTML="";$("gFb").textContent="";$("gCombo").hidden=true;
   $("gQn").textContent="Hazır ol!";$("gTfill").style.width="100%";$("gSec").textContent=cfg.time+"s";
@@ -470,7 +476,7 @@ $("jPass").onclick=()=>{
 $("gSpeak").onclick=e=>speak($("gWord").textContent,e.currentTarget);
 $("gQuit").onclick=()=>{stopTimer();clearTimeout(G.tm);finish()};
 function finish(){
-  stopTimer();clearTimeout(G.tm);G.active=false;G.phase="end";
+  stopTimer();clearTimeout(G.tm);G.active=false;G.phase="end";setTimeout(setFocus,0);
   const k=G.cfg.key,best=P.best[k]||0,isRec=G.pts>best&&G.pts>0;if(isRec){P.best[k]=G.pts;save()}
   $("eLevel").textContent=G.cfg.name+" · "+G.cfg.cefr;
   const r=G.ok/G.Q,stars=r>=.9?3:r>=.7?2:r>=.4?1:0;
@@ -985,6 +991,17 @@ function renderSettings(){
   };
 }
 applySettings();
+
+
+/* ================= LOGO ANİMASYONU =================
+   Akış logosu: ses dalgası akıp f'yi çizer, ucunda parıltı yanar. Açılışta bir kez, sonra her 2 dakikada bir. */
+function playLogo(){
+  if(reduceMotion())return;
+  const m=$("logoMark");m.classList.remove("anim");void m.getBoundingClientRect();m.classList.add("anim");
+  setTimeout(()=>m.classList.remove("anim"),2600);
+}
+setTimeout(playLogo,900);
+setInterval(()=>{if(!document.hidden)playLogo()},120000);
 
 /* ================= BAŞLAT ================= */
 renderNav();renderStreak();renderTextLevels();newText();

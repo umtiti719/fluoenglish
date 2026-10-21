@@ -745,3 +745,85 @@ kbd{font-family:inherit;font-size:.76rem;background:var(--surface);border:1px so
 /* Logo alanı daralmasın; slogan yalnızca yer varsa görünsün */
 .brand{flex:none}
 @media (max-width:1500px){.brand-t small{display:none}}
+
+/* ================= Akış logosu ================= */
+.mark{background:none;padding:0;width:32px;height:32px;border-radius:9px;overflow:visible}
+.mark svg{width:100%;height:100%;display:block;overflow:visible}
+.mark .lg1{stop-color:var(--gr1)}.mark .lg2{stop-color:var(--gr2)}.mark .lg3{stop-color:var(--gr3)}
+.mark .lsp{opacity:0;transform-box:fill-box;transform-origin:center}
+.mark.anim .lw1{stroke-dasharray:100;animation:lgw 1.5s cubic-bezier(.65,.05,.3,1) both}
+.mark.anim .lw2{stroke-dasharray:100;animation:lgc .5s ease-out 1.3s both}
+.mark.anim .lsp{animation:lgs 1.1s ease-out 1.65s both}
+@keyframes lgw{from{stroke-dashoffset:100}to{stroke-dashoffset:0}}
+@keyframes lgc{from{stroke-dashoffset:100}to{stroke-dashoffset:0}}
+@keyframes lgs{0%{opacity:0;transform:scale(0) rotate(0deg)}35%{opacity:1;transform:scale(1.4) rotate(45deg)}60%{opacity:1;transform:scale(1) rotate(45deg)}100%{opacity:0;transform:scale(.4) rotate(90deg)}}
+
+/* ================= Telefon iyileştirmeleri ================= */
+html{-webkit-text-size-adjust:100%;text-size-adjust:100%}
+button,a,.opt,.w,.flipcard,.swatch,.switch{touch-action:manipulation;-webkit-tap-highlight-color:transparent}
+/* Dokunmatik ekranda takılı kalan "üzerine gelince" efektleri kapalı */
+@media (hover:none){
+  .mod:hover,.deck:hover,.lvcard:hover,.gt:hover,.tool:hover,.cont:hover,.primary:hover,.jbtn:hover,.playbtn:hover{transform:none;box-shadow:inherit}
+  .mod:hover,.deck:hover,.lvcard:hover,.gt:hover{box-shadow:var(--shadow)}
+  .tool:hover{box-shadow:none}
+  .mod:active,.deck:active,.lvcard:active,.gt:active,.tool:active,.cont:active{transform:scale(.985)}
+  .gear:hover{transform:none}
+}
+/* Parmakla basılabilir boyutlar */
+@media (pointer:coarse){
+  .speak.sm,.savebtn.sm{width:40px;height:40px}
+  .speak{width:42px;height:42px}
+  .fchip,.pills button,.chip-s{min-height:40px}
+  .seg-pill a{min-height:40px}
+  .keys{display:none}
+  .switch{width:52px;height:32px}.switch::after{width:26px;height:26px}.switch[aria-checked="true"]::after{transform:translateX(20px)}
+}
+/* Odak modu: kart çalışması ve yarışmada alt menü gizlenir */
+@media (max-width:880px){
+  body.focus .tabbar{display:none}
+  body.focus main.wrap{padding-bottom:calc(24px + env(safe-area-inset-bottom,0px))}
+}
+@media (max-width:600px){
+  .wrap{padding-block:18px 48px}
+  .view{gap:18px}
+  .card{padding:18px 16px;border-radius:22px;gap:14px}
+  /* kart çalışması ekrana sığsın */
+  .flipcard{height:clamp(250px,calc(100svh - 300px),380px)}
+  .study{gap:10px}
+  .fword{font-size:clamp(2rem,10vw,3rem)}
+  /* yarışma */
+  .stage{min-height:120px;padding:22px 14px 18px}
+  .word{font-size:clamp(2rem,10vw,2.8rem)}
+  .opt{padding:10px 12px}
+  .game{gap:12px}
+  .hud .qn{font-size:.95rem}
+  /* dinleme: kısa başlık, yatay oynatıcı */
+  #v-dinle .page-head .lead,#v-ceviri .page-head .lead,#v-cevir .page-head .lead{display:none}
+  .player{display:grid;grid-template-columns:auto 1fr;grid-template-areas:"src src" "play wave" "play ctl" "info info";align-items:center;justify-items:start;gap:8px 14px;padding:14px}
+  .player .badge{grid-area:src}
+  .playbtn{grid-area:play;width:64px;height:64px}
+  .player .wave{grid-area:wave}
+  .pctl{grid-area:ctl;justify-content:flex-start}
+  .pctl .ghost{padding:8px 11px;font-size:.84rem}
+  .player .tiny{grid-area:info}
+  .lsel{gap:8px}
+  .seg button{padding:7px 9px}
+  .page-head{padding-top:0}
+  .h-page{font-size:clamp(1.5rem,6.5vw,2rem)}
+}
+@media (max-width:600px){
+  .opts{gap:8px}
+  .feedback{min-height:1.2em;margin:-6px 0}
+  .stage{padding:16px 12px 14px;gap:8px;min-height:104px}
+  .hud{gap:8px}
+  .points b{font-size:1.25rem}
+  #v-dinle .ph-stat{display:none}
+  #v-dinle .h-page{font-size:1.45rem;margin-top:2px}
+  #v-dinle .page-head .backlink{display:none}
+  #lLevels{grid-template-columns:repeat(4,1fr)}
+  #lLevels button small{display:none}
+  #lLevels button,#lModes button{align-items:center;text-align:center}
+  .lsel-l{display:none}
+  .listen{gap:12px}
+}
+@media (max-width:600px){.card.game{gap:10px}.opt{padding:9px 12px}}
