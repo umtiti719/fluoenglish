@@ -932,6 +932,7 @@ button,a,.opt,.w,.flipcard,.swatch,.switch{touch-action:manipulation;-webkit-tap
 .raud .speak{flex:none}
 .trev-empty{text-align:center;margin:6px 0}
 @media (max-width:600px){.trev-head{flex-direction:column;align-items:stretch}.trev-f{justify-content:space-between}.trev-f button{flex:1;justify-content:center;padding:7px 8px}.ritem{padding:12px 13px}}
+a.stat{text-decoration:none;color:inherit}
 
 </style>
 
@@ -2287,7 +2288,7 @@ function renderHome(){
   const learned=Object.keys(P.learned).length,best=Math.max(0,...Object.values(P.best));
   $("homeStats").innerHTML=[
     [learned,"öğrenilen kelime"],[gramDone()+"/"+GRAMMAR.length,"gramer konusu"],P.level?[CEFR[P.level.idx].code,"seviyen"]:[best,"en yüksek puan"],SHOW_STREAK?[streakCount(),"günlük seri"]:[Object.keys(P.saved).length,"defterdeki kelime"]
-  ].map(([b,s])=>'<div class="stat"><b>'+b+'</b><span>'+s+'</span></div>').join("");
+  ].map(([b,s])=>s==="seviyen"?'<a class="stat" href="#seviye"><b>'+b+'</b><span>'+s+'</span></a>':'<div class="stat"><b>'+b+'</b><span>'+s+'</span></div>').join("");
   // günün kelimesi
   const n=Math.floor(Date.now()/864e5),pick=ALLWORDS[(n*7)%ALLWORDS.length],w=pick.w;
   $("wotd").innerHTML='<span class="eyebrow">'+ic("spark")+'Günün kelimesi</span>'+
@@ -2313,7 +2314,8 @@ function renderHome(){
     '<a class="cont" href="#g-'+nextT.id+'" style="--c:var(--m-gram)"><span class="mod-ic">'+ic("book")+'</span><div><small>Sıradaki gramer konusu · '+nextT.level+'</small><b>'+esc(nextT.title)+'</b><span>'+esc(nextT.tr)+'</span></div>'+ic("right")+'</a>'+
     '<a class="cont" href="#ogren-'+nextD.id+'" style="--c:'+nextD.hue+'"><span class="mod-ic">'+ic(nextD.icon)+'</span><div><small>Kelime destesi · '+learnedIn(nextD)+'/'+nextD.words.length+'</small><b>'+esc(nextD.name)+'</b><span>'+esc(nextD.en)+'</span></div>'+ic("right")+'</a>'+
     '<a class="cont" href="#dinle" style="--c:var(--m-learn)"><span class="mod-ic">'+ic("headphones")+'</span><div><small>Dinleme · '+P.listen.ok+' doğru</small><b>Dinle ve anla</b><span>Cümleyi duy, kelimeyi seç ya da yaz</span></div>'+ic("right")+'</a>'+
-    (Object.keys(P.saved).length?'<a class="cont" href="#defter" style="--c:var(--g3)"><span class="mod-ic">'+ic("bookmark")+'</span><div><small>Defterim</small><b>'+Object.keys(P.saved).length+' kayıtlı kelime</b><span>Kaydettiklerini çalış</span></div>'+ic("right")+'</a>':'');
+    (Object.keys(P.saved).length?'<a class="cont" href="#defter" style="--c:var(--g3)"><span class="mod-ic">'+ic("bookmark")+'</span><div><small>Defterim</small><b>'+Object.keys(P.saved).length+' kayıtlı kelime</b><span>Kaydettiklerini çalış</span></div>'+ic("right")+'</a>':'')+
+    (P.level?'<a class="cont" href="#seviye" style="--c:var(--g5)"><span class="mod-ic">'+ic("target")+'</span><div><small>Seviye testi · son sonucun '+CEFR[P.level.idx].code+'</small><b>Sonucunu gör ya da yeniden çöz</b><span>Cevaplarını ve becerilerini incele</span></div>'+ic("right")+'</a>':'');
 }
 
 /* Kişisel karşılama ("İyi akşamlar, bugün ne çalışalım?") üye girişi eklenince açılacak.
@@ -2326,7 +2328,7 @@ function renderHero(){
     $("heroAsk").textContent="bir adım ileri taşı.";
     $("heroLead").textContent="Kelime öğren, dil bilgisi konularını çalış, yarışmayla kendini dene ve gerçek metinleri çevir.";
     $("heroCta").innerHTML='<a class="primary" href="#ogren">Kelime öğrenmeye başla<span class="arr">'+ic("right")+'</span></a>'+
-      (P.level?'<a class="ghost" href="#gramer">Dil bilgisine göz at</a>':'<a class="ghost" href="#seviye">'+ic("target")+'Seviyeni öğren</a>');
+      '<a class="ghost" href="#seviye">'+ic("target")+(P.level?'Seviye testi · '+CEFR[P.level.idx].code:'Seviyeni öğren')+'</a>';
     return;
   }
   $("heroAsk").textContent="bugün ne çalışalım?";
