@@ -827,3 +827,59 @@ button,a,.opt,.w,.flipcard,.swatch,.switch{touch-action:manipulation;-webkit-tap
   .listen{gap:12px}
 }
 @media (max-width:600px){.card.game{gap:10px}.opt{padding:9px 12px}}
+
+/* ================= Seviye testi ================= */
+.testbox{max-width:760px;width:100%;margin:0 auto}
+.tintro{border-radius:32px;border:1px solid var(--line);padding:40px 28px 34px;display:flex;flex-direction:column;align-items:center;text-align:center;gap:14px}
+.tintro .lead{margin:0 auto}
+.skchips{display:flex;flex-wrap:wrap;gap:8px;justify-content:center}
+.skchips span{display:flex;align-items:center;gap:6px;font-weight:600;font-size:.88rem;padding:7px 14px;border-radius:999px;background:var(--surface);border:1px solid var(--line);box-shadow:var(--shadow)}
+.skchips .ic{width:16px;height:16px;color:var(--brand)}
+.ttips{list-style:none;margin:6px 0 0;padding:0;display:flex;flex-direction:column;gap:6px;color:var(--muted);font-size:.93rem}
+.ttips li::before{content:"✓";color:var(--good);font-weight:700;margin-right:8px}
+.inlink{display:inline-flex;align-items:center;gap:6px;margin-top:12px;font-weight:600;font-size:.92rem;color:var(--brand);text-decoration:none}
+.inlink .ic{width:17px;height:17px}
+.inlink:hover{text-decoration:underline}
+.tq{gap:16px}
+.tq-top{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.tq-n{font-weight:600;font-variant-numeric:tabular-nums;color:var(--muted);font-size:.92rem}
+.tq-top .linkbtn{margin-left:auto}
+.tq-top .badge .ic{width:15px;height:15px}
+.tq-top .badge::before{display:none}
+.tsk-kelime{color:var(--m-learn)}.tsk-gramer{color:var(--m-gram)}.tsk-okuma{color:var(--m-trans)}.tsk-dinleme{color:var(--m-quiz)}
+.tq-text .passage{font-size:1.08rem;line-height:1.7}
+.tq-audio{display:flex;align-items:center;gap:16px;border-radius:22px;border:1px solid var(--line);padding:16px 18px}
+.tq-audio .playbtn{width:64px;height:64px;flex:none}
+.tq-audio .playbtn .ic{width:26px;height:26px}
+.tq-audio>div{flex:1;min-width:0}
+.tq-audio b{display:block;font-weight:600}
+.tq-audio small{color:var(--muted);font-size:.86rem}
+.tq-q{margin:0;font-weight:600;font-size:clamp(1.15rem,3.4vw,1.4rem);line-height:1.4;letter-spacing:-.02em}
+.tq .opt.picked{border-color:var(--ink);background:var(--surface2)}
+.tq-foot{display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+.tq-foot .note{font-size:.84rem}
+.tres{display:flex;flex-direction:column;gap:18px}
+.tres-hero{border-radius:32px;border:1px solid var(--line);padding:34px 28px 26px;display:flex;flex-direction:column;align-items:center;text-align:center;gap:8px}
+.tres-hero .lead{margin:0 auto}
+.cefr-big{font-weight:700;font-size:clamp(4.5rem,16vw,7rem);line-height:.95;letter-spacing:-.06em;background:linear-gradient(90deg,var(--gr1),var(--gr2) 50%,var(--gr3));-webkit-background-clip:text;background-clip:text;color:transparent;padding:4px 6px}
+.pre{font-size:.55em;color:var(--muted);font-weight:500}
+.cefr-scale{display:flex;gap:6px;margin-top:8px}
+.cefr-scale span{font-weight:600;font-size:.85rem;padding:5px 12px;border-radius:999px;background:var(--surface);border:1px solid var(--line);color:var(--muted)}
+.cefr-scale span.past{color:var(--ink)}
+.cefr-scale span.now{background:var(--accent);color:var(--accent-ink);border-color:var(--accent)}
+.tres-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+@media (max-width:760px){.tres-grid{grid-template-columns:1fr}}
+.tres-h{margin:0;font-weight:600;font-size:1.15rem;letter-spacing:-.02em}
+.skrow{display:grid;grid-template-columns:120px 1fr 44px;align-items:center;gap:10px}
+.skn{display:flex;align-items:center;gap:8px;font-weight:600;font-size:.93rem}
+.skn .ic{width:17px;height:17px;color:var(--muted)}
+.skrow b{text-align:right;font-variant-numeric:tabular-nums;font-size:.92rem}
+.skrow .mbar{height:8px}
+.sk-kelime{--c:var(--m-learn)}.sk-gramer{--c:var(--m-gram)}.sk-okuma{--c:var(--m-trans)}.sk-dinleme{--c:var(--m-quiz)}
+.tres .cont{box-shadow:none}
+.tres div.cont{cursor:default}
+@media (max-width:600px){.tintro,.tres-hero{padding:26px 18px 22px;border-radius:26px}.skrow{grid-template-columns:100px 1fr 40px}}
+.tq-audio{display:grid;grid-template-columns:auto 1fr;grid-template-areas:"play txt" "play btn";column-gap:16px;row-gap:6px;align-items:center}
+.tq-audio .playbtn{grid-area:play}
+.tq-audio>div{grid-area:txt}
+.tq-audio .ghost{grid-area:btn;justify-self:start;padding:8px 14px;font-size:.88rem}

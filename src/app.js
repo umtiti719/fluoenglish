@@ -97,7 +97,7 @@ document.addEventListener("keydown",unlockAudio,{once:true,capture:true});
 // Ses dosyaları ihtiyaç olduğunda yüklenir: kelimeler ilk dokunuşta, cümleler ve metinler ilgili bölüme girilince
 document.addEventListener("pointerdown",()=>loadAudio("w").catch(()=>{}),{once:true,capture:true});
 function prefetchAudio(h){
-  const need=/^(ogren-|dinle|g-|cevir)/.test(h)?["w","s"]:h==="metin"?["w","t"]:[];
+  const need=/^(ogren-|dinle|g-|cevir|seviye)/.test(h)?["w","s"]:h==="metin"?["w","t"]:[];
   need.forEach(g=>setTimeout(()=>loadAudio(g).catch(()=>{}),300));
 }
 let enVoice=null;
@@ -167,8 +167,8 @@ function renderNav(){
   $("nav").innerHTML=SECTIONS.map(s=>'<a href="#'+s.id+'" data-sec="'+s.id+'" style="--c:'+s.c+'">'+ic(s.icon)+s.label+'</a>').join("");
   $("tabbar").innerHTML=SECTIONS.map(s=>'<a href="#'+s.id+'" data-sec="'+s.id+'" style="--c:'+s.c+'">'+ic(s.icon)+'<span>'+s.short+'</span></a>').join("");
 }
-const VIEWS=["ayarlar","ana","ogren","calis","deckend","defter","dinle","yarisma","gramer","konu","cevir","ceviri"];
-function setFocus(){document.body.classList.toggle("focus",(!$("v-calis").hidden)||(!$("v-yarisma").hidden&&G.phase==="game"))}
+const VIEWS=["seviye","ayarlar","ana","ogren","calis","deckend","defter","dinle","yarisma","gramer","konu","cevir","ceviri"];
+function setFocus(){document.body.classList.toggle("focus",(!$("v-calis").hidden)||(!$("v-yarisma").hidden&&G.phase==="game")||(!$("v-seviye").hidden&&T.phase==="run"))}
 function showView(v,sec){
   VIEWS.forEach(x=>$("v-"+x).hidden=x!==v);setTimeout(setFocus,0);
   document.querySelectorAll("[data-sec]").forEach(a=>{if(a.dataset.sec===sec)a.setAttribute("aria-current","page");else a.removeAttribute("aria-current")});
@@ -205,6 +205,7 @@ function route(){
   }
   else if(h==="metin"){showView("ceviri","metin")}
   else if(h==="ayarlar"){renderSettings();showView("ayarlar","ayarlar")}
+  else if(h==="seviye"){renderTest();showView("seviye","ana")}
   else if(h==="cevir"){renderTrHint();showView("cevir","cevir");setTimeout(()=>{try{$("trInput").focus({preventScroll:true})}catch(e){}},50)}
   else{location.hash="ana";return}
   window.scrollTo({top:0,behavior:"auto"});
@@ -216,7 +217,7 @@ function renderHome(){
   renderHero();
   const learned=Object.keys(P.learned).length,best=Math.max(0,...Object.values(P.best));
   $("homeStats").innerHTML=[
-    [learned,"öğrenilen kelime"],[gramDone()+"/"+GRAMMAR.length,"gramer konusu"],[best,"en yüksek puan"],SHOW_STREAK?[streakCount(),"günlük seri"]:[Object.keys(P.saved).length,"defterdeki kelime"]
+    [learned,"öğrenilen kelime"],[gramDone()+"/"+GRAMMAR.length,"gramer konusu"],P.level?[CEFR[P.level.idx].code,"seviyen"]:[best,"en yüksek puan"],SHOW_STREAK?[streakCount(),"günlük seri"]:[Object.keys(P.saved).length,"defterdeki kelime"]
   ].map(([b,s])=>'<div class="stat"><b>'+b+'</b><span>'+s+'</span></div>').join("");
   // günün kelimesi
   const n=Math.floor(Date.now()/864e5),pick=ALLWORDS[(n*7)%ALLWORDS.length],w=pick.w;
@@ -238,6 +239,7 @@ function renderHome(){
   const nextD=DECKS.find(d=>{const l=learnedIn(d);return l>0&&l<d.words.length})||DECKS.find(d=>learnedIn(d)<d.words.length)||DECKS[0];
   const due=dueWords().length;
   $("continue").innerHTML=
+    (!P.level?'<a class="cont hot" href="#seviye" style="--c:var(--g5)"><span class="mod-ic">'+ic("target")+'</span><div><small>Seviye testi · 8–10 dakika</small><b>Seviyeni öğren</b><span>Kelime, dil bilgisi, okuma ve dinleme</span></div>'+ic("right")+'</a>':'')+
     (due?'<a class="cont hot" href="#ogren-tekrar" style="--c:var(--g2)"><span class="mod-ic">'+ic("refresh")+'</span><div><small>Aralıklı tekrar</small><b>Bugün tekrar edilecek: '+due+' kelime</b><span>Unutmadan önce bir kez daha bak</span></div>'+ic("right")+'</a>':'')+
     '<a class="cont" href="#g-'+nextT.id+'" style="--c:var(--m-gram)"><span class="mod-ic">'+ic("book")+'</span><div><small>Sıradaki gramer konusu · '+nextT.level+'</small><b>'+esc(nextT.title)+'</b><span>'+esc(nextT.tr)+'</span></div>'+ic("right")+'</a>'+
     '<a class="cont" href="#ogren-'+nextD.id+'" style="--c:'+nextD.hue+'"><span class="mod-ic">'+ic(nextD.icon)+'</span><div><small>Kelime destesi · '+learnedIn(nextD)+'/'+nextD.words.length+'</small><b>'+esc(nextD.name)+'</b><span>'+esc(nextD.en)+'</span></div>'+ic("right")+'</a>'+
@@ -254,7 +256,8 @@ function renderHero(){
     $("heroHello").textContent="İngilizceni bugün";
     $("heroAsk").textContent="bir adım ileri taşı.";
     $("heroLead").textContent="Kelime öğren, dil bilgisi konularını çalış, yarışmayla kendini dene ve gerçek metinleri çevir.";
-    $("heroCta").innerHTML='<a class="primary" href="#ogren">Kelime öğrenmeye başla<span class="arr">'+ic("right")+'</span></a><a class="ghost" href="#gramer">Dil bilgisine göz at</a>';
+    $("heroCta").innerHTML='<a class="primary" href="#ogren">Kelime öğrenmeye başla<span class="arr">'+ic("right")+'</span></a>'+
+      (P.level?'<a class="ghost" href="#gramer">Dil bilgisine göz at</a>':'<a class="ghost" href="#seviye">'+ic("target")+'Seviyeni öğren</a>');
     return;
   }
   $("heroAsk").textContent="bugün ne çalışalım?";
@@ -980,6 +983,7 @@ function renderSettings(){
     '</section>'+
     '<section class="sgroup"><h2>'+ic("trophy")+'Çalışma</h2>'+
       row("Yarışma süresi","Uzun seçilirse her soruya %50 daha fazla süre verilir.",pills("quizTime",[["normal","Normal"],["uzun","Uzun"]]))+
+      row("Seviye testi",P.level?"Son sonucun: "+CEFR[P.level.idx].code+" · "+CEFR[P.level.idx].name+". Yeniden çözerek güncelleyebilirsin.":"Seviyeni öğren, uygulama sana göre ayarlansın.",'<a class="ghost" href="#seviye">'+ic("target")+(P.level?"Yeniden çöz":"Teste başla")+'</a>')+
     '</section>'+
     '<section class="sgroup"><h2>'+ic("alert")+'Veriler</h2>'+
       row("Çeviri geçmişi","Son aramaları ve kaydedilmiş çevirileri siler.",'<button class="danger" id="clrTr">Temizle</button>')+
@@ -1008,6 +1012,114 @@ function playLogo(){
 }
 setTimeout(playLogo,900);
 setInterval(()=>{if(!document.hidden)playLogo()},120000);
+
+
+/* ================= SEVİYE TESTİ =================
+   1. aşama: her seviyeden 2 soru (biri kelime/dil bilgisi, biri okuma/dinleme) -> kaba tahmin
+   2. aşama: tahmin edilen seviye ve komşularından 8 soru -> sonuç */
+const T={phase:"intro"};
+/* Yetenek tahmini (Rasch tipi model): her cevap, sorunun seviyesine göre tüm cevaplarla birlikte değerlendirilir.
+   Bir seviyedeki öğrenci o seviyenin sorularının ~%75'ini, bir üstünün ~%35'ini bilir. */
+const IRT={a:1.6,off:.55,sd:4};
+function estTheta(ans){let best=0,bl=-1e9;for(let t=-1.5;t<=5.5;t+=.05){let ll=-((t-2)**2)/(2*IRT.sd*IRT.sd);ans.forEach(x=>{const p=1/(1+Math.exp(-IRT.a*(t-x.q.lv)));ll+=Math.log(x.ok?p:1-p)});if(ll>bl){bl=ll;best=t}}return best}
+const thetaLevel=t=>Math.max(0,Math.min(4,Math.round(t-IRT.off)));
+function pickQ(lv,skills,used){const pool=shuffle(TESTQ.filter(q=>q.lv===lv&&skills.includes(q.sk)&&!used.has(q)));return pool[0]}
+function startTest(){
+  const used=new Set(),items=[];
+  for(let lv=0;lv<5;lv++){[["kelime","gramer"],["okuma","dinleme"]].forEach(sk=>{const q=pickQ(lv,sk,used);if(q){used.add(q);items.push(q)}})}
+  Object.assign(T,{phase:"run",items,used,i:0,ans:[],stage:1,order:null});markActive();renderTest();
+}
+function stage2(){
+  const est=thetaLevel(estTheta(T.ans));
+  const plan=[];
+  const add=(lv,n)=>{if(lv<0||lv>4)return n;let added=0;
+    const asked=T.items.filter(q=>q.lv===lv).map(q=>q.sk);
+    const prefer=Object.keys(SKILLS).sort((a,b)=>asked.filter(x=>x===a).length-asked.filter(x=>x===b).length);
+    for(let k=0;k<n;k++){let q=null;for(const sk of prefer){q=pickQ(lv,[sk],T.used);if(q)break}if(!q)break;T.used.add(q);plan.push(q);asked.push(q.sk);added++}
+    return n-added};
+  let rest=add(est,3);
+  let up=add(est+1,3),down=add(est-1,2);
+  rest+=up+down;if(rest>0)rest=add(est,rest);if(rest>0)add(est+1<5?est+1:est-1,rest);
+  plan.sort((a,b)=>a.lv-b.lv);T.items=T.items.concat(plan);T.stage=2;
+}
+function finishTest(){
+  const per=[0,1,2,3,4].map(lv=>{const a=T.ans.filter(x=>x.q.lv===lv);return{n:a.length,ok:a.filter(x=>x.ok).length}});
+  const th=estTheta(T.ans),level=thetaLevel(th),pre=(th-IRT.off)<-.5||(per[0].n>0&&per[0].ok/per[0].n<.5);
+  const skills={};Object.keys(SKILLS).forEach(k=>{const a=T.ans.filter(x=>x.q.sk===k);skills[k]=a.length?Math.round(a.filter(x=>x.ok).length/a.length*100):null});
+  P.level={idx:level,pre,skills,date:Date.now(),n:T.ans.length,ok:T.ans.filter(a=>a.ok).length};save();
+  T.phase="result";renderTest();window.scrollTo({top:0});
+}
+function answerTest(ok){
+  if(T.lock)return;T.lock=true;
+  T.ans.push({q:T.items[T.i],ok});T.i++;
+  setTimeout(()=>{T.lock=false;
+    if(T.i>=T.items.length){if(T.stage===1){stage2();renderTest()}else finishTest()}
+    else renderTest();
+  },reduceMotion()?0:220);
+}
+function renderTest(){
+  const box=$("testBox");stopSpeak();setTimeout(setFocus,0);
+  if(T.phase==="run"){
+    const q=T.items[T.i],total=T.stage===1?18:T.items.length,sk=SKILLS[q.sk];
+    const order=shuffle(q.opts.map((_,i)=>i));
+    box.innerHTML='<div class="tq card">'+
+      '<div class="tq-top"><span class="badge tsk-'+q.sk+'">'+ic(sk.icon)+sk.name+'</span><span class="tq-n">Soru '+(T.i+1)+' / '+total+'</span><button class="linkbtn" id="tQuit">Testten çık</button></div>'+
+      '<div class="sbar"><i style="width:'+Math.round(T.i/total*100)+'%"></i></div>'+
+      (q.text?'<div class="paper tq-text"><div class="paper-head"><span class="flag">EN</span><span>Metni oku</span></div><p class="passage">'+esc(q.text)+'</p></div>':'')+
+      (q.audio?'<div class="tq-audio aurora"><button class="playbtn" id="tqPlay" aria-label="Dinle">'+ic("play")+'</button><div><b>Dinle</b><small>İstediğin kadar tekrar dinleyebilirsin</small></div><button class="ghost" id="tqSlow">'+ic("slow")+'Yavaş</button></div>':'')+
+      '<p class="tq-q">'+esc(q.q).replace("___",'<span class="blank">&nbsp;</span>')+'</p>'+
+      '<div class="opts" id="tqOpts">'+order.map((oi,p)=>'<button class="opt" data-i="'+oi+'"><span class="k">'+"ABCD"[p]+'</span><span>'+esc(q.opts[oi])+'</span></button>').join("")+'</div>'+
+      '<div class="tq-foot"><button class="ghost" id="tqDunno">Bilmiyorum</button><span class="note">Emin değilsen tahmin etme; sonuç daha doğru çıkar.</span></div></div>';
+    box.querySelectorAll("#tqOpts .opt").forEach(b=>b.onclick=()=>{b.classList.add("picked");answerTest(+b.dataset.i===q.a)});
+    $("tqDunno").onclick=()=>answerTest(false);
+    $("tQuit").onclick=()=>{T.phase="intro";renderTest()};
+    if(q.audio){$("tqPlay").onclick=e=>speak(q.audio,e.currentTarget);$("tqSlow").onclick=e=>speak(q.audio,$("tqPlay"),.6)}
+    return;
+  }
+  if(T.phase==="result"&&P.level){
+    const L=P.level,c=CEFR[L.idx],rec=TEST_REC[L.idx],d=DECKS.find(x=>x.id===rec.deck),t=GRAMMAR.find(x=>x.id===rec.topic);
+    box.innerHTML='<div class="tres">'+
+      '<div class="tres-hero aurora"><span class="eyebrow">'+ic("target")+'Seviye testi sonucu</span><div class="cefr-big">'+c.code+'</div><h1 class="h-page">'+c.name+(L.pre?' <small class="pre">· başlangıç öncesi</small>':'')+'</h1><p class="lead">'+esc(c.desc)+'</p>'+
+        '<div class="cefr-scale">'+CEFR.map((x,i)=>'<span class="'+(i<L.idx?"past":i===L.idx?"now":"")+'">'+x.code+'</span>').join("")+'</div>'+
+        '<p class="tiny">'+L.n+' sorudan '+L.ok+' doğru · '+new Date(L.date).toLocaleDateString("tr-TR")+'</p></div>'+
+      '<div class="tres-grid">'+
+        '<section class="card"><h2 class="tres-h">Becerilerin</h2>'+Object.entries(SKILLS).map(([k,v])=>{const p=L.skills[k];return '<div class="skrow"><span class="skn">'+ic(v.icon)+v.name+'</span><div class="mbar sk-'+k+'"><i style="width:'+(p||0)+'%"></i></div><b>'+(p==null?"–":"%"+p)+'</b></div>'}).join("")+
+          '<p class="note">'+skillTip(L.skills)+'</p></section>'+
+        '<section class="card"><h2 class="tres-h">Sana önerilen başlangıç</h2>'+
+          '<a class="cont" href="#ogren-'+d.id+'" style="--c:'+d.hue+'"><span class="mod-ic">'+ic(d.icon)+'</span><div><small>Kelime destesi</small><b>'+esc(d.name)+'</b></div>'+ic("right")+'</a>'+
+          '<a class="cont" href="#g-'+t.id+'" style="--c:var(--m-gram)"><span class="mod-ic">'+ic("book")+'</span><div><small>Dil bilgisi · '+t.level+'</small><b>'+esc(t.title)+'</b></div>'+ic("right")+'</a>'+
+          '<div class="cont" style="--c:var(--m-quiz)"><span class="mod-ic">'+ic("trophy")+'</span><div><small>Yarışma, dinleme ve metinler</small><b>'+LEVELS[rec.quiz].name+' seviyesi · '+LEVELS[rec.quiz].cefr+'</b></div></div>'+
+        '</section></div>'+
+      '<div class="endbtns"><button class="ghost" id="tAgain">'+ic("refresh")+'Testi yeniden çöz</button><button class="primary" id="tApply">Önerilen yerden başla<span class="arr">'+ic("right")+'</span></button></div></div>';
+    $("tAgain").onclick=startTest;
+    $("tApply").onclick=()=>{L_applyLevel(L.idx);location.hash="ogren-"+rec.deck};
+    return;
+  }
+  // giriş
+  const last=P.level;
+  box.innerHTML='<div class="tintro aurora">'+
+    '<span class="kicker">'+ic("target")+'Seviye testi</span>'+
+    '<h1 class="h-display">Seviyeni <span class="grad">10 dakikada</span> öğren.</h1>'+
+    '<p class="lead">Kelime, dil bilgisi, okuma ve dinleme sorularıyla İngilizce seviyeni A1–C1 ölçeğinde belirleyelim. Sorular cevaplarına göre zorlaşır ya da kolaylaşır.</p>'+
+    '<div class="skchips">'+Object.values(SKILLS).map(v=>'<span>'+ic(v.icon)+v.name+'</span>').join("")+'</div>'+
+    '<ul class="ttips"><li>Yaklaşık 18 soru, 8–10 dakika</li><li>Emin değilsen <b>Bilmiyorum</b>\'a dokun; tahmin etmek sonucu yanıltır</li><li>Dinleme soruları için sesin açık olsun</li></ul>'+
+    '<div class="hero-cta"><button class="primary" id="tStart">Teste başla<span class="arr">'+ic("right")+'</span></button>'+(last?'<button class="ghost" id="tLast">Son sonucum: '+CEFR[last.idx].code+'</button>':'')+'</div></div>';
+  $("tStart").onclick=startTest;
+  if(last)$("tLast").onclick=()=>{T.phase="result";renderTest()};
+}
+function skillTip(sk){
+  const e=Object.entries(sk).filter(([,v])=>v!=null).sort((a,b)=>a[1]-b[1]);if(!e.length)return"";
+  const low=e[0],hi=e[e.length-1];
+  if(hi[1]-low[1]<20)return"Becerilerin dengeli görünüyor. Önerilen deste ve konuyla devam etmen yeterli.";
+  const tips={kelime:"Kelime Öğren desteleri ve tekrar kartları",gramer:"Dil Bilgisi konuları ve alıştırmaları",okuma:"Metin Çevirisi bölümündeki okuma metinleri",dinleme:"Dinleme bölümündeki alıştırmalar"};
+  return "En güçlü yanın "+SKILLS[hi[0]].name.toLocaleLowerCase("tr")+". "+SKILLS[low[0]].name+" için "+tips[low[0]]+" sana iyi gelir.";
+}
+function L_applyLevel(idx){
+  const r=TEST_REC[idx];
+  L.lv=r.quiz;tLevel=r.quiz;gFilter=["A1","A2","B1","B2","B2"][idx];
+  try{renderListenLevels();renderTextLevels();newText()}catch(e){}
+  toast("Uygulama "+CEFR[idx].code+" seviyene göre ayarlandı");
+}
 
 /* ================= BAŞLAT ================= */
 renderNav();renderStreak();renderTextLevels();newText();

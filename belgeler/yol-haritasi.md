@@ -16,7 +16,7 @@
 2. **Üye girişi** – karar: giriş yöntemi (e-posta, Google…) ve uygulamanın nerede yayınlanacağı
    (claude.ai bağlantısı mı, kendi web adresi mi). Girişle birlikte: cihazlar arası ilerleme,
    PERSONAL_HERO ve SHOW_STREAK açılır.
-3. **Seviye testi** – kelime, gramer, okuma ve dinleme sorularıyla CEFR seviyesi (A1–C1) belirleme,
+3. ~~**Seviye testi**~~ (21 Ekim'de tamamlandı) – kelime, gramer, okuma ve dinleme sorularıyla CEFR seviyesi (A1–C1) belirleme,
    sonuca göre başlangıç önerisi
 
 ## Daha sonra

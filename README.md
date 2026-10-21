@@ -16,6 +16,7 @@ Türkçe arayüzlü, genel İngilizce öğrenme uygulaması.
 - **Tekrar ve hafıza:** Uygulama görülen her kelimeyi, metni ve cümleyi hatırlar; önce görülmemişleri getirir. Yanlış bilinen ya da "Tekrar et" denen kelimeler 1, 3, 7, 14 ve 30 gün aralıklarla yeniden sorulur.
 - **Defterim:** Kartlarda, yarışmada, metinlerde ve günün kelimesinde kaydet işaretiyle kişisel kelime listesi; kartlarla çalışma ve yarışma.
 - **Dinleme:** Cümleyi dinle; kolay modda duyduğun ifadeyi seç, dikte modunda cümleyi yaz. Yavaş dinleme ve kelime kelime karşılaştırma.
+- **Seviye testi:** Kelime, dil bilgisi, okuma ve dinleme sorularıyla (A1–C1, 45 soruluk havuz) iki aşamalı uyarlanabilir test; yetenek modeliyle seviye tahmini, beceri dağılımı ve başlangıç önerileri.
 - **Metin Çevirisi:** Seviyeye göre metinler, kelimeye dokununca anlamı, çeviri puanlama.
 
 İlerleme kullanılan tarayıcıda saklanır.
@@ -29,6 +30,7 @@ Türkçe arayüzlü, genel İngilizce öğrenme uygulaması.
 - `src/app.js` — uygulama mantığı
 - `src/data-learn.js` — kelime desteleri
 - `src/data-grammar.js` — dil bilgisi konuları ve alıştırmalar
+- `src/data-test.js` — seviye testi soruları
 - `src/data-quiz.js` — yarışma kelimeleri, çeviri metinleri ve metin sözlüğü
 - `build.py` — `src/` dosyalarını `index.html` olarak birleştirir: `python3 build.py`
 - `kelime_atolyesi.xlsx` — ilk sürümdeki kelime ve metin listesi
