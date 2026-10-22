@@ -3,8 +3,8 @@
    verileri veritabanındaki satır güvenliği kuralları (RLS) korur. Boş kalırsa üye girişi kapalı çalışır.
    Kurulum: belgeler/uyelik-kurulumu.md */
 const FLUO_CONFIG={
-  supabaseUrl:"",
-  supabaseAnonKey:""
+  supabaseUrl:"https://wppbmuxkwijwtmvbkhdp.supabase.co",
+  supabaseAnonKey:"sb_publishable_xDhvsAqW753Wm7SqB2w8Yw_F-n9vIk-"
 };
 
 /* Üyelik durumu (auth.js doldurur; diğer bölümler okur) */
