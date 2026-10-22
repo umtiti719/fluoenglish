@@ -10,6 +10,7 @@ Uygulamadaki kod hazır. Üye girişinin çalışması için aşağıdaki hesap 
 ## 2. Supabase projesi
 1. supabase.com → GitHub hesabınla giriş → **New project**.
    - Name: `fluoenglish` · Region: **Central EU (Frankfurt)** (Türkiye'ye en yakın) · güçlü bir veritabanı şifresi seç ve sakla.
+   - Güvenlik seçenekleri: **Enable Data API** açık · **Automatically expose new tables** kapalı · otomatik RLS varsa açık · şema: public.
 2. Proje açılınca **SQL Editor → New query** → `belgeler/supabase.sql` dosyasının tamamını yapıştır → **Run**.
 3. **Project Settings → API (API Keys)** sayfasından şunları kopyala ve bana gönder:
    - **Project URL** (`https://xxxx.supabase.co`)

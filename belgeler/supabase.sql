@@ -9,6 +9,9 @@ create table if not exists public.progress (
   constraint progress_boyut check (pg_column_size(data) < 2000000)
 );
 
+-- Erişim izni: yalnızca giriş yapmış kullanıcılar (proje kurulurken "Automatically expose new tables" kapalı seçildi)
+grant select, insert, update on public.progress to authenticated;
+
 -- Satır güvenliği: herkes yalnızca kendi satırını görebilir ve değiştirebilir
 alter table public.progress enable row level security;
 
