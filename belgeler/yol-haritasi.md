@@ -13,7 +13,7 @@
 
 ## Sıradakiler (21 Ekim)
 1. **Yeni logo** – Fluo için özgün logo ve uygulama simgesi
-2. **Üye girişi** – çalışıyor: site https://umtiti719.github.io/fluoenglish/ · Supabase (İrlanda) bağlı · e-posta ile kayıt/giriş ve eşitleme denendi (22 Ekim). Kalan: Google ile giriş (Google Cloud istemcisi + Supabase'de Google'ı açmak, adımlar `belgeler/uyelik-kurulumu.md` 5. bölüm). Sonra: kendi SMTP'miz ve Türkçe e-posta şablonları, sitede yapay zekâ çevirisi için sunucu tarafı
+2. ~~**Üye girişi**~~ – tamamlandı (23 Ekim): site https://umtiti719.github.io/fluoenglish/ · Supabase (İrlanda) · Google, e-posta + şifre ve e-posta bağlantısıyla giriş, cihazlar arası eşitleme çalışıyor. Sonra: fluoenglish.com alan adı, kendi SMTP'miz ve Türkçe e-posta şablonları, Google giriş ekranında Fluo adı, sitede yapay zekâ çevirisi için sunucu tarafı
    (claude.ai bağlantısı mı, kendi web adresi mi). Girişle birlikte: cihazlar arası ilerleme,
    PERSONAL_HERO ve SHOW_STREAK açılır.
 3. ~~**Seviye testi**~~ (21 Ekim'de tamamlandı) – kelime, gramer, okuma ve dinleme sorularıyla CEFR seviyesi (A1–C1) belirleme,
