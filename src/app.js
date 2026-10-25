@@ -70,6 +70,7 @@ const EXTRA={};
 const winfo=en=>WINFO[en]||P.saved[en]||EXTRA[en];
 function virtualDeck(id){
   if(id==="tekrar")return{id,name:"Tekrar zamanı",en:"Review",level:"Tekrar",icon:"refresh",hue:"var(--g2)",words:dueWords().map(winfo).filter(Boolean)};
+  if(id==="eksik")return{id,name:"Sınavda bilemediklerin",en:"Missed words",level:"Sınav",icon:"target",hue:"var(--bad)",words:(P.vmiss||[]).map(winfo).filter(Boolean)};
   if(id==="defter")return{id,name:"Defterim",en:"My words",level:"Defter",icon:"bookmark",hue:"var(--g3)",words:Object.values(P.saved)};
   return null;
 }
@@ -192,7 +193,7 @@ function route(){
   else if(h.startsWith("ogren-")){
     const id=h.slice(6);let d=DECKS.find(x=>x.id===id);
     if(!d){
-      if(id!=="tekrar"&&id!=="defter"){location.hash="ogren";return}
+      if(id!=="tekrar"&&id!=="defter"&&id!=="eksik"){location.hash="ogren";return}
       d=(S&&S.deck.id===id&&!S.done)?S.deck:virtualDeck(id);
       if(!d.words.length){location.hash=id==="defter"?"defter":"ogren";return}
     }
@@ -216,7 +217,7 @@ function route(){
   else if(h==="ayarlar"){renderSettings();showView("ayarlar","ayarlar")}
   else if(h==="hesap"||h==="giris"){renderAccount();showView("hesap","hesap")}
   else if(h==="calismam"){renderStudy();showView("calismam","calismam")}
-  else if(h.startsWith("sinav")){if(!openExamRoute(h)){location.hash="sinav";return}showView("sinav","gramer")}
+  else if(h.startsWith("sinav")){const sec=openExamRoute(h);if(!sec){location.hash="sinav";return}showView("sinav",sec)}
   else if(h==="destek"||h==="yardim"){renderSupport();showView("destek","destek")}
   else if(h==="seviye"){renderTest();showView("seviye","ana")}
   else if(h==="cevir"){renderTrHint();showView("cevir","cevir");setTimeout(()=>{try{$("trInput").focus({preventScroll:true})}catch(e){}},50)}
@@ -325,6 +326,7 @@ function renderDecks(){
   $("learnTools").innerHTML=
     '<a class="tool'+(due?" hot":" calm")+'" href="'+(due?"#ogren-tekrar":"#ogren")+'" style="--c:var(--g2);--t:var(--t-gram)"><span class="mod-ic">'+ic("refresh")+'</span><div><b>'+(due?due+" kelime tekrar bekliyor":"Bugün tekrar yok")+'</b><span>'+(due?"Unutmadan önce bir kez daha bak.":inRev?inRev+" kelime takvimde. Zamanı gelince burada görünür.":"Kartlarda \"Tekrar et\" dediğin kelimeler burada birikir.")+'</span></div>'+(due?'<span class="tool-go">Başla '+ic("right")+'</span>':'')+'</a>'+
     '<a class="tool" href="#defter" style="--c:var(--g3);--t:var(--t-trans)"><span class="mod-ic">'+ic("bookmark")+'</span><div><b>Defterim</b><span>'+(nb?nb+" kayıtlı kelime":"Henüz kayıtlı kelime yok")+'</span></div><span class="tool-go">Aç '+ic("right")+'</span></a>'+
+    '<a class="tool" href="#sinav-kelime" style="--c:var(--m-quiz);--t:var(--t-quiz,var(--surface2))"><span class="mod-ic">'+ic("target")+'</span><div><b>Kelime sınavları</b><span>'+(Object.keys(P.vexam||{}).length?Object.keys(P.vexam).length+" / "+DECKS.length+" deste sınandı":"Desteyi bilip bilmediğini ölç")+'</span></div><span class="tool-go">Başla '+ic("right")+'</span></a>'+
     '<a class="tool" href="#dinle" style="--c:var(--m-learn);--t:var(--t-learn)"><span class="mod-ic">'+ic("headphones")+'</span><div><b>Dinleme</b><span>Duy, seç ya da yaz</span></div><span class="tool-go">Başla '+ic("right")+'</span></a>'+
     '<a class="tool" href="#cumle" style="--c:var(--m-gram);--t:var(--t-gram)"><span class="mod-ic">'+ic("puzzle")+'</span><div><b>Cümle Kur</b><span>Türkçeden İngilizceye</span></div><span class="tool-go">Başla '+ic("right")+'</span></a>'+
     '<a class="tool" href="#telaffuz" style="--c:var(--g3);--t:var(--t-trans)"><span class="mod-ic">'+ic("mic")+'</span><div><b>Telaffuz</b><span>Dinle, söyle, puan al</span></div><span class="tool-go">Başla '+ic("right")+'</span></a>';

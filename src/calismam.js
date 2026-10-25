@@ -42,6 +42,7 @@ function studyAdvice(){
   const out=[];
   Object.keys(GRAMMAR_LEVELS).forEach(lv=>{const r=P.exam&&P.exam[lv];if(!r)return;
     GRAMMAR.filter(t=>t.level===lv).forEach(t=>{const s=r.t[t.id];if(s!==undefined&&s<=1)out.push([t,"Ünite sınavında "+s+"/3"])})});
+  DECKS.forEach(d=>{const r=P.vexam&&P.vexam[d.id];if(r&&r.ok/r.n<.6)out.push([{id:d.id,title:d.name,level:d.level,deck:1},"Deste sınavında "+r.ok+"/"+r.n])});
   GRAMMAR.forEach(t=>{const g=P.gram[t.id];if(g&&!g.done&&!out.some(o=>o[0]===t))out.push([t,"Alıştırma: "+g.best+"/"+g.total])});
   return out.slice(0,6);
 }
@@ -58,12 +59,14 @@ function renderStudy(){
     // Öneriler
     h+='<section class="sgroup st-adv"><h2>'+ic("bulb")+'Sırada ne var?</h2>'+
       (due?'<div class="srow"><div><b>'+due+' kelimenin tekrar zamanı geldi</b><small>Unutmadan önce kısa bir tekrar yap.</small></div><a class="primary" href="#ogren-tekrar">Tekrar et</a></div>':'')+
-      (adv.length?adv.map(([t,why])=>'<div class="srow"><div><b>'+esc(t.title)+'</b><small>'+esc(t.level+" · "+why)+'</small></div><a class="ghost" href="#g-'+t.id+'">Çalış</a></div>').join("")
-        :'<div class="srow"><div><b>'+(P.exam&&Object.keys(P.exam).length?"Eksik konu görünmüyor":"Bildiklerini ölç")+'</b><small>'+(P.exam&&Object.keys(P.exam).length?"Bir sonraki ünitenin sınavına girebilirsin.":"Ünite sınavına gir; sonuca göre hangi konuları çalışman gerektiğini gösterelim.")+'</small></div><a class="ghost" href="#sinav">Ünite sınavları</a></div>')+
+      (adv.length?((P.vmiss||[]).length?'<div class="srow"><div><b>Son kelime sınavında bilemediğin '+P.vmiss.length+' kelime</b><small>Kartlarla kısa bir tekrar yap.</small></div><a class="ghost" href="#ogren-eksik">Çalış</a></div>':'')+adv.map(([t,why])=>'<div class="srow"><div><b>'+esc(t.title)+'</b><small>'+esc(t.level+" · "+why)+'</small></div><a class="ghost" href="'+(t.deck?"#ogren-":"#g-")+t.id+'">Çalış</a></div>').join("")
+        :'<div class="srow"><div><b>'+(P.exam&&Object.keys(P.exam).length||P.vexam&&Object.keys(P.vexam).length?"Eksik konu görünmüyor":"Bildiklerini ölç")+'</b><small>'+(P.exam&&Object.keys(P.exam).length?"Bir sonraki ünitenin sınavına girebilirsin.":"Ünite sınavına gir; sonuca göre hangi konuları çalışman gerektiğini gösterelim.")+'</small></div><a class="ghost" href="#sinav">Ünite sınavları</a></div>')+
       '</section>';
     // Üniteler
     h+='<section class="sgroup"><h2>'+ic("target")+'Ünite sınavları</h2>'+Object.entries(GRAMMAR_LEVELS).map(([k,L],i)=>{const r=P.exam&&P.exam[k];
-      return '<div class="srow"><div><b>Ünite '+(i+1)+' · '+k+' '+esc(L.name)+'</b><small>'+(r?examVerdict(r.ok/r.n).short+" · son sonuç "+r.ok+"/"+r.n:"Henüz girilmedi")+'</small></div><a class="ghost" href="#sinav-'+k.toLowerCase()+'">'+(r?"Yeniden gir":"Sınava gir")+'</a></div>'}).join("")+'</section>';
+      return '<div class="srow"><div><b>Ünite '+(i+1)+' · '+k+' '+esc(L.name)+'</b><small>'+(r?examVerdict(r.ok/r.n).short+" · son sonuç "+r.ok+"/"+r.n:"Henüz girilmedi")+'</small></div><a class="ghost" href="#sinav-'+k.toLowerCase()+'">'+(r?"Yeniden gir":"Sınava gir")+'</a></div>'}).join("")+
+      (()=>{const vs=DECKS.filter(d=>P.vexam&&P.vexam[d.id]),good=vs.filter(d=>P.vexam[d.id].ok/P.vexam[d.id].n>=.85).length;
+        return '<div class="srow"><div><b>Kelime desteleri</b><small>'+(vs.length?vs.length+' / '+DECKS.length+' deste sınandı · '+good+' destede başarılı':'Henüz bir deste sınavına girmedin')+'</small></div><a class="ghost" href="#sinav-kelime">'+(vs.length?"Sonuçlar":"Sınava gir")+'</a></div>'})()+'</section>';
     // Dil bilgisi
     h+='<section class="sgroup"><h2>'+ic("book")+'Dil bilgisi</h2><div class="st-rows">'+Object.entries(GRAMMAR_LEVELS).map(([k,L])=>{const ts=GRAMMAR.filter(t=>t.level===k);
       return stRow(k+" · "+L.name,ts.filter(t=>P.gram[t.id]?.done).length,ts.length,L.color,"#gramer")}).join("")+'</div></section>';

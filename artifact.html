@@ -1329,6 +1329,23 @@ body.focus .sitefoot{display:none}
 .st-tabs{flex-wrap:nowrap;overflow-x:auto;scrollbar-width:none}.st-tabs::-webkit-scrollbar{display:none}
 .st-tabs .fchip{white-space:nowrap;flex:none}
 @media (max-width:420px){.st-tabs .fchip{padding:7px 11px;font-size:.84rem}}
+.ex-tabs{margin-bottom:16px}
+.ex-tabs .fchip{text-decoration:none}
+.ex-qt{display:block;font-size:.85rem;font-weight:600;color:var(--muted);letter-spacing:0;margin-bottom:8px}
+.ex-qtr{display:block;font-size:.95rem;font-weight:500;color:var(--muted);letter-spacing:0;margin-top:10px}
+.ex-intro{margin:0 0 14px}
+.ex-vlist{padding:2px 18px}
+.ex-vlist .ex-t:first-child{border-top:0}
+.ex-vic{width:38px;height:38px;flex:none}
+.ex-vic .ic{width:18px;height:18px}
+.ex-vlist .gt-ex{margin:0;white-space:nowrap}
+.ex-new{font-size:.84rem;font-weight:600;color:var(--c);white-space:nowrap}
+.ex-vh{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.ex-vh>span:not(.sp){color:var(--muted)}
+.ex-vh .sp{flex:1}
+
+.ex-vlist .gt-ex i{font-style:normal}
+@media (max-width:560px){.ex-vlist .gt-ex i{display:none}}
 
 </style>
 
@@ -1693,10 +1710,10 @@ body.focus .sitefoot{display:none}
   <section class="view" id="v-sinav" hidden>
     <div class="page-head">
       <div>
-        <a class="backlink" href="#gramer"><svg class="ic"><use href="#i-left"/></svg>Dil Bilgisi</a>
-        <span class="eyebrow c-gram" style="margin-top:10px"><svg class="ic"><use href="#i-target"/></svg>Ünite sınavları</span>
+        <a class="backlink" href="#gramer" id="examBack"><svg class="ic"><use href="#i-left"/></svg><span>Dil Bilgisi</span></a>
+        <span class="eyebrow c-gram" style="margin-top:10px"><svg class="ic"><use href="#i-target"/></svg>Sınavlar</span>
         <h1 class="h-page">Bildiklerini ölç, eksiğini gör</h1>
-        <p class="lead">Her ünite bir seviyenin konularını kapsar. Sınavın sonunda hangi konuyu çalışman, hangisini geçebileceğini gösteririz.</p>
+        <p class="lead">Dil bilgisi ünitelerini ve kelime destelerini sına. Sınavın sonunda neyi çalışman, neyi geçebileceğini gösteririz.</p>
       </div>
     </div>
     <div id="exam"></div>
@@ -3757,6 +3774,7 @@ function studyAdvice(){
   const out=[];
   Object.keys(GRAMMAR_LEVELS).forEach(lv=>{const r=P.exam&&P.exam[lv];if(!r)return;
     GRAMMAR.filter(t=>t.level===lv).forEach(t=>{const s=r.t[t.id];if(s!==undefined&&s<=1)out.push([t,"Ünite sınavında "+s+"/3"])})});
+  DECKS.forEach(d=>{const r=P.vexam&&P.vexam[d.id];if(r&&r.ok/r.n<.6)out.push([{id:d.id,title:d.name,level:d.level,deck:1},"Deste sınavında "+r.ok+"/"+r.n])});
   GRAMMAR.forEach(t=>{const g=P.gram[t.id];if(g&&!g.done&&!out.some(o=>o[0]===t))out.push([t,"Alıştırma: "+g.best+"/"+g.total])});
   return out.slice(0,6);
 }
@@ -3773,12 +3791,14 @@ function renderStudy(){
     // Öneriler
     h+='<section class="sgroup st-adv"><h2>'+ic("bulb")+'Sırada ne var?</h2>'+
       (due?'<div class="srow"><div><b>'+due+' kelimenin tekrar zamanı geldi</b><small>Unutmadan önce kısa bir tekrar yap.</small></div><a class="primary" href="#ogren-tekrar">Tekrar et</a></div>':'')+
-      (adv.length?adv.map(([t,why])=>'<div class="srow"><div><b>'+esc(t.title)+'</b><small>'+esc(t.level+" · "+why)+'</small></div><a class="ghost" href="#g-'+t.id+'">Çalış</a></div>').join("")
-        :'<div class="srow"><div><b>'+(P.exam&&Object.keys(P.exam).length?"Eksik konu görünmüyor":"Bildiklerini ölç")+'</b><small>'+(P.exam&&Object.keys(P.exam).length?"Bir sonraki ünitenin sınavına girebilirsin.":"Ünite sınavına gir; sonuca göre hangi konuları çalışman gerektiğini gösterelim.")+'</small></div><a class="ghost" href="#sinav">Ünite sınavları</a></div>')+
+      (adv.length?((P.vmiss||[]).length?'<div class="srow"><div><b>Son kelime sınavında bilemediğin '+P.vmiss.length+' kelime</b><small>Kartlarla kısa bir tekrar yap.</small></div><a class="ghost" href="#ogren-eksik">Çalış</a></div>':'')+adv.map(([t,why])=>'<div class="srow"><div><b>'+esc(t.title)+'</b><small>'+esc(t.level+" · "+why)+'</small></div><a class="ghost" href="'+(t.deck?"#ogren-":"#g-")+t.id+'">Çalış</a></div>').join("")
+        :'<div class="srow"><div><b>'+(P.exam&&Object.keys(P.exam).length||P.vexam&&Object.keys(P.vexam).length?"Eksik konu görünmüyor":"Bildiklerini ölç")+'</b><small>'+(P.exam&&Object.keys(P.exam).length?"Bir sonraki ünitenin sınavına girebilirsin.":"Ünite sınavına gir; sonuca göre hangi konuları çalışman gerektiğini gösterelim.")+'</small></div><a class="ghost" href="#sinav">Ünite sınavları</a></div>')+
       '</section>';
     // Üniteler
     h+='<section class="sgroup"><h2>'+ic("target")+'Ünite sınavları</h2>'+Object.entries(GRAMMAR_LEVELS).map(([k,L],i)=>{const r=P.exam&&P.exam[k];
-      return '<div class="srow"><div><b>Ünite '+(i+1)+' · '+k+' '+esc(L.name)+'</b><small>'+(r?examVerdict(r.ok/r.n).short+" · son sonuç "+r.ok+"/"+r.n:"Henüz girilmedi")+'</small></div><a class="ghost" href="#sinav-'+k.toLowerCase()+'">'+(r?"Yeniden gir":"Sınava gir")+'</a></div>'}).join("")+'</section>';
+      return '<div class="srow"><div><b>Ünite '+(i+1)+' · '+k+' '+esc(L.name)+'</b><small>'+(r?examVerdict(r.ok/r.n).short+" · son sonuç "+r.ok+"/"+r.n:"Henüz girilmedi")+'</small></div><a class="ghost" href="#sinav-'+k.toLowerCase()+'">'+(r?"Yeniden gir":"Sınava gir")+'</a></div>'}).join("")+
+      (()=>{const vs=DECKS.filter(d=>P.vexam&&P.vexam[d.id]),good=vs.filter(d=>P.vexam[d.id].ok/P.vexam[d.id].n>=.85).length;
+        return '<div class="srow"><div><b>Kelime desteleri</b><small>'+(vs.length?vs.length+' / '+DECKS.length+' deste sınandı · '+good+' destede başarılı':'Henüz bir deste sınavına girmedin')+'</small></div><a class="ghost" href="#sinav-kelime">'+(vs.length?"Sonuçlar":"Sınava gir")+'</a></div>'})()+'</section>';
     // Dil bilgisi
     h+='<section class="sgroup"><h2>'+ic("book")+'Dil bilgisi</h2><div class="st-rows">'+Object.entries(GRAMMAR_LEVELS).map(([k,L])=>{const ts=GRAMMAR.filter(t=>t.level===k);
       return stRow(k+" · "+L.name,ts.filter(t=>P.gram[t.id]?.done).length,ts.length,L.color,"#gramer")}).join("")+'</div></section>';
@@ -3821,9 +3841,15 @@ function examVerdict(r){
 function topicVerdict(s){return s>=3?{k:"ok",t:"Hazırsın",d:"Bu konuyu biliyorsun, geçebilirsin."}:s===2?{k:"mid",t:"Kısa tekrar",d:"Konu anlatımına ve sık yapılan hatalara göz at."}:{k:"bad",t:"Çalışmalısın",d:"Konuyu baştan çalışıp alıştırmaları çöz."}}
 const unitNo=lv=>Object.keys(GRAMMAR_LEVELS).indexOf(lv)+1;
 
+var EXTAB="gramer";
+function examTabs(){
+  return '<div class="chips-row st-tabs ex-tabs">'+[["gramer","Dil bilgisi üniteleri","book","#sinav"],["kelime","Kelime desteleri","cards","#sinav-kelime"]].map(([k,l,i,hr])=>
+    '<a class="fchip" href="'+hr+'" aria-pressed="'+(EXTAB===k)+'" style="--c:var(--brand)">'+ic(i)+l+'</a>').join("")+'</div>';
+}
+function setExamBack(sec){const b=$("examBack");if(!b)return;b.href=sec==="ogren"?"#ogren":"#gramer";b.querySelector("span").textContent=sec==="ogren"?"Kelime Öğren":"Dil Bilgisi"}
 function renderExamList(){
-  const box=$("exam");if(!box)return;EX=null;
-  box.innerHTML='<div class="ex-units">'+Object.entries(GRAMMAR_LEVELS).map(([k,L])=>{
+  const box=$("exam");if(!box)return;EX=null;EXTAB="gramer";
+  box.innerHTML=examTabs()+'<div class="ex-units">'+Object.entries(GRAMMAR_LEVELS).map(([k,L])=>{
     const ts=GRAMMAR.filter(t=>t.level===k),n=ts.length*3,r=P.exam&&P.exam[k],v=r&&examVerdict(r.ok/r.n);
     return '<article class="ex-unit card" style="--c:'+L.color+'"><div class="ex-uh"><span class="glevel-badge">'+k+'</span><div><small>Ünite '+unitNo(k)+'</small><h2>'+esc(L.name)+'</h2><p>'+esc(L.desc)+'</p></div></div>'+
       '<p class="ex-topics">'+ts.map(t=>esc(t.title)).join(" · ")+'</p>'+
@@ -3890,13 +3916,99 @@ function renderExamResult(lv,run){
   box.innerHTML=h;
 }
 function openExamRoute(h){
-  // h: "sinav" | "sinav-a1" | "sinav-a1-sonuc"
-  const m=h.match(/^sinav-(a1|a2|b1|b2)(-sonuc)?$/);
-  if(h==="sinav"){renderExamList();return true}
-  if(!m)return false;
-  const lv=m[1].toUpperCase();
-  if(m[2]){renderExamResult(lv,EX&&EX.lv===lv&&EX.done?EX:null);return true}
-  startExam(lv);return true;
+  // "sinav" | "sinav-a1" | "sinav-a1-sonuc" | "sinav-kelime" | "sinav-k-<deste>" | "sinav-k-<deste>-sonuc"  → bölüm adı döner
+  let sec="gramer";
+  const m=h.match(/^sinav-(a1|a2|b1|b2)(-sonuc)?$/),k=h.match(/^sinav-k-([a-z0-9]+?)(-sonuc)?$/);
+  if(h==="sinav")renderExamList();
+  else if(h==="sinav-kelime"){renderVList();sec="ogren"}
+  else if(m){const lv=m[1].toUpperCase();if(m[2])renderExamResult(lv,EX&&EX.lv===lv&&EX.done?EX:null);else startExam(lv)}
+  else if(k){const d=DECKS.find(x=>x.id===k[1]);if(!d)return false;sec="ogren";
+    if(k[2])renderVResult(d,VX&&VX.d===d&&VX.done?VX:null);else startVExam(d)}
+  else return false;
+  setExamBack(sec);return sec;
+}
+
+/* ================= KELİME DESTESİ SINAVLARI =================
+   Destedeki her kelime için bir soru; üç soru türü karışık gelir:
+   anlam (İngilizce → Türkçe) · ters (Türkçe → İngilizce) · boşluk (örnek cümlede eksik kelime).
+   Doğru bilinen kelimeler öğrenildi sayılır, bilinemeyenler tekrar kutusuna girer ve "Sınavda bilemediklerin" destesine eklenir.
+   Sonuç: P.vexam[deste]={at,ok,n,miss:[kelime],best} · P.vmiss: son sınavda bilinemeyen kelimeler */
+var VX=null;
+function vVerdict(r){
+  if(r>=.85)return{k:"ok",short:"Desteyi biliyorsun",long:"Bu destenin kelimelerini iyi biliyorsun. Bir sonraki desteye geçebilirsin."};
+  if(r>=.6)return{k:"mid",short:"Birkaç kelime eksik",long:"Çoğunu biliyorsun. Bilemediğin kelimeleri çalışıp sınavı yeniden dene."};
+  return{k:"bad",short:"Desteyi çalışmalısın",long:"Bu destede bilmediğin kelimeler çok. Desteyi kartlarla baştan çalışmanı öneririz."};
+}
+function vQuestions(d){
+  const ws=shuffle(d.words),pick=(arr,n,not)=>shuffle(arr.filter(x=>!not.includes(x))).slice(0,n);
+  return ws.map((w,i)=>{
+    const others=d.words.filter(x=>x!==w);
+    const m=(w[3]||"").match(/\*\*(.+?)\*\*/),blankOk=m&&m[1].toLowerCase()===w[0].toLowerCase();
+    let type=["anlam","ters","bosluk"][i%3];if(type==="bosluk"&&!blankOk)type=i%2?"anlam":"ters";
+    if(type==="anlam"){const opts=shuffle([w[1],...pick(others.map(x=>x[1]),3,[w[1]])]);return{w,type,opts,right:w[1]}}
+    const opts=shuffle([w[0],...pick(others.map(x=>x[0]),3,[w[0]])]);
+    return{w,type,opts,right:w[0]};
+  });
+}
+function startVExam(d){VX={d,qs:vQuestions(d),i:0,pick:[],done:false};renderVExam()}
+function renderVExam(){
+  const box=$("exam");if(!box||!VX)return;
+  const d=VX.d,n=VX.qs.length,q=VX.qs[VX.i],sel=VX.pick[VX.i];
+  let prompt;
+  if(q.type==="anlam")prompt='<small class="ex-qt">Bu kelimenin anlamı ne?</small>'+esc(q.w[0]);
+  else if(q.type==="ters")prompt='<small class="ex-qt">İngilizcesi hangisi?</small>'+esc(q.w[1]);
+  else{const parts=esc(q.w[3]).split(/\*\*.+?\*\*/);prompt='<small class="ex-qt">Boşluğa hangi kelime gelir?</small>'+parts[0]+'<span class="blank">'+(sel!==undefined?esc(q.opts[sel]):"&nbsp;")+'</span>'+(parts[1]||"")+'<small class="ex-qtr">'+esc(q.w[4]||"")+'</small>'}
+  box.innerHTML='<div class="exrun card" style="--c:'+d.hue+'">'+
+    '<div class="ex-top"><span class="badge" style="--c:'+d.hue+'">'+esc(d.name)+' · '+esc(d.level)+'</span><span class="note">Soru '+(VX.i+1)+' / '+n+'</span></div>'+
+    '<div class="mbar ex-bar"><i style="width:'+(VX.i/n*100)+'%"></i></div>'+
+    '<p class="pr-q">'+prompt+'</p>'+
+    '<div class="opts" id="exOpts">'+q.opts.map((o,p)=>'<button class="opt'+(sel===p?" sel":"")+'" data-i="'+p+'" aria-pressed="'+(sel===p)+'"><span class="k">'+"ABCD"[p]+'</span><span>'+esc(o)+'</span></button>').join("")+'</div>'+
+    '<div class="ex-foot">'+(VX.i?'<button class="ghost" id="exPrev">'+ic("left")+'Önceki</button>':'<a class="linkbtn" href="#sinav-kelime">Sınavdan çık</a>')+'<span class="sp"></span>'+
+      '<button class="primary" id="exNext"'+(sel===undefined?" disabled":"")+'>'+(VX.i+1<n?"Sonraki":"Sınavı bitir")+ic("right")+'</button></div>'+
+    '<p class="note ex-hint">Sınav sırasında cevaplar gösterilmez; sonunda bilemediğin kelimeler anlamlarıyla birlikte gelir.</p></div>';
+  box.querySelectorAll("#exOpts .opt").forEach(b=>b.onclick=()=>{VX.pick[VX.i]=+b.dataset.i;markActive();renderVExam()});
+  if($("exPrev"))$("exPrev").onclick=()=>{VX.i--;renderVExam()};
+  $("exNext").onclick=()=>{if(VX.pick[VX.i]===undefined)return;if(VX.i+1<n){VX.i++;renderVExam()}else finishVExam()};
+}
+function finishVExam(){
+  const miss=[];let ok=0;
+  VX.qs.forEach((q,i)=>{const w=q.w[0];
+    if(q.opts[VX.pick[i]]===q.right){ok++;P.learned[w]=1;srsLearn(w)}
+    else{miss.push(w);delete P.learned[w];srsWrong(w)}});
+  P.vexam=P.vexam||{};const prev=P.vexam[VX.d.id];
+  P.vexam[VX.d.id]={at:Date.now(),ok,n:VX.qs.length,miss,best:Math.max(ok,prev?prev.best||prev.ok:0)};
+  P.vmiss=miss.slice();save();VX.done=true;
+  const h="sinav-k-"+VX.d.id+"-sonuc";try{history.replaceState(null,"","#"+h)}catch(e){}lastHash=h;
+  renderVResult(VX.d,VX);window.scrollTo({top:0,behavior:"auto"});
+}
+function renderVResult(d,run){
+  const box=$("exam"),r=P.vexam&&P.vexam[d.id];if(!box)return;
+  if(!r){location.hash="sinav-k-"+d.id;return}
+  const v=vVerdict(r.ok/r.n),idx=DECKS.indexOf(d);
+  const next=DECKS.slice(idx+1).find(x=>!(P.vexam&&P.vexam[x.id]&&P.vexam[x.id].ok/P.vexam[x.id].n>=.85));
+  const missW=(r.miss||[]).map(winfo).filter(Boolean),isLast=run||(P.vmiss||[]).join()===(r.miss||[]).join();
+  let h='<div class="exres" style="--c:'+d.hue+'">'+
+    '<section class="card ex-sum v-'+v.k+'"><div class="ex-score"><b>'+Math.round(r.ok/r.n*100)+'<small>%</small></b><span>'+r.ok+' / '+r.n+' doğru</span></div>'+
+      '<div><small class="eyebrow">Kelime destesi · '+esc(d.name)+' · '+esc(d.level)+'</small><h2>'+esc(v.short)+'</h2><p>'+esc(v.long)+(r.ok?' Doğru bildiğin '+r.ok+' kelime öğrenildi sayıldı.':'')+'</p>'+
+      '<div class="hero-row">'+(v.k==="bad"?'<a class="primary" href="#ogren-'+d.id+'">Desteyi çalış<span class="arr">'+ic("right")+'</span></a>'
+        :missW.length&&isLast?'<a class="primary" href="#ogren-eksik">Bilemediğin '+missW.length+' kelimeyi çalış<span class="arr">'+ic("right")+'</span></a>'
+        :next?'<a class="primary" href="#sinav-k-'+next.id+'">Sonraki deste: '+esc(next.name)+'<span class="arr">'+ic("right")+'</span></a>':'<a class="primary" href="#sinav-kelime">Tüm desteler</a>')+
+      '<a class="ghost" href="#sinav-k-'+d.id+'">'+ic("refresh")+'Yeniden gir</a></div></div></section>';
+  if(missW.length){
+    h+='<section class="card ex-review"><h2 class="tres-h">Bilemediğin kelimeler <small>'+missW.length+'</small></h2><p class="note" style="margin:-6px 0 0">Bu kelimeler tekrar kutuna eklendi; yarın Tekrar zamanı\'nda yeniden karşına çıkacak.</p>'+
+      missW.map(w=>'<div class="ex-w ex-vw"><div class="ex-vh"><b>'+esc(w[0])+'</b><span>'+esc(w[1])+'</span><span class="sp"></span>'+sayBtn(w[0],"sm")+savBtn(w[0],"sm")+'</div>'+
+        (w[3]?'<p class="note">'+hl(w[3])+' · '+esc(w[4]||"")+'</p>':'')+'</div>').join("")+'</section>';
+  }else h+='<section class="card ex-review"><h2 class="tres-h">Tüm kelimeleri bildin!</h2><p class="note" style="margin:0">Bu destenin bütün kelimeleri öğrenildi olarak işaretlendi.</p></section>';
+  h+='<p class="note ex-back"><a href="#sinav-kelime">'+ic("left")+'Tüm desteler</a></p></div>';
+  box.innerHTML=h;
+}
+function renderVList(){
+  const box=$("exam");if(!box)return;VX=null;EXTAB="kelime";
+  const done=DECKS.filter(d=>P.vexam&&P.vexam[d.id]).length;
+  box.innerHTML=examTabs()+'<p class="note ex-intro">Her destedeki '+DECKS[0].words.length+' kelime için birer soru: anlamını seç, İngilizcesini bul ya da cümledeki boşluğu doldur. '+done+' / '+DECKS.length+' deste sınandı.</p>'+
+    '<div class="ex-g ex-vlist">'+DECKS.map(d=>{const r=P.vexam&&P.vexam[d.id],v=r&&vVerdict(r.ok/r.n);
+      return '<a class="ex-t" href="#sinav-k-'+d.id+(r?'-sonuc':'')+'" style="--c:'+d.hue+'"><span class="mod-ic ex-vic">'+ic(d.icon)+'</span><div><b>'+esc(d.name)+'</b><small>'+esc(d.level)+' · '+d.words.length+' soru</small></div>'+
+        (r?'<span class="gt-ex v-'+v.k+'">'+r.ok+'/'+r.n+'<i> · '+v.short+'</i></span>':'<span class="ex-new">Sınava gir</span>')+ic("right")+'</a>'}).join("")+'</div>';
 }
 
 /* ================= CÜMLE KUR (Türkçeden İngilizceye) =================
@@ -4430,6 +4542,7 @@ const EXTRA={};
 const winfo=en=>WINFO[en]||P.saved[en]||EXTRA[en];
 function virtualDeck(id){
   if(id==="tekrar")return{id,name:"Tekrar zamanı",en:"Review",level:"Tekrar",icon:"refresh",hue:"var(--g2)",words:dueWords().map(winfo).filter(Boolean)};
+  if(id==="eksik")return{id,name:"Sınavda bilemediklerin",en:"Missed words",level:"Sınav",icon:"target",hue:"var(--bad)",words:(P.vmiss||[]).map(winfo).filter(Boolean)};
   if(id==="defter")return{id,name:"Defterim",en:"My words",level:"Defter",icon:"bookmark",hue:"var(--g3)",words:Object.values(P.saved)};
   return null;
 }
@@ -4552,7 +4665,7 @@ function route(){
   else if(h.startsWith("ogren-")){
     const id=h.slice(6);let d=DECKS.find(x=>x.id===id);
     if(!d){
-      if(id!=="tekrar"&&id!=="defter"){location.hash="ogren";return}
+      if(id!=="tekrar"&&id!=="defter"&&id!=="eksik"){location.hash="ogren";return}
       d=(S&&S.deck.id===id&&!S.done)?S.deck:virtualDeck(id);
       if(!d.words.length){location.hash=id==="defter"?"defter":"ogren";return}
     }
@@ -4576,7 +4689,7 @@ function route(){
   else if(h==="ayarlar"){renderSettings();showView("ayarlar","ayarlar")}
   else if(h==="hesap"||h==="giris"){renderAccount();showView("hesap","hesap")}
   else if(h==="calismam"){renderStudy();showView("calismam","calismam")}
-  else if(h.startsWith("sinav")){if(!openExamRoute(h)){location.hash="sinav";return}showView("sinav","gramer")}
+  else if(h.startsWith("sinav")){const sec=openExamRoute(h);if(!sec){location.hash="sinav";return}showView("sinav",sec)}
   else if(h==="destek"||h==="yardim"){renderSupport();showView("destek","destek")}
   else if(h==="seviye"){renderTest();showView("seviye","ana")}
   else if(h==="cevir"){renderTrHint();showView("cevir","cevir");setTimeout(()=>{try{$("trInput").focus({preventScroll:true})}catch(e){}},50)}
@@ -4685,6 +4798,7 @@ function renderDecks(){
   $("learnTools").innerHTML=
     '<a class="tool'+(due?" hot":" calm")+'" href="'+(due?"#ogren-tekrar":"#ogren")+'" style="--c:var(--g2);--t:var(--t-gram)"><span class="mod-ic">'+ic("refresh")+'</span><div><b>'+(due?due+" kelime tekrar bekliyor":"Bugün tekrar yok")+'</b><span>'+(due?"Unutmadan önce bir kez daha bak.":inRev?inRev+" kelime takvimde. Zamanı gelince burada görünür.":"Kartlarda \"Tekrar et\" dediğin kelimeler burada birikir.")+'</span></div>'+(due?'<span class="tool-go">Başla '+ic("right")+'</span>':'')+'</a>'+
     '<a class="tool" href="#defter" style="--c:var(--g3);--t:var(--t-trans)"><span class="mod-ic">'+ic("bookmark")+'</span><div><b>Defterim</b><span>'+(nb?nb+" kayıtlı kelime":"Henüz kayıtlı kelime yok")+'</span></div><span class="tool-go">Aç '+ic("right")+'</span></a>'+
+    '<a class="tool" href="#sinav-kelime" style="--c:var(--m-quiz);--t:var(--t-quiz,var(--surface2))"><span class="mod-ic">'+ic("target")+'</span><div><b>Kelime sınavları</b><span>'+(Object.keys(P.vexam||{}).length?Object.keys(P.vexam).length+" / "+DECKS.length+" deste sınandı":"Desteyi bilip bilmediğini ölç")+'</span></div><span class="tool-go">Başla '+ic("right")+'</span></a>'+
     '<a class="tool" href="#dinle" style="--c:var(--m-learn);--t:var(--t-learn)"><span class="mod-ic">'+ic("headphones")+'</span><div><b>Dinleme</b><span>Duy, seç ya da yaz</span></div><span class="tool-go">Başla '+ic("right")+'</span></a>'+
     '<a class="tool" href="#cumle" style="--c:var(--m-gram);--t:var(--t-gram)"><span class="mod-ic">'+ic("puzzle")+'</span><div><b>Cümle Kur</b><span>Türkçeden İngilizceye</span></div><span class="tool-go">Başla '+ic("right")+'</span></a>'+
     '<a class="tool" href="#telaffuz" style="--c:var(--g3);--t:var(--t-trans)"><span class="mod-ic">'+ic("mic")+'</span><div><b>Telaffuz</b><span>Dinle, söyle, puan al</span></div><span class="tool-go">Başla '+ic("right")+'</span></a>';
@@ -5687,7 +5801,7 @@ function mergeP(a,b){
         for(const w in del){if(!(newer.saved||{})[w])delete o[w]}r[k]=o;break}
       case "sents":{const del=maxMap(a._del||{},b._del||{}),o={...older.sents,...newer.sents};
         for(const w in o){const d=del["s:"+w];if(d&&d>(o[w][3]||0))delete o[w]}r[k]=o;break}
-      case "exam":{const o={...x};for(const lv in y){const p=o[lv],q=y[lv];o[lv]=!p||(q.at||0)>(p.at||0)?{...q,best:Math.max(q.best||0,p?p.best||0:0)}:{...p,best:Math.max(p.best||0,q.best||0)}}r[k]=o;break}
+      case "exam":case "vexam":{const o={...x};for(const lv in y){const p=o[lv],q=y[lv];o[lv]=!p||(q.at||0)>(p.at||0)?{...q,best:Math.max(q.best||0,p?p.best||0:0)}:{...p,best:Math.max(p.best||0,q.best||0)}}r[k]=o;break}
       case "_del":r[k]=maxMap(x,y);break;
       case "hist":r[k]=newer.hist;break;
       case "_t":r[k]=Math.max(ta,tb);break;

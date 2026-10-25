@@ -1324,3 +1324,20 @@ body.focus .sitefoot{display:none}
 .st-tabs{flex-wrap:nowrap;overflow-x:auto;scrollbar-width:none}.st-tabs::-webkit-scrollbar{display:none}
 .st-tabs .fchip{white-space:nowrap;flex:none}
 @media (max-width:420px){.st-tabs .fchip{padding:7px 11px;font-size:.84rem}}
+.ex-tabs{margin-bottom:16px}
+.ex-tabs .fchip{text-decoration:none}
+.ex-qt{display:block;font-size:.85rem;font-weight:600;color:var(--muted);letter-spacing:0;margin-bottom:8px}
+.ex-qtr{display:block;font-size:.95rem;font-weight:500;color:var(--muted);letter-spacing:0;margin-top:10px}
+.ex-intro{margin:0 0 14px}
+.ex-vlist{padding:2px 18px}
+.ex-vlist .ex-t:first-child{border-top:0}
+.ex-vic{width:38px;height:38px;flex:none}
+.ex-vic .ic{width:18px;height:18px}
+.ex-vlist .gt-ex{margin:0;white-space:nowrap}
+.ex-new{font-size:.84rem;font-weight:600;color:var(--c);white-space:nowrap}
+.ex-vh{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.ex-vh>span:not(.sp){color:var(--muted)}
+.ex-vh .sp{flex:1}
+
+.ex-vlist .gt-ex i{font-style:normal}
+@media (max-width:560px){.ex-vlist .gt-ex i{display:none}}
