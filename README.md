@@ -10,16 +10,16 @@ Türkçe arayüzlü, genel İngilizce öğrenme uygulaması.
 
 ## Bölümler
 - **Ana Sayfa:** Günün kelimesi, ilerleme özeti, günlük çalışma serisi ve "kaldığın yerden devam et".
-- **Kelime Öğren:** 11 konu destesi (132 kelime). Çevrilebilen kartlar, örnek cümleler ve Türkçeleri, telaffuz, "Biliyorum / Tekrar et" takibi, desteyle yarışma.
+- **Kelime Öğren:** 30 konu destesi (360 kelime) — günlük konulardan sık karıştırılan kelimelere, fiil+edat kalıplarına, bağlaçlara, deyimlere, iş görüşmesi ve e-posta İngilizcesine, akademik kelimelere. Çevrilebilen kartlar, örnek cümleler ve Türkçeleri, telaffuz, "Biliyorum / Tekrar et" takibi, desteyle yarışma.
 - **Kelime Yarışması:** 4 seviye (A1–A2, B1, B2, C1–C2), süreli 10 soruluk turlar, hız bonusu, seri çarpanı, 50:50 ve Pas jokerleri, rekorlar.
-- **Dil Bilgisi:** A1'den B2'ye 23 konu. Her konuda Türkçe anlatım, kullanım alanları, cümle yapısı, özet tablo, sesli örnek cümleler, ipucu kelimeler, sık yapılan hatalar ve alıştırma.
+- **Dil Bilgisi:** A1'den B2'ye 31 konu. Her konuda Türkçe anlatım, kullanım alanları, cümle yapısı, özet tablo, sesli örnek cümleler, ipucu kelimeler, sık yapılan hatalar ve alıştırma.
 - **Tekrar ve hafıza:** Uygulama görülen her kelimeyi, metni ve cümleyi hatırlar; önce görülmemişleri getirir. Yanlış bilinen ya da "Tekrar et" denen kelimeler 1, 3, 7, 14 ve 30 gün aralıklarla yeniden sorulur.
 - **Defterim:** Kartlarda, yarışmada, metinlerde ve günün kelimesinde kaydet işaretiyle kişisel kelime listesi; kartlarla çalışma ve yarışma.
 - **Dinleme:** Cümleyi dinle; kolay modda duyduğun ifadeyi seç, dikte modunda cümleyi yaz. Yavaş dinleme ve kelime kelime karşılaştırma.
 - **Seviye testi:** Kelime, dil bilgisi, okuma ve dinleme sorularıyla (A1–C1, 45 soruluk havuz) iki aşamalı uyarlanabilir test; yetenek modeliyle seviye tahmini, beceri dağılımı ve başlangıç önerileri.
 - **Üyelik:** Google, e-posta + şifre ya da e-postaya gelen bağlantıyla giriş; ilerleme Supabase ile cihazlar arasında eşitlenir (kurulum: `belgeler/uyelik-kurulumu.md`).
 - **Telaffuz:** kelimeyi ya da cümleyi dinle, mikrofona söyle; tarayıcının konuşma tanımasıyla kelime kelime puan (Chrome, Edge, Safari).
-- **Okuma:** 4 seviyede 16 özgün metin; cümle vurgulu doğal sesle okuma, Türkçe çeviri, anahtar kelimeler ve açıklamalı anlama soruları.
+- **Okuma:** 4 seviyede 24 özgün metin (96 anlama sorusu); cümle vurgulu doğal sesle okuma, Türkçe çeviri, anahtar kelimeler ve açıklamalı anlama soruları.
 - **Günün dersi:** her gün seviyeye göre ~5 dakikalık paket: 3 yeni kelime, kelime testi, mini gramer, cümle kurma ve dinleme (ana sayfada).
 - **Cümle Kur:** Türkçe cümleyi gör, İngilizcesini karışık kartları sıralayarak ya da yazarak kur (4 seviye, ~300 cümle; yanlışlar birkaç dakika sonra yeniden gelir).
 - **Yardım ve destek:** sık sorulanlar ve "Bize yaz" formu; kelime kartı ve dil bilgisi konularından tek dokunuşla hata bildirme. Mesajlar Supabase'deki `feedback` tablosuna düşer (kurulum: `belgeler/destek.sql`).

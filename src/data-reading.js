@@ -340,4 +340,174 @@ qs:[["Psikologlara göre can sıkıntısı neyin sinyalidir?",["Durumumuzun ihti
 ["Çalışmada sıkıcı görevi yapan katılımcılara ne oldu?",["Sonrasında daha yaratıcı fikirler ürettiler","Görevi yarıda bıraktılar","Daha yorgun ve mutsuz oldular","Telefonlarını kullandılar"],"\"…subsequently came up with more inventive ideas than those who had not.\""],
 ["Yazar okuyucudan ne yapmasını istiyor?",["Ara sıra boş anlara katlanmasını","Teknolojiden tamamen vazgeçmesini","Bilerek sıkıcı işler aramasını","Telefonunu daha çok kullanmasını"],"\"It is, rather, an invitation to tolerate the occasional empty moment.\" Diğerlerini açıkça reddediyor."],
 ["Metindeki \"endless scrolling\" ifadesi neyi anlatıyor?",["Telefonda sonu gelmeyen kaydırmayı","Uzun bir yürüyüşü","Kitap okumayı","Sıra beklemeyi"],"Telefona uzanma bağlamında, ekranı durmadan aşağı kaydırmak anlamında."]]}
+,{id:"pet",lv:"kolay",title:"Our New Cat",tt:"Yeni kedimiz",
+en:`Last week, my family adopted a cat from an animal shelter. She is two years old and she has grey fur and green eyes. We called her Pamuk, because she is soft like cotton.
+
+On the first day, Pamuk was very shy. She hid under the sofa and didn't want to eat. My mother said, "Be patient. She needs time."
+
+Now Pamuk is much happier. She sleeps on my bed every night and follows me around the house. In the morning, she sits by the window and watches the birds.
+
+Having a pet is a big responsibility. I feed her twice a day and clean her box. But I think it's worth it. She is my best friend.`,
+tr:`Geçen hafta ailem bir hayvan barınağından bir kedi sahiplendi. İki yaşında, gri tüyleri ve yeşil gözleri var. Ona Pamuk adını verdik, çünkü pamuk gibi yumuşak.
+
+İlk gün Pamuk çok çekingendi. Kanepenin altına saklandı ve yemek yemek istemedi. Annem "Sabırlı ol. Zamana ihtiyacı var" dedi.
+
+Şimdi Pamuk çok daha mutlu. Her gece benim yatağımda uyuyor ve evde beni her yere takip ediyor. Sabahları pencerenin yanında oturup kuşları izliyor.
+
+Evcil hayvan beslemek büyük bir sorumluluk. Onu günde iki kez besliyorum ve kumunu temizliyorum. Ama bence buna değer. O benim en iyi arkadaşım.`,
+vocab:[["adopt","sahiplenmek, evlat edinmek"],["shelter","barınak"],["shy","çekingen, utangaç"],["patient","sabırlı"],["responsibility","sorumluluk"]],
+qs:[["Aile kediyi nereden aldı?",["Bir hayvan barınağından","Bir pet şoptan","Komşudan","Sokaktan"],"\"…adopted a cat from an animal shelter.\""],
+["Kediye neden Pamuk adını verdiler?",["Pamuk gibi yumuşak olduğu için","Beyaz olduğu için","Çok uyuduğu için","Annenin fikri olduğu için"],"\"…because she is soft like cotton.\""],
+["İlk gün Pamuk nasıldı?",["Çekingen; saklandı ve yemek yemedi","Çok mutlu ve oyuncu","Hasta","Kızgın"],"\"She hid under the sofa and didn't want to eat.\""],
+["Yazar evcil hayvan beslemek hakkında ne düşünüyor?",["Büyük bir sorumluluk ama değer","Çok kolay","Çok pahalı ve gereksiz","Sadece çocuklar için"],"\"Having a pet is a big responsibility… But I think it's worth it.\""]]},
+
+{id:"phone",lv:"kolay",title:"A Day Without My Phone",tt:"Telefonsuz bir gün",
+en:`Last Saturday, I forgot my phone at my friend's house. At first, I felt nervous. How could I check my messages? How could I listen to music?
+
+I went to the park and sat on a bench. Without my phone, I noticed many things: children were flying kites, an old man was feeding pigeons, and the trees were turning yellow.
+
+In the afternoon, I read a book for two hours. I can't remember the last time I did that! Then I visited my grandmother and we talked for a long time.
+
+In the evening, I got my phone back. I had forty messages, but none of them were important. Now I try to leave my phone at home one day every month.`,
+tr:`Geçen cumartesi telefonumu arkadaşımın evinde unuttum. İlk başta gergin hissettim. Mesajlarımı nasıl kontrol edecektim? Nasıl müzik dinleyecektim?
+
+Parka gidip bir banka oturdum. Telefonum olmadan birçok şeyi fark ettim: çocuklar uçurtma uçuruyordu, yaşlı bir adam güvercinleri besliyordu ve ağaçlar sararıyordu.
+
+Öğleden sonra iki saat kitap okudum. Bunu en son ne zaman yaptığımı hatırlamıyorum! Sonra büyükannemi ziyaret ettim ve uzun süre sohbet ettik.
+
+Akşam telefonumu geri aldım. Kırk mesajım vardı ama hiçbiri önemli değildi. Artık her ay bir gün telefonumu evde bırakmaya çalışıyorum.`,
+vocab:[["forget","unutmak"],["nervous","gergin"],["notice","fark etmek"],["kite","uçurtma"],["none of","hiçbiri"]],
+qs:[["Yazar telefonunu nerede unuttu?",["Arkadaşının evinde","Parkta","Otobüste","Büyükannesinin evinde"],"\"I forgot my phone at my friend's house.\""],
+["Yazar ilk başta nasıl hissetti?",["Gergin","Mutlu","Sakin","Yorgun"],"\"At first, I felt nervous.\""],
+["Parkta HANGİSİNİ görmedi?",["Futbol oynayan gençleri","Uçurtma uçuran çocukları","Güvercin besleyen bir adamı","Sararan ağaçları"],"Futbol oynayanlardan söz edilmiyor; diğer üçü metinde var."],
+["Yazar artık ne yapmaya çalışıyor?",["Her ay bir gün telefonunu evde bırakmaya","Telefonunu hiç kullanmamaya","Her gün kitap okumaya","Yeni bir telefon almaya"],"\"Now I try to leave my phone at home one day every month.\""]]},
+
+{id:"volunteer",lv:"orta",title:"Giving Back",tt:"Topluma katkı",
+en:`When Zeynep retired from her job as a teacher, she worried that she would feel bored and lonely. Her children lived in other cities, and her days suddenly felt very long.
+
+A friend suggested that she volunteer at a local community centre. Twice a week, Zeynep now helps refugee children with their homework and teaches them Turkish. "They're so curious and eager to learn," she says. "Some of them speak three languages already!"
+
+Research shows that volunteering is good not only for the people who receive help, but also for the volunteers themselves. People who volunteer regularly tend to feel less stressed, more connected to others and more satisfied with their lives.
+
+For Zeynep, the biggest reward is simple. "When a child finally understands something and smiles at me, I feel useful again. That feeling is priceless."`,
+tr:`Zeynep öğretmenlikten emekli olduğunda canının sıkılacağından ve yalnız hissedeceğinden endişe etti. Çocukları başka şehirlerde yaşıyordu ve günleri birden çok uzun gelmeye başlamıştı.
+
+Bir arkadaşı ona yerel bir toplum merkezinde gönüllü olmasını önerdi. Zeynep artık haftada iki kez mülteci çocuklara ödevlerinde yardım ediyor ve onlara Türkçe öğretiyor. "Çok meraklılar ve öğrenmeye çok hevesliler," diyor. "Bazıları şimdiden üç dil konuşuyor!"
+
+Araştırmalar, gönüllülüğün yalnızca yardım alanlar için değil, gönüllülerin kendileri için de iyi olduğunu gösteriyor. Düzenli olarak gönüllü çalışan insanlar daha az stresli, başkalarıyla daha bağlantılı ve hayatlarından daha memnun olma eğiliminde.
+
+Zeynep için en büyük ödül basit. "Bir çocuk sonunda bir şeyi anlayıp bana gülümsediğinde kendimi yeniden işe yarar hissediyorum. O duygu paha biçilemez."`,
+vocab:[["retire","emekli olmak"],["volunteer","gönüllü olmak; gönüllü"],["eager","hevesli, istekli"],["tend to","eğiliminde olmak"],["priceless","paha biçilemez"]],
+qs:[["Zeynep emekli olunca neden endişelendi?",["Canının sıkılacağından ve yalnız kalacağından","Parasının yetmeyeceğinden","Hastalanacağından","Taşınmak zorunda kalacağından"],"\"…she worried that she would feel bored and lonely.\""],
+["Zeynep toplum merkezinde ne yapıyor?",["Mülteci çocuklara ödevlerinde yardım edip Türkçe öğretiyor","Yemek pişiriyor","Yaşlılara bakıyor","Kütüphaneyi düzenliyor"],"\"…helps refugee children with their homework and teaches them Turkish.\""],
+["Araştırmalara göre gönüllülük gönüllülere ne sağlıyor?",["Daha az stres ve daha fazla memnuniyet","Daha fazla para","Daha uzun tatiller","Yeni bir iş"],"\"…tend to feel less stressed, more connected to others and more satisfied…\""],
+["\"That feeling is priceless\" ne anlatıyor?",["O duygunun çok değerli olduğunu","O duygunun pahalı olduğunu","Ücret almadığını","Satın alınabildiğini"],"priceless: paha biçilemez, çok değerli."]]},
+
+{id:"coffee",lv:"orta",title:"The Story of Turkish Coffee",tt:"Türk kahvesinin hikâyesi",
+en:`Coffee first arrived in Istanbul in the sixteenth century, and it quickly became part of daily life. Coffeehouses opened all over the city, where people met to talk, play games and discuss the news.
+
+Turkish coffee is prepared in a special way. Very finely ground coffee is mixed with cold water and, if you like, sugar. It is then heated slowly in a small pot called a cezve, until a thick foam forms on top. It is served in small cups without being filtered, so the grounds settle at the bottom.
+
+Coffee also plays a role in traditions. When a man's family visits a woman's family to ask for her hand in marriage, the future bride makes coffee. Some brides add salt to the groom's cup as a joke, to test his patience!
+
+In 2013, UNESCO added Turkish coffee culture to its list of the world's intangible cultural heritage. As an old Turkish saying goes, a cup of coffee is remembered for forty years.`,
+tr:`Kahve İstanbul'a ilk kez on altıncı yüzyılda geldi ve hızla günlük hayatın bir parçası oldu. Şehrin her yerinde, insanların sohbet etmek, oyun oynamak ve haberleri tartışmak için buluştuğu kahvehaneler açıldı.
+
+Türk kahvesi özel bir şekilde hazırlanır. Çok ince çekilmiş kahve soğuk suyla ve isteğe göre şekerle karıştırılır. Ardından cezve denilen küçük bir kapta, üstünde koyu bir köpük oluşana kadar yavaş yavaş ısıtılır. Süzülmeden küçük fincanlarda servis edilir, bu yüzden telvesi dibe çöker.
+
+Kahvenin geleneklerde de bir yeri vardır. Bir erkeğin ailesi bir kızı istemeye gittiğinde, gelin adayı kahve yapar. Bazı gelin adayları şaka olsun diye damadın kahvesine tuz katar, sabrını sınamak için!
+
+2013'te UNESCO, Türk kahvesi kültürünü dünyanın somut olmayan kültürel miras listesine ekledi. Eski bir Türk sözünün dediği gibi, bir fincan kahvenin kırk yıl hatırı vardır.`,
+vocab:[["finely ground","ince çekilmiş"],["foam","köpük"],["grounds","telve"],["ask for someone's hand","kız istemek"],["intangible","somut olmayan, soyut"]],
+qs:[["Kahve İstanbul'a ne zaman geldi?",["On altıncı yüzyılda","On dokuzuncu yüzyılda","2013'te","Yirminci yüzyılda"],"\"Coffee first arrived in Istanbul in the sixteenth century.\""],
+["Türk kahvesinin telvesi neden fincanın dibinde kalır?",["Süzülmeden servis edildiği için","Şekerli olduğu için","Soğuk suyla yapıldığı için","Köpüklü olduğu için"],"\"It is served in small cups without being filtered, so the grounds settle at the bottom.\""],
+["Bazı gelin adayları damadın kahvesine neden tuz koyar?",["Şaka olsun ve sabrını sınamak için","Gelenek gereği her zaman","Daha lezzetli olduğu için","Şeker bittiği için"],"\"…as a joke, to test his patience!\""],
+["UNESCO 2013'te ne yaptı?",["Türk kahvesi kültürünü kültürel miras listesine ekledi","Kahvehaneleri kapattı","Kahve ihracatını yasakladı","İlk kahvehaneyi açtı"],"\"…added Turkish coffee culture to its list of the world's intangible cultural heritage.\""]]},
+
+{id:"memory",lv:"zor",title:"How to Remember More",tt:"Nasıl daha çok hatırlarız",
+en:`Most learners know the frustrating experience of studying a list of new words, feeling confident, and then forgetting almost all of them a week later. This is not a personal failing; it is simply how memory works. In the nineteenth century, the psychologist Hermann Ebbinghaus showed that we forget new information remarkably quickly unless we review it.
+
+Fortunately, research also points to some effective strategies. The first is spaced repetition: rather than studying a word ten times in one evening, you review it after a day, then after three days, then after a week. Each review strengthens the memory and slows down the rate of forgetting.
+
+The second strategy is retrieval practice. Simply rereading notes feels productive, but actively trying to recall information — for example, by testing yourself — is far more effective. The effort of remembering is precisely what helps the brain store it.
+
+Finally, context matters. A word learned in a meaningful sentence, or connected to a personal experience, is much easier to recall than a word learned in isolation. In other words, the way you learn is just as important as how much time you spend learning.`,
+tr:`Çoğu öğrenci, yeni kelimelerden oluşan bir listeye çalışıp kendini emin hissettikten bir hafta sonra neredeyse hepsini unutmanın o can sıkıcı deneyimini bilir. Bu kişisel bir başarısızlık değil; hafıza basitçe böyle çalışır. On dokuzuncu yüzyılda psikolog Hermann Ebbinghaus, tekrar etmedikçe yeni bilgileri dikkat çekici bir hızla unuttuğumuzu gösterdi.
+
+Neyse ki araştırmalar bazı etkili stratejilere de işaret ediyor. Birincisi aralıklı tekrardır: bir kelimeye bir akşamda on kez çalışmak yerine onu bir gün sonra, sonra üç gün sonra, sonra bir hafta sonra tekrar edersiniz. Her tekrar hafızayı güçlendirir ve unutma hızını yavaşlatır.
+
+İkinci strateji hatırlama pratiğidir. Notları yalnızca yeniden okumak verimli gibi gelir, ama bilgiyi aktif olarak hatırlamaya çalışmak, örneğin kendinizi sınamak, çok daha etkilidir. Hatırlamak için harcanan çaba, beynin onu saklamasına tam olarak yardım eden şeydir.
+
+Son olarak bağlam önemlidir. Anlamlı bir cümlede öğrenilen ya da kişisel bir deneyimle bağlantılı bir kelime, tek başına öğrenilen bir kelimeden çok daha kolay hatırlanır. Başka bir deyişle, nasıl öğrendiğiniz, öğrenmeye ne kadar zaman ayırdığınız kadar önemlidir.`,
+vocab:[["frustrating","sinir bozucu, can sıkıcı"],["spaced repetition","aralıklı tekrar"],["retrieval","hatırlama, geri getirme"],["in isolation","tek başına, bağlamdan kopuk"],["remarkably","dikkat çekici şekilde"]],
+qs:[["Ebbinghaus neyi gösterdi?",["Tekrar etmezsek yeni bilgiyi çok hızlı unuttuğumuzu","Kelimelerin asla unutulmadığını","Uykunun hafızayı bozduğunu","Liste çalışmanın en iyi yöntem olduğunu"],"\"…we forget new information remarkably quickly unless we review it.\""],
+["Aralıklı tekrar nedir?",["Bir kelimeyi giderek uzayan aralıklarla tekrar etmek","Bir akşamda on kez çalışmak","Her gün yeni kelimeler öğrenmek","Notları yeniden okumak"],"\"…you review it after a day, then after three days, then after a week.\""],
+["Metne göre neden kendini sınamak notları yeniden okumaktan daha etkili?",["Hatırlama çabası beynin bilgiyi saklamasına yardım ettiği için","Daha az zaman aldığı için","Daha eğlenceli olduğu için","Öğretmenler istediği için"],"\"The effort of remembering is precisely what helps the brain store it.\""],
+["Son paragrafın ana fikri nedir?",["Nasıl öğrendiğimiz, ne kadar çalıştığımız kadar önemlidir","Kelimeler tek tek öğrenilmelidir","Bağlam öğrenmeyi zorlaştırır","Kişisel deneyimler önemsizdir"],"\"…the way you learn is just as important as how much time you spend learning.\""]]},
+
+{id:"fastfashion",lv:"zor",title:"The Real Cost of Cheap Clothes",tt:"Ucuz kıyafetlerin gerçek bedeli",
+en:`Never before have clothes been so cheap or so easy to buy. Large fashion brands now release new collections every few weeks, encouraging shoppers to buy more and to treat clothing as almost disposable. This business model is known as fast fashion.
+
+Its environmental impact, however, is considerable. The fashion industry is responsible for a significant share of global carbon emissions, and producing a single cotton T-shirt can require thousands of litres of water. Many synthetic fabrics, such as polyester, release tiny plastic fibres every time they are washed, which eventually end up in rivers and oceans.
+
+There is also a human cost. Much of the world's clothing is produced in factories where workers earn very low wages and sometimes work in unsafe conditions.
+
+Consumers are not powerless, though. Buying fewer but better-quality items, repairing clothes instead of throwing them away, and choosing second-hand shops are all simple ways to reduce the damage. As one campaigner puts it, "The most sustainable garment is the one already in your wardrobe."`,
+tr:`Kıyafetler daha önce hiç bu kadar ucuz ve kolay satın alınabilir olmamıştı. Büyük moda markaları artık birkaç haftada bir yeni koleksiyon çıkarıyor; alışveriş yapanları daha fazla almaya ve giysiyi neredeyse kullan-at bir şey gibi görmeye teşvik ediyor. Bu iş modeli hızlı moda olarak bilinir.
+
+Ancak çevresel etkisi azımsanmayacak düzeydedir. Moda sektörü küresel karbon salımlarının önemli bir kısmından sorumludur ve tek bir pamuklu tişört üretmek binlerce litre su gerektirebilir. Polyester gibi birçok sentetik kumaş her yıkandığında, sonunda nehirlere ve okyanuslara karışan küçük plastik lifler salar.
+
+Bir de insani bedeli var. Dünyadaki giysilerin büyük bölümü, işçilerin çok düşük ücretler aldığı ve bazen güvensiz koşullarda çalıştığı fabrikalarda üretiliyor.
+
+Yine de tüketiciler çaresiz değil. Daha az ama daha kaliteli ürünler almak, kıyafetleri atmak yerine tamir etmek ve ikinci el mağazaları tercih etmek, zararı azaltmanın basit yollarıdır. Bir kampanyacının dediği gibi: "En sürdürülebilir giysi, zaten gardırobunuzda olandır."`,
+vocab:[["disposable","kullan-at"],["emission","salım, emisyon"],["fibre","lif"],["wage","ücret"],["garment","giysi"]],
+qs:[["\"Fast fashion\" neyi anlatır?",["Sık sık yeni koleksiyon çıkarıp çok ve ucuz satış yapan iş modelini","Hızlı kargo hizmetini","Spor giyimini","El yapımı kıyafetleri"],"\"…release new collections every few weeks… known as fast fashion.\""],
+["Sentetik kumaşlarla ilgili hangi sorun anlatılıyor?",["Yıkandıkça suya plastik lif salmaları","Çok pahalı olmaları","Çabuk solmaları","Su geçirmemeleri"],"\"…release tiny plastic fibres every time they are washed.\""],
+["Metinde \"human cost\" ile ne kastediliyor?",["İşçilerin düşük ücret ve güvensiz koşullarda çalışması","Müşterilerin çok para harcaması","Mağazalarda yaşanan kalabalık","Tasarımcıların az olması"],"Üçüncü paragraf düşük ücret ve güvensiz koşulları anlatıyor."],
+["Kampanyacının sözünün anlamı nedir?",["En çevreci seçenek, zaten sahip olduğun giysiyi kullanmaktır","Gardırobu sık sık yenilemek gerekir","Sürdürülebilir giysiler pahalıdır","Gardıroplar plastikten yapılmamalıdır"],"\"The most sustainable garment is the one already in your wardrobe.\""]]},
+
+{id:"loneliness",lv:"uzman",title:"The Loneliness Paradox",tt:"Yalnızlık paradoksu",
+en:`We live in the most connected era in human history. With a few taps on a screen, we can message friends on the other side of the world, join communities of strangers who share our interests, and see what hundreds of acquaintances had for breakfast. And yet, surveys in many countries suggest that loneliness is widespread, particularly among young adults.
+
+Part of the explanation may lie in the difference between contact and connection. Social media excels at providing the former: a constant stream of updates, likes and brief exchanges. What it often fails to provide is the latter — the sense of being genuinely known and understood by another person, which tends to develop through sustained, face-to-face interaction.
+
+Researchers are careful to point out that the relationship is complex. For some people, particularly those who are isolated by illness or geography, online communities can be a lifeline. The problem arises when digital interaction replaces, rather than supplements, deeper forms of contact.
+
+The implications are not merely emotional. Chronic loneliness has been associated with a range of health risks comparable to those of well-known factors such as inactivity. Addressing it, therefore, may require us to treat time spent with others not as a luxury, but as a genuine necessity.`,
+tr:`İnsanlık tarihinin en bağlantılı çağında yaşıyoruz. Ekrana birkaç dokunuşla dünyanın öbür ucundaki arkadaşlarımıza mesaj atabilir, ilgi alanlarımızı paylaşan yabancılardan oluşan topluluklara katılabilir ve yüzlerce tanıdığımızın kahvaltıda ne yediğini görebiliriz. Yine de birçok ülkede yapılan anketler, yalnızlığın, özellikle genç yetişkinler arasında, yaygın olduğunu gösteriyor.
+
+Açıklamanın bir kısmı temas ile bağ arasındaki farkta yatıyor olabilir. Sosyal medya ilkini sağlamakta çok başarılıdır: sürekli bir güncelleme, beğeni ve kısa yazışma akışı. Çoğu zaman sağlayamadığı ise ikincisidir: bir başkası tarafından gerçekten tanınma ve anlaşılma duygusu; bu duygu genellikle sürekli, yüz yüze etkileşimle gelişir.
+
+Araştırmacılar ilişkinin karmaşık olduğunu özenle vurguluyor. Bazı insanlar için, özellikle hastalık ya da coğrafya nedeniyle yalıtılmış olanlar için, çevrim içi topluluklar bir can simidi olabilir. Sorun, dijital etkileşim daha derin temas biçimlerini tamamlamak yerine onların yerini aldığında ortaya çıkıyor.
+
+Sonuçlar yalnızca duygusal değil. Süreğen yalnızlık, hareketsizlik gibi iyi bilinen etkenlerinkiyle karşılaştırılabilir bir dizi sağlık riskiyle ilişkilendirilmiştir. Dolayısıyla bununla başa çıkmak, başkalarıyla geçirilen zamanı bir lüks değil, gerçek bir ihtiyaç olarak görmemizi gerektirebilir.`,
+vocab:[["acquaintance","tanıdık"],["excel at","…de çok başarılı olmak"],["lifeline","can simidi"],["supplement","tamamlamak, desteklemek"],["chronic","süreğen, kronik"]],
+qs:[["Metindeki \"paradoks\" nedir?",["En bağlantılı çağda yaşamamıza rağmen yalnızlığın yaygın olması","Sosyal medyanın ücretsiz olması","Gençlerin daha az telefon kullanması","Yalnızlığın sağlığa iyi gelmesi"],"Birinci paragraf: en bağlantılı çağ, \"And yet… loneliness is widespread\"."],
+["Yazara göre sosyal medya neyi sağlamakta başarısız kalıyor?",["Gerçekten tanınma ve anlaşılma duygusunu","Hızlı mesajlaşmayı","Yeni topluluklara katılmayı","Güncellemeleri görmeyi"],"\"What it often fails to provide is the latter — the sense of being genuinely known and understood…\""],
+["Araştırmacılara göre sorun ne zaman ortaya çıkıyor?",["Dijital etkileşim yüz yüze teması tamamlamak yerine onun yerini aldığında","İnsanlar çevrim içi topluluklara katıldığında","Hastalar internet kullandığında","İnsanlar yurt dışına taşındığında"],"\"The problem arises when digital interaction replaces, rather than supplements, deeper forms of contact.\""],
+["Son paragrafa göre yalnızlık neden ciddiye alınmalı?",["Sağlık riskleriyle ilişkilendirildiği için","Pahalı olduğu için","Yasalara aykırı olduğu için","Verimliliği artırdığı için"],"\"Chronic loneliness has been associated with a range of health risks…\""]]},
+
+{id:"language",lv:"uzman",title:"Do Languages Shape How We Think?",tt:"Diller düşüncemizi şekillendirir mi?",
+en:`Does the language we speak influence the way we see the world? This question, often associated with the linguists Edward Sapir and Benjamin Lee Whorf, has fascinated researchers for nearly a century. In its strongest form — the claim that language determines thought — the idea has largely been rejected. Few scholars today believe that we cannot think about concepts for which our language has no word.
+
+A more modest version, however, has found considerable support. Some languages, for instance, require speakers to mark whether they witnessed an event themselves or merely heard about it. Turkish is a well-known example: "geldi" and "gelmiş" both describe someone arriving, but the second signals that the speaker did not see it directly. Studies suggest that such grammatical habits may subtly affect what speakers pay attention to and remember.
+
+Similarly, languages divide the colour spectrum differently. Russian distinguishes between light and dark blue with two separate basic words, and Russian speakers have been found to discriminate between these shades slightly faster than English speakers.
+
+The consensus, then, is nuanced: language does not imprison thought, but it may nudge it in particular directions. For learners, this offers an appealing idea — acquiring a new language may also mean acquiring a slightly different way of noticing the world.`,
+tr:`Konuştuğumuz dil dünyayı görme biçimimizi etkiler mi? Çoğunlukla dil bilimciler Edward Sapir ve Benjamin Lee Whorf ile ilişkilendirilen bu soru, araştırmacıları neredeyse bir yüzyıldır büyülüyor. En güçlü biçimiyle, yani dilin düşünceyi belirlediği iddiasıyla, bu fikir büyük ölçüde reddedildi. Bugün pek az akademisyen, dilimizde kelimesi olmayan kavramlar hakkında düşünemeyeceğimize inanıyor.
+
+Ancak daha ılımlı bir versiyonu kayda değer destek buldu. Örneğin bazı diller, konuşanların bir olaya bizzat tanık olup olmadıklarını ya da yalnızca duyup duymadıklarını belirtmelerini gerektirir. Türkçe bunun bilinen bir örneğidir: "geldi" ve "gelmiş" ikisi de birinin gelişini anlatır, ama ikincisi konuşanın bunu doğrudan görmediğini belirtir. Çalışmalar, bu tür dil bilgisi alışkanlıklarının konuşanların neye dikkat ettiğini ve neyi hatırladığını belli belirsiz etkileyebileceğini gösteriyor.
+
+Benzer şekilde diller renk yelpazesini farklı biçimlerde böler. Rusça açık ve koyu maviyi iki ayrı temel kelimeyle ayırır ve Rusça konuşanların bu tonları İngilizce konuşanlardan biraz daha hızlı ayırt ettiği bulunmuştur.
+
+Dolayısıyla genel kanı incelikli: dil düşünceyi hapsetmez, ama onu belirli yönlere hafifçe itebilir. Öğrenenler için bu çekici bir fikir sunuyor: yeni bir dil edinmek, dünyayı fark etmenin biraz farklı bir yolunu edinmek de olabilir.`,
+vocab:[["determine","belirlemek"],["modest","ılımlı, mütevazı"],["witness","tanık olmak"],["discriminate","ayırt etmek"],["nuanced","incelikli, nüanslı"]],
+qs:[["Fikrin \"en güçlü biçimi\" hakkında bugün ne düşünülüyor?",["Büyük ölçüde reddedildi","Tamamen kanıtlandı","Hiç araştırılmadı","Yalnızca Türkçe için geçerli"],"\"…the idea has largely been rejected.\""],
+["Metinde Türkçe neden örnek veriliyor?",["Olaya tanık olunup olunmadığını dil bilgisiyle belirttiği için","Renkleri farklı adlandırdığı için","Çok eski bir dil olduğu için","Kelimeleri az olduğu için"],"\"geldi\" ve \"gelmiş\": ikincisi doğrudan görülmediğini belirtir."],
+["Rusça örneği neyi gösteriyor?",["Rusça konuşanların iki mavi tonunu biraz daha hızlı ayırt ettiğini","Rusçada mavi kelimesi olmadığını","İngilizcenin daha çok renk adı olduğunu","Renklerin her dilde aynı olduğunu"],"\"…Russian speakers have been found to discriminate between these shades slightly faster…\""],
+["Yazarın vardığı sonuç nedir?",["Dil düşünceyi hapsetmez ama belirli yönlere itebilir","Dil düşünceyi tamamen belirler","Dilin düşünceyle hiçbir ilgisi yoktur","Yeni dil öğrenmek düşünceyi bozar"],"\"…language does not imprison thought, but it may nudge it in particular directions.\""]]}
+
 ];
+/* Seviye sırası: kolay → uzman; aynı seviyede yazım sırası korunur */
+READING.sort((a,b)=>["kolay","orta","zor","uzman"].indexOf(a.lv)-["kolay","orta","zor","uzman"].indexOf(b.lv));
