@@ -1038,6 +1038,51 @@ a.stat{text-decoration:none;color:inherit}
 @media (max-width:600px){.prof-stats{grid-template-columns:repeat(2,1fr)}.auth-card{padding:24px 18px 20px;border-radius:24px}}
 .auth-mark .lg1{stop-color:var(--gr1)}.auth-mark .lg2{stop-color:var(--gr2)}.auth-mark .lg3{stop-color:var(--gr3)}.auth-mark .lw1,.auth-mark .lw2{stroke-dashoffset:0}.auth-mark .lsp{opacity:1}
 
+/* ================= DESTEK ================= */
+.sup-grid{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,1fr);gap:16px;align-items:start}
+@media (max-width:860px){.sup-grid{grid-template-columns:1fr}}
+.fb{display:flex;flex-direction:column;gap:12px}
+.fb .note{margin:-4px 0 0}
+#fbForm{display:flex;flex-direction:column;gap:14px}
+.fb-kinds{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
+@media (max-width:520px){.fb-kinds{grid-template-columns:repeat(2,1fr)}}
+.fb-kinds button{display:flex;flex-direction:column;align-items:center;gap:6px;font:inherit;font-size:.86rem;font-weight:600;color:var(--muted);cursor:pointer;
+  padding:12px 6px;border-radius:16px;background:var(--surface2);border:1px solid var(--line);transition:border-color .15s,color .15s,background .15s}
+.fb-kinds button .ic{width:20px;height:20px}
+.fb-kinds button[aria-checked="true"]{color:var(--ink);background:var(--surface);border-color:var(--accent);box-shadow:0 0 0 2px color-mix(in srgb,var(--accent) 15%,transparent)}
+.fb-ctx{display:flex;align-items:center;gap:10px;padding:10px 12px;border-radius:14px;background:var(--surface2);border:1px dashed var(--line);font-size:.9rem}
+.fb-ctx .ic{width:18px;height:18px;flex:none;color:var(--gr2,var(--accent))}
+.fb-ctx>span{flex:1;min-width:0;display:flex;flex-direction:column}
+.fb-ctx small{font-size:.75rem;color:var(--muted)}
+.fld textarea{font:inherit;font-size:1rem;color:var(--ink);background:var(--surface2);border:1px solid var(--line);border-radius:14px;padding:12px 14px;width:100%;box-sizing:border-box;outline:none;resize:vertical;min-height:120px;line-height:1.5}
+.fld textarea:focus{border-color:var(--accent);box-shadow:0 0 0 3px color-mix(in srgb,var(--accent) 18%,transparent);background:var(--surface)}
+.fld>span small{font-weight:500;opacity:.8}
+.fb-check{display:flex;gap:10px;align-items:flex-start;font-size:.88rem;line-height:1.45;cursor:pointer}
+.fb-check input{margin-top:3px;width:17px;height:17px;accent-color:var(--accent);flex:none}
+.fb-check small{color:var(--muted)}
+.fb-done{align-items:center;text-align:center;padding:36px 24px}
+.fb-done h2{margin:6px 0 0;font-size:1.4rem;font-weight:600;letter-spacing:-.02em}
+.fb-done .lead{margin:0}
+.faq{display:flex;flex-direction:column;gap:4px}
+.faq .tres-h{display:flex;align-items:center;gap:8px;margin-bottom:6px}
+.faq .tres-h .ic,.fb .tres-h .ic{width:20px;height:20px;color:var(--muted)}
+.fb .tres-h{display:flex;align-items:center;gap:8px}
+.faq-i{border-top:1px solid var(--line)}
+.faq-i summary{list-style:none;cursor:pointer;display:flex;align-items:center;justify-content:space-between;gap:12px;padding:14px 2px;font-weight:600}
+.faq-i summary::-webkit-details-marker{display:none}
+.faq-i summary .ic{width:16px;height:16px;flex:none;color:var(--muted);transition:transform .2s}
+.faq-i[open] summary .ic{transform:rotate(90deg)}
+.faq-i p{margin:0 2px 14px;color:var(--muted);line-height:1.6}
+.report-line{display:flex;align-items:center;justify-content:center;gap:6px;color:var(--muted);font-size:.9rem;margin:8px 0 0}
+.report-line .ic{width:16px;height:16px}
+.report-line .linkbtn{padding:2px}
+#sReport .ic{width:17px;height:17px}
+.sitefoot{display:flex;flex-wrap:wrap;justify-content:center;gap:6px 20px;padding:28px 16px 8px;color:var(--muted);font-size:.85rem}
+.sitefoot a{color:var(--muted);text-decoration:none;font-weight:500}
+.sitefoot a:hover{color:var(--ink);text-decoration:underline}
+body.focus .sitefoot{display:none}
+@media (max-width:520px){.fb-kinds button{flex-direction:row;justify-content:center;padding:10px 8px;font-size:.84rem}.fb-kinds button .ic{width:17px;height:17px}}
+
 </style>
 
 <header class="top">
@@ -1111,7 +1156,7 @@ a.stat{text-decoration:none;color:inherit}
     <div class="study">
       <div class="study-top">
         <a class="backlink" href="#ogren"><svg class="ic"><use href="#i-left"/></svg>Desteler</a>
-        <div class="study-r"><button class="savebtn" id="sSave" aria-label="Defterime kaydet" title="Defterime kaydet"><svg class="ic"><use href="#i-bookmark"/></svg></button><span class="deck-chip" id="sDeck"></span></div>
+        <div class="study-r"><button class="savebtn" id="sReport" aria-label="Bu kartta hata bildir" title="Hata bildir"><svg class="ic"><use href="#i-flag"/></svg></button><button class="savebtn" id="sSave" aria-label="Defterime kaydet" title="Defterime kaydet"><svg class="ic"><use href="#i-bookmark"/></svg></button><span class="deck-chip" id="sDeck"></span></div>
       </div>
       <div class="sbar"><i id="sBar"></i></div>
       <div class="scount"><span id="sPos">1 / 12</span><span><b class="k-ok" id="sKnown">0</b> biliyorum · <b class="k-rev" id="sRev">0</b> tekrar</span></div>
@@ -1334,6 +1379,17 @@ a.stat{text-decoration:none;color:inherit}
   </section>
 
   <!-- ================= AYARLAR ================= -->
+  <section class="view" id="v-destek" hidden>
+    <div class="page-head">
+      <div>
+        <span class="eyebrow"><svg class="ic"><use href="#i-help"/></svg>Yardım ve destek</span>
+        <h1 class="h-page">Sana nasıl yardımcı olabiliriz?</h1>
+        <p class="lead">Sık sorulanlara göz at ya da bize doğrudan yaz.</p>
+      </div>
+    </div>
+    <div id="support"></div>
+  </section>
+
   <section class="view" id="v-hesap" hidden>
     <div id="acct"></div>
   </section>
@@ -1392,6 +1448,7 @@ a.stat{text-decoration:none;color:inherit}
       </div>
     </div>
   </section>
+  <footer class="sitefoot"><span>Fluo · Türkçe anlatımlı İngilizce</span><a href="#destek">Yardım ve destek</a><a href="#ayarlar">Ayarlar</a></footer>
 </main>
 
 <nav class="tabbar" id="tabbar" aria-label="Bölümler"></nav>
@@ -1421,6 +1478,8 @@ a.stat{text-decoration:none;color:inherit}
     <symbol id="i-mail" viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="3"/><path d="M4 7l8 6 8-6"/></symbol>
     <symbol id="i-eye" viewBox="0 0 24 24"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/></symbol>
     <symbol id="i-globe" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c2.5 2.6 3.8 5.6 3.8 9s-1.3 6.4-3.8 9c-2.5-2.6-3.8-5.6-3.8-9S9.5 5.6 12 3z"/></symbol>
+    <symbol id="i-help" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M9.6 9.2a2.5 2.5 0 0 1 4.8.9c0 1.7-2.4 2.2-2.4 3.6M12 17h.01"/></symbol>
+    <symbol id="i-flag" viewBox="0 0 24 24"><path d="M5 21V4M5 4h11l-2 4 2 4H5"/></symbol>
     <symbol id="i-check" viewBox="0 0 24 24"><path d="M5 12l5 5 9-10"/></symbol>
     <symbol id="i-x" viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"/></symbol>
     <symbol id="i-left" viewBox="0 0 24 24"><path d="M15 5l-7 7 7 7"/></symbol>
@@ -2205,6 +2264,86 @@ const TEST_REC=[
  {deck:"beautiful",topic:"wish",quiz:"uzman"}
 ];
 
+/* ================= YARDIM VE DESTEK =================
+   Sık sorulanlar + "Bize yaz" formu. Mesajlar Supabase'deki "feedback" tablosuna kaydedilir
+   (herkes yazabilir, kimse okuyamaz; okumak yalnızca Supabase panelinden). Kurulum: belgeler/destek.sql */
+const FAQ=[
+  ["İlerlemem nerede saklanıyor?","Giriş yapmadıysan ilerlemen yalnızca bu cihazdaki tarayıcıda saklanır. Giriş yaparsan hesabına kaydedilir ve telefonda, bilgisayarda aynı kalır. Tarayıcı verilerini silersen giriş yapmamış kullanıcıların ilerlemesi de silinir."],
+  ["Fluo ücretli mi?","Hayır. Fluo'nun tüm bölümleri şu an ücretsiz."],
+  ["Şifremi unuttum, ne yapmalıyım?","Giriş ekranında \"Şifremi unuttum\"a dokun ve e-posta adresini yaz. Gelen bağlantıyla yeni bir şifre belirleyebilirsin. İstersen şifresiz giriş bağlantısı da isteyebilirsin."],
+  ["E-posta bağlantısı gelmedi.","Birkaç dakika bekle ve gereksiz (spam) klasörüne bak. Bağlantıyı, isteği gönderdiğin cihazda ve tarayıcıda açman gerekiyor. Hâlâ gelmediyse aşağıdan bize yaz."],
+  ["Sesler çalmıyor ya da robot gibi geliyor.","Telefonunun sessiz modda olmadığından ve sesin açık olduğundan emin ol. Kelime ve cümlelerin çoğu doğal sesle kaydedildi; kaydı olmayanlar cihazının İngilizce sesiyle okunur. Ayarlar'dan konuşma hızını değiştirebilirsin."],
+  ["Çeviri bazı kelimeleri bulamıyor.","Sitede çeviri şimdilik uygulamanın kendi sözlüğüyle çalışıyor. Her kelimeyi ve cümleyi çevirebilen yapay zekâ çevirisini yakında ekleyeceğiz."],
+  ["Seviye testi nasıl çalışıyor?","Test kelime, dil bilgisi, okuma ve dinleme sorularıyla yaklaşık 18 sorudan oluşur ve cevaplarına göre zorlaşır ya da kolaylaşır. Sonuçta A1–C1 ölçeğinde seviyeni, becerilerini ve cevaplarını görürsün. İstediğin zaman yeniden çözebilirsin."],
+  ["Hesabımı nasıl silerim?","Aşağıdaki formdan \"Soru\" seçip hesabını silmek istediğini yaz; hesabın ve tüm verilerin silinir."]
+];
+const FB_KINDS=[["sorun","Sorun bildir","alert"],["icerik","İçerik hatası","book"],["oneri","Öneri","bulb"],["soru","Soru","help"]];
+const FB={kind:"sorun",ctx:null,busy:false,done:false,last:0,draft:""};
+
+/* Uygulamanın herhangi bir yerinden: reportIssue("icerik",{yer:"Kelime kartı",oge:"apple"}) */
+function reportIssue(kind,ctx){FB.kind=kind||"sorun";FB.ctx=ctx||null;FB.done=false;location.hash="destek"}
+
+function fbContext(){
+  return {sayfa:FB.ctx?.yer||lastPage||"",oge:FB.ctx?.oge||"",tarayici:navigator.userAgent.slice(0,180),
+    ekran:innerWidth+"x"+innerHeight,dil:navigator.language,tema:document.documentElement.getAttribute("data-theme")||P.set?.theme||"",
+    seviye:P.level?CEFR[P.level.idx].code:"",giris:signedIn()?"evet":"hayır",zaman:new Date().toISOString()};
+}
+let lastPage="";
+window.addEventListener("hashchange",()=>{const h=location.hash.slice(1);if(h&&h!=="destek")lastPage=h});
+
+function renderSupport(){
+  const box=$("support");if(!box)return;
+  const email=signedIn()?(AUTH.user.email||""):"";
+  const faq='<section class="faq card"><h2 class="tres-h">'+ic("help")+'Sık sorulanlar</h2>'+
+    FAQ.map(([q,a])=>'<details class="faq-i"><summary>'+esc(q)+ic("right")+'</summary><p>'+esc(a)+'</p></details>').join("")+'</section>';
+  let form;
+  if(FB.done){
+    form='<section class="card fb fb-done"><span class="auth-big">'+ic("check")+'</span><h2>Mesajın bize ulaştı</h2>'+
+      '<p class="lead">Teşekkürler! '+(FB.sentEmail?'Gerekirse <b>'+esc(FB.sentEmail)+'</b> adresinden sana döneceğiz.':'Her mesajı okuyoruz.')+'</p>'+
+      '<button class="ghost" id="fbNew">Yeni mesaj yaz</button></section>';
+  }else{
+    const ctx=FB.ctx;
+    form='<section class="card fb"><h2 class="tres-h">'+ic("mail")+'Bize yaz</h2>'+
+      '<p class="note">Bir sorun mu var, bir kelimede ya da konuda hata mı gördün, aklında bir öneri mi var? Yaz, okuyalım.</p>'+
+      (!AUTH.on?'<div class="auth-off">'+ic("alert")+'<span>Mesaj gönderme bu önizlemede çalışmaz; Fluo sitesinde çalışır.</span></div>':'')+
+      '<form id="fbForm" novalidate>'+
+        '<div class="fb-kinds" role="radiogroup" aria-label="Mesaj türü">'+FB_KINDS.map(([v,l,icn])=>'<button type="button" role="radio" data-kind="'+v+'" aria-checked="'+(FB.kind===v)+'">'+ic(icn)+l+'</button>').join("")+'</div>'+
+        (ctx?'<div class="fb-ctx">'+ic("target")+'<span><small>Bildirilen yer</small>'+esc(ctx.yer)+(ctx.oge?' · <b>'+esc(ctx.oge)+'</b>':'')+'</span><button type="button" class="linkbtn" id="fbCtxX">Kaldır</button></div>':'')+
+        '<label class="fld"><span>Mesajın</span><textarea id="fbMsg" rows="5" maxlength="3000" placeholder="'+(FB.kind==="icerik"?"Hangi kelime, cümle ya da açıklamada hata var? Doğrusu ne olmalı?":FB.kind==="sorun"?"Ne yaparken oldu? Ne bekliyordun, ne oldu?":FB.kind==="oneri"?"Fluo'da neyi görmek istersin?":"Sorunu yaz.")+'">'+esc(FB.draft)+'</textarea></label>'+
+        '<label class="fld"><span>E-posta <small>(cevap istersen)</small></span><input type="email" id="fbMail" autocomplete="email" placeholder="ornek@eposta.com" value="'+esc(email)+'"></label>'+
+        '<label class="fb-check"><input type="checkbox" id="fbTech" checked><span>Sorunu çözmemize yardımcı olacak teknik bilgileri ekle <small>(tarayıcı, ekran boyutu, bulunduğun sayfa)</small></span></label>'+
+        '<p class="auth-msg err" id="fbErr" role="alert" hidden></p>'+
+        '<button class="primary wide" type="submit"'+(FB.busy?" disabled":"")+'>'+(FB.busy?"Gönderiliyor…":"Gönder")+'</button>'+
+      '</form></section>';
+  }
+  box.innerHTML='<div class="sup-grid">'+form+faq+'</div>';
+  if(FB.done){$("fbNew").onclick=()=>{FB.done=false;FB.ctx=null;FB.draft="";renderSupport()};return}
+  const msg=$("fbMsg");msg.oninput=()=>{FB.draft=msg.value};
+  box.querySelectorAll("[data-kind]").forEach(b=>b.onclick=()=>{FB.kind=b.dataset.kind;FB.draft=msg.value;renderSupport()});
+  if($("fbCtxX"))$("fbCtxX").onclick=()=>{FB.ctx=null;FB.draft=msg.value;renderSupport()};
+  $("fbForm").onsubmit=e=>{e.preventDefault();sendFeedback()};
+}
+async function sendFeedback(){
+  const msg=$("fbMsg").value.trim(),mail=$("fbMail").value.trim(),err=$("fbErr");
+  const fail=s=>{err.hidden=false;err.innerHTML=ic("alert")+'<span>'+esc(s)+'</span>'};
+  if(msg.length<5)return fail("Mesajın biraz kısa; ne olduğunu birkaç kelimeyle anlatır mısın?");
+  if(mail&&!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(mail))return fail("E-posta adresi geçerli görünmüyor. Cevap istemiyorsan boş bırakabilirsin.");
+  if(!AUTH.on||!AUTH.sb)return fail("Mesaj gönderme bu önizlemede çalışmaz. Fluo sitesinden dene.");
+  if(Date.now()-FB.last<30000)return fail("Az önce bir mesaj gönderdin. Birkaç saniye sonra yeniden dene.");
+  FB.busy=true;FB.draft=msg;renderSupport();
+  const row={kind:FB.kind,message:msg,email:mail||null,context:$("fbTech")?.checked===false?{oge:FB.ctx?.oge||"",sayfa:FB.ctx?.yer||""}:fbContext()};
+  try{
+    const {error}=await AUTH.sb.from("feedback").insert(row);
+    if(error)throw error;
+    FB.busy=false;FB.done=true;FB.last=Date.now();FB.sentEmail=mail;FB.draft="";FB.ctx=null;renderSupport();window.scrollTo({top:0,behavior:"smooth"});
+  }catch(e){FB.busy=false;renderSupport();$("fbMsg").value=msg;
+    const m=String(e?.message||e);
+    const t=/failed to fetch|network/i.test(m)?"Bağlantı kurulamadı. İnternetini kontrol edip yeniden dene."
+      :/relation .* does not exist|could not find the table|permission denied|42501|PGRST205/i.test(m)?"Destek kutusu henüz kurulmadı. Kısa süre içinde açılacak."
+      :"Mesaj gönderilemedi: "+m;
+    const er=$("fbErr");er.hidden=false;er.innerHTML=ic("alert")+'<span>'+esc(t)+'</span>'}
+}
+
 /* ================= MARKA =================
    Uygulamada görünen ad ve logo: Fluo. Dışarıya dönük kimlik (web adresi, e-posta, depo, kayıt anahtarları): fluoenglish. */
 const BRAND={name:"Fluo",id:"fluoenglish",site:"fluoenglish.com",email:"support@fluoenglish.com",github:"github.com/umtiti719/fluoenglish"};
@@ -2374,7 +2513,7 @@ function renderNav(){
   $("nav").innerHTML=SECTIONS.map(s=>'<a href="#'+s.id+'" data-sec="'+s.id+'" style="--c:'+s.c+'">'+ic(s.icon)+s.label+'</a>').join("");
   $("tabbar").innerHTML=SECTIONS.map(s=>'<a href="#'+s.id+'" data-sec="'+s.id+'" style="--c:'+s.c+'">'+ic(s.icon)+'<span>'+s.short+'</span></a>').join("");
 }
-const VIEWS=["hesap","seviye","ayarlar","ana","ogren","calis","deckend","defter","dinle","yarisma","gramer","konu","cevir","ceviri"];
+const VIEWS=["destek","hesap","seviye","ayarlar","ana","ogren","calis","deckend","defter","dinle","yarisma","gramer","konu","cevir","ceviri"];
 function setFocus(){document.body.classList.toggle("focus",(!$("v-calis").hidden)||(!$("v-yarisma").hidden&&G.phase==="game")||(!$("v-seviye").hidden&&T.phase==="run"))}
 function showView(v,sec){
   VIEWS.forEach(x=>$("v-"+x).hidden=x!==v);setTimeout(setFocus,0);
@@ -2414,6 +2553,7 @@ function route(){
   else if(h==="metin"){showView("ceviri","metin")}
   else if(h==="ayarlar"){renderSettings();showView("ayarlar","ayarlar")}
   else if(h==="hesap"||h==="giris"){renderAccount();showView("hesap","hesap")}
+  else if(h==="destek"||h==="yardim"){renderSupport();showView("destek","destek")}
   else if(h==="seviye"){renderTest();showView("seviye","ana")}
   else if(h==="cevir"){renderTrHint();showView("cevir","cevir");setTimeout(()=>{try{$("trInput").focus({preventScroll:true})}catch(e){}},50)}
   else{location.hash="ana";return}
@@ -2536,6 +2676,7 @@ function startStudy(d,only){
 }
 function showCard(){
   const d=S.deck,w=d.words[S.order[S.i]],n=S.order.length;
+  $("sReport").onclick=()=>reportIssue("icerik",{yer:"Kelime kartı · "+d.name,oge:w[0]+" = "+w[1]});
   $("sPos").textContent=(S.i+1)+" / "+n;$("sBar").style.width=(S.i/n*100)+"%";
   $("sKnown").textContent=S.known.length;$("sRev").textContent=S.rev.length;
   $("fPos").textContent=w[2];$("fLvl").textContent=d.level;$("fWord").textContent=w[0];
@@ -2779,7 +2920,9 @@ function renderTopic(t){
   secs.push(["s-pr","Alıştırma"]);
   h+='<section class="tsec" id="s-pr"><h2>'+ic("check")+'Alıştırma</h2><div class="practice" id="practice"></div></section>';
   h+='<nav class="tnav">'+(prev?'<a href="#g-'+prev.id+'"><small>← Önceki konu</small><b>'+esc(prev.title)+'</b></a>':'')+(nxt?'<a class="next" href="#g-'+nxt.id+'"><small>Sonraki konu →</small><b>'+esc(nxt.title)+'</b></a>':'')+'</nav>';
+  h+='<p class="report-line">'+ic("flag")+'Bu konuda bir hata mı gördün? <button class="linkbtn" id="tReport">Bildir</button></p>';
   m.innerHTML=h;
+  $("tReport").onclick=()=>reportIssue("icerik",{yer:"Dil bilgisi",oge:t.title});
   $("toc").innerHTML='<a class="backlink" href="#gramer">'+ic("left")+'Tüm konular</a><small style="margin-top:12px">Bu sayfada</small>'+secs.map(s=>'<a href="javascript:void 0" data-jump="'+s[0]+'">'+s[1]+'</a>').join("")+
     '<div class="toc-nav">'+(nxt?'<a href="#g-'+nxt.id+'">Sonraki: '+esc(nxt.title)+' →</a>':'')+'</div>';
   $("toc").querySelectorAll("[data-jump]").forEach(a=>a.onclick=e=>{e.preventDefault();$(a.dataset.jump).scrollIntoView({behavior:reduceMotion()?"auto":"smooth"})});
@@ -3202,6 +3345,7 @@ function renderSettings(){
     '<section class="sgroup"><h2>'+ic("user")+'Hesap</h2>'+
       (signedIn()?row(esc(fullName()),esc(AUTH.user.email||"")+" · ilerlemen bu hesapla eşitleniyor.",'<a class="ghost" href="#hesap">Hesabım</a>')
         :row("Giriş yapmadın","Giriş yaparsan ilerlemen tüm cihazlarında seninle olur.",'<a class="primary" href="#hesap">Giriş yap</a>'))+
+      row("Yardım ve destek","Sık sorulanlar, sorun bildirme ve önerilerin.",'<a class="ghost" href="#destek">'+ic("help")+'Destek</a>')+
     '</section>'+
     '<section class="sgroup"><h2>'+ic("sun")+'Görünüm</h2>'+
       row("Tema","Sistem seçiliyse bilgisayarının ya da telefonunun temasını izler.",pills("theme",[["system","Sistem","monitor"],["light","Açık","sun"],["dark","Koyu","moon"]]))+
@@ -3664,7 +3808,7 @@ function renderProfile(box){
       '<div class="srow"><div><b>Eşitleme</b><small>İlerlemen, Defterin, seviyen ve ayarların bu hesapla tüm cihazlarında aynı kalır.</small></div><button class="ghost" id="pSync">'+ic("refresh")+'Şimdi eşitle</button></div>'+
       (viaGoogle()?'':'<div class="srow"><div><b>Şifre</b><small>Hesabının şifresini değiştir.</small></div><button class="ghost" id="pPass">Değiştir</button></div>')+
       '<div class="srow"><div><b>Çıkış yap</b><small>Bu cihazdaki ilerleme silinir; hesabında saklı kalır.</small></div><button class="danger" id="pOut">Çıkış yap</button></div>'+
-      '<p class="sabout">Hesabını tamamen silmek için <b>'+BRAND.email+'</b> adresine yaz.</p>'+
+      '<div class="srow"><div><b>Yardım ve destek</b><small>Sık sorulanlar, sorun bildirme ve hesabını silme isteği.</small></div><a class="ghost" href="#destek">'+ic("help")+'Destek</a></div>'+
     '</section></div>';
   renderSyncState();
   $("pSync").onclick=()=>pullProgress();

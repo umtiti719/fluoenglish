@@ -1023,3 +1023,48 @@ a.stat{text-decoration:none;color:inherit}
 .prof-stats{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
 @media (max-width:600px){.prof-stats{grid-template-columns:repeat(2,1fr)}.auth-card{padding:24px 18px 20px;border-radius:24px}}
 .auth-mark .lg1{stop-color:var(--gr1)}.auth-mark .lg2{stop-color:var(--gr2)}.auth-mark .lg3{stop-color:var(--gr3)}.auth-mark .lw1,.auth-mark .lw2{stroke-dashoffset:0}.auth-mark .lsp{opacity:1}
+
+/* ================= DESTEK ================= */
+.sup-grid{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,1fr);gap:16px;align-items:start}
+@media (max-width:860px){.sup-grid{grid-template-columns:1fr}}
+.fb{display:flex;flex-direction:column;gap:12px}
+.fb .note{margin:-4px 0 0}
+#fbForm{display:flex;flex-direction:column;gap:14px}
+.fb-kinds{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
+@media (max-width:520px){.fb-kinds{grid-template-columns:repeat(2,1fr)}}
+.fb-kinds button{display:flex;flex-direction:column;align-items:center;gap:6px;font:inherit;font-size:.86rem;font-weight:600;color:var(--muted);cursor:pointer;
+  padding:12px 6px;border-radius:16px;background:var(--surface2);border:1px solid var(--line);transition:border-color .15s,color .15s,background .15s}
+.fb-kinds button .ic{width:20px;height:20px}
+.fb-kinds button[aria-checked="true"]{color:var(--ink);background:var(--surface);border-color:var(--accent);box-shadow:0 0 0 2px color-mix(in srgb,var(--accent) 15%,transparent)}
+.fb-ctx{display:flex;align-items:center;gap:10px;padding:10px 12px;border-radius:14px;background:var(--surface2);border:1px dashed var(--line);font-size:.9rem}
+.fb-ctx .ic{width:18px;height:18px;flex:none;color:var(--gr2,var(--accent))}
+.fb-ctx>span{flex:1;min-width:0;display:flex;flex-direction:column}
+.fb-ctx small{font-size:.75rem;color:var(--muted)}
+.fld textarea{font:inherit;font-size:1rem;color:var(--ink);background:var(--surface2);border:1px solid var(--line);border-radius:14px;padding:12px 14px;width:100%;box-sizing:border-box;outline:none;resize:vertical;min-height:120px;line-height:1.5}
+.fld textarea:focus{border-color:var(--accent);box-shadow:0 0 0 3px color-mix(in srgb,var(--accent) 18%,transparent);background:var(--surface)}
+.fld>span small{font-weight:500;opacity:.8}
+.fb-check{display:flex;gap:10px;align-items:flex-start;font-size:.88rem;line-height:1.45;cursor:pointer}
+.fb-check input{margin-top:3px;width:17px;height:17px;accent-color:var(--accent);flex:none}
+.fb-check small{color:var(--muted)}
+.fb-done{align-items:center;text-align:center;padding:36px 24px}
+.fb-done h2{margin:6px 0 0;font-size:1.4rem;font-weight:600;letter-spacing:-.02em}
+.fb-done .lead{margin:0}
+.faq{display:flex;flex-direction:column;gap:4px}
+.faq .tres-h{display:flex;align-items:center;gap:8px;margin-bottom:6px}
+.faq .tres-h .ic,.fb .tres-h .ic{width:20px;height:20px;color:var(--muted)}
+.fb .tres-h{display:flex;align-items:center;gap:8px}
+.faq-i{border-top:1px solid var(--line)}
+.faq-i summary{list-style:none;cursor:pointer;display:flex;align-items:center;justify-content:space-between;gap:12px;padding:14px 2px;font-weight:600}
+.faq-i summary::-webkit-details-marker{display:none}
+.faq-i summary .ic{width:16px;height:16px;flex:none;color:var(--muted);transition:transform .2s}
+.faq-i[open] summary .ic{transform:rotate(90deg)}
+.faq-i p{margin:0 2px 14px;color:var(--muted);line-height:1.6}
+.report-line{display:flex;align-items:center;justify-content:center;gap:6px;color:var(--muted);font-size:.9rem;margin:8px 0 0}
+.report-line .ic{width:16px;height:16px}
+.report-line .linkbtn{padding:2px}
+#sReport .ic{width:17px;height:17px}
+.sitefoot{display:flex;flex-wrap:wrap;justify-content:center;gap:6px 20px;padding:28px 16px 8px;color:var(--muted);font-size:.85rem}
+.sitefoot a{color:var(--muted);text-decoration:none;font-weight:500}
+.sitefoot a:hover{color:var(--ink);text-decoration:underline}
+body.focus .sitefoot{display:none}
+@media (max-width:520px){.fb-kinds button{flex-direction:row;justify-content:center;padding:10px 8px;font-size:.84rem}.fb-kinds button .ic{width:17px;height:17px}}

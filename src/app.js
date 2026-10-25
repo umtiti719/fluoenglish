@@ -167,7 +167,7 @@ function renderNav(){
   $("nav").innerHTML=SECTIONS.map(s=>'<a href="#'+s.id+'" data-sec="'+s.id+'" style="--c:'+s.c+'">'+ic(s.icon)+s.label+'</a>').join("");
   $("tabbar").innerHTML=SECTIONS.map(s=>'<a href="#'+s.id+'" data-sec="'+s.id+'" style="--c:'+s.c+'">'+ic(s.icon)+'<span>'+s.short+'</span></a>').join("");
 }
-const VIEWS=["hesap","seviye","ayarlar","ana","ogren","calis","deckend","defter","dinle","yarisma","gramer","konu","cevir","ceviri"];
+const VIEWS=["destek","hesap","seviye","ayarlar","ana","ogren","calis","deckend","defter","dinle","yarisma","gramer","konu","cevir","ceviri"];
 function setFocus(){document.body.classList.toggle("focus",(!$("v-calis").hidden)||(!$("v-yarisma").hidden&&G.phase==="game")||(!$("v-seviye").hidden&&T.phase==="run"))}
 function showView(v,sec){
   VIEWS.forEach(x=>$("v-"+x).hidden=x!==v);setTimeout(setFocus,0);
@@ -207,6 +207,7 @@ function route(){
   else if(h==="metin"){showView("ceviri","metin")}
   else if(h==="ayarlar"){renderSettings();showView("ayarlar","ayarlar")}
   else if(h==="hesap"||h==="giris"){renderAccount();showView("hesap","hesap")}
+  else if(h==="destek"||h==="yardim"){renderSupport();showView("destek","destek")}
   else if(h==="seviye"){renderTest();showView("seviye","ana")}
   else if(h==="cevir"){renderTrHint();showView("cevir","cevir");setTimeout(()=>{try{$("trInput").focus({preventScroll:true})}catch(e){}},50)}
   else{location.hash="ana";return}
@@ -329,6 +330,7 @@ function startStudy(d,only){
 }
 function showCard(){
   const d=S.deck,w=d.words[S.order[S.i]],n=S.order.length;
+  $("sReport").onclick=()=>reportIssue("icerik",{yer:"Kelime kartı · "+d.name,oge:w[0]+" = "+w[1]});
   $("sPos").textContent=(S.i+1)+" / "+n;$("sBar").style.width=(S.i/n*100)+"%";
   $("sKnown").textContent=S.known.length;$("sRev").textContent=S.rev.length;
   $("fPos").textContent=w[2];$("fLvl").textContent=d.level;$("fWord").textContent=w[0];
@@ -572,7 +574,9 @@ function renderTopic(t){
   secs.push(["s-pr","Alıştırma"]);
   h+='<section class="tsec" id="s-pr"><h2>'+ic("check")+'Alıştırma</h2><div class="practice" id="practice"></div></section>';
   h+='<nav class="tnav">'+(prev?'<a href="#g-'+prev.id+'"><small>← Önceki konu</small><b>'+esc(prev.title)+'</b></a>':'')+(nxt?'<a class="next" href="#g-'+nxt.id+'"><small>Sonraki konu →</small><b>'+esc(nxt.title)+'</b></a>':'')+'</nav>';
+  h+='<p class="report-line">'+ic("flag")+'Bu konuda bir hata mı gördün? <button class="linkbtn" id="tReport">Bildir</button></p>';
   m.innerHTML=h;
+  $("tReport").onclick=()=>reportIssue("icerik",{yer:"Dil bilgisi",oge:t.title});
   $("toc").innerHTML='<a class="backlink" href="#gramer">'+ic("left")+'Tüm konular</a><small style="margin-top:12px">Bu sayfada</small>'+secs.map(s=>'<a href="javascript:void 0" data-jump="'+s[0]+'">'+s[1]+'</a>').join("")+
     '<div class="toc-nav">'+(nxt?'<a href="#g-'+nxt.id+'">Sonraki: '+esc(nxt.title)+' →</a>':'')+'</div>';
   $("toc").querySelectorAll("[data-jump]").forEach(a=>a.onclick=e=>{e.preventDefault();$(a.dataset.jump).scrollIntoView({behavior:reduceMotion()?"auto":"smooth"})});
@@ -995,6 +999,7 @@ function renderSettings(){
     '<section class="sgroup"><h2>'+ic("user")+'Hesap</h2>'+
       (signedIn()?row(esc(fullName()),esc(AUTH.user.email||"")+" · ilerlemen bu hesapla eşitleniyor.",'<a class="ghost" href="#hesap">Hesabım</a>')
         :row("Giriş yapmadın","Giriş yaparsan ilerlemen tüm cihazlarında seninle olur.",'<a class="primary" href="#hesap">Giriş yap</a>'))+
+      row("Yardım ve destek","Sık sorulanlar, sorun bildirme ve önerilerin.",'<a class="ghost" href="#destek">'+ic("help")+'Destek</a>')+
     '</section>'+
     '<section class="sgroup"><h2>'+ic("sun")+'Görünüm</h2>'+
       row("Tema","Sistem seçiliyse bilgisayarının ya da telefonunun temasını izler.",pills("theme",[["system","Sistem","monitor"],["light","Açık","sun"],["dark","Koyu","moon"]]))+

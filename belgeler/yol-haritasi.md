@@ -21,3 +21,4 @@
 
 ## Daha sonra
 - Türkçeden İngilizceye cümle kurma, günün dersi, içeriği büyütme, okuma anlama, telaffuz köşesi
+- Destek bölümü (25 Ekim): sık sorulanlar, Bize yaz formu, kelime kartı ve dil bilgisinden hata bildirme; mesajlar feedback tablosunda (Table Editor → feedback).

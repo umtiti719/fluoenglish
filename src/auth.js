@@ -273,7 +273,7 @@ function renderProfile(box){
       '<div class="srow"><div><b>Eşitleme</b><small>İlerlemen, Defterin, seviyen ve ayarların bu hesapla tüm cihazlarında aynı kalır.</small></div><button class="ghost" id="pSync">'+ic("refresh")+'Şimdi eşitle</button></div>'+
       (viaGoogle()?'':'<div class="srow"><div><b>Şifre</b><small>Hesabının şifresini değiştir.</small></div><button class="ghost" id="pPass">Değiştir</button></div>')+
       '<div class="srow"><div><b>Çıkış yap</b><small>Bu cihazdaki ilerleme silinir; hesabında saklı kalır.</small></div><button class="danger" id="pOut">Çıkış yap</button></div>'+
-      '<p class="sabout">Hesabını tamamen silmek için <b>'+BRAND.email+'</b> adresine yaz.</p>'+
+      '<div class="srow"><div><b>Yardım ve destek</b><small>Sık sorulanlar, sorun bildirme ve hesabını silme isteği.</small></div><a class="ghost" href="#destek">'+ic("help")+'Destek</a></div>'+
     '</section></div>';
   renderSyncState();
   $("pSync").onclick=()=>pullProgress();

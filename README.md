@@ -18,6 +18,7 @@ Türkçe arayüzlü, genel İngilizce öğrenme uygulaması.
 - **Dinleme:** Cümleyi dinle; kolay modda duyduğun ifadeyi seç, dikte modunda cümleyi yaz. Yavaş dinleme ve kelime kelime karşılaştırma.
 - **Seviye testi:** Kelime, dil bilgisi, okuma ve dinleme sorularıyla (A1–C1, 45 soruluk havuz) iki aşamalı uyarlanabilir test; yetenek modeliyle seviye tahmini, beceri dağılımı ve başlangıç önerileri.
 - **Üyelik:** Google, e-posta + şifre ya da e-postaya gelen bağlantıyla giriş; ilerleme Supabase ile cihazlar arasında eşitlenir (kurulum: `belgeler/uyelik-kurulumu.md`).
+- **Yardım ve destek:** sık sorulanlar ve "Bize yaz" formu; kelime kartı ve dil bilgisi konularından tek dokunuşla hata bildirme. Mesajlar Supabase'deki `feedback` tablosuna düşer (kurulum: `belgeler/destek.sql`).
 - **Metin Çevirisi:** Seviyeye göre metinler, kelimeye dokununca anlamı, çeviri puanlama.
 
 İlerleme kullanılan tarayıcıda saklanır.
@@ -33,6 +34,7 @@ Türkçe arayüzlü, genel İngilizce öğrenme uygulaması.
 - `src/data-grammar.js` — dil bilgisi konuları ve alıştırmalar
 - `src/config.js` — Supabase adresi ve herkese açık anahtar
 - `src/auth.js` — giriş, kayıt, hesap sayfası ve eşitleme
+- `src/support.js` — yardım ve destek sayfası
 - `vendor/supabase.js` — Supabase istemcisi (MIT)
 - `src/data-test.js` — seviye testi soruları
 - `src/data-quiz.js` — yarışma kelimeleri, çeviri metinleri ve metin sözlüğü
