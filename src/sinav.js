@@ -88,7 +88,7 @@ function renderExamResult(lv,run){
 function openExamRoute(h){
   // "sinav" | "sinav-a1" | "sinav-a1-sonuc" | "sinav-kelime" | "sinav-k-<deste>" | "sinav-k-<deste>-sonuc"  → bölüm adı döner
   let sec="gramer";
-  const m=h.match(/^sinav-(a1|a2|b1|b2)(-sonuc)?$/),k=h.match(/^sinav-k-([a-z0-9]+?)(-sonuc)?$/);
+  const m=h.match(/^sinav-(a1|a2|b1|b2|c1)(-sonuc)?$/),k=h.match(/^sinav-k-([a-z0-9]+?)(-sonuc)?$/);
   if(h==="sinav")renderExamList();
   else if(h==="sinav-kelime"){renderVList();sec="ogren"}
   else if(m){const lv=m[1].toUpperCase();if(m[2])renderExamResult(lv,EX&&EX.lv===lv&&EX.done?EX:null);else startExam(lv)}

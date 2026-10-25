@@ -4,8 +4,9 @@ import json,hashlib,shutil,sys
 from pathlib import Path
 items=json.load(open(sys.argv[1]));src=Path(sys.argv[2]);dst=Path(__file__).parent.parent/'ses';dst.mkdir(exist_ok=True)
 idx={};missing=[]
-for key,g in items.items():
-    f=hashlib.md5(key.encode()).hexdigest()[:12]+'.mp3'
+for key,gv in items.items():
+    g,_,voice=gv.partition('|')
+    f=hashlib.md5((key+('|'+voice if voice and voice!='af_heart' else '')).encode()).hexdigest()[:12]+'.mp3'
     if (src/f).exists():shutil.copy(src/f,dst/f);idx[key]=[g,f]
     else:missing.append(key)
 (dst/'index.json').write_text(json.dumps(idx,ensure_ascii=False,indent=0))

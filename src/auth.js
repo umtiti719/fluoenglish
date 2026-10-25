@@ -94,7 +94,7 @@ function mergeP(a,b){
     if(x===undefined){r[k]=y;continue}
     if(y===undefined){r[k]=x;continue}
     switch(k){
-      case "learned":case "best":case "seen":r[k]=maxMap(x,y);break;
+      case "learned":case "best":case "seen":case "act":case "badges":r[k]=maxMap(x,y);break;
       case "trans":r[k]=Math.max(+x||0,+y||0);break;
       case "days":r[k]=[...new Set([...x,...y])].sort().slice(-90);break;
       case "gram":{const o={...x};for(const id in y){const p=o[id],q=y[id];o[id]=p?{best:Math.max(p.best||0,q.best||0),total:Math.max(p.total||0,q.total||0),done:!!(p.done||q.done)}:q}r[k]=o;break}

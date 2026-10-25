@@ -25,7 +25,7 @@ const save=()=>{P._t=Date.now();store.set(BRAND.id+"_progress",P);if(typeof onSa
 try{if(localStorage.getItem("fluo_trc")!==null&&localStorage.getItem(BRAND.id+"_translations")===null){localStorage.setItem(BRAND.id+"_translations",localStorage.getItem("fluo_trc"));localStorage.removeItem("fluo_trc")}}catch(e){}
 try{if(localStorage.getItem("ka_p")!==null){save();localStorage.removeItem("ka_p");["kolay","orta","zor","uzman"].forEach(k=>localStorage.removeItem("best_"+k))}}catch(e){}
 const dayKey=d=>d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0")+"-"+String(d.getDate()).padStart(2,"0");
-function markActive(){const t=dayKey(new Date());if(!P.days.includes(t)){P.days.push(t);P.days=P.days.slice(-90);save()}renderStreak()}
+function markActive(){if(typeof countAct==="function")countAct();const t=dayKey(new Date());if(!P.days.includes(t)){P.days.push(t);P.days=P.days.slice(-90);save()}renderStreak()}
 function streakCount(){
   const s=new Set(P.days);const d=new Date();
   if(!s.has(dayKey(d)))d.setDate(d.getDate()-1);
@@ -97,7 +97,7 @@ document.addEventListener("keydown",unlockAudio,{once:true,capture:true});
 // Ses dosyaları ihtiyaç olduğunda yüklenir: kelimeler ilk dokunuşta, cümleler ve metinler ilgili bölüme girilince
 document.addEventListener("pointerdown",()=>loadAudio("w").catch(()=>{}),{once:true,capture:true});
 function prefetchAudio(h){
-  const need=/^(ogren-|dinle|g-|cevir|seviye|cumle|gunun|telaffuz)/.test(h)?["w","s"]:h==="metin"?["w","t"]:h.startsWith("okuma")?["w","r"]:[];
+  const need=h.startsWith("diyalog")?["d"]:/^(ogren-|dinle|g-|cevir|seviye|cumle|gunun|telaffuz|hatalar)/.test(h)?["w","s"]:h==="metin"?["w","t"]:h.startsWith("okuma")?["w","r"]:[];
   need.forEach(g=>setTimeout(()=>loadAudio(g).catch(()=>{}),300));
 }
 let enVoice=null;
@@ -168,7 +168,7 @@ function renderNav(){
   $("nav").innerHTML=SECTIONS.map(s=>'<a href="#'+s.id+'" data-sec="'+s.id+'" style="--c:'+s.c+'">'+ic(s.icon)+s.label+'</a>').join("");
   $("tabbar").innerHTML=SECTIONS.map(s=>'<a href="#'+s.id+'" data-sec="'+s.id+'" style="--c:'+s.c+'">'+ic(s.icon)+'<span>'+s.short+'</span></a>').join("");
 }
-const VIEWS=["calismam","sinav","telaffuz","okuma","okumaoku","gunun","cumle","destek","hesap","seviye","ayarlar","ana","ogren","calis","deckend","defter","dinle","yarisma","gramer","konu","cevir","ceviri"];
+const VIEWS=["diyalog","diyalogoku","hatalar","calismam","sinav","telaffuz","okuma","okumaoku","gunun","cumle","destek","hesap","seviye","ayarlar","ana","ogren","calis","deckend","defter","dinle","yarisma","gramer","konu","cevir","ceviri"];
 function setFocus(){document.body.classList.toggle("focus",(!$("v-calis").hidden)||(!$("v-yarisma").hidden&&G.phase==="game")||(!$("v-seviye").hidden&&T.phase==="run")||(!$("v-gunun").hidden&&DL.d&&!DL.d.done))}
 function showView(v,sec){
   VIEWS.forEach(x=>$("v-"+x).hidden=x!==v);setTimeout(setFocus,0);
@@ -184,7 +184,7 @@ function route(){
   if(h==="ceviri"){location.replace("#metin");return}
   if(h===lastHash)return;lastHash=h;
   if(h!=="yarisma")pauseGame();
-  RD.playing=false;if(h!=="telaffuz")prStop();
+  RD.playing=false;if(h!=="telaffuz")prStop();DG.play=-1;
   prefetchAudio(h);
   stopSpeak();
   hidePop();
@@ -200,6 +200,9 @@ function route(){
     if(!S||S.deck!==d)startStudy(d);
     S.done?showDeckEnd():(showView("calis","ogren"),showCard());
   }
+  else if(h==="hatalar"){renderMistakes();showView("hatalar","gramer")}
+  else if(h==="diyalog"){renderDlgList();showView("diyalog","ogren")}
+  else if(h.startsWith("diyalog-")){if(!openDialog(h.slice(8))){location.hash="diyalog";return}showView("diyalogoku","ogren");if(DG.mode==="konus"&&DG.step===0)dgAdvance()}
   else if(h==="defter"){renderDefter();showView("defter","ogren")}
   else if(h==="telaffuz"){showView("telaffuz","ogren");openSpeak()}
   else if(h==="okuma"){renderReadList();showView("okuma","metin")}
@@ -327,6 +330,7 @@ function renderDecks(){
     '<a class="tool'+(due?" hot":" calm")+'" href="'+(due?"#ogren-tekrar":"#ogren")+'" style="--c:var(--g2);--t:var(--t-gram)"><span class="mod-ic">'+ic("refresh")+'</span><div><b>'+(due?due+" kelime tekrar bekliyor":"Bugün tekrar yok")+'</b><span>'+(due?"Unutmadan önce bir kez daha bak.":inRev?inRev+" kelime takvimde. Zamanı gelince burada görünür.":"Kartlarda \"Tekrar et\" dediğin kelimeler burada birikir.")+'</span></div>'+(due?'<span class="tool-go">Başla '+ic("right")+'</span>':'')+'</a>'+
     '<a class="tool" href="#defter" style="--c:var(--g3);--t:var(--t-trans)"><span class="mod-ic">'+ic("bookmark")+'</span><div><b>Defterim</b><span>'+(nb?nb+" kayıtlı kelime":"Henüz kayıtlı kelime yok")+'</span></div><span class="tool-go">Aç '+ic("right")+'</span></a>'+
     '<a class="tool" href="#sinav-kelime" style="--c:var(--m-quiz);--t:var(--t-quiz,var(--surface2))"><span class="mod-ic">'+ic("target")+'</span><div><b>Kelime sınavları</b><span>'+(Object.keys(P.vexam||{}).length?Object.keys(P.vexam).length+" / "+DECKS.length+" deste sınandı":"Desteyi bilip bilmediğini ölç")+'</span></div><span class="tool-go">Başla '+ic("right")+'</span></a>'+
+    '<a class="tool" href="#diyalog" style="--c:var(--g1);--t:var(--t-learn)"><span class="mod-ic">'+ic("chat")+'</span><div><b>Diyaloglar</b><span>Gerçek hayattan konuşmalar</span></div><span class="tool-go">Başla '+ic("right")+'</span></a>'+
     '<a class="tool" href="#dinle" style="--c:var(--m-learn);--t:var(--t-learn)"><span class="mod-ic">'+ic("headphones")+'</span><div><b>Dinleme</b><span>Duy, seç ya da yaz</span></div><span class="tool-go">Başla '+ic("right")+'</span></a>'+
     '<a class="tool" href="#cumle" style="--c:var(--m-gram);--t:var(--t-gram)"><span class="mod-ic">'+ic("puzzle")+'</span><div><b>Cümle Kur</b><span>Türkçeden İngilizceye</span></div><span class="tool-go">Başla '+ic("right")+'</span></a>'+
     '<a class="tool" href="#telaffuz" style="--c:var(--g3);--t:var(--t-trans)"><span class="mod-ic">'+ic("mic")+'</span><div><b>Telaffuz</b><span>Dinle, söyle, puan al</span></div><span class="tool-go">Başla '+ic("right")+'</span></a>';
@@ -355,11 +359,12 @@ function showCard(){
   $("bWordSmall").textContent=w[0];$("bMean").textContent=w[1];$("bEx").innerHTML=hl(w[3]||"");$("bExTr").textContent=w[4]||"";
   $("bexBox").hidden=!w[3];{const sb=$("bExSave");if(w[3]){sb.dataset.snt=sntKey(w[3]);sb.dataset.sntr=w[4]||"";sb.dataset.snsrc="Kelime · "+w[0];setSntBtn(sb)}}setSaveBtn($("sSave"),w[0]);
   if(P.set.autoSpeak)setTimeout(()=>{if(!$("v-calis").hidden)speak(w[0],$("fSpeak"))},350);
-  $("flip").classList.remove("flipped");S.flipped=false;
+  $("flip").classList.remove("flipped");S.flipped=false;showFam();
   const sc=$("scene");sc.style.transition="none";sc.style.transform="";sc.style.opacity="";
   if(!reduceMotion()){sc.classList.remove("flip-in");void sc.offsetWidth;sc.classList.add("flip-in")}
 }
-function flipCard(){$("flip").classList.toggle("flipped");S.flipped=!S.flipped}
+function flipCard(){$("flip").classList.toggle("flipped");S.flipped=!S.flipped;showFam()}
+function showFam(){const b=$("famBox"),w=S&&S.order?S.deck.words[S.order[S.i]]:null;const h=w&&S.flipped?famHtml(w[0]):"";b.innerHTML=h;b.hidden=!h}
 let judging=false;
 function judge(knew){
   if(!S||S.done||judging)return;judging=true;
@@ -559,7 +564,7 @@ function renderGramList(){
     .map(([k,l])=>'<button class="fchip" data-f="'+k+'" aria-pressed="'+(gFilter===k)+'" style="--c:'+(k==="all"?"var(--m-gram)":GRAMMAR_LEVELS[k].color)+'">'+l+'</button>').join("");
   $("gramFilter").querySelectorAll(".fchip").forEach(b=>b.onclick=()=>{gFilter=b.dataset.f;renderGramList()});
   const exN=Object.keys(P.exam||{}).length;
-  $("gramList").innerHTML='<a class="ex-cta" href="#sinav"><span class="mod-ic">'+ic("target")+'</span><div><b>Ünite sınavları</b><span>'+(exN?exN+' / 4 ünitenin sınavına girdin. Sonuçlarına göre çalışman gereken konular işaretlendi.':'Bir ünitenin tüm konularını tek sınavda dene; neyi çalışman gerektiğini görelim.')+'</span></div><span class="tool-go">'+(exN?"Sınavlar":"Başla")+' '+ic("right")+'</span></a>'+Object.entries(GRAMMAR_LEVELS).filter(([k])=>gFilter==="all"||gFilter===k).map(([k,L])=>{
+  $("gramList").innerHTML='<div class="ex-ctas"><a class="ex-cta" href="#hatalar" style="--c:var(--bad)"><span class="mod-ic">'+ic("alert")+'</span><div><b>Sık yapılan hatalar</b><span>Türkçe konuşanların en çok düştüğü '+MISTAKES.length+' tuzak ve doğruları.</span></div><span class="tool-go">Aç '+ic("right")+'</span></a><a class="ex-cta" href="#sinav"><span class="mod-ic">'+ic("target")+'</span><div><b>Ünite sınavları</b><span>'+(exN?exN+' / '+Object.keys(GRAMMAR_LEVELS).length+' ünitenin sınavına girdin. Sonuçlarına göre çalışman gereken konular işaretlendi.':'Bir ünitenin tüm konularını tek sınavda dene; neyi çalışman gerektiğini görelim.')+'</span></div><span class="tool-go">'+(exN?"Sınavlar":"Başla")+' '+ic("right")+'</span></a></div>'+Object.entries(GRAMMAR_LEVELS).filter(([k])=>gFilter==="all"||gFilter===k).map(([k,L])=>{
     const ts=GRAMMAR.filter(t=>t.level===k),dn=ts.filter(t=>P.gram[t.id]?.done).length,er=P.exam&&P.exam[k];
     return '<section class="glevel"><div class="glevel-h" style="--c:'+L.color+'"><span class="glevel-badge">'+k+'</span><div><h2>'+L.name+'</h2><p>'+L.desc+'</p></div>'+
       '<div class="gl-prog">'+dn+' / '+ts.length+'<div class="mbar"><i style="width:'+(dn/ts.length*100)+'%"></i></div><a class="gl-ex" href="#sinav-'+k.toLowerCase()+(er?'-sonuc':'')+'">'+ic("target")+(er?'Sınav: '+er.ok+'/'+er.n:'Ünite sınavı')+'</a></div></div>'+
@@ -739,7 +744,7 @@ function renderDefter(){
   $("defterList").innerHTML=list.length?list.map(w=>{const s=P.srs[w[0]];
     const st=s&&s.b?(isDue(w[0])?'<span class="dst due">Tekrar zamanı</span>':'<span class="dst">'+(s.d-today())+' gün sonra tekrar</span>'):'<span class="dst new">Yeni</span>';
     return '<article class="dcard"><div class="dtop"><div><h3>'+esc(w[0])+'</h3><span class="pill">'+esc(w[2]||"")+'</span></div><div class="dbtns">'+sayBtn(w[0],"sm")+savBtn(w[0],"sm")+'</div></div>'+
-      '<p class="dmean">'+esc(w[1])+'</p>'+(w[3]?'<p class="dex">'+hl(w[3])+'<small>'+esc(w[4]||"")+'</small></p>':'')+st+'</article>'}).join("")
+      '<p class="dmean">'+esc(w[1])+'</p>'+(w[3]?'<p class="dex">'+hl(w[3])+'<small>'+esc(w[4]||"")+'</small></p>':'')+(FAMILY[w[0]]?'<details class="fam-d"><summary>Kelime ailesi ve eş anlamlılar</summary>'+famHtml(w[0])+'</details>':'')+st+'</article>'}).join("")
     :'<p class="note">"'+esc(q)+'" ile eşleşen kelime yok.</p>';
 }
 $("defterSearch").addEventListener("input",renderDefter);
@@ -1050,6 +1055,7 @@ function renderSettings(){
       row("Yarışma süresi","Uzun seçilirse her soruya %50 daha fazla süre verilir.",pills("quizTime",[["normal","Normal"],["uzun","Uzun"]]))+
       row("Seviye testi",P.level?"Son sonucun: "+CEFR[P.level.idx].code+" · "+CEFR[P.level.idx].name+". Yeniden çözerek güncelleyebilirsin.":"Seviyeni öğren, uygulama sana göre ayarlansın.",'<a class="ghost" href="#seviye">'+ic("target")+(P.level?"Yeniden çöz":"Teste başla")+'</a>')+
     '</section>'+
+    appSettingsHtml()+
     '<section class="sgroup"><h2>'+ic("alert")+'Veriler</h2>'+
       row("Çeviri geçmişi","Son aramaları ve kaydedilmiş çevirileri siler.",'<button class="danger" id="clrTr">Temizle</button>')+
       row("Tüm ilerlemeyi sıfırla","Öğrenilen kelimeler, tekrar takvimi, Defterim, rekorlar ve seri silinir"+(signedIn()?"; hesabındaki kayıt da sıfırlanır":"")+". Geri alınamaz.",'<button class="danger" id="rstAll">Sıfırla</button>')+
@@ -1057,6 +1063,7 @@ function renderSettings(){
     '</section>';
   $("settings").querySelectorAll("[data-k]").forEach(b=>b.onclick=()=>{const k=b.dataset.k;let v=b.dataset.v;if(k==="rate")v=+v;P.set[k]=v;save();applySettings();renderSettings()});
   $("settings").querySelectorAll("[data-sw]").forEach(b=>b.onclick=()=>{const k=b.dataset.sw;P.set[k]=!P.set[k];save();applySettings();renderSettings()});
+  bindAppSettings();
   $("clrTr").onclick=()=>{P.hist=[];TRC={};save();saveTRC();try{localStorage.removeItem("fluo_trc");localStorage.removeItem(BRAND.id+"_translations")}catch(e){}toast("Çeviri geçmişi temizlendi")};
   const rb=$("rstAll");let armed=null;
   rb.onclick=()=>{

@@ -55,7 +55,7 @@ function renderStudy(){
   h+='<div class="chips-row st-tabs" role="tablist">'+tabs.map(([k,l,i])=>'<button class="fchip" role="tab" data-st="'+k+'" aria-pressed="'+(STUDY.tab===k)+'" aria-selected="'+(STUDY.tab===k)+'" style="--c:var(--brand)">'+i+l+'</button>').join("")+'</div>';
   if(STUDY.tab==="durum"){
     const adv=studyAdvice();
-    h+='<div class="st-grid">';
+    h+=goalHtml()+'<div class="st-grid">';
     // Öneriler
     h+='<section class="sgroup st-adv"><h2>'+ic("bulb")+'Sırada ne var?</h2>'+
       (due?'<div class="srow"><div><b>'+due+' kelimenin tekrar zamanı geldi</b><small>Unutmadan önce kısa bir tekrar yap.</small></div><a class="primary" href="#ogren-tekrar">Tekrar et</a></div>':'')+
@@ -78,11 +78,11 @@ function renderStudy(){
     // Diğer
     const rd=Object.keys(P.read||{}).length,dl=Object.values(P.daily||{}).filter(x=>x&&x.done).length,sp=P.speakStat||{n:0,ok:0},ls=P.listen||{n:0,ok:0};
     h+='<section class="sgroup"><h2>'+ic("pulse")+'Diğer çalışmalar</h2>'+
-      [["Okuma",rd+" / "+READING.length+" metin okundu","#okuma"],["Günün dersi",dl?dl+" ders tamamlandı (son 30 gün)":"Bugünkü dersi henüz bitirmedin","#gunun"],
+      [["Okuma",rd+" / "+READING.length+" metin okundu","#okuma"],["Diyaloglar",Object.keys(P.dlg||{}).length+" / "+DIALOGS.length+" diyalog tamamlandı","#diyalog"],["Sık yapılan hatalar",P.mist&&P.mist.n?"En iyi sonucun "+P.mist.best+" / 10":"Testi henüz çözmedin","#hatalar"],["Günün dersi",dl?dl+" ders tamamlandı (son 30 gün)":"Bugünkü dersi henüz bitirmedin","#gunun"],
        ["Dinleme",ls.n?ls.ok+" / "+ls.n+" doğru":"Henüz denemedin","#dinle"],["Telaffuz",sp.n?sp.ok+" / "+sp.n+" başarılı":"Henüz denemedin","#telaffuz"],
        ["Metin çevirisi",(P.trans||0)+" metin çevrildi","#metin"],["Seviye testi",P.level?CEFR[P.level.idx].code+" · "+new Date(P.level.date).toLocaleDateString("tr-TR"):"Henüz girilmedi","#seviye"]]
        .map(([a,b,c])=>'<a class="srow st-link" href="'+c+'"><div><b>'+a+'</b><small>'+b+'</small></div>'+ic("right")+'</a>').join("")+'</section>';
-    h+='</div>';
+    h+='</div>'+badgesHtml();
   }else if(STUDY.tab==="kelime"){
     const list=saved.slice().sort((a,b)=>a[0].localeCompare(b[0]));
     h+=list.length?'<div class="st-bar"><span class="note">'+list.length+' kayıtlı kelime</span><a class="ghost" href="#defter">'+ic("cards")+'Defterim\'de çalış</a></div>'+
@@ -94,4 +94,5 @@ function renderStudy(){
   }
   box.innerHTML=h;
   box.querySelectorAll("[data-st]").forEach(b=>b.onclick=()=>{STUDY.tab=b.dataset.st;renderStudy()});
+  bindGoal(open=>{renderStudy();if(open){$("goalBox").hidden=false;$("goalEdit").textContent="Kapat"}});
 }

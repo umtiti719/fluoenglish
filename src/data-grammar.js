@@ -367,4 +367,4 @@ const GRAMMAR=[
 
 ];
 /* Konuları seviye sırasına diz (A1 → B2); aynı seviyede ekleme sırası korunur */
-GRAMMAR.sort((a,b)=>["A1","A2","B1","B2"].indexOf(a.level)-["A1","A2","B1","B2"].indexOf(b.level));
+GRAMMAR.sort((a,b)=>Object.keys(GRAMMAR_LEVELS).indexOf(a.level)-Object.keys(GRAMMAR_LEVELS).indexOf(b.level));

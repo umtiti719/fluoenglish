@@ -14,7 +14,7 @@ def fnv(s):
         out=d[n%36]+out; n//=36
         if n==0: break
     return out
-aidx={}; groups={'w':{},'s':{},'t':{},'r':{}}
+aidx={}; groups={'w':{},'s':{},'t':{},'r':{},'d':{}}
 if (ses/'index.json').exists():
     for key,(g,f) in json.loads((ses/'index.json').read_text()).items():
         p=ses/f
@@ -24,7 +24,7 @@ for g,d in groups.items():
     (root/f'audio-{g}.js').write_text('Object.assign(window.FLUO_AUDIO=window.FLUO_AUDIO||{},'+json.dumps(d,separators=(',',':'))+');\n')
 silent=base64.b64encode((ses/'silent.mp3').read_bytes()).decode() if (ses/'silent.mp3').exists() else ''
 shell=(src/'shell.html').read_text(); css=(src/'style.css').read_text()
-js='\n'.join((src/f).read_text() for f in ['config.js','data-quiz.js','data-texts2.js','data-examples.js','data-learn.js','data-grammar.js','data-test.js','data-reading.js','data-exam.js','support.js','calismam.js','sinav.js','cumle.js','gunun.js','okuma.js','telaffuz.js','buyuksozluk.js','app.js','auth.js'])
+js='\n'.join((src/f).read_text() for f in ['config.js','data-quiz.js','data-texts2.js','data-examples.js','data-learn.js','data-grammar.js','data-test.js','data-reading.js','data-exam.js','data-grammar-c1.js','data-dialog.js','data-hatalar.js','data-aile.js','support.js','hedef.js','calismam.js','sinav.js','cumle.js','gunun.js','okuma.js','telaffuz.js','diyalog.js','hatalar.js','buyuksozluk.js','pwa.js','app.js','auth.js'])
 js=js.replace('/*AIDX*/{}',json.dumps(aidx,separators=(',',':'))).replace('/*SILENT*/""','"'+silent+'"')
 out=shell.replace('/*CSS*/',css).replace('/*JS*/',js)
 # artifact.html: Claude yayını için (yayın sistemi sayfa iskeletini kendisi ekler)
@@ -34,6 +34,15 @@ FAVICON="%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 120 120'%3E%3Cde
 full=('<!doctype html>\n<html lang="tr">\n<head>\n<meta charset="utf-8">\n'
       '<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">\n'
       '<meta name="theme-color" content="#FAFAFB">\n'
+      '<link rel="manifest" href="manifest.webmanifest">\n'
+      '<link rel="apple-touch-icon" href="icons/apple-180.png">\n'
+      '<meta name="apple-mobile-web-app-capable" content="yes">\n'
+      '<meta name="apple-mobile-web-app-title" content="Fluo">\n'
       '<link rel="icon" href="data:image/svg+xml,'+FAVICON+'">\n</head>\n<body>\n'+out+'\n</body>\n</html>\n')
 (root/'index.html').write_text(full)
+# Service worker: sürüm = sayfanın özeti; büyük dosyalar kendi içerik özetiyle (yalnızca değişen yeniden indirilir)
+import hashlib
+big={f:hashlib.md5((root/f).read_bytes()).hexdigest()[:10] for f in ['audio-w.js','audio-s.js','audio-t.js','audio-r.js','audio-d.js','sozluk.js'] if (root/f).exists()}
+sw=(src/'sw-template.js').read_text().replace('__VERSION__',hashlib.md5(full.encode()).hexdigest()[:10]).replace('__BIG__',json.dumps(big))
+(root/'sw.js').write_text(sw)
 print('index.html',len(out)//1024,'KB · ses:',{g:len(d) for g,d in groups.items()},'· dosyalar:',{g:(root/f"audio-{g}.js").stat().st_size//1024 for g in groups},'KB')

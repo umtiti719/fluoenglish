@@ -106,6 +106,7 @@
         <button class="jbtn rev" id="jRev"><svg class="ic"><use href="#i-refresh"/></svg>Tekrar et</button>
         <button class="jbtn ok" id="jOk"><svg class="ic"><use href="#i-check"/></svg>Biliyorum</button>
       </div>
+      <div class="fam" id="famBox" hidden></div>
       <p class="keys">Klavye: <kbd>Boşluk</kbd> çevir · <kbd>←</kbd> tekrar et · <kbd>→</kbd> biliyorum · Telefonda kartı sağa/sola kaydır</p>
     </div>
   </section>
@@ -351,6 +352,35 @@
     <div id="testBox" class="testbox"></div>
   </section>
 
+  <!-- ================= DİYALOGLAR ================= -->
+  <section class="view" id="v-diyalog" hidden>
+    <div class="page-head">
+      <div>
+        <a class="backlink" href="#ogren"><svg class="ic"><use href="#i-left"/></svg>Kelime Öğren</a>
+        <span class="eyebrow c-learn" style="margin-top:10px"><svg class="ic"><use href="#i-chat"/></svg>Diyaloglar</span>
+        <h1 class="h-page">Gerçek hayattan konuşmalar</h1>
+        <p class="lead">Kafede, havalimanında, doktorda, iş görüşmesinde… Önce konuşmayı dinle, sonra sıra sana gelince doğru cevabı seç.</p>
+      </div>
+    </div>
+    <div id="dlgBox"></div>
+  </section>
+  <section class="view" id="v-diyalogoku" hidden>
+    <div id="dlgView" class="dg-view"></div>
+  </section>
+
+  <!-- ================= SIK YAPILAN HATALAR ================= -->
+  <section class="view" id="v-hatalar" hidden>
+    <div class="page-head">
+      <div>
+        <a class="backlink" href="#gramer"><svg class="ic"><use href="#i-left"/></svg>Dil Bilgisi</a>
+        <span class="eyebrow c-gram" style="margin-top:10px"><svg class="ic"><use href="#i-alert"/></svg>Sık yapılan hatalar</span>
+        <h1 class="h-page">Bu tuzaklara düşme</h1>
+        <p class="lead">Türkçe düşünerek İngilizce konuşunca en sık yapılan hatalar, doğruları ve kısa açıklamalarıyla.</p>
+      </div>
+    </div>
+    <div id="htBox"></div>
+  </section>
+
   <!-- ================= ÇALIŞMAM ================= -->
   <section class="view" id="v-calismam" hidden>
     <div class="page-head">
@@ -506,7 +536,7 @@
     <symbol id="i-x" viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"/></symbol>
     <symbol id="i-left" viewBox="0 0 24 24"><path d="M15 5l-7 7 7 7"/></symbol>
     <symbol id="i-right" viewBox="0 0 24 24"><path d="M9 5l7 7-7 7"/></symbol>
-    <symbol id="i-refresh" viewBox="0 0 24 24"><path d="M20 11a8 8 0 1 0-2.3 5.7M20 4v7h-7"/></symbol>
+    <symbol id="i-download" viewBox="0 0 24 24"><path d="M12 4v11m-5-5 5 5 5-5M5 20h14"/></symbol><symbol id="i-refresh" viewBox="0 0 24 24"><path d="M20 11a8 8 0 1 0-2.3 5.7M20 4v7h-7"/></symbol>
     <symbol id="i-eye" viewBox="0 0 24 24"><path d="M2 12s4-7 10-7 10 7 10 7-4 7-10 7S2 12 2 12zM12 9a3 3 0 1 0 0 6 3 3 0 0 0 0-6z"/></symbol>
     <symbol id="i-bulb" viewBox="0 0 24 24"><path d="M9 18h6M10 21h4M12 3a6 6 0 0 0-4 10.5c.7.7 1 1.5 1 2.5h6c0-1 .3-1.8 1-2.5A6 6 0 0 0 12 3z"/></symbol>
     <symbol id="i-bookmark" viewBox="0 0 24 24"><path d="M6 3h12v18l-6-4.5L6 21z"/></symbol>

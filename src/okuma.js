@@ -28,12 +28,12 @@ function renderReading(){
   const t=RD.cur,box=$("readBox");if(!t||!box)return;
   const idx=READING.indexOf(t),nxt=READING.find((x,i)=>i>idx&&x.lv===t.lv)||READING[(idx+1)%READING.length];
   let si=0;
-  const paras=t.en.split(/\n\n/).map(p=>'<p>'+rSplit(p).map(s=>'<span class="rs" data-i="'+(si++)+'">'+esc(s)+'</span>').join(" ")+'</p>').join("");
+  const paras=t.en.split(/\n\n/).map(p=>'<p>'+rSplit(p).map(s=>'<span class="rs" data-i="'+(si++)+'">'+rWrap(s)+'</span>').join(" ")+'</p>').join("");
   const nAns=Object.keys(RD.ans).length,nOk=Object.values(RD.ans).filter(Boolean).length;
   box.innerHTML='<a class="backlink" href="#okuma">'+ic("left")+'Tüm metinler</a>'+
     '<article class="rart card"><div class="rhead"><span class="badge" style="--c:var(--lv-'+t.lv+')">'+rLvName(t.lv)+'</span><h1>'+esc(t.title)+'</h1><p class="rtt">'+esc(t.tt)+' · '+rWords(t)+' kelime</p></div>'+
-      '<div class="rplay"><button class="primary" id="rPlay">'+ic(RD.playing?"pause":"play")+(RD.playing?"Durdur":"Metni dinle")+'</button><button class="ghost'+(RD.slow?" on":"")+'" id="rSlow" aria-pressed="'+RD.slow+'">'+ic("slow")+'Yavaş</button><small>Bir cümleye dokunursan o cümle okunur.</small></div>'+
-      '<div class="rtext" id="rText">'+paras+'</div>'+
+      '<div class="rplay"><button class="primary" id="rPlay">'+ic(RD.playing?"pause":"play")+(RD.playing?"Durdur":"Metni dinle")+'</button><button class="ghost'+(RD.slow?" on":"")+'" id="rSlow" aria-pressed="'+RD.slow+'">'+ic("slow")+'Yavaş</button><small>Bir kelimeye dokun: anlamını gör, dinle, Defterine kaydet ya da o cümleyi dinle.</small></div>'+
+      '<div class="rtext" id="rText">'+paras+'<div class="rpop" id="rPop" hidden></div></div>'+
       '<details class="rtr"><summary>'+ic("translate")+'Türkçesini göster</summary>'+t.tr.split(/\n\n/).map(p=>'<p>'+esc(p)+'</p>').join("")+'</details></article>'+
     '<section class="card rvocab"><h2 class="tres-h">Anahtar kelimeler</h2><div class="rv-list">'+t.vocab.map(v=>'<div class="rv-i"><b>'+esc(v[0])+'</b><span>'+esc(v[1])+'</span>'+sayBtn(v[0],"sm")+savBtn(v[0])+'</div>').join("")+'</div></section>'+
     '<section class="card rqs"><h2 class="tres-h">Anlama soruları <small>'+nAns+' / '+t.qs.length+'</small></h2>'+
@@ -51,7 +51,7 @@ function renderReading(){
     const y=window.scrollY;renderReading();window.scrollTo(0,y)});
   $("rPlay").onclick=()=>{if(RD.playing)stopRead();else playRead(RD.idx>=0?RD.idx:0)};
   $("rSlow").onclick=()=>{RD.slow=!RD.slow;const was=RD.playing,i=RD.idx;if(was){stopRead();playRead(i)}else renderPlayBtns()};
-  box.querySelectorAll(".rs").forEach(s=>s.onclick=()=>{stopRead();playRead(+s.dataset.i,true)});
+  box.querySelectorAll(".rs").forEach(s=>s.onclick=e=>{const w=e.target.closest(".rw");if(w){rWordPop(w,s);return}stopRead();playRead(+s.dataset.i,true)});
   if($("rRetry"))$("rRetry").onclick=()=>{RD.ans={};RD.pick={};t.qs.forEach((q,i)=>RD.order[i]=shuffle(q[1].map((_,j)=>j)));renderReading();document.querySelector(".rqs").scrollIntoView({behavior:"smooth",block:"start"})};
   markReading();
 }
@@ -64,3 +64,35 @@ function playRead(i,single){
   speak(el.textContent,null,RD.slow?.75:1,()=>{if(!RD.playing||RD.idx!==i)return;if(single){RD.playing=false;renderPlayBtns();markReading();return}playRead(i+1)});
 }
 function stopRead(){if(RD.playing){RD.playing=false;stopSpeak()}renderPlayBtns();markReading()}
+
+/* ---------- Metinde kelimeye dokununca anlam ---------- */
+function rWrap(s){return s.split(/([A-Za-z][A-Za-z'’-]*)/).map((x,i)=>i%2?'<span class="rw">'+esc(x)+'</span>':esc(x)).join("")}
+function rMeaning(word){
+  const w=word.toLowerCase().replace(/[’]/g,"'").replace(/'s$/,"");
+  const v=RD.cur&&RD.cur.vocab.find(x=>x[0].toLowerCase()===w);if(v)return{en:v[0],tr:v[1],pos:""};
+  if(WINFO[w])return{en:w,tr:WINFO[w][1],pos:WINFO[w][2]};
+  const d=typeof dictEntry==="function"&&dictEntry(w);
+  if(d){if(WINFO[d.lemma])return{en:d.lemma,tr:WINFO[d.lemma][1],pos:WINFO[d.lemma][2]};return{en:d.lemma,tr:d.senses.slice(0,3).join(", "),pos:d.pos||""}}
+  return null;
+}
+function rWordPop(el,sent){
+  const pop=$("rPop"),wrap=$("rText");if(!pop||!wrap)return;
+  if(el.classList.contains("active")){rHidePop();return}
+  rHidePop(true);el.classList.add("active");stopRead();
+  const word=el.textContent,show=()=>{
+    const m=rMeaning(word),sTxt=sent.textContent;
+    if(m&&!WINFO[m.en]&&!P.saved[m.en]){const re=new RegExp("\\b("+word.replace(/[^A-Za-z'-]/g,"")+")\\b");EXTRA[m.en]=[m.en,m.tr,m.pos||"metinden",sTxt.replace(re,"**$1**"),""]}
+    pop.innerHTML='<div class="rp-h"><b>'+esc(m&&m.en!==word.toLowerCase()?m.en:word)+'</b>'+(m&&m.pos?'<i>'+esc(m.pos)+'</i>':'')+'<span class="sp"></span>'+sayBtn(m?m.en:word,"sm")+(m?savBtn(m.en,"sm"):"")+'</div>'+
+      '<p class="rp-tr">'+(m?esc(m.tr):"Sözlükte bulunamadı.")+'</p>'+(m&&m.en.toLowerCase()!==word.toLowerCase()?'<small class="note">Metindeki biçimi: '+esc(word)+'</small>':'')+
+      '<button class="linkbtn rp-s" id="rpSent">'+ic("play")+'Bu cümleyi dinle</button>';
+    $("rpSent").onclick=()=>{const i=+sent.dataset.i;rHidePop();playRead(i,true)};
+    const wr=wrap.getBoundingClientRect(),er=el.getBoundingClientRect(),pw=Math.min(280,wr.width-16);
+    pop.style.width=pw+"px";pop.style.left=Math.max(0,Math.min(er.left-wr.left+er.width/2-pw/2,wr.width-pw))+"px";
+    pop.style.top=(er.bottom-wr.top+8)+"px";pop.hidden=false;
+  };
+  if(typeof DICT!=="undefined"&&!DICT&&typeof loadDict==="function"){pop.innerHTML='<p class="rp-tr">…</p>';pop.hidden=false;loadDict().then(show,show)}else show();
+  speak(word,null);
+}
+function rHidePop(keepSpeak){const p=$("rPop");if(p)p.hidden=true;document.querySelectorAll("#rText .rw.active").forEach(x=>x.classList.remove("active"))}
+document.addEventListener("click",e=>{if(!$("rPop")||$("rPop").hidden)return;if(e.target.closest("#rPop,.rw"))return;rHidePop()});
+document.addEventListener("keydown",e=>{if(e.key==="Escape")rHidePop()});
