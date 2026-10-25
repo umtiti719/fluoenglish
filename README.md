@@ -24,7 +24,7 @@ Türkçe arayüzlü, genel İngilizce öğrenme uygulaması.
 - **Cümle Kur:** Türkçe cümleyi gör, İngilizcesini karışık kartları sıralayarak ya da yazarak kur (4 seviye, ~300 cümle; yanlışlar birkaç dakika sonra yeniden gelir).
 - **Yardım ve destek:** sık sorulanlar ve "Bize yaz" formu; kelime kartı ve dil bilgisi konularından tek dokunuşla hata bildirme. Mesajlar Supabase'deki `feedback` tablosuna düşer (kurulum: `belgeler/destek.sql`).
 - **Büyük sözlük (Çeviri):** ~32.000 İngilizce kelime; en sık kelimeler için Fluo'nun kendi güncel çekirdek sözlüğü (~5.900 kelime), nadir kelimeler için FreeDict (GPL-2.0+) yedeği; çekimli biçimler köke bağlanır; Türkçe→İngilizce arama; cümlelerde kelime kelime anlam (`sozluk.js`, kaynaklar: `sozluk/LISANS.md`).
-- **Metin Çevirisi:** Seviyeye göre metinler, kelimeye dokununca anlamı, çeviri puanlama.
+- **Metin Çevirisi:** Seviyeye göre 40 metin (her seviyede 10), kelimeye dokununca anlamı, çeviri puanlama.
 
 İlerleme kullanılan tarayıcıda saklanır.
 
@@ -48,6 +48,7 @@ Türkçe arayüzlü, genel İngilizce öğrenme uygulaması.
 - `supabase/functions/ceviri/index.ts` — sitede yapay zekâ çevirisi (Claude Haiku; giriş yapanlara, günde 100 istek) · sayaç: `belgeler/yapay-zeka.sql`
 - `vendor/supabase.js` — Supabase istemcisi (MIT)
 - `src/data-test.js` — seviye testi soruları
+- `src/data-texts2.js` — Metin Çevirisi ek metinleri
 - `src/data-quiz.js` — yarışma kelimeleri, çeviri metinleri ve metin sözlüğü
 - `build.py` — `src/` dosyalarını `index.html` olarak birleştirir: `python3 build.py`
 - `kelime_atolyesi.xlsx` — ilk sürümdeki kelime ve metin listesi

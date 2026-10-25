@@ -29,3 +29,4 @@
 - Telaffuz (25 Ekim): Web Speech API ile; Firefox'ta desteklenmiyor uyarısı. Kelime Öğren araçlarında.
 - Büyük sözlük (25 Ekim): çekirdek 5.923 kelime (Fluo, özgün) + FreeDict yedeği = 32.706 kelime. Yeni deste sesleri (164) ve okuma sesleri (178) eklendi.
 - İçerik büyütme (25 Ekim): 8 yeni deste (Aile, Hava, Giyim, Sanat, Bağlaçlar, Deyimler, E-posta, Akademik) ve 4 deste daha (Sık Karıştırılanlar, Fiil + Edat, İş Görüşmesi, Günlük Kalıplar II) → 30 deste / 360 kelime; 8 yeni dil bilgisi konusu → 31 konu; 8 yeni okuma metni → 24 metin; Cümle Kur 511 cümle.
+- Metin Çevirisi: 16 → 40 metin (src/data-texts2.js).
