@@ -167,12 +167,13 @@ function renderNav(){
   $("nav").innerHTML=SECTIONS.map(s=>'<a href="#'+s.id+'" data-sec="'+s.id+'" style="--c:'+s.c+'">'+ic(s.icon)+s.label+'</a>').join("");
   $("tabbar").innerHTML=SECTIONS.map(s=>'<a href="#'+s.id+'" data-sec="'+s.id+'" style="--c:'+s.c+'">'+ic(s.icon)+'<span>'+s.short+'</span></a>').join("");
 }
-const VIEWS=["telaffuz","okuma","okumaoku","gunun","cumle","destek","hesap","seviye","ayarlar","ana","ogren","calis","deckend","defter","dinle","yarisma","gramer","konu","cevir","ceviri"];
+const VIEWS=["calismam","sinav","telaffuz","okuma","okumaoku","gunun","cumle","destek","hesap","seviye","ayarlar","ana","ogren","calis","deckend","defter","dinle","yarisma","gramer","konu","cevir","ceviri"];
 function setFocus(){document.body.classList.toggle("focus",(!$("v-calis").hidden)||(!$("v-yarisma").hidden&&G.phase==="game")||(!$("v-seviye").hidden&&T.phase==="run")||(!$("v-gunun").hidden&&DL.d&&!DL.d.done))}
 function showView(v,sec){
   VIEWS.forEach(x=>$("v-"+x).hidden=x!==v);setTimeout(setFocus,0);
   document.querySelectorAll("[data-sec]").forEach(a=>{if(a.dataset.sec===sec)a.setAttribute("aria-current","page");else a.removeAttribute("aria-current")});
   if(sec==="ayarlar")$("gearBtn").setAttribute("aria-current","page");else $("gearBtn").removeAttribute("aria-current");
+  if(sec==="calismam")$("studyBtn").setAttribute("aria-current","page");else $("studyBtn").removeAttribute("aria-current");
   if(sec==="hesap")$("acctBtn").setAttribute("aria-current","page");else $("acctBtn").removeAttribute("aria-current");
 }
 let lastHash=null;
@@ -214,6 +215,8 @@ function route(){
   else if(h==="metin"){showView("ceviri","metin")}
   else if(h==="ayarlar"){renderSettings();showView("ayarlar","ayarlar")}
   else if(h==="hesap"||h==="giris"){renderAccount();showView("hesap","hesap")}
+  else if(h==="calismam"){renderStudy();showView("calismam","calismam")}
+  else if(h.startsWith("sinav")){if(!openExamRoute(h)){location.hash="sinav";return}showView("sinav","gramer")}
   else if(h==="destek"||h==="yardim"){renderSupport();showView("destek","destek")}
   else if(h==="seviye"){renderTest();showView("seviye","ana")}
   else if(h==="cevir"){renderTrHint();showView("cevir","cevir");setTimeout(()=>{try{$("trInput").focus({preventScroll:true})}catch(e){}},50)}
@@ -229,7 +232,7 @@ function replayView(){
   setTimeout(()=>v.classList.remove("again"),500);
 }
 document.addEventListener("click",e=>{
-  const a=e.target.closest(".nav a,.tabbar a,.brand,.gear,.acct");if(!a)return;
+  const a=e.target.closest(".nav a,.tabbar a,.brand,.gear,.acct,.studybtn");if(!a)return;
   if(!reduceMotion()){a.classList.remove("tap");void a.offsetWidth;a.classList.add("tap");setTimeout(()=>a.classList.remove("tap"),400)}
   if(a.classList.contains("brand"))setTimeout(playLogo,60);
   const target=(a.getAttribute("href")||"").slice(1),cur=(location.hash.slice(1)||"ana").toLowerCase();
@@ -348,7 +351,7 @@ function showCard(){
   $("sKnown").textContent=S.known.length;$("sRev").textContent=S.rev.length;
   $("fPos").textContent=w[2];$("fLvl").textContent=d.level;$("fWord").textContent=w[0];
   $("bWordSmall").textContent=w[0];$("bMean").textContent=w[1];$("bEx").innerHTML=hl(w[3]||"");$("bExTr").textContent=w[4]||"";
-  $("bexBox").hidden=!w[3];setSaveBtn($("sSave"),w[0]);
+  $("bexBox").hidden=!w[3];{const sb=$("bExSave");if(w[3]){sb.dataset.snt=sntKey(w[3]);sb.dataset.sntr=w[4]||"";sb.dataset.snsrc="Kelime · "+w[0];setSntBtn(sb)}}setSaveBtn($("sSave"),w[0]);
   if(P.set.autoSpeak)setTimeout(()=>{if(!$("v-calis").hidden)speak(w[0],$("fSpeak"))},350);
   $("flip").classList.remove("flipped");S.flipped=false;
   const sc=$("scene");sc.style.transition="none";sc.style.transform="";sc.style.opacity="";
@@ -553,14 +556,15 @@ function renderGramList(){
   $("gramFilter").innerHTML=[["all","Tümü"],...Object.keys(GRAMMAR_LEVELS).map(k=>[k,k+" · "+GRAMMAR_LEVELS[k].name])]
     .map(([k,l])=>'<button class="fchip" data-f="'+k+'" aria-pressed="'+(gFilter===k)+'" style="--c:'+(k==="all"?"var(--m-gram)":GRAMMAR_LEVELS[k].color)+'">'+l+'</button>').join("");
   $("gramFilter").querySelectorAll(".fchip").forEach(b=>b.onclick=()=>{gFilter=b.dataset.f;renderGramList()});
-  $("gramList").innerHTML=Object.entries(GRAMMAR_LEVELS).filter(([k])=>gFilter==="all"||gFilter===k).map(([k,L])=>{
-    const ts=GRAMMAR.filter(t=>t.level===k),dn=ts.filter(t=>P.gram[t.id]?.done).length;
+  const exN=Object.keys(P.exam||{}).length;
+  $("gramList").innerHTML='<a class="ex-cta" href="#sinav"><span class="mod-ic">'+ic("target")+'</span><div><b>Ünite sınavları</b><span>'+(exN?exN+' / 4 ünitenin sınavına girdin. Sonuçlarına göre çalışman gereken konular işaretlendi.':'Bir ünitenin tüm konularını tek sınavda dene; neyi çalışman gerektiğini görelim.')+'</span></div><span class="tool-go">'+(exN?"Sınavlar":"Başla")+' '+ic("right")+'</span></a>'+Object.entries(GRAMMAR_LEVELS).filter(([k])=>gFilter==="all"||gFilter===k).map(([k,L])=>{
+    const ts=GRAMMAR.filter(t=>t.level===k),dn=ts.filter(t=>P.gram[t.id]?.done).length,er=P.exam&&P.exam[k];
     return '<section class="glevel"><div class="glevel-h" style="--c:'+L.color+'"><span class="glevel-badge">'+k+'</span><div><h2>'+L.name+'</h2><p>'+L.desc+'</p></div>'+
-      '<div class="gl-prog">'+dn+' / '+ts.length+'<div class="mbar"><i style="width:'+(dn/ts.length*100)+'%"></i></div></div></div>'+
+      '<div class="gl-prog">'+dn+' / '+ts.length+'<div class="mbar"><i style="width:'+(dn/ts.length*100)+'%"></i></div><a class="gl-ex" href="#sinav-'+k.toLowerCase()+(er?'-sonuc':'')+'">'+ic("target")+(er?'Sınav: '+er.ok+'/'+er.n:'Ünite sınavı')+'</a></div></div>'+
       '<div class="gtopics">'+ts.map((t,i)=>{const g=P.gram[t.id];
         return '<a class="gt'+(g?.done?" done":"")+'" href="#g-'+t.id+'" style="--c:'+L.color+'"><span class="gt-n">'+(g?.done?ic("check"):i+1)+'</span>'+
           '<b>'+esc(t.title)+'</b><span class="sub">'+esc(t.sub)+'</span><span class="trt">'+esc(t.tr)+'</span>'+
-          '<span class="gt-st">'+(g?(g.done?ic("check")+"Tamamlandı · "+g.best+"/"+g.total:"Alıştırma: "+g.best+"/"+g.total):"Başlanmadı")+'</span></a>'}).join("")+'</div></section>';
+          (er&&er.t[t.id]!==undefined?'<span class="gt-ex v-'+topicVerdict(er.t[t.id]).k+'">'+topicVerdict(er.t[t.id]).t+'</span>':'')+'<span class="gt-st">'+(g?(g.done?ic("check")+"Tamamlandı · "+g.best+"/"+g.total:"Alıştırma: "+g.best+"/"+g.total):"Başlanmadı")+'</span></a>'}).join("")+'</div></section>';
   }).join("");
 }
 let PR=null;
@@ -579,7 +583,7 @@ function renderTopic(t){
     h+='<section class="tsec" id="s-table"><h2>'+ic("book")+'Özet tablo</h2><div class="tbl-wrap"><table class="tbl"><thead><tr>'+t.table.head.map(c=>'<th>'+esc(c)+'</th>').join("")+'</tr></thead><tbody>'+
       t.table.rows.map(r=>'<tr>'+r.map(c=>'<td>'+esc(c)+'</td>').join("")+'</tr>').join("")+'</tbody></table></div></section>'}
   secs.push(["s-ex","Örnek cümleler"]);
-  h+='<section class="tsec" id="s-ex"><h2>'+ic("chat")+'Örnek cümleler</h2><div class="exs">'+t.examples.map(e=>'<div class="ex"><div><p>'+hl(e[0])+'</p><small>'+esc(e[1])+'</small></div>'+sayBtn(e[0],"sm")+'</div>').join("")+'</div></section>';
+  h+='<section class="tsec" id="s-ex"><h2>'+ic("chat")+'Örnek cümleler</h2><div class="exs">'+t.examples.map(e=>'<div class="ex"><div><p>'+hl(e[0])+'</p><small>'+esc(e[1])+'</small></div><div class="dbtns">'+sayBtn(e[0],"sm")+sntBtn(e[0],e[1],"Dil bilgisi · "+t.title,"sm")+'</div></div>').join("")+'</div></section>';
   if(t.signals){secs.push(["s-sig","İpucu kelimeler"]);
     h+='<section class="tsec" id="s-sig"><h2>'+ic("spark")+'İpucu kelimeler</h2><p class="note" style="margin-top:-6px">Bu kelimeleri cümlede görürsen büyük ihtimalle bu yapı kullanılır.</p><div class="signals">'+t.signals.map(s=>'<span>'+esc(s)+'</span>').join("")+'</div></section>'}
   if(t.mistakes){secs.push(["s-mis","Sık yapılan hatalar"]);
@@ -836,7 +840,7 @@ function answerListen(ok,btn,extra){
   const tip=ok?"Kulağın alışıyor.":L.mode==="kelime"?"Doğru yazılış: "+esc(L.cur.en)+". Bir kez daha dinle.":L.mode==="cumle"?"Doğru cümleyi yeşil şıkta görebilirsin. Bir kez daha dinle.":"Kırmızı kelimeleri kaçırdın. Yavaş dinleyip tekrar dene.";
   const reveal=L.mode==="kelime"
     ?'<div class="lreveal"><div><p><b>'+esc(L.cur.en)+'</b></p><small>'+esc(L.cur.tr)+'</small></div><div class="dbtns">'+sayBtn(L.cur.en,"sm")+(winfo(L.cur.en)?savBtn(L.cur.en,"sm"):"")+'</div></div>'
-    :'<div class="lreveal"><div><p>'+hl(L.cur.en)+'</p><small>'+esc(L.cur.tr)+'</small></div><div class="dbtns">'+sayBtn(L.cur.en,"sm")+(L.cur.word&&winfo(L.cur.word)?savBtn(L.cur.word,"sm"):"")+'</div></div>';
+    :'<div class="lreveal"><div><p>'+hl(L.cur.en)+'</p><small>'+esc(L.cur.tr)+'</small></div><div class="dbtns">'+sayBtn(L.cur.en,"sm")+sntBtn(L.cur.en,L.cur.tr,"Dinleme","sm")+(L.cur.word&&winfo(L.cur.word)?savBtn(L.cur.word,"sm"):"")+'</div></div>';
   const r=$("lResult");r.hidden=false;
   r.innerHTML='<div class="pr-ex '+(ok?"g":"r")+'">'+ic(ok?"check":"x")+'<div>'+(ok?"Doğru!":"Bu sefer olmadı.")+' <span>'+tip+'</span></div></div>'+(extra||"")+reveal+
     '<div class="pr-act"><button class="primary" id="lNext">Sonraki'+ic("right")+'</button></div>';

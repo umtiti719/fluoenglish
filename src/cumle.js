@@ -59,7 +59,7 @@ function renderBuild(){
   }else{
     const r=CB.res;
     h+='<div class="bres '+(r.ok?"ok":"bad")+'"><div class="bres-h">'+ic(r.ok?"check":"x")+'<b>'+esc(r.title)+'</b></div>'+
-      '<div class="bres-s"><p>'+r.refHtml+'</p>'+sayBtn(s.en,"sm")+'</div>'+(r.usrHtml?'<div class="bres-u"><small>Senin cümlen</small><p>'+r.usrHtml+'</p></div>':'')+
+      '<div class="bres-s"><p>'+r.refHtml+'</p>'+sayBtn(s.en,"sm")+sntBtn(s.en,s.tr,"Cümle Kur","sm")+'</div>'+(r.usrHtml?'<div class="bres-u"><small>Senin cümlen</small><p>'+r.usrHtml+'</p></div>':'')+
       (r.note?'<p class="note">'+esc(r.note)+'</p>':'')+
       '<div class="bfoot"><span class="sp"></span><button class="primary" id="bNext">Sonraki cümle<span class="arr">'+ic("right")+'</span></button></div></div>';
   }

@@ -14,6 +14,7 @@
     </a>
     <nav class="nav" id="nav" aria-label="Bölümler"></nav>
     <div class="top-r">
+      <a class="studybtn" href="#calismam" id="studyBtn" hidden aria-label="Çalışmam" title="Çalışmam: kayıtların ve çalışma durumun"><svg class="ic"><use href="#i-target"/></svg><span class="acct-t">Çalışmam</span></a>
       <a class="acct" href="#hesap" id="acctBtn" aria-label="Giriş yap"></a>
       <a class="gear" href="#ayarlar" id="gearBtn" aria-label="Ayarlar" title="Ayarlar"><svg class="ic"><use href="#i-gear"/></svg></a>
       <span class="streak" id="streak" title="Art arda çalıştığın gün sayısı"></span>
@@ -94,7 +95,7 @@
             <div class="face-top"><span class="pill" id="bWordSmall">word</span><button class="speak" id="bSpeak" aria-label="Kelimeyi seslendir"><svg class="ic"><use href="#i-speaker"/></svg></button></div>
             <p class="bmean" id="bMean">anlamı</p>
             <div class="bex" id="bexBox">
-              <div class="bex-en"><p id="bEx">Example.</p><button class="speak sm" id="bExSpeak" aria-label="Cümleyi seslendir"><svg class="ic"><use href="#i-speaker"/></svg></button></div>
+              <div class="bex-en"><p id="bEx">Example.</p><span class="dbtns"><button class="speak sm" id="bExSpeak" aria-label="Cümleyi seslendir"><svg class="ic"><use href="#i-speaker"/></svg></button><button class="savebtn snt sm" id="bExSave" aria-label="Cümleyi kaydet" title="Cümleyi kaydet"><svg class="ic"><use href="#i-bookmark"/></svg></button></span></div>
               <p class="bex-tr" id="bExTr">Örnek.</p>
             </div>
           </div>
@@ -348,6 +349,31 @@
   <!-- ================= SEVİYE TESTİ ================= -->
   <section class="view" id="v-seviye" hidden>
     <div id="testBox" class="testbox"></div>
+  </section>
+
+  <!-- ================= ÇALIŞMAM ================= -->
+  <section class="view" id="v-calismam" hidden>
+    <div class="page-head">
+      <div>
+        <span class="eyebrow"><svg class="ic"><use href="#i-target"/></svg>Çalışmam</span>
+        <h1 class="h-page">Kayıtların ve çalışma durumun</h1>
+        <p class="lead">Kaydettiğin kelimeler ve cümleler, hangi bölümde ne kadar ilerlediğin ve sırada ne olduğu burada.</p>
+      </div>
+    </div>
+    <div id="study"></div>
+  </section>
+
+  <!-- ================= ÜNİTE SINAVLARI ================= -->
+  <section class="view" id="v-sinav" hidden>
+    <div class="page-head">
+      <div>
+        <a class="backlink" href="#gramer"><svg class="ic"><use href="#i-left"/></svg>Dil Bilgisi</a>
+        <span class="eyebrow c-gram" style="margin-top:10px"><svg class="ic"><use href="#i-target"/></svg>Ünite sınavları</span>
+        <h1 class="h-page">Bildiklerini ölç, eksiğini gör</h1>
+        <p class="lead">Her ünite bir seviyenin konularını kapsar. Sınavın sonunda hangi konuyu çalışman, hangisini geçebileceğini gösteririz.</p>
+      </div>
+    </div>
+    <div id="exam"></div>
   </section>
 
   <!-- ================= AYARLAR ================= -->
