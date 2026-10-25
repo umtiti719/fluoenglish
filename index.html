@@ -1248,7 +1248,7 @@ body.focus .sitefoot{display:none}
 .studybtn:hover{background:var(--surface)}
 .studybtn[aria-current="page"]{box-shadow:0 0 0 2px var(--accent)}
 .studybtn.tap{animation:tap .35s cubic-bezier(.3,.7,.4,1.4)}
-@media (max-width:1240px){.studybtn{padding:0;width:36px;justify-content:center}.studybtn .acct-t{display:none}}
+@media (max-width:1340px){.studybtn{padding:0;width:36px;justify-content:center}.studybtn .acct-t{display:none}}
 #study{display:flex;flex-direction:column;gap:16px;margin-top:20px;min-width:0}
 .st-top{margin:0}
 .st-tabs .fchip{display:inline-flex;align-items:center;gap:6px}
@@ -1478,6 +1478,47 @@ body.focus .sitefoot{display:none}
 .rem-ctl input[type=time]{font:inherit;color:var(--ink);background:var(--surface2);border:1px solid var(--line);border-radius:10px;padding:6px 8px}
 .srow .pill .ic{width:14px;height:14px;vertical-align:-2px;margin-right:3px}
 
+/* ================= POMODORO ================= */
+.pomobtn{display:flex;align-items:center;justify-content:center;gap:6px;height:36px;min-width:36px;padding:0 9px;border-radius:999px;border:1px solid transparent;background:transparent;color:var(--ink);cursor:pointer;font:inherit;font-weight:600;font-size:.88rem;font-variant-numeric:tabular-nums}
+.pomobtn .ic{width:18px;height:18px}
+.pomobtn:hover{background:var(--surface)}
+.pomobtn .pomo-t:empty{display:none}
+.pomobtn.act{background:color-mix(in srgb,var(--bad) 10%,var(--surface));border-color:color-mix(in srgb,var(--bad) 35%,var(--line));color:var(--bad);padding:0 12px 0 10px}
+.pomobtn.act.brk{background:color-mix(in srgb,var(--good) 10%,var(--surface));border-color:color-mix(in srgb,var(--good) 35%,var(--line));color:var(--good)}
+.pomobtn.run .ic{animation:pmPulse 2s ease-in-out infinite}
+@keyframes pmPulse{50%{opacity:.45}}
+@media (prefers-reduced-motion:reduce){.pomobtn.run .ic{animation:none}}
+.pomobtn[aria-expanded="true"]{box-shadow:0 0 0 2px var(--accent)}
+.pomopanel{position:fixed;z-index:30;top:calc(env(safe-area-inset-top,0px) + 70px);right:max(16px,calc((100vw - 1180px)/2 + 8px));width:min(320px,calc(100vw - 32px));background:var(--surface);border:1px solid var(--line);border-radius:24px;box-shadow:var(--shadow-lg);padding:14px 16px 16px;display:flex;flex-direction:column;gap:12px;animation:dgIn .2s ease-out}
+.pomopanel[hidden]{display:none}
+.pm-head{display:flex;align-items:center;justify-content:space-between}
+.pm-head b{display:flex;align-items:center;gap:7px;font-weight:600}.pm-head b .ic{width:18px;height:18px;color:var(--bad)}
+.pm-x{border:0;background:transparent;color:var(--muted);cursor:pointer;width:32px;height:32px;border-radius:50%;display:grid;place-items:center}
+.pm-x:hover{background:var(--surface2)}.pm-x .ic{width:16px;height:16px}
+.pm-modes{display:grid;grid-template-columns:repeat(3,1fr);gap:4px;background:var(--surface2);border-radius:999px;padding:4px}
+.pm-modes button{border:0;background:transparent;border-radius:999px;padding:7px 4px;font:inherit;font-size:.8rem;font-weight:600;color:var(--muted);cursor:pointer}
+.pm-modes button[aria-pressed="true"]{background:var(--surface);color:var(--ink);box-shadow:var(--shadow)}
+.pm-ring{--p:0;--pc:var(--bad);width:168px;height:168px;margin:2px auto;border-radius:50%;display:flex;flex-direction:column;align-items:center;justify-content:center;
+  background:radial-gradient(closest-side,var(--surface) 86%,transparent 87% 100%),conic-gradient(var(--pc) calc(var(--p)*1%),var(--surface2) 0)}
+.pm-ring.brk{--pc:var(--good)}
+.pm-ring b{font-size:2.6rem;font-weight:600;letter-spacing:-.04em;font-variant-numeric:tabular-nums;line-height:1}
+.pm-ring span{font-size:.8rem;color:var(--muted);margin-top:4px}
+.pm-ctl{display:flex;gap:8px;justify-content:center}
+.pm-ctl .primary{min-width:150px;justify-content:center}
+.pm-today{margin:0;text-align:center;font-size:.86rem;color:var(--muted);line-height:1.5}
+.pm-today b{color:var(--ink)}
+.pm-dots{display:inline-flex;gap:3px;vertical-align:middle;margin-left:2px}
+.pm-dots i{width:8px;height:8px;border-radius:50%;background:var(--bad)}
+.pm-sets{border-top:1px solid var(--line);padding-top:10px;display:flex;align-items:center;gap:10px}
+.pm-sets small{color:var(--muted);font-size:.78rem;font-weight:600}
+.pm-sets>div{display:flex;gap:6px;flex:1}
+.pm-sets button{flex:1;border:1px solid var(--line);background:var(--surface);border-radius:12px;padding:5px 4px;cursor:pointer;font:inherit;color:var(--ink);display:flex;flex-direction:column;align-items:center}
+.pm-sets button b{font-size:.78rem;font-weight:600}.pm-sets button span{font-size:.7rem;color:var(--muted)}
+.pm-sets button[aria-pressed="true"]{border-color:var(--brand);background:color-mix(in srgb,var(--brand) 9%,var(--surface))}
+@media (max-width:560px){.streak{padding:7px 11px 7px 9px}.streak .sk-t{display:none}.pomobtn.act{padding:0 10px}.pomobtn.act .ic{display:none}.top-r{gap:4px}}
+@media (max-width:374px){.brand-t{display:none}}
+.tools{grid-template-columns:repeat(auto-fill,minmax(260px,1fr))}
+
 </style>
 
 <header class="top">
@@ -1488,6 +1529,7 @@ body.focus .sitefoot{display:none}
     </a>
     <nav class="nav" id="nav" aria-label="Bölümler"></nav>
     <div class="top-r">
+      <button class="pomobtn" id="pomoBtn" aria-label="Pomodoro" aria-expanded="false" title="Pomodoro: odaklanma sayacı"><svg class="ic"><use href="#i-clock"/></svg><span class="pomo-t"></span></button>
       <a class="studybtn" href="#calismam" id="studyBtn" hidden aria-label="Çalışmam" title="Çalışmam: kayıtların ve çalışma durumun"><svg class="ic"><use href="#i-target"/></svg><span class="acct-t">Çalışmam</span></a>
       <a class="acct" href="#hesap" id="acctBtn" aria-label="Giriş yap"></a>
       <a class="gear" href="#ayarlar" id="gearBtn" aria-label="Ayarlar" title="Ayarlar"><svg class="ic"><use href="#i-gear"/></svg></a>
@@ -1973,6 +2015,7 @@ body.focus .sitefoot{display:none}
 </main>
 
 <nav class="tabbar" id="tabbar" aria-label="Bölümler"></nav>
+<div class="pomopanel" id="pomoPanel" hidden role="dialog" aria-label="Pomodoro"></div>
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
 
 <svg width="0" height="0" style="position:absolute" aria-hidden="true">
@@ -2010,7 +2053,7 @@ body.focus .sitefoot{display:none}
     <symbol id="i-x" viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"/></symbol>
     <symbol id="i-left" viewBox="0 0 24 24"><path d="M15 5l-7 7 7 7"/></symbol>
     <symbol id="i-right" viewBox="0 0 24 24"><path d="M9 5l7 7-7 7"/></symbol>
-    <symbol id="i-download" viewBox="0 0 24 24"><path d="M12 4v11m-5-5 5 5 5-5M5 20h14"/></symbol><symbol id="i-refresh" viewBox="0 0 24 24"><path d="M20 11a8 8 0 1 0-2.3 5.7M20 4v7h-7"/></symbol>
+    <symbol id="i-clock" viewBox="0 0 24 24"><circle cx="12" cy="13" r="8"/><path d="M12 9v4l2.5 2.5M9.5 2.5h5"/></symbol><symbol id="i-download" viewBox="0 0 24 24"><path d="M12 4v11m-5-5 5 5 5-5M5 20h14"/></symbol><symbol id="i-refresh" viewBox="0 0 24 24"><path d="M20 11a8 8 0 1 0-2.3 5.7M20 4v7h-7"/></symbol>
     <symbol id="i-eye" viewBox="0 0 24 24"><path d="M2 12s4-7 10-7 10 7 10 7-4 7-10 7S2 12 2 12zM12 9a3 3 0 1 0 0 6 3 3 0 0 0 0-6z"/></symbol>
     <symbol id="i-bulb" viewBox="0 0 24 24"><path d="M9 18h6M10 21h4M12 3a6 6 0 0 0-4 10.5c.7.7 1 1.5 1 2.5h6c0-1 .3-1.8 1-2.5A6 6 0 0 0 12 3z"/></symbol>
     <symbol id="i-bookmark" viewBox="0 0 24 24"><path d="M6 3h12v18l-6-4.5L6 21z"/></symbol>
@@ -4500,7 +4543,7 @@ function goalHtml(){
     '<div class="goal-body"><div class="goal-ring" style="--p:'+pct+'"><b>'+w.todayN+'</b><span>/ '+g.per+' bugün</span></div>'+
     '<div class="goal-r"><p class="goal-t"><b>'+w.met+' / '+g.days+' gün</b> bu hafta '+(w.met>=g.days?"· hedef tamam 🎉":"· "+(g.days-w.met)+" gün kaldı")+'</p>'+
     '<div class="goal-week">'+w.list.map((x,i)=>'<span class="gwd'+(x.met?" met":"")+(x.today?" today":"")+(x.future?" fut":"")+'" title="'+x.n+' alıştırma"><i>'+(x.met?ic("check"):"")+'</i>'+names[i]+'</span>').join("")+'</div>'+
-    '<p class="note goal-n">Günde '+g.per+' alıştırma: kelime kartı, soru, cevap… hepsi sayılır.</p></div></div>'+
+    '<p class="note goal-n">Günde '+g.per+' alıştırma: kelime kartı, soru, cevap… hepsi sayılır.'+(pomoToday()?' Bugün '+pomoToday()+' pomodoro tamamladın.':' Odaklanmak için üstteki saatten pomodoro başlatabilirsin.')+'</p></div></div>'+
     '<div class="goal-edit" id="goalBox" hidden><div><b>Haftada kaç gün?</b><div class="chips-row">'+GOAL_DAYS.map(d=>'<button class="fchip" data-gd="'+d+'" aria-pressed="'+(g.days===d)+'">'+d+' gün</button>').join("")+'</div></div>'+
     '<div><b>Günde ne kadar?</b><div class="goal-opts">'+GOAL_PER.map(([n,l,s])=>'<button class="goal-opt" data-gp="'+n+'" aria-pressed="'+(g.per===n)+'"><b>'+l+'</b><span>'+s+'</span></button>').join("")+'</div></div></div></section>';
 }
@@ -5494,6 +5537,85 @@ function bindAppSettings(){
   renderAppStatus();
 }
 
+/* ================= POMODORO =================
+   Üst menüdeki saat düğmesi küçük bir panel açar. Çalışırken düğme kalan süreyi gösterir; sayfa değişse ya da
+   yenilense de sayaç devam eder (bitiş zamanı tarayıcıda saklanır). Biten çalışma oturumları P.pomo[gün] içinde sayılır. */
+var POMO_MODES={work:{l:"Çalışma",icon:"book"},short:{l:"Kısa mola",icon:"cup"},long:{l:"Uzun mola",icon:"leaf"}};
+var POMO_SETS=[[25,5,15,"Klasik"],[15,3,10,"Kısa"],[50,10,20,"Derin"]];
+var PM={mode:"work",end:0,left:0,running:false,round:0,timer:null,open:false};
+const POMO_KEY="fluoenglish_pomo";
+function pomoDur(m){const s=(P.set&&P.set.pomo)||0,t=POMO_SETS[s]||POMO_SETS[0];return (m==="work"?t[0]:m==="short"?t[1]:t[2])*60}
+function pomoLoad(){try{const s=JSON.parse(localStorage.getItem(POMO_KEY)||"null");if(s)Object.assign(PM,{mode:s.mode,end:s.end,left:s.left,running:s.running,round:s.round||0})}catch(e){}
+  if(!PM.left)PM.left=pomoDur(PM.mode);
+  if(PM.running&&PM.end<=Date.now()){PM.running=false;PM.left=0;setTimeout(()=>pomoDone(true),500)}
+  else if(PM.running)pomoTick();}
+function pomoSave(){try{localStorage.setItem(POMO_KEY,JSON.stringify({mode:PM.mode,end:PM.end,left:PM.left,running:PM.running,round:PM.round}))}catch(e){}}
+function pomoRemain(){return PM.running?Math.max(0,Math.round((PM.end-Date.now())/1000)):PM.left}
+const mmss=s=>String(Math.floor(s/60)).padStart(2,"0")+":"+String(s%60).padStart(2,"0");
+function pomoToday(){return (P.pomo&&P.pomo[dayKey(new Date())])||0}
+function pomoStart(){if(PM.running)return;if(!PM.left)PM.left=pomoDur(PM.mode);PM.end=Date.now()+PM.left*1000;PM.running=true;pomoSave();pomoTick();pomoRender()}
+function pomoPause(){if(!PM.running)return;PM.left=pomoRemain();PM.running=false;clearTimeout(PM.timer);pomoSave();pomoRender()}
+function pomoReset(){clearTimeout(PM.timer);PM.running=false;PM.left=pomoDur(PM.mode);pomoSave();pomoRender()}
+function pomoSet(mode){clearTimeout(PM.timer);PM.mode=mode;PM.running=false;PM.left=pomoDur(mode);pomoSave();pomoRender()}
+function pomoTick(){clearTimeout(PM.timer);const r=pomoRemain();pomoRenderBtn();if(PM.open)pomoRenderTime();
+  if(PM.running&&r<=0){PM.running=false;PM.left=0;pomoSave();pomoDone(false);return}
+  if(PM.running)PM.timer=setTimeout(pomoTick,1000-(Date.now()%1000)+20);}
+function pomoChime(){try{const C=window.AudioContext||window.webkitAudioContext;if(!C)return;const c=new C();
+  [0,.28,.56].forEach((t,i)=>{const o=c.createOscillator(),g=c.createGain();o.type="sine";o.frequency.value=[784,988,1175][i];
+    g.gain.setValueAtTime(0,c.currentTime+t);g.gain.linearRampToValueAtTime(.18,c.currentTime+t+.03);g.gain.exponentialRampToValueAtTime(.001,c.currentTime+t+.9);
+    o.connect(g).connect(c.destination);o.start(c.currentTime+t);o.stop(c.currentTime+t+1)});setTimeout(()=>c.close(),2500)}catch(e){}}
+function pomoDone(late){
+  const was=PM.mode;let msg;
+  if(was==="work"){P.pomo=P.pomo||{};const k=dayKey(new Date());P.pomo[k]=(P.pomo[k]||0)+1;
+    const ks=Object.keys(P.pomo).sort();while(ks.length>60)delete P.pomo[ks.shift()];save();
+    PM.round++;const next=PM.round%4===0?"long":"short";msg="Harika! Bir pomodoro tamamlandı. Şimdi "+POMO_MODES[next].l.toLowerCase()+" zamanı.";PM.mode=next}
+  else{msg="Mola bitti. Hadi yeni bir çalışma oturumuna!";PM.mode="work"}
+  PM.left=pomoDur(PM.mode);pomoSave();
+  if(!late)pomoChime();toast(msg);
+  try{if(document.hidden&&"Notification" in window&&Notification.permission==="granted"){
+    const opt={body:msg,icon:"icons/icon-192.png",tag:"fluo-pomo"};
+    if(typeof PWA!=="undefined"&&PWA.reg)PWA.reg.showNotification("Fluo · Pomodoro",opt);else new Notification("Fluo · Pomodoro",opt)}}catch(e){}
+  pomoRender();if(lastHash==="calismam")renderStudy();
+}
+/* ---------- Görünüm ---------- */
+function pomoRenderBtn(){
+  const b=document.getElementById("pomoBtn");if(!b)return;const r=pomoRemain(),active=PM.running||PM.left<pomoDur(PM.mode);
+  b.classList.toggle("run",PM.running);b.classList.toggle("brk",PM.mode!=="work");b.classList.toggle("act",active);
+  b.querySelector(".pomo-t").textContent=active?mmss(r):"";
+  b.setAttribute("aria-label","Pomodoro"+(active?" · "+POMO_MODES[PM.mode].l+" "+mmss(r)+(PM.running?"":" (duraklatıldı)"):""));
+  document.title=PM.running?mmss(r)+" · "+(PM.mode==="work"?"Çalışma":"Mola")+" · Fluo":"Fluo";
+}
+function pomoRenderTime(){
+  const t=$("pomoTime");if(!t)return;const r=pomoRemain(),tot=pomoDur(PM.mode);
+  t.textContent=mmss(r);$("pomoRing").style.setProperty("--p",((1-r/tot)*100).toFixed(2));
+}
+function pomoRender(){
+  pomoRenderBtn();
+  const p=$("pomoPanel");if(!p)return;p.hidden=!PM.open;if(!PM.open)return;
+  const s=(P.set&&P.set.pomo)||0,n=pomoToday();
+  p.innerHTML='<div class="pm-head"><b>'+ic("clock")+'Pomodoro</b><button class="pm-x" id="pmClose" aria-label="Kapat">'+ic("x")+'</button></div>'+
+    '<div class="pm-modes" role="group">'+Object.entries(POMO_MODES).map(([k,m])=>'<button data-pm="'+k+'" aria-pressed="'+(PM.mode===k)+'">'+m.l+'</button>').join("")+'</div>'+
+    '<div class="pm-ring'+(PM.mode!=="work"?" brk":"")+'" id="pomoRing"><b id="pomoTime"></b><span>'+POMO_MODES[PM.mode].l+'</span></div>'+
+    '<div class="pm-ctl">'+(PM.running?'<button class="primary" id="pmPause">'+ic("pause")+'Duraklat</button>':'<button class="primary" id="pmStart">'+ic("play")+(PM.left<pomoDur(PM.mode)&&PM.left>0?"Devam et":"Başlat")+'</button>')+
+      '<button class="ghost" id="pmReset" aria-label="Sıfırla">'+ic("refresh")+'</button></div>'+
+    '<p class="pm-today">'+(n?'Bugün <b>'+n+'</b> pomodoro tamamladın '+'<span class="pm-dots">'+Array.from({length:Math.min(n,8)},()=>'<i></i>').join("")+'</span>':'Bugün henüz pomodoro yok. 25 dakika odaklan, 5 dakika dinlen.')+'</p>'+
+    '<div class="pm-sets"><small>Süreler</small><div>'+POMO_SETS.map((t,i)=>'<button data-ps="'+i+'" aria-pressed="'+(s===i)+'" title="'+t[0]+' dk çalışma · '+t[1]+' dk mola"><b>'+t[3]+'</b><span>'+t[0]+'/'+t[1]+'</span></button>').join("")+'</div></div>';
+  pomoRenderTime();
+  $("pmClose").onclick=()=>pomoToggle(false);
+  p.querySelectorAll("[data-pm]").forEach(b=>b.onclick=()=>pomoSet(b.dataset.pm));
+  p.querySelectorAll("[data-ps]").forEach(b=>b.onclick=()=>{P.set.pomo=+b.dataset.ps;save();if(!PM.running)PM.left=pomoDur(PM.mode);pomoSave();pomoRender()});
+  if($("pmStart"))$("pmStart").onclick=()=>{pomoStart();try{if("Notification" in window&&Notification.permission==="default")Notification.requestPermission()}catch(e){}};
+  if($("pmPause"))$("pmPause").onclick=pomoPause;
+  $("pmReset").onclick=pomoReset;
+}
+function pomoToggle(open){PM.open=open===undefined?!PM.open:open;const b=$("pomoBtn");if(b)b.setAttribute("aria-expanded",PM.open);pomoRender()}
+document.addEventListener("click",e=>{
+  if(e.target.closest("#pomoBtn")){e.preventDefault();pomoToggle();return}
+  if(PM.open&&!e.composedPath().some(n=>n.id==="pomoPanel"))pomoToggle(false);
+});
+document.addEventListener("keydown",e=>{if(e.key==="Escape"&&PM.open)pomoToggle(false)});
+document.addEventListener("visibilitychange",()=>{if(!document.hidden)pomoTick()});
+
 /* ================= MARKA =================
    Uygulamada görünen ad ve logo: Fluo. Dışarıya dönük kimlik (web adresi, e-posta, depo, kayıt anahtarları): fluoenglish. */
 const BRAND={name:"Fluo",id:"fluoenglish",site:"fluoenglish.com",email:"support@fluoenglish.com",github:"github.com/umtiti719/fluoenglish"};
@@ -5532,7 +5654,7 @@ function renderStreak(){
   const n=streakCount(),el=$("streak");
   el.hidden=!signedIn();
   el.className="streak"+(n?"":" off");
-  el.innerHTML='<svg class="ic"><use href="#i-flame"/></svg>'+n+" gün";
+  el.innerHTML='<svg class="ic"><use href="#i-flame"/></svg>'+n+'<span class="sk-t"> gün</span>';
 }
 const ALLWORDS=DECKS.flatMap(d=>d.words.map(w=>({w,d})));
 const learnedIn=d=>d.words.filter(w=>P.learned[w[0]]).length;
@@ -6721,7 +6843,7 @@ function L_applyLevel(idx){
 }
 
 /* ================= BAŞLAT ================= */
-renderNav();renderStreak();renderTextLevels();newText();
+renderNav();renderStreak();pomoLoad();pomoRenderBtn();renderTextLevels();newText();
 route();
 
 /* ================= ÜYELİK VE EŞİTLEME (Supabase) =================

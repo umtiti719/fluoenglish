@@ -36,7 +36,7 @@ function renderStreak(){
   const n=streakCount(),el=$("streak");
   el.hidden=!signedIn();
   el.className="streak"+(n?"":" off");
-  el.innerHTML='<svg class="ic"><use href="#i-flame"/></svg>'+n+" gün";
+  el.innerHTML='<svg class="ic"><use href="#i-flame"/></svg>'+n+'<span class="sk-t"> gün</span>';
 }
 const ALLWORDS=DECKS.flatMap(d=>d.words.map(w=>({w,d})));
 const learnedIn=d=>d.words.filter(w=>P.learned[w[0]]).length;
@@ -1225,5 +1225,5 @@ function L_applyLevel(idx){
 }
 
 /* ================= BAŞLAT ================= */
-renderNav();renderStreak();renderTextLevels();newText();
+renderNav();renderStreak();pomoLoad();pomoRenderBtn();renderTextLevels();newText();
 route();

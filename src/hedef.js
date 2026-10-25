@@ -57,7 +57,7 @@ function goalHtml(){
     '<div class="goal-body"><div class="goal-ring" style="--p:'+pct+'"><b>'+w.todayN+'</b><span>/ '+g.per+' bugün</span></div>'+
     '<div class="goal-r"><p class="goal-t"><b>'+w.met+' / '+g.days+' gün</b> bu hafta '+(w.met>=g.days?"· hedef tamam 🎉":"· "+(g.days-w.met)+" gün kaldı")+'</p>'+
     '<div class="goal-week">'+w.list.map((x,i)=>'<span class="gwd'+(x.met?" met":"")+(x.today?" today":"")+(x.future?" fut":"")+'" title="'+x.n+' alıştırma"><i>'+(x.met?ic("check"):"")+'</i>'+names[i]+'</span>').join("")+'</div>'+
-    '<p class="note goal-n">Günde '+g.per+' alıştırma: kelime kartı, soru, cevap… hepsi sayılır.</p></div></div>'+
+    '<p class="note goal-n">Günde '+g.per+' alıştırma: kelime kartı, soru, cevap… hepsi sayılır.'+(pomoToday()?' Bugün '+pomoToday()+' pomodoro tamamladın.':' Odaklanmak için üstteki saatten pomodoro başlatabilirsin.')+'</p></div></div>'+
     '<div class="goal-edit" id="goalBox" hidden><div><b>Haftada kaç gün?</b><div class="chips-row">'+GOAL_DAYS.map(d=>'<button class="fchip" data-gd="'+d+'" aria-pressed="'+(g.days===d)+'">'+d+' gün</button>').join("")+'</div></div>'+
     '<div><b>Günde ne kadar?</b><div class="goal-opts">'+GOAL_PER.map(([n,l,s])=>'<button class="goal-opt" data-gp="'+n+'" aria-pressed="'+(g.per===n)+'"><b>'+l+'</b><span>'+s+'</span></button>').join("")+'</div></div></div></section>';
 }
