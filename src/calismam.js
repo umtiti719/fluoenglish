@@ -50,9 +50,9 @@ function renderStudy(){
   const box=$("study");if(!box)return;
   const learned=Object.keys(P.learned).length,saved=Object.values(P.saved),sents=Object.values(P.sents||{}).sort((a,b)=>(b[3]||0)-(a[3]||0));
   const due=dueWords().length,lv=P.level?CEFR[P.level.idx].code:"–";
-  const tabs=[["durum","Çalışma durumu",ic("target")],["kelime","Kelimelerim",ic("bookmark")+'<i class="tn">'+saved.length+'</i>'],["cumle","Cümlelerim",ic("chat")+'<i class="tn">'+sents.length+'</i>']];
+  const tabs=[["durum","Çalışma durumu","Durum",ic("target")],["pomo","Pomodoro","Pomodoro",ic("clock")+'<i class="tn">'+pomoToday()+'</i>'],["kelime","Kelimelerim","Kelimeler",ic("bookmark")+'<i class="tn">'+saved.length+'</i>'],["cumle","Cümlelerim","Cümleler",ic("chat")+'<i class="tn">'+sents.length+'</i>']];
   let h='<div class="prof-stats st-top">'+[[learned,"öğrenilen kelime"],[gramDone()+"/"+GRAMMAR.length,"gramer konusu"],[lv,"seviye"],[streakCount(),"günlük seri"]].map(([b,s])=>'<div class="stat"><b>'+b+'</b><span>'+s+'</span></div>').join("")+'</div>';
-  h+='<div class="chips-row st-tabs" role="tablist">'+tabs.map(([k,l,i])=>'<button class="fchip" role="tab" data-st="'+k+'" aria-pressed="'+(STUDY.tab===k)+'" aria-selected="'+(STUDY.tab===k)+'" style="--c:var(--brand)">'+i+l+'</button>').join("")+'</div>';
+  h+='<div class="chips-row st-tabs" role="tablist">'+tabs.map(([k,l,sh,i])=>'<button class="fchip" role="tab" data-st="'+k+'" aria-pressed="'+(STUDY.tab===k)+'" aria-selected="'+(STUDY.tab===k)+'" style="--c:var(--brand)">'+i+'<span class="tl">'+l+'</span><span class="ts">'+sh+'</span></button>').join("")+'</div>';
   if(STUDY.tab==="durum"){
     const adv=studyAdvice();
     h+=goalHtml()+'<div class="st-grid">';
@@ -81,18 +81,23 @@ function renderStudy(){
       [["Okuma",rd+" / "+READING.length+" metin okundu","#okuma"],["Diyaloglar",Object.keys(P.dlg||{}).length+" / "+DIALOGS.length+" diyalog tamamlandı","#diyalog"],["Sık yapılan hatalar",P.mist&&P.mist.n?"En iyi sonucun "+P.mist.best+" / 10":"Testi henüz çözmedin","#hatalar"],["Günün dersi",dl?dl+" ders tamamlandı (son 30 gün)":"Bugünkü dersi henüz bitirmedin","#gunun"],
        ["Dinleme",ls.n?ls.ok+" / "+ls.n+" doğru":"Henüz denemedin","#dinle"],["Telaffuz",sp.n?sp.ok+" / "+sp.n+" başarılı":"Henüz denemedin","#telaffuz"],
        ["Metin çevirisi",(P.trans||0)+" metin çevrildi","#metin"],["Seviye testi",P.level?CEFR[P.level.idx].code+" · "+new Date(P.level.date).toLocaleDateString("tr-TR"):"Henüz girilmedi","#seviye"]]
-       .map(([a,b,c])=>'<a class="srow st-link" href="'+c+'"><div><b>'+a+'</b><small>'+b+'</small></div>'+ic("right")+'</a>').join("")+'</section>';
+       .map(([a,b,c])=>'<a class="srow st-link" href="'+c+'"><div><b>'+a+'</b><small>'+b+'</small></div>'+ic("right")+'</a>').join("")+
+       '<a class="srow st-link" href="#calismam" id="stPomo"><div><b>Pomodoro</b><small>'+(pomoToday()?"Bugün "+pomoToday()+" oturum":"Bugün henüz oturum yok")+' · geçmişi gör</small></div>'+ic("right")+'</a></section>';
     h+='</div>'+badgesHtml();
   }else if(STUDY.tab==="kelime"){
     const list=saved.slice().sort((a,b)=>a[0].localeCompare(b[0]));
     h+=list.length?'<div class="st-bar"><span class="note">'+list.length+' kayıtlı kelime</span><a class="ghost" href="#defter">'+ic("cards")+'Defterim\'de çalış</a></div>'+
       '<div class="st-words">'+list.map(w=>{const s=P.srs[w[0]];return '<div class="st-w"><div><b>'+esc(w[0])+'</b><span>'+esc(w[1])+'</span>'+(s&&s.b?'<i class="st-box" title="Hafıza kutusu">'+s.b+'/5</i>':'')+'</div>'+sayBtn(w[0],"sm")+savBtn(w[0],"sm")+'</div>'}).join("")+'</div>'
       :'<div class="empty aurora"><span class="mod-ic">'+ic("bookmark")+'</span><h3>Henüz kayıtlı kelime yok</h3><p>Kartlarda ve metinlerde kelimelerin yanındaki '+ic("bookmark")+' işaretine dokunarak buraya ekleyebilirsin.</p><a class="primary" href="#ogren">Kelime Öğren</a></div>';
+  }else if(STUDY.tab==="pomo"){
+    h+=pomoHistHtml();
   }else{
     h+=sents.length?'<div class="st-bar"><span class="note">'+sents.length+' kayıtlı cümle</span></div><div class="st-sents">'+sents.map(s=>'<div class="ex st-s"><div><p>'+esc(s[0])+'</p>'+(s[1]?'<small>'+esc(s[1])+'</small>':'')+(s[2]?'<span class="st-src">'+esc(s[2])+'</span>':'')+'</div><div class="dbtns">'+sayBtn(s[0],"sm")+sntBtn(s[0],s[1],s[2],"sm")+'</div></div>').join("")+'</div>'
       :'<div class="empty aurora"><span class="mod-ic">'+ic("chat")+'</span><h3>Henüz kayıtlı cümle yok</h3><p>Dil bilgisi örneklerinde, kelime kartlarında, Cümle Kur ve Dinleme sonuçlarında cümlenin yanındaki '+ic("bookmark")+' işaretine dokun; cümle buraya eklenir.</p><a class="primary" href="#gramer">Dil Bilgisi</a></div>';
   }
   box.innerHTML=h;
   box.querySelectorAll("[data-st]").forEach(b=>b.onclick=()=>{STUDY.tab=b.dataset.st;renderStudy()});
+  if($("phStart"))$("phStart").onclick=e=>{e.stopPropagation();window.scrollTo({top:0,behavior:"auto"});pomoToggle(true)};
+  if($("stPomo"))$("stPomo").onclick=e=>{e.preventDefault();STUDY.tab="pomo";renderStudy();window.scrollTo({top:0,behavior:"auto"})};
   bindGoal(open=>{renderStudy();if(open){$("goalBox").hidden=false;$("goalEdit").textContent="Kapat"}});
 }

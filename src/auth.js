@@ -94,7 +94,7 @@ function mergeP(a,b){
     if(x===undefined){r[k]=y;continue}
     if(y===undefined){r[k]=x;continue}
     switch(k){
-      case "learned":case "best":case "seen":case "act":case "badges":r[k]=maxMap(x,y);break;
+      case "learned":case "best":case "seen":case "act":case "badges":case "pomo":r[k]=maxMap(x,y);break;
       case "trans":r[k]=Math.max(+x||0,+y||0);break;
       case "days":r[k]=[...new Set([...x,...y])].sort().slice(-90);break;
       case "gram":{const o={...x};for(const id in y){const p=o[id],q=y[id];o[id]=p?{best:Math.max(p.best||0,q.best||0),total:Math.max(p.total||0,q.total||0),done:!!(p.done||q.done)}:q}r[k]=o;break}
@@ -107,6 +107,7 @@ function mergeP(a,b){
       case "sents":{const del=maxMap(a._del||{},b._del||{}),o={...older.sents,...newer.sents};
         for(const w in o){const d=del["s:"+w];if(d&&d>(o[w][3]||0))delete o[w]}r[k]=o;break}
       case "exam":case "vexam":{const o={...x};for(const lv in y){const p=o[lv],q=y[lv];o[lv]=!p||(q.at||0)>(p.at||0)?{...q,best:Math.max(q.best||0,p?p.best||0:0)}:{...p,best:Math.max(p.best||0,q.best||0)}}r[k]=o;break}
+      case "pomoLog":{const m={};[...x,...y].forEach(e=>{if(e&&e.t)m[e.t]=e});r[k]=Object.values(m).sort((a,b)=>a.t-b.t).slice(-500);break}
       case "_del":r[k]=maxMap(x,y);break;
       case "hist":r[k]=newer.hist;break;
       case "_t":r[k]=Math.max(ta,tb);break;

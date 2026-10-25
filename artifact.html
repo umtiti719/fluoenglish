@@ -1520,6 +1520,28 @@ body.focus .sitefoot{display:none}
 .pm-num button{width:24px;height:24px;flex:none}
 .pm-num input{width:34px;padding:0}
 
+/* Pomodoro geçmişi */
+.ph-chart{display:grid;grid-template-columns:repeat(14,minmax(0,1fr));gap:6px;align-items:end;height:170px;padding:8px 0 4px}
+.ph-col{display:flex;flex-direction:column;align-items:center;justify-content:flex-end;height:100%;gap:4px;min-width:0}
+.ph-col i{display:block;width:100%;max-width:28px;min-height:3px;border-radius:6px 6px 3px 3px;background:color-mix(in srgb,var(--bad) 70%,var(--surface))}
+.ph-col.today i{background:var(--bad)}
+.ph-col small{font-size:.68rem;color:var(--muted);white-space:nowrap}
+.ph-col.today small{color:var(--ink);font-weight:600}
+.ph-v{font-size:.68rem;font-weight:600;color:var(--muted);font-variant-numeric:tabular-nums;min-height:1em}
+.ph-note{margin:4px 0 16px}
+.ph-day{border-top:1px solid var(--line);padding:12px 0}
+.sgroup>h2+.ph-day{border-top:0}
+.ph-dh{display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;margin-bottom:6px}
+.ph-dh b{font-weight:600;text-transform:capitalize}.ph-dh span{color:var(--muted);font-size:.86rem}
+.ph-list{display:flex;flex-direction:column;gap:4px}
+.ph-s{display:flex;align-items:center;gap:10px;font-size:.9rem;font-variant-numeric:tabular-nums}
+.ph-s i{width:8px;height:8px;border-radius:50%;background:var(--bad);flex:none}
+.ph-s span{flex:1;color:var(--muted)}.ph-s b{font-weight:600}
+@media (max-width:480px){.ph-chart{gap:3px}.ph-col small{font-size:.6rem}.ph-v{font-size:.6rem}}
+.st-tabs .ts{display:none}
+@media (max-width:560px){.st-tabs .tl{display:none}.st-tabs .ts{display:inline}.st-tabs .fchip{padding:7px 10px;gap:5px}}
+@media (max-width:560px){.st-tabs:not(.ex-tabs){display:grid;grid-template-columns:1fr 1fr;border-radius:20px;overflow:visible;align-self:stretch}.st-tabs:not(.ex-tabs) .fchip{justify-content:center}}
+
 </style>
 
 <header class="top">
@@ -4612,9 +4634,9 @@ function renderStudy(){
   const box=$("study");if(!box)return;
   const learned=Object.keys(P.learned).length,saved=Object.values(P.saved),sents=Object.values(P.sents||{}).sort((a,b)=>(b[3]||0)-(a[3]||0));
   const due=dueWords().length,lv=P.level?CEFR[P.level.idx].code:"–";
-  const tabs=[["durum","Çalışma durumu",ic("target")],["kelime","Kelimelerim",ic("bookmark")+'<i class="tn">'+saved.length+'</i>'],["cumle","Cümlelerim",ic("chat")+'<i class="tn">'+sents.length+'</i>']];
+  const tabs=[["durum","Çalışma durumu","Durum",ic("target")],["pomo","Pomodoro","Pomodoro",ic("clock")+'<i class="tn">'+pomoToday()+'</i>'],["kelime","Kelimelerim","Kelimeler",ic("bookmark")+'<i class="tn">'+saved.length+'</i>'],["cumle","Cümlelerim","Cümleler",ic("chat")+'<i class="tn">'+sents.length+'</i>']];
   let h='<div class="prof-stats st-top">'+[[learned,"öğrenilen kelime"],[gramDone()+"/"+GRAMMAR.length,"gramer konusu"],[lv,"seviye"],[streakCount(),"günlük seri"]].map(([b,s])=>'<div class="stat"><b>'+b+'</b><span>'+s+'</span></div>').join("")+'</div>';
-  h+='<div class="chips-row st-tabs" role="tablist">'+tabs.map(([k,l,i])=>'<button class="fchip" role="tab" data-st="'+k+'" aria-pressed="'+(STUDY.tab===k)+'" aria-selected="'+(STUDY.tab===k)+'" style="--c:var(--brand)">'+i+l+'</button>').join("")+'</div>';
+  h+='<div class="chips-row st-tabs" role="tablist">'+tabs.map(([k,l,sh,i])=>'<button class="fchip" role="tab" data-st="'+k+'" aria-pressed="'+(STUDY.tab===k)+'" aria-selected="'+(STUDY.tab===k)+'" style="--c:var(--brand)">'+i+'<span class="tl">'+l+'</span><span class="ts">'+sh+'</span></button>').join("")+'</div>';
   if(STUDY.tab==="durum"){
     const adv=studyAdvice();
     h+=goalHtml()+'<div class="st-grid">';
@@ -4643,19 +4665,24 @@ function renderStudy(){
       [["Okuma",rd+" / "+READING.length+" metin okundu","#okuma"],["Diyaloglar",Object.keys(P.dlg||{}).length+" / "+DIALOGS.length+" diyalog tamamlandı","#diyalog"],["Sık yapılan hatalar",P.mist&&P.mist.n?"En iyi sonucun "+P.mist.best+" / 10":"Testi henüz çözmedin","#hatalar"],["Günün dersi",dl?dl+" ders tamamlandı (son 30 gün)":"Bugünkü dersi henüz bitirmedin","#gunun"],
        ["Dinleme",ls.n?ls.ok+" / "+ls.n+" doğru":"Henüz denemedin","#dinle"],["Telaffuz",sp.n?sp.ok+" / "+sp.n+" başarılı":"Henüz denemedin","#telaffuz"],
        ["Metin çevirisi",(P.trans||0)+" metin çevrildi","#metin"],["Seviye testi",P.level?CEFR[P.level.idx].code+" · "+new Date(P.level.date).toLocaleDateString("tr-TR"):"Henüz girilmedi","#seviye"]]
-       .map(([a,b,c])=>'<a class="srow st-link" href="'+c+'"><div><b>'+a+'</b><small>'+b+'</small></div>'+ic("right")+'</a>').join("")+'</section>';
+       .map(([a,b,c])=>'<a class="srow st-link" href="'+c+'"><div><b>'+a+'</b><small>'+b+'</small></div>'+ic("right")+'</a>').join("")+
+       '<a class="srow st-link" href="#calismam" id="stPomo"><div><b>Pomodoro</b><small>'+(pomoToday()?"Bugün "+pomoToday()+" oturum":"Bugün henüz oturum yok")+' · geçmişi gör</small></div>'+ic("right")+'</a></section>';
     h+='</div>'+badgesHtml();
   }else if(STUDY.tab==="kelime"){
     const list=saved.slice().sort((a,b)=>a[0].localeCompare(b[0]));
     h+=list.length?'<div class="st-bar"><span class="note">'+list.length+' kayıtlı kelime</span><a class="ghost" href="#defter">'+ic("cards")+'Defterim\'de çalış</a></div>'+
       '<div class="st-words">'+list.map(w=>{const s=P.srs[w[0]];return '<div class="st-w"><div><b>'+esc(w[0])+'</b><span>'+esc(w[1])+'</span>'+(s&&s.b?'<i class="st-box" title="Hafıza kutusu">'+s.b+'/5</i>':'')+'</div>'+sayBtn(w[0],"sm")+savBtn(w[0],"sm")+'</div>'}).join("")+'</div>'
       :'<div class="empty aurora"><span class="mod-ic">'+ic("bookmark")+'</span><h3>Henüz kayıtlı kelime yok</h3><p>Kartlarda ve metinlerde kelimelerin yanındaki '+ic("bookmark")+' işaretine dokunarak buraya ekleyebilirsin.</p><a class="primary" href="#ogren">Kelime Öğren</a></div>';
+  }else if(STUDY.tab==="pomo"){
+    h+=pomoHistHtml();
   }else{
     h+=sents.length?'<div class="st-bar"><span class="note">'+sents.length+' kayıtlı cümle</span></div><div class="st-sents">'+sents.map(s=>'<div class="ex st-s"><div><p>'+esc(s[0])+'</p>'+(s[1]?'<small>'+esc(s[1])+'</small>':'')+(s[2]?'<span class="st-src">'+esc(s[2])+'</span>':'')+'</div><div class="dbtns">'+sayBtn(s[0],"sm")+sntBtn(s[0],s[1],s[2],"sm")+'</div></div>').join("")+'</div>'
       :'<div class="empty aurora"><span class="mod-ic">'+ic("chat")+'</span><h3>Henüz kayıtlı cümle yok</h3><p>Dil bilgisi örneklerinde, kelime kartlarında, Cümle Kur ve Dinleme sonuçlarında cümlenin yanındaki '+ic("bookmark")+' işaretine dokun; cümle buraya eklenir.</p><a class="primary" href="#gramer">Dil Bilgisi</a></div>';
   }
   box.innerHTML=h;
   box.querySelectorAll("[data-st]").forEach(b=>b.onclick=()=>{STUDY.tab=b.dataset.st;renderStudy()});
+  if($("phStart"))$("phStart").onclick=e=>{e.stopPropagation();window.scrollTo({top:0,behavior:"auto"});pomoToggle(true)};
+  if($("stPomo"))$("stPomo").onclick=e=>{e.preventDefault();STUDY.tab="pomo";renderStudy();window.scrollTo({top:0,behavior:"auto"})};
   bindGoal(open=>{renderStudy();if(open){$("goalBox").hidden=false;$("goalEdit").textContent="Kapat"}});
 }
 
@@ -5548,18 +5575,18 @@ const POMO_KEY="fluoenglish_pomo";
 const POMO_LIM=[[1,180,"Çalışma"],[1,60,"Kısa mola"],[1,90,"Uzun mola"]];
 function pomoCustom(){const c=(P.set&&P.set.pomoC)||[30,5,15];return c.map((v,i)=>Math.min(POMO_LIM[i][1],Math.max(1,Math.round(+v)||POMO_SETS[0][i])))}
 function pomoDur(m){const s=(P.set&&P.set.pomo)||0,t=s===3?pomoCustom():(POMO_SETS[s]||POMO_SETS[0]);return (m==="work"?t[0]:m==="short"?t[1]:t[2])*60}
-function pomoLoad(){try{const s=JSON.parse(localStorage.getItem(POMO_KEY)||"null");if(s)Object.assign(PM,{mode:s.mode,end:s.end,left:s.left,running:s.running,round:s.round||0})}catch(e){}
+function pomoLoad(){try{const s=JSON.parse(localStorage.getItem(POMO_KEY)||"null");if(s)Object.assign(PM,{mode:s.mode,end:s.end,left:s.left,running:s.running,round:s.round||0,len:s.len||0})}catch(e){}
   if(!PM.left)PM.left=pomoDur(PM.mode);
   if(PM.running&&PM.end<=Date.now()){PM.running=false;PM.left=0;setTimeout(()=>pomoDone(true),500)}
   else if(PM.running)pomoTick();}
-function pomoSave(){try{localStorage.setItem(POMO_KEY,JSON.stringify({mode:PM.mode,end:PM.end,left:PM.left,running:PM.running,round:PM.round}))}catch(e){}}
+function pomoSave(){try{localStorage.setItem(POMO_KEY,JSON.stringify({mode:PM.mode,end:PM.end,left:PM.left,running:PM.running,round:PM.round,len:PM.len||0}))}catch(e){}}
 function pomoRemain(){return PM.running?Math.max(0,Math.round((PM.end-Date.now())/1000)):PM.left}
 const mmss=s=>String(Math.floor(s/60)).padStart(2,"0")+":"+String(s%60).padStart(2,"0");
 function pomoToday(){return (P.pomo&&P.pomo[dayKey(new Date())])||0}
-function pomoStart(){if(PM.running)return;if(!PM.left)PM.left=pomoDur(PM.mode);PM.end=Date.now()+PM.left*1000;PM.running=true;pomoSave();pomoTick();pomoRender()}
+function pomoStart(){if(PM.running)return;if(!PM.left)PM.left=pomoDur(PM.mode);if(!PM.len||PM.left>PM.len)PM.len=PM.left;PM.end=Date.now()+PM.left*1000;PM.running=true;pomoSave();pomoTick();pomoRender()}
 function pomoPause(){if(!PM.running)return;PM.left=pomoRemain();PM.running=false;clearTimeout(PM.timer);pomoSave();pomoRender()}
-function pomoReset(){clearTimeout(PM.timer);PM.running=false;PM.left=pomoDur(PM.mode);pomoSave();pomoRender()}
-function pomoSet(mode){clearTimeout(PM.timer);PM.mode=mode;PM.running=false;PM.left=pomoDur(mode);pomoSave();pomoRender()}
+function pomoReset(){clearTimeout(PM.timer);PM.running=false;PM.len=0;PM.left=pomoDur(PM.mode);pomoSave();pomoRender()}
+function pomoSet(mode){clearTimeout(PM.timer);PM.mode=mode;PM.running=false;PM.len=0;PM.left=pomoDur(mode);pomoSave();pomoRender()}
 function pomoTick(){clearTimeout(PM.timer);const r=pomoRemain();pomoRenderBtn();if(PM.open)pomoRenderTime();
   if(PM.running&&r<=0){PM.running=false;PM.left=0;pomoSave();pomoDone(false);return}
   if(PM.running)PM.timer=setTimeout(pomoTick,1000-(Date.now()%1000)+20);}
@@ -5570,10 +5597,11 @@ function pomoChime(){try{const C=window.AudioContext||window.webkitAudioContext;
 function pomoDone(late){
   const was=PM.mode;let msg;
   if(was==="work"){P.pomo=P.pomo||{};const k=dayKey(new Date());P.pomo[k]=(P.pomo[k]||0)+1;
+    P.pomoLog=P.pomoLog||[];P.pomoLog.push({t:late&&PM.end?PM.end:Date.now(),m:Math.max(1,Math.round((PM.len||pomoDur("work"))/60))});if(P.pomoLog.length>500)P.pomoLog=P.pomoLog.slice(-500);
     const ks=Object.keys(P.pomo).sort();while(ks.length>60)delete P.pomo[ks.shift()];save();
     PM.round++;const next=PM.round%4===0?"long":"short";msg="Harika! Bir pomodoro tamamlandı. Şimdi "+POMO_MODES[next].l.toLowerCase()+" zamanı.";PM.mode=next}
   else{msg="Mola bitti. Hadi yeni bir çalışma oturumuna!";PM.mode="work"}
-  PM.left=pomoDur(PM.mode);pomoSave();
+  PM.left=pomoDur(PM.mode);PM.len=0;pomoSave();
   if(!late)pomoChime();toast(msg);
   try{if(document.hidden&&"Notification" in window&&Notification.permission==="granted"){
     const opt={body:msg,icon:"icons/icon-192.png",tag:"fluo-pomo"};
@@ -5625,6 +5653,33 @@ document.addEventListener("click",e=>{
 });
 document.addEventListener("keydown",e=>{if(e.key==="Escape"&&PM.open)pomoToggle(false)});
 document.addEventListener("visibilitychange",()=>{if(!document.hidden)pomoTick()});
+
+/* ---------- Çalışmam: pomodoro geçmişi ---------- */
+function pomoHistHtml(){
+  const log=(P.pomoLog||[]).slice().sort((a,b)=>a.t-b.t),today=new Date();today.setHours(0,0,0,0);
+  const dk=t=>dayKey(new Date(t)),tk=dayKey(new Date());
+  const byDay={};log.forEach(x=>{const k=dk(x.t);(byDay[k]=byDay[k]||[]).push(x)});
+  const sum=arr=>arr.reduce((a,x)=>a+x.m,0),since=d=>log.filter(x=>x.t>=today.getTime()-d*864e5);
+  const wk=weekDays(),wkLog=log.filter(x=>wk.includes(dk(x.t)));
+  const hm=m=>m>=60?Math.floor(m/60)+" sa "+(m%60?m%60+" dk":""):m+" dk";
+  const todayL=byDay[tk]||[],legacy=Object.values(P.pomo||{}).reduce((a,b)=>a+b,0);
+  if(!log.length&&!legacy)return '<div class="empty aurora"><span class="mod-ic">'+ic("clock")+'</span><h3>Henüz pomodoro yok</h3><p>Üst menüdeki saatten bir odaklanma oturumu başlat. Tamamladığın her oturum burada gün gün listelenir.</p><button class="primary" id="phStart">'+ic("play")+'Pomodoro başlat</button></div>';
+  // son 14 gün grafiği
+  const days=Array.from({length:14},(_,i)=>{const d=new Date(today);d.setDate(d.getDate()-13+i);const k=dayKey(d);return{k,d,m:sum(byDay[k]||[]),n:(byDay[k]||[]).length}});
+  const max=Math.max(25,...days.map(x=>x.m));
+  const wd=["Paz","Pzt","Sal","Çar","Per","Cum","Cmt"];
+  let h='<div class="prof-stats st-top">'+[[hm(sum(todayL)),"bugün · "+todayL.length+" oturum"],[hm(sum(wkLog)),"bu hafta · "+wkLog.length+" oturum"],[hm(sum(since(30))),"son 30 gün"],[Math.max(log.length,legacy),"toplam oturum"]].map(([b,s])=>'<div class="stat"><b>'+b+'</b><span>'+s+'</span></div>').join("")+'</div>';
+  h+='<section class="sgroup"><h2>'+ic("clock")+'Son 14 gün</h2><div class="ph-chart" role="img" aria-label="Son 14 günün odaklanma süreleri">'+
+    days.map(x=>'<div class="ph-col'+(x.k===tk?" today":"")+'" title="'+x.d.toLocaleDateString("tr-TR",{day:"numeric",month:"long"})+': '+x.n+' oturum, '+x.m+' dk"><span class="ph-v">'+(x.m?x.m:"")+'</span><i style="height:'+(x.m/max*100)+'%"></i><small>'+(x.k===tk?"Bugün":wd[x.d.getDay()])+'</small></div>').join("")+'</div><p class="note ph-note">Sütunlar o gün odaklandığın dakikaları gösterir.</p></section>';
+  const keys=Object.keys(byDay).sort().reverse().slice(0,14);
+  const yk=(()=>{const d=new Date();d.setDate(d.getDate()-1);return dayKey(d)})();
+  const fmtT=t=>new Date(t).toLocaleTimeString("tr-TR",{hour:"2-digit",minute:"2-digit"});
+  h+='<section class="sgroup"><h2>'+ic("doc")+'Oturum geçmişi</h2>'+(keys.length?keys.map(k=>{const L=byDay[k],d=new Date(L[0].t);
+    return '<div class="ph-day"><div class="ph-dh"><b>'+(k===tk?"Bugün":k===yk?"Dün":d.toLocaleDateString("tr-TR",{day:"numeric",month:"long",weekday:"long"}))+'</b><span>'+L.length+' oturum · '+hm(sum(L))+'</span></div>'+
+      '<div class="ph-list">'+L.slice().reverse().map(x=>'<div class="ph-s"><i></i><span>'+fmtT(x.t-x.m*6e4)+' – '+fmtT(x.t)+'</span><b>'+x.m+' dk</b></div>').join("")+'</div></div>'}).join("")
+    :'<p class="note" style="padding:6px 0 16px;margin:0">Ayrıntılı geçmiş, bu güncellemeden sonra tamamladığın oturumlarla oluşmaya başlar.</p>')+'</section>';
+  return h;
+}
 
 /* ================= MARKA =================
    Uygulamada görünen ad ve logo: Fluo. Dışarıya dönük kimlik (web adresi, e-posta, depo, kayıt anahtarları): fluoenglish. */
@@ -6952,7 +7007,7 @@ function mergeP(a,b){
     if(x===undefined){r[k]=y;continue}
     if(y===undefined){r[k]=x;continue}
     switch(k){
-      case "learned":case "best":case "seen":case "act":case "badges":r[k]=maxMap(x,y);break;
+      case "learned":case "best":case "seen":case "act":case "badges":case "pomo":r[k]=maxMap(x,y);break;
       case "trans":r[k]=Math.max(+x||0,+y||0);break;
       case "days":r[k]=[...new Set([...x,...y])].sort().slice(-90);break;
       case "gram":{const o={...x};for(const id in y){const p=o[id],q=y[id];o[id]=p?{best:Math.max(p.best||0,q.best||0),total:Math.max(p.total||0,q.total||0),done:!!(p.done||q.done)}:q}r[k]=o;break}
@@ -6965,6 +7020,7 @@ function mergeP(a,b){
       case "sents":{const del=maxMap(a._del||{},b._del||{}),o={...older.sents,...newer.sents};
         for(const w in o){const d=del["s:"+w];if(d&&d>(o[w][3]||0))delete o[w]}r[k]=o;break}
       case "exam":case "vexam":{const o={...x};for(const lv in y){const p=o[lv],q=y[lv];o[lv]=!p||(q.at||0)>(p.at||0)?{...q,best:Math.max(q.best||0,p?p.best||0:0)}:{...p,best:Math.max(p.best||0,q.best||0)}}r[k]=o;break}
+      case "pomoLog":{const m={};[...x,...y].forEach(e=>{if(e&&e.t)m[e.t]=e});r[k]=Object.values(m).sort((a,b)=>a.t-b.t).slice(-500);break}
       case "_del":r[k]=maxMap(x,y);break;
       case "hist":r[k]=newer.hist;break;
       case "_t":r[k]=Math.max(ta,tb);break;

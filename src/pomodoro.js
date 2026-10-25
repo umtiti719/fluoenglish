@@ -8,18 +8,18 @@ const POMO_KEY="fluoenglish_pomo";
 const POMO_LIM=[[1,180,"Çalışma"],[1,60,"Kısa mola"],[1,90,"Uzun mola"]];
 function pomoCustom(){const c=(P.set&&P.set.pomoC)||[30,5,15];return c.map((v,i)=>Math.min(POMO_LIM[i][1],Math.max(1,Math.round(+v)||POMO_SETS[0][i])))}
 function pomoDur(m){const s=(P.set&&P.set.pomo)||0,t=s===3?pomoCustom():(POMO_SETS[s]||POMO_SETS[0]);return (m==="work"?t[0]:m==="short"?t[1]:t[2])*60}
-function pomoLoad(){try{const s=JSON.parse(localStorage.getItem(POMO_KEY)||"null");if(s)Object.assign(PM,{mode:s.mode,end:s.end,left:s.left,running:s.running,round:s.round||0})}catch(e){}
+function pomoLoad(){try{const s=JSON.parse(localStorage.getItem(POMO_KEY)||"null");if(s)Object.assign(PM,{mode:s.mode,end:s.end,left:s.left,running:s.running,round:s.round||0,len:s.len||0})}catch(e){}
   if(!PM.left)PM.left=pomoDur(PM.mode);
   if(PM.running&&PM.end<=Date.now()){PM.running=false;PM.left=0;setTimeout(()=>pomoDone(true),500)}
   else if(PM.running)pomoTick();}
-function pomoSave(){try{localStorage.setItem(POMO_KEY,JSON.stringify({mode:PM.mode,end:PM.end,left:PM.left,running:PM.running,round:PM.round}))}catch(e){}}
+function pomoSave(){try{localStorage.setItem(POMO_KEY,JSON.stringify({mode:PM.mode,end:PM.end,left:PM.left,running:PM.running,round:PM.round,len:PM.len||0}))}catch(e){}}
 function pomoRemain(){return PM.running?Math.max(0,Math.round((PM.end-Date.now())/1000)):PM.left}
 const mmss=s=>String(Math.floor(s/60)).padStart(2,"0")+":"+String(s%60).padStart(2,"0");
 function pomoToday(){return (P.pomo&&P.pomo[dayKey(new Date())])||0}
-function pomoStart(){if(PM.running)return;if(!PM.left)PM.left=pomoDur(PM.mode);PM.end=Date.now()+PM.left*1000;PM.running=true;pomoSave();pomoTick();pomoRender()}
+function pomoStart(){if(PM.running)return;if(!PM.left)PM.left=pomoDur(PM.mode);if(!PM.len||PM.left>PM.len)PM.len=PM.left;PM.end=Date.now()+PM.left*1000;PM.running=true;pomoSave();pomoTick();pomoRender()}
 function pomoPause(){if(!PM.running)return;PM.left=pomoRemain();PM.running=false;clearTimeout(PM.timer);pomoSave();pomoRender()}
-function pomoReset(){clearTimeout(PM.timer);PM.running=false;PM.left=pomoDur(PM.mode);pomoSave();pomoRender()}
-function pomoSet(mode){clearTimeout(PM.timer);PM.mode=mode;PM.running=false;PM.left=pomoDur(mode);pomoSave();pomoRender()}
+function pomoReset(){clearTimeout(PM.timer);PM.running=false;PM.len=0;PM.left=pomoDur(PM.mode);pomoSave();pomoRender()}
+function pomoSet(mode){clearTimeout(PM.timer);PM.mode=mode;PM.running=false;PM.len=0;PM.left=pomoDur(mode);pomoSave();pomoRender()}
 function pomoTick(){clearTimeout(PM.timer);const r=pomoRemain();pomoRenderBtn();if(PM.open)pomoRenderTime();
   if(PM.running&&r<=0){PM.running=false;PM.left=0;pomoSave();pomoDone(false);return}
   if(PM.running)PM.timer=setTimeout(pomoTick,1000-(Date.now()%1000)+20);}
@@ -30,10 +30,11 @@ function pomoChime(){try{const C=window.AudioContext||window.webkitAudioContext;
 function pomoDone(late){
   const was=PM.mode;let msg;
   if(was==="work"){P.pomo=P.pomo||{};const k=dayKey(new Date());P.pomo[k]=(P.pomo[k]||0)+1;
+    P.pomoLog=P.pomoLog||[];P.pomoLog.push({t:late&&PM.end?PM.end:Date.now(),m:Math.max(1,Math.round((PM.len||pomoDur("work"))/60))});if(P.pomoLog.length>500)P.pomoLog=P.pomoLog.slice(-500);
     const ks=Object.keys(P.pomo).sort();while(ks.length>60)delete P.pomo[ks.shift()];save();
     PM.round++;const next=PM.round%4===0?"long":"short";msg="Harika! Bir pomodoro tamamlandı. Şimdi "+POMO_MODES[next].l.toLowerCase()+" zamanı.";PM.mode=next}
   else{msg="Mola bitti. Hadi yeni bir çalışma oturumuna!";PM.mode="work"}
-  PM.left=pomoDur(PM.mode);pomoSave();
+  PM.left=pomoDur(PM.mode);PM.len=0;pomoSave();
   if(!late)pomoChime();toast(msg);
   try{if(document.hidden&&"Notification" in window&&Notification.permission==="granted"){
     const opt={body:msg,icon:"icons/icon-192.png",tag:"fluo-pomo"};
@@ -85,3 +86,30 @@ document.addEventListener("click",e=>{
 });
 document.addEventListener("keydown",e=>{if(e.key==="Escape"&&PM.open)pomoToggle(false)});
 document.addEventListener("visibilitychange",()=>{if(!document.hidden)pomoTick()});
+
+/* ---------- Çalışmam: pomodoro geçmişi ---------- */
+function pomoHistHtml(){
+  const log=(P.pomoLog||[]).slice().sort((a,b)=>a.t-b.t),today=new Date();today.setHours(0,0,0,0);
+  const dk=t=>dayKey(new Date(t)),tk=dayKey(new Date());
+  const byDay={};log.forEach(x=>{const k=dk(x.t);(byDay[k]=byDay[k]||[]).push(x)});
+  const sum=arr=>arr.reduce((a,x)=>a+x.m,0),since=d=>log.filter(x=>x.t>=today.getTime()-d*864e5);
+  const wk=weekDays(),wkLog=log.filter(x=>wk.includes(dk(x.t)));
+  const hm=m=>m>=60?Math.floor(m/60)+" sa "+(m%60?m%60+" dk":""):m+" dk";
+  const todayL=byDay[tk]||[],legacy=Object.values(P.pomo||{}).reduce((a,b)=>a+b,0);
+  if(!log.length&&!legacy)return '<div class="empty aurora"><span class="mod-ic">'+ic("clock")+'</span><h3>Henüz pomodoro yok</h3><p>Üst menüdeki saatten bir odaklanma oturumu başlat. Tamamladığın her oturum burada gün gün listelenir.</p><button class="primary" id="phStart">'+ic("play")+'Pomodoro başlat</button></div>';
+  // son 14 gün grafiği
+  const days=Array.from({length:14},(_,i)=>{const d=new Date(today);d.setDate(d.getDate()-13+i);const k=dayKey(d);return{k,d,m:sum(byDay[k]||[]),n:(byDay[k]||[]).length}});
+  const max=Math.max(25,...days.map(x=>x.m));
+  const wd=["Paz","Pzt","Sal","Çar","Per","Cum","Cmt"];
+  let h='<div class="prof-stats st-top">'+[[hm(sum(todayL)),"bugün · "+todayL.length+" oturum"],[hm(sum(wkLog)),"bu hafta · "+wkLog.length+" oturum"],[hm(sum(since(30))),"son 30 gün"],[Math.max(log.length,legacy),"toplam oturum"]].map(([b,s])=>'<div class="stat"><b>'+b+'</b><span>'+s+'</span></div>').join("")+'</div>';
+  h+='<section class="sgroup"><h2>'+ic("clock")+'Son 14 gün</h2><div class="ph-chart" role="img" aria-label="Son 14 günün odaklanma süreleri">'+
+    days.map(x=>'<div class="ph-col'+(x.k===tk?" today":"")+'" title="'+x.d.toLocaleDateString("tr-TR",{day:"numeric",month:"long"})+': '+x.n+' oturum, '+x.m+' dk"><span class="ph-v">'+(x.m?x.m:"")+'</span><i style="height:'+(x.m/max*100)+'%"></i><small>'+(x.k===tk?"Bugün":wd[x.d.getDay()])+'</small></div>').join("")+'</div><p class="note ph-note">Sütunlar o gün odaklandığın dakikaları gösterir.</p></section>';
+  const keys=Object.keys(byDay).sort().reverse().slice(0,14);
+  const yk=(()=>{const d=new Date();d.setDate(d.getDate()-1);return dayKey(d)})();
+  const fmtT=t=>new Date(t).toLocaleTimeString("tr-TR",{hour:"2-digit",minute:"2-digit"});
+  h+='<section class="sgroup"><h2>'+ic("doc")+'Oturum geçmişi</h2>'+(keys.length?keys.map(k=>{const L=byDay[k],d=new Date(L[0].t);
+    return '<div class="ph-day"><div class="ph-dh"><b>'+(k===tk?"Bugün":k===yk?"Dün":d.toLocaleDateString("tr-TR",{day:"numeric",month:"long",weekday:"long"}))+'</b><span>'+L.length+' oturum · '+hm(sum(L))+'</span></div>'+
+      '<div class="ph-list">'+L.slice().reverse().map(x=>'<div class="ph-s"><i></i><span>'+fmtT(x.t-x.m*6e4)+' – '+fmtT(x.t)+'</span><b>'+x.m+' dk</b></div>').join("")+'</div></div>'}).join("")
+    :'<p class="note" style="padding:6px 0 16px;margin:0">Ayrıntılı geçmiş, bu güncellemeden sonra tamamladığın oturumlarla oluşmaya başlar.</p>')+'</section>';
+  return h;
+}

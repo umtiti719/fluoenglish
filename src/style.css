@@ -1514,3 +1514,25 @@ body.focus .sitefoot{display:none}
 .pm-num{min-width:0;padding:8px 2px}
 .pm-num button{width:24px;height:24px;flex:none}
 .pm-num input{width:34px;padding:0}
+
+/* Pomodoro geçmişi */
+.ph-chart{display:grid;grid-template-columns:repeat(14,minmax(0,1fr));gap:6px;align-items:end;height:170px;padding:8px 0 4px}
+.ph-col{display:flex;flex-direction:column;align-items:center;justify-content:flex-end;height:100%;gap:4px;min-width:0}
+.ph-col i{display:block;width:100%;max-width:28px;min-height:3px;border-radius:6px 6px 3px 3px;background:color-mix(in srgb,var(--bad) 70%,var(--surface))}
+.ph-col.today i{background:var(--bad)}
+.ph-col small{font-size:.68rem;color:var(--muted);white-space:nowrap}
+.ph-col.today small{color:var(--ink);font-weight:600}
+.ph-v{font-size:.68rem;font-weight:600;color:var(--muted);font-variant-numeric:tabular-nums;min-height:1em}
+.ph-note{margin:4px 0 16px}
+.ph-day{border-top:1px solid var(--line);padding:12px 0}
+.sgroup>h2+.ph-day{border-top:0}
+.ph-dh{display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;margin-bottom:6px}
+.ph-dh b{font-weight:600;text-transform:capitalize}.ph-dh span{color:var(--muted);font-size:.86rem}
+.ph-list{display:flex;flex-direction:column;gap:4px}
+.ph-s{display:flex;align-items:center;gap:10px;font-size:.9rem;font-variant-numeric:tabular-nums}
+.ph-s i{width:8px;height:8px;border-radius:50%;background:var(--bad);flex:none}
+.ph-s span{flex:1;color:var(--muted)}.ph-s b{font-weight:600}
+@media (max-width:480px){.ph-chart{gap:3px}.ph-col small{font-size:.6rem}.ph-v{font-size:.6rem}}
+.st-tabs .ts{display:none}
+@media (max-width:560px){.st-tabs .tl{display:none}.st-tabs .ts{display:inline}.st-tabs .fchip{padding:7px 10px;gap:5px}}
+@media (max-width:560px){.st-tabs:not(.ex-tabs){display:grid;grid-template-columns:1fr 1fr;border-radius:20px;overflow:visible;align-self:stretch}.st-tabs:not(.ex-tabs) .fchip{justify-content:center}}
