@@ -5,7 +5,7 @@ function renderMistakes(){
   const box=$("htBox");if(!box)return;
   if(HT.quiz){renderMistQuiz();return}
   const cats=[...new Set(MISTAKES.map(m=>m[0]))],list=MISTAKES.filter(m=>HT.cat==="all"||m[0]===HT.cat),best=P.mist&&P.mist.best;
-  box.innerHTML='<div class="ex-cta ht-cta"><span class="mod-ic">'+ic("target")+'</span><div><b>Kendini dene</b><span>İki cümleden doğru olanı seç, 10 soru.'+(best!==undefined?' En iyi sonucun: '+best+'/10':'')+'</span></div><button class="primary" id="htStart">Başla'+ic("right")+'</button></div>'+
+  box.innerHTML='<div class="ex-cta ht-cta"><span class="mod-ic">'+ic("target")+'</span><div><b>Kendini dene</b><span>İki cümleden doğrusunu seç · 10 soru.'+(best!==undefined?' En iyi sonucun: '+best+'/10':'')+'</span></div><button class="primary" id="htStart">Başla'+ic("right")+'</button></div>'+
     '<div class="chips-row" id="htCats">'+[["all","Tümü"],...cats.map(c=>[c,c])].map(([k,l])=>'<button class="fchip" data-c="'+esc(k)+'" aria-pressed="'+(HT.cat===k)+'">'+esc(l)+'</button>').join("")+'</div>'+
     '<div class="mistakes ht-list">'+list.map(m=>'<div class="mistake"><div class="wrong">'+ic("x")+'<span>'+esc(m[1])+'</span></div><div class="right">'+ic("check")+'<span>'+esc(m[2])+'</span>'+sayBtn(m[2],"sm")+sntBtn(m[2],"","Sık yapılan hatalar","sm")+'</div><p>'+ic("bulb")+esc(m[3])+'</p></div>').join("")+'</div>';
   box.querySelectorAll("#htCats .fchip").forEach(b=>b.onclick=()=>{HT.cat=b.dataset.c;renderMistakes()});

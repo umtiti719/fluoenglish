@@ -30,20 +30,20 @@ const BADGES=[
   {id:"seri3",icon:"flame",t:"3 gün seri",d:"Art arda 3 gün çalıştın.",ok:()=>maxStreak()>=3},
   {id:"seri7",icon:"flame",t:"Bir hafta",d:"Art arda 7 gün çalıştın.",ok:()=>maxStreak()>=7},
   {id:"seri30",icon:"flame",t:"Bir ay",d:"Art arda 30 gün çalıştın.",ok:()=>maxStreak()>=30},
-  {id:"hedef1",icon:"target",t:"Hedef tuttu",d:"Haftalık hedefini ilk kez tamamladın.",ok:()=>(P.goalWeeks||[]).length>=1},
-  {id:"hedef4",icon:"target",t:"Dört hafta",d:"Haftalık hedefini 4 kez tamamladın.",ok:()=>(P.goalWeeks||[]).length>=4},
+  {id:"hedef1",icon:"target",t:"Hedef tuttu",d:"İlk haftalık hedefin tamam.",ok:()=>(P.goalWeeks||[]).length>=1},
+  {id:"hedef4",icon:"target",t:"Dört hafta",d:"4 haftalık hedef tamam.",ok:()=>(P.goalWeeks||[]).length>=4},
   {id:"k50",icon:"cards",t:"50 kelime",d:"50 kelime öğrendin.",ok:()=>Object.keys(P.learned).length>=50},
   {id:"k150",icon:"cards",t:"150 kelime",d:"150 kelime öğrendin.",ok:()=>Object.keys(P.learned).length>=150},
   {id:"k300",icon:"cards",t:"300 kelime",d:"300 kelime öğrendin.",ok:()=>Object.keys(P.learned).length>=300},
-  {id:"g1",icon:"book",t:"İlk konu",d:"İlk dil bilgisi konunu tamamladın.",ok:()=>gramDone()>=1},
-  {id:"g10",icon:"book",t:"On konu",d:"10 dil bilgisi konusunu tamamladın.",ok:()=>gramDone()>=10},
-  {id:"unite",icon:"trophy",t:"Ünite geçildi",d:"Bir dil bilgisi ünite sınavında %85'i geçtin.",ok:()=>Object.values(P.exam||{}).some(okRate)},
-  {id:"deste5",icon:"trophy",t:"Beş deste",d:"5 kelime destesi sınavında %85'i geçtin.",ok:()=>Object.values(P.vexam||{}).filter(okRate).length>=5},
+  {id:"g1",icon:"book",t:"İlk konu",d:"İlk gramer konun bitti.",ok:()=>gramDone()>=1},
+  {id:"g10",icon:"book",t:"On konu",d:"10 gramer konusu bitti.",ok:()=>gramDone()>=10},
+  {id:"unite",icon:"trophy",t:"Ünite geçildi",d:"Bir ünite sınavında %85 ve üstü.",ok:()=>Object.values(P.exam||{}).some(okRate)},
+  {id:"deste5",icon:"trophy",t:"Beş deste",d:"5 deste sınavında %85 ve üstü.",ok:()=>Object.values(P.vexam||{}).filter(okRate).length>=5},
   {id:"okur",icon:"doc",t:"Okur",d:"5 okuma metnini bitirdin.",ok:()=>Object.keys(P.read||{}).length>=5},
   {id:"diyalog",icon:"chat",t:"Sohbet",d:"5 diyaloğu tamamladın.",ok:()=>Object.keys(P.dlg||{}).length>=5},
-  {id:"hata",icon:"alert",t:"Tuzaklardan kaçan",d:"Sık yapılan hatalar testinde 10 doğru yaptın.",ok:()=>(P.mist&&P.mist.best||0)>=10},
+  {id:"hata",icon:"alert",t:"Tuzaklardan kaçan",d:"Hatalar testinde 10/10.",ok:()=>(P.mist&&P.mist.best||0)>=10},
   {id:"defter",icon:"bookmark",t:"Koleksiyoncu",d:"Defterine 20 kelime kaydettin.",ok:()=>Object.keys(P.saved).length>=20},
-  {id:"gunun7",icon:"sun",t:"Günün öğrencisi",d:"7 kez günün dersini bitirdin.",ok:()=>Object.values(P.daily||{}).filter(x=>x&&x.done).length>=7}
+  {id:"gunun7",icon:"sun",t:"Günün öğrencisi",d:"7 günün dersi bitti.",ok:()=>Object.values(P.daily||{}).filter(x=>x&&x.done).length>=7}
 ];
 function checkBadges(silent){
   P.badges=P.badges||{};const fresh=[];

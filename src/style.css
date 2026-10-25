@@ -1536,3 +1536,36 @@ body.focus .sitefoot{display:none}
 .st-tabs .ts{display:none}
 @media (max-width:560px){.st-tabs .tl{display:none}.st-tabs .ts{display:inline}.st-tabs .fchip{padding:7px 10px;gap:5px}}
 @media (max-width:560px){.st-tabs:not(.ex-tabs){display:grid;grid-template-columns:1fr 1fr;border-radius:20px;overflow:visible;align-self:stretch}.st-tabs:not(.ex-tabs) .fchip{justify-content:center}}
+
+/* Araç kartları: metne tam genişlik, sağda yalnızca ok */
+.tools{grid-template-columns:repeat(auto-fill,minmax(250px,1fr))}
+.tool{padding:14px 14px 14px 16px;gap:12px}
+.tool .mod-ic{width:40px;height:40px;border-radius:12px}.tool .mod-ic .ic{width:20px;height:20px}
+.tool b{font-size:1rem;line-height:1.25;text-wrap:balance}
+.tool span:not(.mod-ic):not(.tool-go){font-size:.85rem;line-height:1.35;margin-top:2px;text-wrap:pretty}
+.tool .tool-go{font-size:0;gap:0;width:30px;height:30px;border-radius:50%;justify-content:center;background:color-mix(in srgb,var(--surface) 70%,transparent);flex:none;color:var(--c)}
+.tool .tool-go .ic{width:16px;height:16px}
+
+/* Geniş kartlar: dar ekranda düğme alta iner, metin tam genişlik */
+.ex-cta>div{flex:1 1 220px}
+.ex-cta b{line-height:1.25}.ex-cta span:not(.mod-ic):not(.tool-go){line-height:1.4;display:block;margin-top:2px}
+@media (max-width:560px){
+  .ex-cta{flex-wrap:wrap;row-gap:10px}
+  .ex-cta .tool-go{font-size:0;width:30px;height:30px;border-radius:50%;justify-content:center;background:var(--surface2)}
+  .ex-cta .tool-go .ic{width:16px;height:16px}
+  .ht-cta>.primary{width:100%;justify-content:center}
+}
+.ex-ctas{margin-bottom:8px}
+.badges{grid-template-columns:repeat(auto-fill,minmax(150px,1fr))}
+@media (max-width:560px){.ex-cta>div{flex:1 1 0}.ht-cta>div{flex:1 1 calc(100% - 60px)}}
+/* Okunurluk düzenlemeleri */
+.fb-kinds{grid-template-columns:repeat(auto-fit,minmax(118px,1fr))}
+.fb-kinds button{text-align:center;line-height:1.25}
+.ex-uf .note{flex:1 1 100%;margin:0}
+.ex-uf .primary,.ex-uf .ghost{flex:0 0 auto}
+.ex-topics{display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
+.st-grid .srow>div:first-child,.st-adv .srow>div:first-child{flex:1 1 0;min-width:0}
+.st-grid .srow,.st-adv .srow{flex-wrap:nowrap}
+.st-grid .srow .ghost,.st-adv .srow .ghost,.st-adv .srow .primary{flex:none}
+.bdg small{text-wrap:balance}
+.cont b{overflow-wrap:anywhere}
