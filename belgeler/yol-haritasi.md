@@ -27,4 +27,4 @@
 - Günün dersi (25 Ekim): 5 adım, seviye testine göre; P.daily[gün] içinde saklanır, cihazlar arası eşitlenir.
 - Okuma (25 Ekim): 16 özgün metin (her seviyeden 4), 64 anlama sorusu, 178 cümle Kokoro sesiyle; Metin Çevirisi sayfasından ve ana sayfadan.
 - Telaffuz (25 Ekim): Web Speech API ile; Firefox'ta desteklenmiyor uyarısı. Kelime Öğren araçlarında.
-- Büyük sözlük (25 Ekim): çekirdek 2.000 kelime (Fluo, özgün) + FreeDict yedeği ≈ 32.000 kelime; çekirdek 6.000'e çıkarılıyor. Yeni deste sesleri (164) ve okuma sesleri (178) eklendi.
+- Büyük sözlük (25 Ekim): çekirdek 5.923 kelime (Fluo, özgün) + FreeDict yedeği = 32.706 kelime. Yeni deste sesleri (164) ve okuma sesleri (178) eklendi.
