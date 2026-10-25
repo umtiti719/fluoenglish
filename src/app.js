@@ -96,7 +96,7 @@ document.addEventListener("keydown",unlockAudio,{once:true,capture:true});
 // Ses dosyaları ihtiyaç olduğunda yüklenir: kelimeler ilk dokunuşta, cümleler ve metinler ilgili bölüme girilince
 document.addEventListener("pointerdown",()=>loadAudio("w").catch(()=>{}),{once:true,capture:true});
 function prefetchAudio(h){
-  const need=/^(ogren-|dinle|g-|cevir|seviye|cumle)/.test(h)?["w","s"]:h==="metin"?["w","t"]:[];
+  const need=/^(ogren-|dinle|g-|cevir|seviye|cumle|gunun)/.test(h)?["w","s"]:h==="metin"?["w","t"]:[];
   need.forEach(g=>setTimeout(()=>loadAudio(g).catch(()=>{}),300));
 }
 let enVoice=null;
@@ -167,8 +167,8 @@ function renderNav(){
   $("nav").innerHTML=SECTIONS.map(s=>'<a href="#'+s.id+'" data-sec="'+s.id+'" style="--c:'+s.c+'">'+ic(s.icon)+s.label+'</a>').join("");
   $("tabbar").innerHTML=SECTIONS.map(s=>'<a href="#'+s.id+'" data-sec="'+s.id+'" style="--c:'+s.c+'">'+ic(s.icon)+'<span>'+s.short+'</span></a>').join("");
 }
-const VIEWS=["cumle","destek","hesap","seviye","ayarlar","ana","ogren","calis","deckend","defter","dinle","yarisma","gramer","konu","cevir","ceviri"];
-function setFocus(){document.body.classList.toggle("focus",(!$("v-calis").hidden)||(!$("v-yarisma").hidden&&G.phase==="game")||(!$("v-seviye").hidden&&T.phase==="run"))}
+const VIEWS=["gunun","cumle","destek","hesap","seviye","ayarlar","ana","ogren","calis","deckend","defter","dinle","yarisma","gramer","konu","cevir","ceviri"];
+function setFocus(){document.body.classList.toggle("focus",(!$("v-calis").hidden)||(!$("v-yarisma").hidden&&G.phase==="game")||(!$("v-seviye").hidden&&T.phase==="run")||(!$("v-gunun").hidden&&DL.d&&!DL.d.done))}
 function showView(v,sec){
   VIEWS.forEach(x=>$("v-"+x).hidden=x!==v);setTimeout(setFocus,0);
   document.querySelectorAll("[data-sec]").forEach(a=>{if(a.dataset.sec===sec)a.setAttribute("aria-current","page");else a.removeAttribute("aria-current")});
@@ -197,6 +197,7 @@ function route(){
     S.done?showDeckEnd():(showView("calis","ogren"),showCard());
   }
   else if(h==="defter"){renderDefter();showView("defter","ogren")}
+  else if(h==="gunun"){openDaily();showView("gunun","ana")}
   else if(h==="cumle"){showView("cumle","ogren");openBuild()}
   else if(h==="dinle"){showView("dinle","ogren");if(!L.cur)newListen();else renderListenStat()}
   else if(h==="yarisma"){showQuiz();}
@@ -260,7 +261,9 @@ function renderHome(){
   const nextT=GRAMMAR.find(t=>!P.gram[t.id]?.done)||GRAMMAR[0];
   const nextD=DECKS.find(d=>{const l=learnedIn(d);return l>0&&l<d.words.length})||DECKS.find(d=>learnedIn(d)<d.words.length)||DECKS[0];
   const due=dueWords().length;
+  const dd=dailyDone(),dt=P.daily&&P.daily[today()];
   $("continue").innerHTML=
+    '<a class="cont'+(dd?'':' hot')+'" href="#gunun" style="--c:var(--g1)"><span class="mod-ic">'+ic(dd?"check":"spark")+'</span><div><small>Günün dersi · '+(dd?'tamamlandı · '+dt.score+'/'+dt.max:dt&&dt.step?'kaldığın yerden devam':'5 dakika')+'</small><b>'+(dd?'Bugünkü dersi bitirdin':'Bugünün dersini yap')+'</b><span>'+(dd?'Yarın yeni bir ders seni bekliyor':'3 kelime, mini gramer, cümle kurma ve dinleme')+'</span></div>'+ic("right")+'</a>'+
     (!P.level?'<a class="cont hot" href="#seviye" style="--c:var(--g5)"><span class="mod-ic">'+ic("target")+'</span><div><small>Seviye testi · 8–10 dakika</small><b>Seviyeni öğren</b><span>Kelime, dil bilgisi, okuma ve dinleme</span></div>'+ic("right")+'</a>':'')+
     (due?'<a class="cont hot" href="#ogren-tekrar" style="--c:var(--g2)"><span class="mod-ic">'+ic("refresh")+'</span><div><small>Aralıklı tekrar</small><b>Bugün tekrar edilecek: '+due+' kelime</b><span>Unutmadan önce bir kez daha bak</span></div>'+ic("right")+'</a>':'')+
     '<a class="cont" href="#g-'+nextT.id+'" style="--c:var(--m-gram)"><span class="mod-ic">'+ic("book")+'</span><div><small>Sıradaki gramer konusu · '+nextT.level+'</small><b>'+esc(nextT.title)+'</b><span>'+esc(nextT.tr)+'</span></div>'+ic("right")+'</a>'+
