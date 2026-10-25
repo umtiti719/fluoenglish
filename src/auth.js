@@ -110,6 +110,7 @@ function mergeP(a,b){
       case "pomoLog":{const m={};[...x,...y].forEach(e=>{if(e&&e.t)m[e.t]=e});r[k]=Object.values(m).sort((a,b)=>a.t-b.t).slice(-500);break}
       case "_del":r[k]=maxMap(x,y);break;
       case "hist":r[k]=newer.hist;break;
+      case "qhist":{const m={};[...x,...y].forEach(e=>{if(e&&e.t)m[e.t]=e});r[k]=Object.values(m).sort((a,b)=>a.t-b.t).slice(-20);break}
       case "_t":r[k]=Math.max(ta,tb);break;
       default:r[k]=isObj(newer[k])&&isObj(older[k])&&k!=="set"?{...older[k],...newer[k]}:newer[k];
     }

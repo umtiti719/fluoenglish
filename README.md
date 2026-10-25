@@ -11,7 +11,7 @@ Türkçe arayüzlü, genel İngilizce öğrenme uygulaması.
 ## Bölümler
 - **Ana Sayfa:** Günün kelimesi, ilerleme özeti, günlük çalışma serisi ve "kaldığın yerden devam et".
 - **Kelime Öğren:** 30 konu destesi (360 kelime) — günlük konulardan sık karıştırılan kelimelere, fiil+edat kalıplarına, bağlaçlara, deyimlere, iş görüşmesi ve e-posta İngilizcesine, akademik kelimelere. Çevrilebilen kartlar, örnek cümleler ve Türkçeleri, kelime ailesi ile eş/zıt anlamlılar (232 kelime), telaffuz, "Biliyorum / Tekrar et" takibi, desteyle yarışma.
-- **Kelime Yarışması:** 4 seviye (A1–A2, B1, B2, C1–C2), süreli 10 soruluk turlar, hız bonusu, seri çarpanı, 50:50 ve Pas jokerleri, rekorlar.
+- **Kelime Yarışması:** 4 seviye (A1–A2, B1, B2, C1–C2), süreli 10 soruluk turlar, hız bonusu, seri çarpanı, 50:50 ve Pas jokerleri, rekorlar; Defterim, zorlanılan kelimeler ya da seçilen bir desteyle yarış, son oyunlar ve puan kuralları.
 - **Dil Bilgisi:** A1'den C1'e 5 ünitede 37 konu. Her konuda Türkçe anlatım, kullanım alanları, cümle yapısı, özet tablo, sesli örnek cümleler, ipucu kelimeler, sık yapılan hatalar ve alıştırma.
 - **Tekrar ve hafıza:** Uygulama görülen her kelimeyi, metni ve cümleyi hatırlar; önce görülmemişleri getirir. Yanlış bilinen ya da "Tekrar et" denen kelimeler 1, 3, 7, 14 ve 30 gün aralıklarla yeniden sorulur.
 - **Defterim:** Kartlarda, yarışmada, metinlerde ve günün kelimesinde kaydet işaretiyle kişisel kelime listesi; kartlarla çalışma ve yarışma.

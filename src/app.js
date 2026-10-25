@@ -416,7 +416,7 @@ const G={phase:"lobby",active:false};
 function showQuiz(){
   if(G.pending){showView("yarisma","yarisma");startGame(G.pending);return}
   $("lobby").hidden=G.phase!=="lobby";$("game").hidden=G.phase!=="game";$("end").hidden=G.phase!=="end";
-  $("quizHead").hidden=G.phase!=="lobby";
+  $("quizHead").hidden=G.phase!=="lobby";$("lobbyMore").hidden=G.phase!=="lobby";
   if(G.phase==="lobby")renderLobby();
   showView("yarisma","yarisma");
   if(G.phase==="game")resumeGame();
@@ -429,7 +429,31 @@ function renderLobby(){
       '<p class="lvname">'+L.name+'</p><p class="lvdesc">'+L.desc+'</p><div class="lvsample">'+sample+'</div>'+
       '<div class="lvfoot"><span>Rekor <b>'+(P.best[k]||0)+'</b> · '+Math.round(L.time*(P.set.quizTime==="uzun"?1.5:1))+' sn</span><span class="lvgo">Başla →</span></div></button>';
   }).join("");
+  renderLobbyMore();
   $("lobby").querySelectorAll(".lvcard").forEach(b=>b.onclick=()=>{const k=b.dataset.lv;startGame({key:k,name:LEVELS[k].name,cefr:LEVELS[k].cefr,c:"var(--lv-"+k+")",words:WORDS[k],time:LEVELS[k].time})});
+}
+/* Yarışma lobisinin alt kısmı: özel yarışlar, son oyunlar, puan kuralları */
+function renderLobbyMore(){
+  const box=$("lobbyMore");if(!box)return;
+  const nb=Object.keys(P.saved).length,weak=Object.keys(P.srs).filter(w=>P.srs[w].b&&P.srs[w].b<=2&&winfo(w)).length;
+  const hist=(P.qhist||[]).slice().reverse().slice(0,6);
+  const lastDeck=P.set.qDeck||DECKS[0].id;
+  box.innerHTML='<h2 class="lm-h">Kendi kelimelerinle yarış</h2><div class="tools lm-tools">'+
+    '<button class="tool" id="qDefter" style="--c:var(--g3);--t:var(--t-trans)"'+(nb<4?' aria-disabled="true"':'')+'><span class="mod-ic">'+ic("bookmark")+'</span><div><b>Defterimle</b><span>'+(nb>=4?nb+" kayıtlı kelime":"En az 4 kelime kaydet")+'</span></div><span class="tool-go">'+ic("right")+'</span></button>'+
+    '<button class="tool" id="qWeak" style="--c:var(--g2);--t:var(--t-gram)"'+(weak<4?' aria-disabled="true"':'')+'><span class="mod-ic">'+ic("refresh")+'</span><div><b>Zorlandıklarımla</b><span>'+(weak>=4?weak+" kelime":"Yanlış yaptıkların burada birikir")+'</span></div><span class="tool-go">'+ic("right")+'</span></button>'+
+    '<div class="tool lm-deck" style="--c:var(--m-learn);--t:var(--t-learn)"><span class="mod-ic">'+ic("cards")+'</span><div><b>Bir desteyle</b><select id="qDeckSel" aria-label="Deste seç">'+DECKS.map(d=>'<option value="'+d.id+'"'+(d.id===lastDeck?" selected":"")+'>'+esc(d.name)+'</option>').join("")+'</select></div><button class="tool-go lm-go" id="qDeckGo" aria-label="Desteyle başla">'+ic("right")+'</button></div>'+
+    '</div><div class="lm-grid">'+
+    '<section class="sgroup"><h2>'+ic("trophy")+'Son oyunların</h2>'+(hist.length?hist.map(h=>'<div class="srow lm-row"><div><b>'+esc(h.n)+'</b><small>'+h.ok+' / '+h.q+' doğru · '+new Date(h.t).toLocaleDateString("tr-TR",{day:"numeric",month:"short"})+'</small></div><span class="lm-pts">'+(h.r?'<i>Rekor</i>':'')+h.p+'</span></div>').join("")
+      :'<p class="note lm-empty">Henüz oyun yok. Bir seviye seç; sonuçların burada görünür.</p>')+'</section>'+
+    '<section class="sgroup"><h2>'+ic("bulb")+'Nasıl puan alırsın?</h2><ul class="lm-rules">'+
+      '<li><b>100</b><span>Her doğru cevap</span></li><li><b>+50</b><span>Hızlı cevap bonusu (süre azaldıkça düşer)</span></li>'+
+      '<li><b>×1,5</b><span>3 doğru üst üste</span></li><li><b>×2</b><span>5 ve daha fazla seri</span></li>'+
+      '<li><b>50:50</b><span>İki yanlış şıkkı siler (1 hak)</span></li><li><b>Pas</b><span>Soruyu geçer (2 hak)</span></li></ul>'+
+      '<p class="note lm-tip">Yanlış yaptığın kelimeler tekrar listene girer. Daha uzun süre istersen: Ayarlar → Yarışma süresi.</p></section></div>';
+  $("qDefter").onclick=()=>{if(nb<4){toast("Yarışma için Defterine en az 4 kelime kaydet");return}startDeckQuiz(virtualDeck("defter"))};
+  $("qWeak").onclick=()=>{if(weak<4){toast("Henüz yeterince zorlandığın kelime yok");return}
+    startDeckQuiz({id:"zor",name:"Zorlandıklarım",level:"Tekrar",hue:"var(--g2)",words:Object.keys(P.srs).filter(w=>P.srs[w].b&&P.srs[w].b<=2).map(winfo).filter(Boolean)})};
+  $("qDeckGo").onclick=()=>{const id=$("qDeckSel").value;P.set.qDeck=id;save();startDeckQuiz(DECKS.find(d=>d.id===id))};
 }
 function startDeckQuiz(d){
   if(d.words.length<4){toast("Yarışma için en az 4 kelime gerekir");return}
@@ -533,7 +557,8 @@ $("gSpeak").onclick=e=>speak($("gWord").textContent,e.currentTarget);
 $("gQuit").onclick=()=>{stopTimer();clearTimeout(G.tm);finish()};
 function finish(){
   stopTimer();clearTimeout(G.tm);G.active=false;G.phase="end";setTimeout(setFocus,0);
-  const k=G.cfg.key,best=P.best[k]||0,isRec=G.pts>best&&G.pts>0;if(isRec){P.best[k]=G.pts;save()}
+  const k=G.cfg.key,best=P.best[k]||0,isRec=G.pts>best&&G.pts>0;if(isRec){P.best[k]=G.pts}
+  P.qhist=(P.qhist||[]).concat([{t:Date.now(),k,n:G.cfg.name,c:G.cfg.cefr,p:G.pts,ok:G.ok,q:G.Q,r:isRec?1:0}]).slice(-20);save();
   $("eLevel").textContent=G.cfg.name+" · "+G.cfg.cefr;
   const r=G.ok/G.Q,stars=r>=.9?3:r>=.7?2:r>=.4?1:0;
   const star='<svg viewBox="0 0 24 24"><path class="CLS" d="M12 2.5l2.9 6.1 6.6.8-4.9 4.6 1.3 6.6L12 17.3 6.1 20.6l1.3-6.6L2.5 9.4l6.6-.8z"/></svg>';
