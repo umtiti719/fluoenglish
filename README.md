@@ -35,6 +35,7 @@ Türkçe arayüzlü, genel İngilizce öğrenme uygulaması.
 - `src/config.js` — Supabase adresi ve herkese açık anahtar
 - `src/auth.js` — giriş, kayıt, hesap sayfası ve eşitleme
 - `src/support.js` — yardım ve destek sayfası
+- `supabase/functions/ceviri/index.ts` — sitede yapay zekâ çevirisi (Claude Haiku; giriş yapanlara, günde 100 istek) · sayaç: `belgeler/yapay-zeka.sql`
 - `vendor/supabase.js` — Supabase istemcisi (MIT)
 - `src/data-test.js` — seviye testi soruları
 - `src/data-quiz.js` — yarışma kelimeleri, çeviri metinleri ve metin sözlüğü

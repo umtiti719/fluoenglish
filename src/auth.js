@@ -54,6 +54,9 @@ async function onAuthEvent(ev,session){
   refreshUserViews();
 }
 function refreshUserViews(){
+  // Sitede yapay zekâ çevirisi yalnızca giriş yapanlara (Claude önizlemesinde Claude'un kendi yeteneği kullanılır)
+  if(AUTH.on)sampleFn=AUTH.user?siteSample():null;
+  if(lastHash==="cevir"&&typeof renderTrHint==="function")renderTrHint();
   renderStreak();
   if(lastHash==="ana")renderHome();
   else if(lastHash==="hesap")renderAccount();
@@ -288,3 +291,32 @@ async function signOut(){
   toast("Çıkış yapıldı");setTimeout(()=>{location.hash="ana";location.reload()},500);
 }
 initAuth();
+
+/* ---------- Sitede yapay zekâ çevirisi ----------
+   Supabase "ceviri" fonksiyonu Claude'a sorar; anahtar sunucuda gizli kalır. Kişi başı günde 100 istek. */
+const AI={kalan:null,limitDay:"",warnDay:""};
+async function callAI(prompt,wantJson){
+  const {data}=await AUTH.sb.auth.getSession();const tok=data?.session?.access_token;
+  if(!tok)throw new Error("giris");
+  const r=await fetch(FLUO_CONFIG.supabaseUrl+"/functions/v1/ceviri",{method:"POST",
+    headers:{"Content-Type":"application/json",apikey:FLUO_CONFIG.supabaseAnonKey,Authorization:"Bearer "+tok},
+    body:JSON.stringify({prompt,json:!!wantJson})});
+  const d=await r.json().catch(()=>({}));
+  const day=new Date().toDateString();
+  if(r.status===429){AI.kalan=0;if(AI.limitDay!==day){AI.limitDay=day;toast("Bugünkü "+(d.limit||100)+" yapay zekâ çevirisi hakkın doldu; yarın yenilenir. Sözlük çevirisi çalışmaya devam ediyor.")}throw new Error("limit")}
+  if(!r.ok||typeof d.text!=="string")throw new Error(d.error||("ai "+r.status));
+  AI.kalan=d.kalan;
+  if(d.kalan<=10&&AI.warnDay!==day){AI.warnDay=day;toast("Bugün "+d.kalan+" yapay zekâ çevirisi hakkın kaldı")}
+  return d.text;
+}
+function parseJSONText(t){
+  t=String(t||"").replace(/^\s*```(?:json)?/i,"").replace(/```\s*$/,"").trim();
+  const a=t.indexOf("{"),b=t.lastIndexOf("}");if(a<0||b<a)throw new Error("json");
+  return JSON.parse(t.slice(a,b+1));
+}
+function siteSample(){
+  const f=async(prompt)=>({text:await callAI(prompt,false)});
+  f.json=async(prompt)=>parseJSONText(await callAI(prompt,true));
+  f.remote=true;return f;
+}
+

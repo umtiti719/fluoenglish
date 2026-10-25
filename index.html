@@ -3205,7 +3205,7 @@ function renderTrHint(){
   const sugg=TR.dir==="en"?["breakfast","look forward to","resilient","Could we have the bill, please?"]:["kahvaltı","sabırlı","yolculuk","Yarın görüşürüz"];
   $("trHint").innerHTML=(P.hist.length?'<small>Son aramalar</small><div class="chips-s">'+P.hist.slice(0,8).map(h=>'<button class="chip-s" data-q="'+esc(h.q)+'" data-d="'+h.d+'">'+esc(h.q)+'</button>').join("")+'</div>':'')+
     '<small>Örnekler</small><div class="chips-s">'+sugg.map(q=>'<button class="chip-s ghosty" data-q="'+esc(q)+'" data-d="'+TR.dir+'">'+esc(q)+'</button>').join("")+'</div>'+
-    (sampleFn?'':'<p class="note trnote">'+ic("bulb")+' Bu sürümde yalnızca uygulamanın kendi sözlüğündeki yaklaşık 800 kelime çevrilir. Her kelime ve cümlenin çevirisi paylaşılan Fluo bağlantısında yapay zekâyla yapılır.</p>');
+    (sampleFn?'':'<p class="note trnote">'+ic("bulb")+' Şu an uygulamanın kendi sözlüğündeki yaklaşık 800 kelime çevrilir.'+(signedIn()||!AUTH.on?'':' <a href="#hesap">Giriş yaparsan</a> her kelimeyi ve cümleyi yapay zekâyla çevirebilirsin.')+'</p>');
   $("trHint").querySelectorAll("[data-q]").forEach(b=>b.onclick=()=>{TR.dir=b.dataset.d;$("trInput").value=b.dataset.q;renderTrHint();doTranslate()});
 }
 $("trSwap").onclick=()=>{TR.dir=TR.dir==="en"?"tr":"en";const r=$("trResult").dataset.out;if(r){$("trInput").value=r}renderTrHint();autoGrow();$("trInput").focus()};
@@ -3231,7 +3231,7 @@ function wordCard(r,big){
 }
 function renderTr(r,q){
   const box=$("trResult");box.dataset.out="";
-  if(!r){box.innerHTML='<div class="empty"><span class="mod-ic">'+ic("search")+'</span><h3>Sonuç bulunamadı</h3><p>"'+esc(q)+'" uygulamanın sözlüğünde yok.'+(sampleFn?' Yazımı kontrol edip tekrar dene.':' Bu sürümde yalnızca uygulamanın kendi sözlüğü kullanılabiliyor. Her kelime ve cümlenin çevirisi paylaşılan Fluo bağlantısında yapay zekâyla yapılır.')+'</p></div>';return}
+  if(!r){box.innerHTML='<div class="empty"><span class="mod-ic">'+ic("search")+'</span><h3>Sonuç bulunamadı</h3><p>"'+esc(q)+'" uygulamanın sözlüğünde yok.'+(sampleFn?' Yazımı kontrol edip tekrar dene.':' Şu an yalnızca uygulamanın kendi sözlüğü kullanılabiliyor.'+(signedIn()||!AUTH.on?'':' <a href="#hesap">Giriş yaparsan</a> her kelimeyi ve cümleyi yapay zekâyla çevirebilirsin.'))+'</p></div>';return}
   if(r.type==="word"){box.innerHTML=wordCard(r,"tr");box.dataset.out=TR.dir==="en"?(r.senses||[])[0]||"":r.head}
   else if(r.type==="words"){box.innerHTML='<p class="note">"'+esc(q)+'" için İngilizce karşılıklar:</p>'+r.items.map(it=>wordCard({head:it.head,pos:it.pos,senses:[it.mean],examples:it.ex?[it.ex]:[],src:r.src},"en")).join("");box.dataset.out=r.items[0].head}
   else{
@@ -3270,7 +3270,7 @@ function liveTranslate(){
       else if(!sampleFn&&q.length>2){TR.busy++;renderTr(null,q)}
     }
     // yapay zekâ: yazma durunca (sözlükte olmayanlar için)
-    if(sampleFn&&!local&&q.length>=2)TR.t2=setTimeout(()=>{if($("trInput").value.trim()===q)doTranslate(true)},450);
+    if(sampleFn&&!local&&q.length>=2)TR.t2=setTimeout(()=>{if($("trInput").value.trim()===q)doTranslate(true)},sampleFn.remote?900:450);
     else if(local)TR.t2=setTimeout(()=>{if($("trInput").value.trim()===q){addHist(q,dir);renderTrHint();markActive()}},1500);
   },120);
 }
@@ -3288,10 +3288,10 @@ async function doTranslate(auto){
   $("trGo").disabled=true;
   let full=false,fast=null;
   // 1) Hızlı istek: yalnızca kısa çeviri — birkaç saniyede gelir
-  const fastP=sampleFn(isWord
+  const fastP=(sampleFn.remote?Promise.resolve(null):sampleFn(isWord
       ?"\""+q+"\" ifadesinin "+to+" karşılığını yaz. En yaygın 1-3 karşılığı virgülle ayırarak yaz, başka hiçbir şey yazma."
       :"Şu "+from+" metni doğal bir "+to+" diline çevir. Sadece çeviriyi yaz, başka hiçbir şey yazma:\n"+q,
-    {modelTier:"quick"}).then(r=>{
+    {modelTier:"quick"})).then(r=>{
       if(id!==TR.busy||full)return;
       const t=(r&&r.text||"").trim().replace(/^["“]|["”]$/g,"");if(!t)return;
       if(isWord&&dir==="en")fast={type:"word",head:q,senses:t.split(/\s*,\s*/).filter(Boolean).slice(0,3),examples:[],src:"Yapay zekâ çevirisi"};
@@ -3320,7 +3320,7 @@ async function doTranslate(auto){
   }catch(e){
     if(id!==TR.busy)return;full=true;await fastP;
     const m=$("trMore");if(m)m.remove();
-    if(fast){TRC[ck]=fast;saveTRC()}else if(!local){renderTr(null,q);toast("Yapay zekâ çevirisi şu an yapılamadı")}
+    if(fast){TRC[ck]=fast;saveTRC()}else if(!local){renderTr(null,q);if(e?.message!=="limit")toast("Yapay zekâ çevirisi şu an yapılamadı")}
   }
   finally{if(id===TR.busy)$("trGo").disabled=false}
 }
@@ -3589,6 +3589,9 @@ async function onAuthEvent(ev,session){
   refreshUserViews();
 }
 function refreshUserViews(){
+  // Sitede yapay zekâ çevirisi yalnızca giriş yapanlara (Claude önizlemesinde Claude'un kendi yeteneği kullanılır)
+  if(AUTH.on)sampleFn=AUTH.user?siteSample():null;
+  if(lastHash==="cevir"&&typeof renderTrHint==="function")renderTrHint();
   renderStreak();
   if(lastHash==="ana")renderHome();
   else if(lastHash==="hesap")renderAccount();
@@ -3823,6 +3826,35 @@ async function signOut(){
   toast("Çıkış yapıldı");setTimeout(()=>{location.hash="ana";location.reload()},500);
 }
 initAuth();
+
+/* ---------- Sitede yapay zekâ çevirisi ----------
+   Supabase "ceviri" fonksiyonu Claude'a sorar; anahtar sunucuda gizli kalır. Kişi başı günde 100 istek. */
+const AI={kalan:null,limitDay:"",warnDay:""};
+async function callAI(prompt,wantJson){
+  const {data}=await AUTH.sb.auth.getSession();const tok=data?.session?.access_token;
+  if(!tok)throw new Error("giris");
+  const r=await fetch(FLUO_CONFIG.supabaseUrl+"/functions/v1/ceviri",{method:"POST",
+    headers:{"Content-Type":"application/json",apikey:FLUO_CONFIG.supabaseAnonKey,Authorization:"Bearer "+tok},
+    body:JSON.stringify({prompt,json:!!wantJson})});
+  const d=await r.json().catch(()=>({}));
+  const day=new Date().toDateString();
+  if(r.status===429){AI.kalan=0;if(AI.limitDay!==day){AI.limitDay=day;toast("Bugünkü "+(d.limit||100)+" yapay zekâ çevirisi hakkın doldu; yarın yenilenir. Sözlük çevirisi çalışmaya devam ediyor.")}throw new Error("limit")}
+  if(!r.ok||typeof d.text!=="string")throw new Error(d.error||("ai "+r.status));
+  AI.kalan=d.kalan;
+  if(d.kalan<=10&&AI.warnDay!==day){AI.warnDay=day;toast("Bugün "+d.kalan+" yapay zekâ çevirisi hakkın kaldı")}
+  return d.text;
+}
+function parseJSONText(t){
+  t=String(t||"").replace(/^\s*```(?:json)?/i,"").replace(/```\s*$/,"").trim();
+  const a=t.indexOf("{"),b=t.lastIndexOf("}");if(a<0||b<a)throw new Error("json");
+  return JSON.parse(t.slice(a,b+1));
+}
+function siteSample(){
+  const f=async(prompt)=>({text:await callAI(prompt,false)});
+  f.json=async(prompt)=>parseJSONText(await callAI(prompt,true));
+  f.remote=true;return f;
+}
+
 
 </script>
 
