@@ -13,8 +13,24 @@ function viaGoogle(){return (AUTH.user?.app_metadata?.providers||[AUTH.user?.app
 
 function loadScript(src){return new Promise((ok,no)=>{const s=document.createElement("script");s.src=src;s.onload=ok;s.onerror=no;document.head.appendChild(s)})}
 
+/* ---------- Geliştirme kolaylığı: deneme girişi (FLUO_CONFIG.devLogin) ---------- */
+const DEV_KEY=BRAND.id+"_devlogin";
+const DEV_USER={id:"dev-deneme",dev:true,email:"deneme@fluo.dev",user_metadata:{full_name:"Deneme Kullanıcı"},app_metadata:{provider:"email",providers:["email"]}};
+function devOn(){try{return FLUO_CONFIG.devLogin&&localStorage.getItem(DEV_KEY)==="1"}catch(e){return false}}
+function devSignIn(){
+  try{localStorage.setItem(DEV_KEY,"1")}catch(e){}
+  AUTH.user=DEV_USER;AUTH.ready=true;AUTH.mode="login";AUTH.msg=null;
+  renderAcctBtn();toast("Deneme hesabıyla giriş yapıldı");refreshUserViews();
+}
+document.addEventListener("click",e=>{
+  if(!FLUO_CONFIG.devLogin||AUTH.user)return;
+  const a=e.target.closest&&e.target.closest("#acctBtn");
+  if(a){e.preventDefault();devSignIn();location.hash="hesap"}
+},true);
+
 async function initAuth(){
   renderAcctBtn();
+  if(devOn()){AUTH.user=DEV_USER;AUTH.ready=true;renderAcctBtn();refreshUserViews();return}
   if(!AUTH.on){AUTH.ready=true;renderAcctBtn();return}
   try{
     if(!window.supabase)await loadScript("vendor/supabase.js");
@@ -106,7 +122,7 @@ function replaceP(np){
 const stripLocal=p=>{const o={...p};delete o._uid;return o};
 
 async function pullProgress(first){
-  if(!AUTH.user||!AUTH.sb)return;
+  if(!AUTH.user||!AUTH.sb||AUTH.user.dev)return;
   const S=AUTH.sync;S.state="sync";renderSyncState();
   try{
     const {data,error}=await AUTH.sb.from("progress").select("data,updated_at").eq("user_id",AUTH.user.id).maybeSingle();
@@ -127,7 +143,7 @@ async function pullProgress(first){
   renderSyncState();
 }
 async function pushProgress(){
-  if(!AUTH.user||!AUTH.sb)return;
+  if(!AUTH.user||!AUTH.sb||AUTH.user.dev)return;
   const S=AUTH.sync;clearTimeout(S.timer);S.timer=null;S.state="sync";renderSyncState();
   try{
     const {error}=await AUTH.sb.from("progress").upsert({user_id:AUTH.user.id,data:stripLocal(P),updated_at:new Date().toISOString()});
@@ -138,7 +154,7 @@ async function pushProgress(){
 }
 // app.js içindeki save() her kayıttan sonra bunu çağırır
 function onSaved(){
-  if(!AUTH.user)return;
+  if(!AUTH.user||AUTH.user.dev)return;
   const S=AUTH.sync;S.dirty=true;clearTimeout(S.timer);S.timer=setTimeout(pushProgress,1500);
 }
 document.addEventListener("visibilitychange",()=>{
@@ -285,6 +301,7 @@ function renderProfile(box){
 }
 async function signOut(){
   const b=$("pOut");if(b)b.disabled=true;
+  if(AUTH.user?.dev){try{localStorage.removeItem(DEV_KEY)}catch(e){}AUTH.user=null;toast("Çıkış yapıldı");setTimeout(()=>{location.hash="ana";location.reload()},500);return}
   if(AUTH.sync.dirty)await pushProgress();
   try{await AUTH.sb.auth.signOut()}catch(e){}
   try{const keep=P.set;localStorage.setItem(BRAND.id+"_progress",JSON.stringify({set:keep}));localStorage.removeItem(BRAND.id+"_translations")}catch(e){}

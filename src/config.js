@@ -7,7 +7,10 @@ const FLUO_CONFIG={
   supabaseAnonKey:"sb_publishable_xDhvsAqW753Wm7SqB2w8Yw_F-n9vIk-",
   // Sitede yapay zekâ çevirisi: Supabase'de "ceviri" fonksiyonu ve ANTHROPIC_API_KEY kurulunca true yapılacak
   // (kurulum: belgeler/yapay-zeka.sql + supabase/functions/ceviri). Kapalıyken sözlük çevirisi çalışır.
-  aiOn:false
+  aiOn:false,
+  // GELİŞTİRME KOLAYLIĞI: true iken "Giriş yap"a dokununca deneme hesabıyla anında giriş yapılır (Supabase'e bağlanmaz,
+  // ilerleme yalnızca bu cihazda kalır). Yayına çıkmadan önce false yapılacak.
+  devLogin:true
 };
 
 /* Üyelik durumu (auth.js doldurur; diğer bölümler okur) */
