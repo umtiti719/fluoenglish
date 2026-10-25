@@ -23,6 +23,7 @@ Türkçe arayüzlü, genel İngilizce öğrenme uygulaması.
 - **Günün dersi:** her gün seviyeye göre ~5 dakikalık paket: 3 yeni kelime, kelime testi, mini gramer, cümle kurma ve dinleme (ana sayfada).
 - **Cümle Kur:** Türkçe cümleyi gör, İngilizcesini karışık kartları sıralayarak ya da yazarak kur (4 seviye, ~300 cümle; yanlışlar birkaç dakika sonra yeniden gelir).
 - **Yardım ve destek:** sık sorulanlar ve "Bize yaz" formu; kelime kartı ve dil bilgisi konularından tek dokunuşla hata bildirme. Mesajlar Supabase'deki `feedback` tablosuna düşer (kurulum: `belgeler/destek.sql`).
+- **Büyük sözlük (Çeviri):** ~32.000 İngilizce kelime; en sık kelimeler için Fluo'nun kendi güncel çekirdek sözlüğü, nadir kelimeler için FreeDict (GPL-2.0+) yedeği; çekimli biçimler köke bağlanır; Türkçe→İngilizce arama; cümlelerde kelime kelime anlam (`sozluk.js`, kaynaklar: `sozluk/LISANS.md`).
 - **Metin Çevirisi:** Seviyeye göre metinler, kelimeye dokununca anlamı, çeviri puanlama.
 
 İlerleme kullanılan tarayıcıda saklanır.
@@ -43,6 +44,7 @@ Türkçe arayüzlü, genel İngilizce öğrenme uygulaması.
 - `src/gunun.js` — Günün dersi
 - `src/okuma.js`, `src/data-reading.js` — Okuma (ses: `audio-r.js`)
 - `src/telaffuz.js` — Telaffuz
+- `src/buyuksozluk.js` — büyük sözlüğü yükleme ve arama · `araclar/sozluk_yap.py` — `sozluk.js` üretimi · `sozluk/cekirdek/*.tsv` — çekirdek sözlük
 - `supabase/functions/ceviri/index.ts` — sitede yapay zekâ çevirisi (Claude Haiku; giriş yapanlara, günde 100 istek) · sayaç: `belgeler/yapay-zeka.sql`
 - `vendor/supabase.js` — Supabase istemcisi (MIT)
 - `src/data-test.js` — seviye testi soruları

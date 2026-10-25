@@ -1217,3 +1217,8 @@ body.focus .sitefoot{display:none}
 .pnote{color:var(--muted);text-align:center;margin:0}
 .rm .micbtn.on{animation:none;outline:4px solid var(--gr3,#EB6D9F)}
 .top-in{max-width:1180px}
+.glossline{display:flex;flex-wrap:wrap;gap:8px 6px;margin:8px 0 4px}
+.gw{display:flex;flex-direction:column;align-items:center;padding:6px 10px;border-radius:12px;background:var(--surface2);border:1px solid var(--line);min-width:44px}
+.gw b{font-weight:600}
+.gw small{font-size:.8rem;color:var(--muted);max-width:140px;text-align:center}
+.gw.none{opacity:.55}

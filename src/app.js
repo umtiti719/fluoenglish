@@ -178,6 +178,7 @@ function showView(v,sec){
 let lastHash=null;
 function route(){
   let h=(location.hash.slice(1)||"ana").toLowerCase();
+  if(/^(cevir|metin|okuma)/.test(h))loadDict().catch(()=>{});
   if(h==="ceviri"){location.replace("#metin");return}
   if(h===lastHash)return;lastHash=h;
   if(h!=="yarisma")pauseGame();
@@ -655,6 +656,7 @@ function renderPassage(txt){
 async function lookup(word){
   const k=word.toLowerCase().replace(/'s$/,"");
   if(GLOSS[k])return GLOSS[k];
+  if(!sampleFn){try{await loadDict()}catch(e){}const d=dictEntry(k);if(d)return d.senses.slice(0,2).join(", ")}
   if(sampleFn){try{const r=await sampleFn("İngilizce '"+word+"' kelimesinin bu cümledeki Türkçe anlamını sadece 1-4 kelimeyle yaz, başka hiçbir şey yazma. Cümle: "+current.en,{modelTier:"quick"});
     const t=(r.text||"").trim().replace(/^["']|["'.]$/g,"");if(t){GLOSS[k]=t;return t}}catch(e){}}
   return "sözlükte bulunamadı";
@@ -859,11 +861,16 @@ function localLookup(q,dir){
     const key=Object.keys(WINFO).find(x=>x.toLowerCase()===k);
     if(key){const w=WINFO[key];return{type:"word",head:w[0],pos:w[2],senses:[w[1]],examples:w[3]?[[w[3],w[4]]]:[],src:"Fluo sözlüğü"}}
     if(GLOSS[k])return{type:"word",head:k,pos:"",senses:[GLOSS[k]],examples:[],src:"Fluo sözlüğü"};
+    const d=dictEntry(k);
+    if(d){const wi=WINFO[d.lemma];
+      return{type:"word",head:d.lemma,pos:d.pos||(wi?wi[2]:""),senses:d.senses,examples:wi&&wi[3]?[[wi[3],wi[4]]]:[],note:d.lemma!==k?"“"+q.trim()+"” kelimesinin sözlük biçimi: "+d.lemma:"",src:d.src}}
     return null;
   }
-  const hits=TRIDX[k]||[];
+  const hits=(TRIDX[k]||[]).slice();
+  (dictRev()[k]||[]).forEach(en=>{if(!hits.includes(en))hits.push(en)});
   if(!hits.length)return null;
-  return{type:"words",items:hits.slice(0,6).map(en=>{const w=WINFO[en];return{head:en,pos:w[2],mean:w[1],ex:w[3]?[w[3],w[4]]:null}}),src:"Fluo sözlüğü"};
+  return{type:"words",items:hits.slice(0,8).map(en=>{const w=WINFO[en];if(w)return{head:en,pos:w[2],mean:w[1],ex:w[3]?[w[3],w[4]]:null};
+    const d=dictEntry(en);return{head:en,pos:d?d.pos:"",mean:d?d.senses.slice(0,2).join("; "):"",ex:null}}),src:"Fluo sözlüğü"};
 }
 function renderTrHint(){
   $("trFrom").textContent=TR.dir==="en"?"İngilizce":"Türkçe";$("trTo").textContent=TR.dir==="en"?"Türkçe":"İngilizce";
@@ -871,7 +878,7 @@ function renderTrHint(){
   const sugg=TR.dir==="en"?["breakfast","look forward to","resilient","Could we have the bill, please?"]:["kahvaltı","sabırlı","yolculuk","Yarın görüşürüz"];
   $("trHint").innerHTML=(P.hist.length?'<small>Son aramalar</small><div class="chips-s">'+P.hist.slice(0,8).map(h=>'<button class="chip-s" data-q="'+esc(h.q)+'" data-d="'+h.d+'">'+esc(h.q)+'</button>').join("")+'</div>':'')+
     '<small>Örnekler</small><div class="chips-s">'+sugg.map(q=>'<button class="chip-s ghosty" data-q="'+esc(q)+'" data-d="'+TR.dir+'">'+esc(q)+'</button>').join("")+'</div>'+
-    (sampleFn?'':'<p class="note trnote">'+ic("bulb")+' Şu an uygulamanın kendi sözlüğündeki yaklaşık 800 kelime çevrilir.'+(signedIn()||!AUTH.on||!FLUO_CONFIG.aiOn?'':' <a href="#hesap">Giriş yaparsan</a> her kelimeyi ve cümleyi yapay zekâyla çevirebilirsin.')+'</p>');
+    (sampleFn?'':'<p class="note trnote">'+ic("bulb")+(DICT?' Sözlükte '+dictCount().toLocaleString("tr-TR")+' İngilizce kelime var; çekimli biçimler (running, studies…) de bulunur. Cümleler için şimdilik kelime kelime arama yapılır.':' Sözlük yükleniyor…')+(signedIn()||!AUTH.on||!FLUO_CONFIG.aiOn?'':' <a href="#hesap">Giriş yaparsan</a> her kelimeyi ve cümleyi yapay zekâyla çevirebilirsin.')+'</p>');
   $("trHint").querySelectorAll("[data-q]").forEach(b=>b.onclick=()=>{TR.dir=b.dataset.d;$("trInput").value=b.dataset.q;renderTrHint();doTranslate()});
 }
 $("trSwap").onclick=()=>{TR.dir=TR.dir==="en"?"tr":"en";const r=$("trResult").dataset.out;if(r){$("trInput").value=r}renderTrHint();autoGrow();$("trInput").focus()};
@@ -897,6 +904,9 @@ function wordCard(r,big){
 }
 function renderTr(r,q){
   const box=$("trResult");box.dataset.out="";
+  if(!r&&!sampleFn&&DICT&&q.trim().split(/\s+/).length>1){const g=glossSentence(q,TR.dir);if(g.some(x=>x.tr)){
+    box.innerHTML='<article class="trcard"><small class="trlbl">Kelime kelime anlamları</small><div class="glossline">'+g.map(x=>'<span class="gw'+(x.tr?'':' none')+'"><b>'+esc(x.w)+'</b><small>'+esc(x.tr||"—")+'</small></span>').join("")+'</div>'+
+      '<p class="trnote2">'+ic("bulb")+'Cümlenin tamamının doğal çevirisi yapay zekâ çevirisiyle gelecek. Şimdilik her kelimenin sözlük anlamını görüyorsun.</p><span class="srcb">Fluo sözlüğü</span></article>';return}}
   if(!r){box.innerHTML='<div class="empty"><span class="mod-ic">'+ic("search")+'</span><h3>Sonuç bulunamadı</h3><p>"'+esc(q)+'" uygulamanın sözlüğünde yok.'+(sampleFn?' Yazımı kontrol edip tekrar dene.':' Şu an yalnızca uygulamanın kendi sözlüğü kullanılabiliyor.'+(signedIn()||!AUTH.on||!FLUO_CONFIG.aiOn?'':' <a href="#hesap">Giriş yaparsan</a> her kelimeyi ve cümleyi yapay zekâyla çevirebilirsin.'))+'</p></div>';return}
   if(r.type==="word"){box.innerHTML=wordCard(r,"tr");box.dataset.out=TR.dir==="en"?(r.senses||[])[0]||"":r.head}
   else if(r.type==="words"){box.innerHTML='<p class="note">"'+esc(q)+'" için İngilizce karşılıklar:</p>'+r.items.map(it=>wordCard({head:it.head,pos:it.pos,senses:[it.mean],examples:it.ex?[it.ex]:[],src:r.src},"en")).join("");box.dataset.out=r.items[0].head}
@@ -912,12 +922,18 @@ function renderTr(r,q){
   }
   box.querySelectorAll(".chip-s[data-q]").forEach(b=>b.onclick=()=>{TR.dir=b.dataset.d;$("trInput").value=b.dataset.q;renderTrHint();doTranslate()});
 }
+function glossSentence(q,dir){
+  const toks=q.match(/[A-Za-zÇĞİÖŞÜçğıöşü']+/g)||[];
+  return toks.slice(0,30).map(w=>{
+    if(dir==="en"){const wi=WINFO[w.toLowerCase()];if(wi)return{w,tr:wi[1].split(/[,;]/)[0]};const d=dictEntry(w);const t=d?d.senses[0].replace(/\([^)]*\)/g,"").split(/,\s*/)[0].trim():"";return{w,tr:t||(d?d.senses[0]:"")}}
+    const hits=(TRIDX[trNorm(w)]||[]).concat(dictRev()[trNorm(w)]||[]);return{w,tr:hits.slice(0,2).join(", ")}});
+}
 /* Yazarken çeviri: sözlükte varsa hemen, yoksa önerileri göster; yazma durunca yapay zekâ */
 function addHist(q,dir){P.hist=[{q,d:dir}].concat(P.hist.filter(h=>h.q.toLowerCase()!==q.toLowerCase())).slice(0,12);save()}
 function suggest(q,dir){
   const k=trNorm(q);if(k.length<2)return[];
-  const keys=dir==="en"?Object.keys(WINFO):Object.keys(TRIDX);
-  return keys.filter(x=>x.toLowerCase().startsWith(k)&&x.toLowerCase()!==k).sort((a,b)=>a.length-b.length).slice(0,8);
+  const keys=dir==="en"?[...new Set(Object.keys(WINFO).concat(DICT?Object.keys(DICT):[]))]:[...new Set(Object.keys(TRIDX).concat(Object.keys(dictRev())))];
+  return keys.filter(x=>x.toLowerCase().startsWith(k)&&x.toLowerCase()!==k).sort((a,b)=>a.length-b.length||(DICT&&DICT[b]&&DICT[b].endsWith("|f")?1:0)-(DICT&&DICT[a]&&DICT[a].endsWith("|f")?1:0)).slice(0,8);
 }
 function liveTranslate(){
   clearTimeout(TR.t1);clearTimeout(TR.t2);
