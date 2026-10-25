@@ -18,6 +18,8 @@ Türkçe arayüzlü, genel İngilizce öğrenme uygulaması.
 - **Dinleme:** Cümleyi dinle; kolay modda duyduğun ifadeyi seç, dikte modunda cümleyi yaz. Yavaş dinleme ve kelime kelime karşılaştırma.
 - **Seviye testi:** Kelime, dil bilgisi, okuma ve dinleme sorularıyla (A1–C1, 45 soruluk havuz) iki aşamalı uyarlanabilir test; yetenek modeliyle seviye tahmini, beceri dağılımı ve başlangıç önerileri.
 - **Üyelik:** Google, e-posta + şifre ya da e-postaya gelen bağlantıyla giriş; ilerleme Supabase ile cihazlar arasında eşitlenir (kurulum: `belgeler/uyelik-kurulumu.md`).
+- **Telaffuz:** kelimeyi ya da cümleyi dinle, mikrofona söyle; tarayıcının konuşma tanımasıyla kelime kelime puan (Chrome, Edge, Safari).
+- **Okuma:** 4 seviyede 16 özgün metin; cümle vurgulu doğal sesle okuma, Türkçe çeviri, anahtar kelimeler ve açıklamalı anlama soruları.
 - **Günün dersi:** her gün seviyeye göre ~5 dakikalık paket: 3 yeni kelime, kelime testi, mini gramer, cümle kurma ve dinleme (ana sayfada).
 - **Cümle Kur:** Türkçe cümleyi gör, İngilizcesini karışık kartları sıralayarak ya da yazarak kur (4 seviye, ~300 cümle; yanlışlar birkaç dakika sonra yeniden gelir).
 - **Yardım ve destek:** sık sorulanlar ve "Bize yaz" formu; kelime kartı ve dil bilgisi konularından tek dokunuşla hata bildirme. Mesajlar Supabase'deki `feedback` tablosuna düşer (kurulum: `belgeler/destek.sql`).
@@ -39,6 +41,8 @@ Türkçe arayüzlü, genel İngilizce öğrenme uygulaması.
 - `src/support.js` — yardım ve destek sayfası
 - `src/cumle.js` — Cümle Kur
 - `src/gunun.js` — Günün dersi
+- `src/okuma.js`, `src/data-reading.js` — Okuma (ses: `audio-r.js`)
+- `src/telaffuz.js` — Telaffuz
 - `supabase/functions/ceviri/index.ts` — sitede yapay zekâ çevirisi (Claude Haiku; giriş yapanlara, günde 100 istek) · sayaç: `belgeler/yapay-zeka.sql`
 - `vendor/supabase.js` — Supabase istemcisi (MIT)
 - `src/data-test.js` — seviye testi soruları

@@ -25,3 +25,5 @@
 - Sitede yapay zekâ çevirisi (25 Ekim, kod hazır, KAPALI — ücretli kurulum sona bırakıldı; açmak için config.js aiOn:true): Supabase Edge Function 'ceviri' + Claude Haiku 5.5; yalnızca giriş yapanlar, kişi başı günde 100 istek. Kurulum: Anthropic API anahtarı (Supabase gizli değişkeni ANTHROPIC_API_KEY), belgeler/yapay-zeka.sql, fonksiyonun panelden yüklenmesi.
 - Cümle Kur (25 Ekim): Türkçeden İngilizceye, kartlarla ya da yazarak; kelime öğren araçlarında ve ana sayfada.
 - Günün dersi (25 Ekim): 5 adım, seviye testine göre; P.daily[gün] içinde saklanır, cihazlar arası eşitlenir.
+- Okuma (25 Ekim): 16 özgün metin (her seviyeden 4), 64 anlama sorusu, 178 cümle Kokoro sesiyle; Metin Çevirisi sayfasından ve ana sayfadan.
+- Telaffuz (25 Ekim): Web Speech API ile; Firefox'ta desteklenmiyor uyarısı. Kelime Öğren araçlarında.

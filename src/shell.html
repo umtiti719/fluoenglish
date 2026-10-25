@@ -157,6 +157,28 @@
     </div>
   </section>
 
+  <section class="view" id="v-telaffuz" hidden>
+    <div class="page-head">
+      <div>
+        <a class="backlink" href="#ogren"><svg class="ic"><use href="#i-left"/></svg>Kelime Öğren</a>
+        <span class="eyebrow c-trans" style="margin-top:10px">Telaffuz</span>
+        <h1 class="h-page">Dinle ve söyle</h1>
+        <p class="lead">Önce doğru söylenişini dinle, sonra mikrofona dokunup yüksek sesle söyle. Hangi kelimeleri doğru söylediğini hemen gör.</p>
+      </div>
+      <div class="ph-stat" id="speakStat"></div>
+    </div>
+    <div class="card listen spk-card">
+      <div class="lsel">
+        <div><small class="lsel-l">Seviye</small><div class="seg" id="pLevels"></div></div>
+        <div><small class="lsel-l">Alıştırma</small><div class="seg two" id="pModes">
+          <button data-m="kelime" aria-pressed="true">Kelime<small>Tek kelime söyle</small></button>
+          <button data-m="cumle" aria-pressed="false">Cümle<small>Cümlenin tamamı</small></button>
+        </div></div>
+      </div>
+      <div id="speakBox"></div>
+    </div>
+  </section>
+
   <section class="view" id="v-cumle" hidden>
     <div class="page-head">
       <div>
@@ -356,12 +378,31 @@
   </section>
 
   <!-- ================= METİN ÇEVİRİSİ ================= -->
+  <section class="view" id="v-okuma" hidden>
+    <div class="page-head">
+      <div>
+        <a class="backlink" href="#metin"><svg class="ic"><use href="#i-left"/></svg>Metin Çevirisi</a>
+        <span class="eyebrow c-trans" style="margin-top:10px">Okuma</span>
+        <h1 class="h-page">Oku ve anla</h1>
+        <p class="lead">Seviyene uygun metinleri oku, dinle ve anlama sorularıyla kendini dene. Her metnin Türkçesi ve anahtar kelimeleri de var.</p>
+      </div>
+      <div class="ph-stat" id="readStat"></div>
+    </div>
+    <div class="seg rlv" id="rLevels"></div>
+    <div class="rgrid" id="readList"></div>
+  </section>
+
+  <section class="view" id="v-okumaoku" hidden>
+    <div class="rread" id="readBox"></div>
+  </section>
+
   <section class="view" id="v-ceviri" hidden>
     <div class="page-head">
       <div>
         <span class="eyebrow c-trans">Metin Çevirisi</span>
         <h1 class="h-page">Oku, anla, Türkçeye çevir</h1>
         <p class="lead">Bilmediğin kelimeye dokun, anlamını gör. Çevirini yaz ve puanını öğren.</p>
+        <a class="inlink" href="#okuma"><svg class="ic"><use href="#i-doc"/></svg>Daha uzun metinler ve anlama soruları için: Okuma</a>
       </div>
     </div>
     <div class="card transcard">
@@ -431,6 +472,10 @@
     <symbol id="i-help" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M9.6 9.2a2.5 2.5 0 0 1 4.8.9c0 1.7-2.4 2.2-2.4 3.6M12 17h.01"/></symbol>
     <symbol id="i-flag" viewBox="0 0 24 24"><path d="M5 21V4M5 4h11l-2 4 2 4H5"/></symbol>
     <symbol id="i-puzzle" viewBox="0 0 24 24"><path d="M4 7h4a2 2 0 1 1 4 0h4v4a2 2 0 1 1 0 4v4h-4a2 2 0 1 0-4 0H4v-4a2 2 0 1 0 0-4z"/></symbol>
+    <symbol id="i-mic" viewBox="0 0 24 24"><rect x="9" y="3" width="6" height="11" rx="3"/><path d="M5 11a7 7 0 0 0 14 0M12 18v3"/></symbol>
+    <symbol id="i-bag" viewBox="0 0 24 24"><path d="M5 8h14l-1 12H6zM9 8V6a3 3 0 0 1 6 0v2"/></symbol>
+    <symbol id="i-pin" viewBox="0 0 24 24"><path d="M12 21s-7-6.2-7-11.5a7 7 0 0 1 14 0C19 14.8 12 21 12 21z"/><circle cx="12" cy="9.5" r="2.5"/></symbol>
+    <symbol id="i-flask" viewBox="0 0 24 24"><path d="M9 3h6M10 3v6L4.5 18.5A1.7 1.7 0 0 0 6 21h12a1.7 1.7 0 0 0 1.5-2.5L14 9V3M7 15h10"/></symbol>
     <symbol id="i-check" viewBox="0 0 24 24"><path d="M5 12l5 5 9-10"/></symbol>
     <symbol id="i-x" viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"/></symbol>
     <symbol id="i-left" viewBox="0 0 24 24"><path d="M15 5l-7 7 7 7"/></symbol>
