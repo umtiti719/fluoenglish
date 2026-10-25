@@ -859,7 +859,7 @@ function renderTrHint(){
   const sugg=TR.dir==="en"?["breakfast","look forward to","resilient","Could we have the bill, please?"]:["kahvaltı","sabırlı","yolculuk","Yarın görüşürüz"];
   $("trHint").innerHTML=(P.hist.length?'<small>Son aramalar</small><div class="chips-s">'+P.hist.slice(0,8).map(h=>'<button class="chip-s" data-q="'+esc(h.q)+'" data-d="'+h.d+'">'+esc(h.q)+'</button>').join("")+'</div>':'')+
     '<small>Örnekler</small><div class="chips-s">'+sugg.map(q=>'<button class="chip-s ghosty" data-q="'+esc(q)+'" data-d="'+TR.dir+'">'+esc(q)+'</button>').join("")+'</div>'+
-    (sampleFn?'':'<p class="note trnote">'+ic("bulb")+' Şu an uygulamanın kendi sözlüğündeki yaklaşık 800 kelime çevrilir.'+(signedIn()||!AUTH.on?'':' <a href="#hesap">Giriş yaparsan</a> her kelimeyi ve cümleyi yapay zekâyla çevirebilirsin.')+'</p>');
+    (sampleFn?'':'<p class="note trnote">'+ic("bulb")+' Şu an uygulamanın kendi sözlüğündeki yaklaşık 800 kelime çevrilir.'+(signedIn()||!AUTH.on||!FLUO_CONFIG.aiOn?'':' <a href="#hesap">Giriş yaparsan</a> her kelimeyi ve cümleyi yapay zekâyla çevirebilirsin.')+'</p>');
   $("trHint").querySelectorAll("[data-q]").forEach(b=>b.onclick=()=>{TR.dir=b.dataset.d;$("trInput").value=b.dataset.q;renderTrHint();doTranslate()});
 }
 $("trSwap").onclick=()=>{TR.dir=TR.dir==="en"?"tr":"en";const r=$("trResult").dataset.out;if(r){$("trInput").value=r}renderTrHint();autoGrow();$("trInput").focus()};
@@ -885,7 +885,7 @@ function wordCard(r,big){
 }
 function renderTr(r,q){
   const box=$("trResult");box.dataset.out="";
-  if(!r){box.innerHTML='<div class="empty"><span class="mod-ic">'+ic("search")+'</span><h3>Sonuç bulunamadı</h3><p>"'+esc(q)+'" uygulamanın sözlüğünde yok.'+(sampleFn?' Yazımı kontrol edip tekrar dene.':' Şu an yalnızca uygulamanın kendi sözlüğü kullanılabiliyor.'+(signedIn()||!AUTH.on?'':' <a href="#hesap">Giriş yaparsan</a> her kelimeyi ve cümleyi yapay zekâyla çevirebilirsin.'))+'</p></div>';return}
+  if(!r){box.innerHTML='<div class="empty"><span class="mod-ic">'+ic("search")+'</span><h3>Sonuç bulunamadı</h3><p>"'+esc(q)+'" uygulamanın sözlüğünde yok.'+(sampleFn?' Yazımı kontrol edip tekrar dene.':' Şu an yalnızca uygulamanın kendi sözlüğü kullanılabiliyor.'+(signedIn()||!AUTH.on||!FLUO_CONFIG.aiOn?'':' <a href="#hesap">Giriş yaparsan</a> her kelimeyi ve cümleyi yapay zekâyla çevirebilirsin.'))+'</p></div>';return}
   if(r.type==="word"){box.innerHTML=wordCard(r,"tr");box.dataset.out=TR.dir==="en"?(r.senses||[])[0]||"":r.head}
   else if(r.type==="words"){box.innerHTML='<p class="note">"'+esc(q)+'" için İngilizce karşılıklar:</p>'+r.items.map(it=>wordCard({head:it.head,pos:it.pos,senses:[it.mean],examples:it.ex?[it.ex]:[],src:r.src},"en")).join("");box.dataset.out=r.items[0].head}
   else{

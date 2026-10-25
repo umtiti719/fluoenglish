@@ -55,7 +55,7 @@ async function onAuthEvent(ev,session){
 }
 function refreshUserViews(){
   // Sitede yapay zekâ çevirisi yalnızca giriş yapanlara (Claude önizlemesinde Claude'un kendi yeteneği kullanılır)
-  if(AUTH.on)sampleFn=AUTH.user?siteSample():null;
+  if(AUTH.on)sampleFn=AUTH.user&&FLUO_CONFIG.aiOn?siteSample():null;
   if(lastHash==="cevir"&&typeof renderTrHint==="function")renderTrHint();
   renderStreak();
   if(lastHash==="ana")renderHome();

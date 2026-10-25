@@ -4,7 +4,10 @@
    Kurulum: belgeler/uyelik-kurulumu.md */
 const FLUO_CONFIG={
   supabaseUrl:"https://wppbmuxkwijwtmvbkhdp.supabase.co",
-  supabaseAnonKey:"sb_publishable_xDhvsAqW753Wm7SqB2w8Yw_F-n9vIk-"
+  supabaseAnonKey:"sb_publishable_xDhvsAqW753Wm7SqB2w8Yw_F-n9vIk-",
+  // Sitede yapay zekâ çevirisi: Supabase'de "ceviri" fonksiyonu ve ANTHROPIC_API_KEY kurulunca true yapılacak
+  // (kurulum: belgeler/yapay-zeka.sql + supabase/functions/ceviri). Kapalıyken sözlük çevirisi çalışır.
+  aiOn:false
 };
 
 /* Üyelik durumu (auth.js doldurur; diğer bölümler okur) */

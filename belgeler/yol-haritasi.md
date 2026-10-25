@@ -22,4 +22,4 @@
 ## Daha sonra
 - Türkçeden İngilizceye cümle kurma, günün dersi, içeriği büyütme, okuma anlama, telaffuz köşesi
 - Destek bölümü (25 Ekim): sık sorulanlar, Bize yaz formu, kelime kartı ve dil bilgisinden hata bildirme; mesajlar feedback tablosunda (Table Editor → feedback).
-- Sitede yapay zekâ çevirisi (25 Ekim): Supabase Edge Function 'ceviri' + Claude Haiku 5.5; yalnızca giriş yapanlar, kişi başı günde 100 istek. Kurulum: Anthropic API anahtarı (Supabase gizli değişkeni ANTHROPIC_API_KEY), belgeler/yapay-zeka.sql, fonksiyonun panelden yüklenmesi.
+- Sitede yapay zekâ çevirisi (25 Ekim, kod hazır, KAPALI — ücretli kurulum sona bırakıldı; açmak için config.js aiOn:true): Supabase Edge Function 'ceviri' + Claude Haiku 5.5; yalnızca giriş yapanlar, kişi başı günde 100 istek. Kurulum: Anthropic API anahtarı (Supabase gizli değişkeni ANTHROPIC_API_KEY), belgeler/yapay-zeka.sql, fonksiyonun panelden yüklenmesi.
