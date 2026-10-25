@@ -4078,8 +4078,8 @@ const SECTIONS=[
   {id:"gramer",label:"Dil Bilgisi",short:"Gramer",icon:"book",c:"var(--m-gram)"},
   {id:"ogren",label:"Kelime Öğren",short:"Öğren",icon:"cards",c:"var(--m-learn)"},
   {id:"yarisma",label:"Yarışma",short:"Yarışma",icon:"trophy",c:"var(--m-quiz)"},
-  {id:"cevir",label:"Çeviri",short:"Çeviri",icon:"translate",c:"var(--m-gram)"},
-  {id:"metin",label:"Metin Çevirisi",short:"Metin",icon:"doc",c:"var(--m-trans)"}
+  {id:"metin",label:"Metin Çevirisi",short:"Metin",icon:"doc",c:"var(--m-trans)"},
+  {id:"cevir",label:"Çeviri",short:"Çeviri",icon:"translate",c:"var(--m-gram)"}
 ];
 function renderNav(){
   $("nav").innerHTML=SECTIONS.map(s=>'<a href="#'+s.id+'" data-sec="'+s.id+'" style="--c:'+s.c+'">'+ic(s.icon)+s.label+'</a>').join("");
