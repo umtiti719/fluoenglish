@@ -1500,3 +1500,17 @@ body.focus .sitefoot{display:none}
 @media (max-width:560px){.streak{padding:7px 11px 7px 9px}.streak .sk-t{display:none}.pomobtn.act{padding:0 10px}.pomobtn.act .ic{display:none}.top-r{gap:4px}}
 @media (max-width:374px){.brand-t{display:none}}
 .tools{grid-template-columns:repeat(auto-fill,minmax(260px,1fr))}
+.pm-custom{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:-2px}
+.pm-num{display:flex;flex-direction:column;align-items:center;gap:4px;background:var(--surface2);border-radius:14px;padding:8px 4px}
+.pm-num small{font-size:.72rem;font-weight:600;color:var(--muted)}
+.pm-num>div{display:flex;align-items:center;gap:2px}
+.pm-num button{width:26px;height:26px;border-radius:50%;border:1px solid var(--line);background:var(--surface);color:var(--ink);cursor:pointer;font:inherit;font-weight:600;line-height:1;display:grid;place-items:center}
+.pm-num input{width:42px;text-align:center;font:inherit;font-weight:600;font-size:1rem;border:0;background:transparent;color:var(--ink);-moz-appearance:textfield}
+.pm-num input::-webkit-outer-spin-button,.pm-num input::-webkit-inner-spin-button{-webkit-appearance:none;margin:0}
+.pm-num>span{font-size:.7rem;color:var(--muted)}
+.pm-sets{flex-wrap:wrap}
+@media (max-width:400px){.pm-sets small{width:100%}}
+.pm-custom{grid-template-columns:repeat(3,minmax(0,1fr))}
+.pm-num{min-width:0;padding:8px 2px}
+.pm-num button{width:24px;height:24px;flex:none}
+.pm-num input{width:34px;padding:0}

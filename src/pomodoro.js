@@ -5,7 +5,9 @@ var POMO_MODES={work:{l:"Çalışma",icon:"book"},short:{l:"Kısa mola",icon:"cu
 var POMO_SETS=[[25,5,15,"Klasik"],[15,3,10,"Kısa"],[50,10,20,"Derin"]];
 var PM={mode:"work",end:0,left:0,running:false,round:0,timer:null,open:false};
 const POMO_KEY="fluoenglish_pomo";
-function pomoDur(m){const s=(P.set&&P.set.pomo)||0,t=POMO_SETS[s]||POMO_SETS[0];return (m==="work"?t[0]:m==="short"?t[1]:t[2])*60}
+const POMO_LIM=[[1,180,"Çalışma"],[1,60,"Kısa mola"],[1,90,"Uzun mola"]];
+function pomoCustom(){const c=(P.set&&P.set.pomoC)||[30,5,15];return c.map((v,i)=>Math.min(POMO_LIM[i][1],Math.max(1,Math.round(+v)||POMO_SETS[0][i])))}
+function pomoDur(m){const s=(P.set&&P.set.pomo)||0,t=s===3?pomoCustom():(POMO_SETS[s]||POMO_SETS[0]);return (m==="work"?t[0]:m==="short"?t[1]:t[2])*60}
 function pomoLoad(){try{const s=JSON.parse(localStorage.getItem(POMO_KEY)||"null");if(s)Object.assign(PM,{mode:s.mode,end:s.end,left:s.left,running:s.running,round:s.round||0})}catch(e){}
   if(!PM.left)PM.left=pomoDur(PM.mode);
   if(PM.running&&PM.end<=Date.now()){PM.running=false;PM.left=0;setTimeout(()=>pomoDone(true),500)}
@@ -59,11 +61,18 @@ function pomoRender(){
     '<div class="pm-ring'+(PM.mode!=="work"?" brk":"")+'" id="pomoRing"><b id="pomoTime"></b><span>'+POMO_MODES[PM.mode].l+'</span></div>'+
     '<div class="pm-ctl">'+(PM.running?'<button class="primary" id="pmPause">'+ic("pause")+'Duraklat</button>':'<button class="primary" id="pmStart">'+ic("play")+(PM.left<pomoDur(PM.mode)&&PM.left>0?"Devam et":"Başlat")+'</button>')+
       '<button class="ghost" id="pmReset" aria-label="Sıfırla">'+ic("refresh")+'</button></div>'+
-    '<p class="pm-today">'+(n?'Bugün <b>'+n+'</b> pomodoro tamamladın '+'<span class="pm-dots">'+Array.from({length:Math.min(n,8)},()=>'<i></i>').join("")+'</span>':'Bugün henüz pomodoro yok. 25 dakika odaklan, 5 dakika dinlen.')+'</p>'+
-    '<div class="pm-sets"><small>Süreler</small><div>'+POMO_SETS.map((t,i)=>'<button data-ps="'+i+'" aria-pressed="'+(s===i)+'" title="'+t[0]+' dk çalışma · '+t[1]+' dk mola"><b>'+t[3]+'</b><span>'+t[0]+'/'+t[1]+'</span></button>').join("")+'</div></div>';
+    '<p class="pm-today">'+(n?'Bugün <b>'+n+'</b> pomodoro tamamladın '+'<span class="pm-dots">'+Array.from({length:Math.min(n,8)},()=>'<i></i>').join("")+'</span>':'Bugün henüz pomodoro yok. '+Math.round(pomoDur("work")/60)+' dakika odaklan, '+Math.round(pomoDur("short")/60)+' dakika dinlen.')+'</p>'+
+    '<div class="pm-sets"><small>Süreler</small><div>'+POMO_SETS.map((t,i)=>'<button data-ps="'+i+'" aria-pressed="'+(s===i)+'" title="'+t[0]+' dk çalışma · '+t[1]+' dk mola"><b>'+t[3]+'</b><span>'+t[0]+'/'+t[1]+'</span></button>').join("")+
+      (()=>{const c=pomoCustom();return '<button data-ps="3" aria-pressed="'+(s===3)+'" title="Süreleri kendin ayarla"><b>Özel</b><span>'+c[0]+'/'+c[1]+'</span></button>'})()+'</div></div>'+
+    (s===3?'<div class="pm-custom">'+pomoCustom().map((v,i)=>'<div class="pm-num"><small>'+POMO_LIM[i][2]+'</small><div><button data-pd="'+i+'" data-d="-1" aria-label="'+POMO_LIM[i][2]+' azalt">−</button>'+
+      '<input type="number" inputmode="numeric" min="1" max="'+POMO_LIM[i][1]+'" value="'+v+'" data-pi="'+i+'" aria-label="'+POMO_LIM[i][2]+' (dakika)"><button data-pd="'+i+'" data-d="1" aria-label="'+POMO_LIM[i][2]+' artır">+</button></div><span>dakika</span></div>').join("")+'</div>':'');
   pomoRenderTime();
   $("pmClose").onclick=()=>pomoToggle(false);
   p.querySelectorAll("[data-pm]").forEach(b=>b.onclick=()=>pomoSet(b.dataset.pm));
+  const setC=(i,v)=>{const c=pomoCustom();c[i]=Math.min(POMO_LIM[i][1],Math.max(1,Math.round(v)||1));P.set.pomoC=c;save();
+    if(!PM.running&&(i===0?PM.mode==="work":i===1?PM.mode==="short":PM.mode==="long"))PM.left=pomoDur(PM.mode);pomoSave();pomoRender()};
+  p.querySelectorAll("[data-pd]").forEach(b=>b.onclick=()=>{const i=+b.dataset.pd,c=pomoCustom(),st=i===0&&c[0]>=10?5:1;setC(i,c[i]+st*(+b.dataset.d))});
+  p.querySelectorAll("[data-pi]").forEach(inp=>inp.onchange=()=>setC(+inp.dataset.pi,+inp.value));
   p.querySelectorAll("[data-ps]").forEach(b=>b.onclick=()=>{P.set.pomo=+b.dataset.ps;save();if(!PM.running)PM.left=pomoDur(PM.mode);pomoSave();pomoRender()});
   if($("pmStart"))$("pmStart").onclick=()=>{pomoStart();try{if("Notification" in window&&Notification.permission==="default")Notification.requestPermission()}catch(e){}};
   if($("pmPause"))$("pmPause").onclick=pomoPause;

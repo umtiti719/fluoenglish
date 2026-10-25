@@ -28,7 +28,7 @@ Türkçe arayüzlü, genel İngilizce öğrenme uygulaması.
 - **Çalışmam:** giriş yapınca üst menüde; haftalık hedef, rozetler, kayıtlı kelimeler ve cümleler, tüm bölümlerdeki ilerleme ve "sırada ne var" önerileri.
 - **Diyaloglar:** gerçek hayattan 12 konuşma (kafe, otel, havalimanı, doktor, iş görüşmesi, toplantı…); iki farklı doğal sesle dinleme ve "Sen konuş" rol oyunu (ses: `audio-d.js`).
 - **Sık yapılan hatalar:** Türkçe konuşanların en sık yaptığı 40 hata, doğruları ve açıklamaları; 10 soruluk "Hangisi doğru?" testi.
-- **Pomodoro:** üst menüdeki saatten 25/5, 15/3 ya da 50/10 dakikalık odaklanma sayacı; çalışırken kalan süre menüde görünür, sayfa değişse de sürer, bitince ses ve bildirim.
+- **Pomodoro:** üst menüdeki saatten 25/5, 15/3, 50/10 ya da kişinin kendi belirlediği sürelerle (Özel) odaklanma sayacı; çalışırken kalan süre menüde görünür, sayfa değişse de sürer, bitince ses ve bildirim.
 - **Uygulama:** ana ekrana eklenebilir (PWA), sesler ve sözlük indirilip çevrimdışı kullanılabilir, isteğe bağlı günlük tekrar hatırlatması (`sw.js`, `manifest.webmanifest`).
 - **Metin Çevirisi:** Seviyeye göre 40 metin (her seviyede 10), kelimeye dokununca anlamı, çeviri puanlama.
 
