@@ -1083,6 +1083,44 @@ a.stat{text-decoration:none;color:inherit}
 body.focus .sitefoot{display:none}
 @media (max-width:520px){.fb-kinds button{flex-direction:row;justify-content:center;padding:10px 8px;font-size:.84rem}.fb-kinds button .ic{width:17px;height:17px}}
 
+/* ================= CÜMLE KUR ================= */
+.seg.two{grid-template-columns:repeat(2,1fr)}
+@media (max-width:460px){.seg.two{grid-template-columns:repeat(2,1fr)}}
+.build #buildBox{display:flex;flex-direction:column;gap:16px;margin-top:18px}
+.bq{display:flex;flex-direction:column;align-items:flex-start;gap:8px;padding:20px 20px 18px;border-radius:22px;background:var(--surface2);border:1px solid var(--line)}
+.btr{margin:0;font-size:clamp(1.2rem,3.2vw,1.5rem);font-weight:600;letter-spacing:-.02em;line-height:1.35}
+.bhelp{color:var(--muted);font-size:.84rem}
+.bans{min-height:58px;display:flex;flex-wrap:wrap;align-content:flex-start;gap:8px;padding:10px 4px 12px;border-bottom:2px solid var(--line);transition:border-color .2s}
+.bans.ok{border-color:var(--good)}.bans.bad{border-color:var(--bad)}
+.bph{color:var(--muted);font-size:.9rem;align-self:center;padding:0 6px}
+.bbank{display:flex;flex-wrap:wrap;justify-content:center;gap:8px;min-height:50px}
+.btile{font:inherit;font-size:1rem;font-weight:600;color:var(--ink);cursor:pointer;padding:9px 14px;border-radius:14px;background:var(--surface);
+  border:1px solid var(--line);box-shadow:0 2px 0 color-mix(in srgb,var(--line) 90%,var(--ink));transition:transform .12s,opacity .15s;touch-action:manipulation}
+.btile:hover:not(:disabled){transform:translateY(-1px)}
+.btile:active:not(:disabled){transform:translateY(1px);box-shadow:none}
+.btile.used{opacity:.25;box-shadow:none;cursor:default;color:transparent;background:var(--surface2)}
+.btile.in{animation:flipin .18s ease}
+.btile:disabled{cursor:default}
+.bwrite textarea{font-size:1.1rem;min-height:84px}
+.bfoot{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.bfoot .sp{flex:1}
+.bfoot .ghost .ic{width:16px;height:16px;color:var(--marigold,#d98b1f)}
+.bfoot .primary:disabled{opacity:.45;cursor:default}
+.bres{display:flex;flex-direction:column;gap:12px;padding:16px 18px;border-radius:20px;border:1px solid var(--line);background:var(--surface)}
+.bres.ok{background:color-mix(in srgb,var(--good-bg) 70%,var(--surface));border-color:color-mix(in srgb,var(--good) 30%,var(--line))}
+.bres.bad{background:color-mix(in srgb,var(--bad-bg) 60%,var(--surface));border-color:color-mix(in srgb,var(--bad) 25%,var(--line))}
+.bres-h{display:flex;align-items:center;gap:8px;font-size:1.05rem}
+.bres-h .ic{width:20px;height:20px}
+.bres.ok .bres-h{color:var(--good)}.bres.bad .bres-h{color:var(--bad)}
+.bres-s{display:flex;align-items:center;gap:10px}
+.bres-s p{margin:0;font-size:1.1rem;font-weight:600;line-height:1.5;flex:1}
+.bres-u small{display:block;font-size:.78rem;color:var(--muted);margin-bottom:2px}
+.bres-u p{margin:0;line-height:1.5}
+.bres .note{margin:0}
+@media (max-width:600px){.bq{padding:16px}.btile{padding:8px 12px;font-size:.98rem}.bfoot .primary{flex:1}}
+.tools{grid-template-columns:repeat(4,1fr)}@media (max-width:1100px){.tools{grid-template-columns:repeat(2,1fr)}}@media (max-width:560px){.tools{grid-template-columns:1fr}}
+.bfoot .primary{white-space:nowrap}
+
 </style>
 
 <header class="top">
@@ -1229,6 +1267,28 @@ body.focus .sitefoot{display:none}
   </section>
 
   <!-- ================= DİNLEME ================= -->
+  <section class="view" id="v-cumle" hidden>
+    <div class="page-head">
+      <div>
+        <a class="backlink" href="#ogren"><svg class="ic"><use href="#i-left"/></svg>Kelime Öğren</a>
+        <span class="eyebrow c-gram" style="margin-top:10px">Cümle Kur</span>
+        <h1 class="h-page">Türkçeden İngilizceye</h1>
+        <p class="lead">Türkçe cümleyi oku, İngilizcesini kur. Yanlış yaptığın cümleler birkaç dakika sonra yeniden karşına çıkar.</p>
+      </div>
+      <div class="ph-stat" id="buildStat"></div>
+    </div>
+    <div class="card listen build">
+      <div class="lsel">
+        <div><small class="lsel-l">Seviye</small><div class="seg" id="bLevels"></div></div>
+        <div><small class="lsel-l">Alıştırma</small><div class="seg two" id="bModes">
+          <button data-m="kart" aria-pressed="true">Kelimelerle kur<small>Kartları sırala</small></button>
+          <button data-m="yaz" aria-pressed="false">Kendin yaz<small>Klavyeyle</small></button>
+        </div></div>
+      </div>
+      <div id="buildBox"></div>
+    </div>
+  </section>
+
   <section class="view" id="v-dinle" hidden>
     <div class="page-head">
       <div>
@@ -1480,6 +1540,7 @@ body.focus .sitefoot{display:none}
     <symbol id="i-globe" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c2.5 2.6 3.8 5.6 3.8 9s-1.3 6.4-3.8 9c-2.5-2.6-3.8-5.6-3.8-9S9.5 5.6 12 3z"/></symbol>
     <symbol id="i-help" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M9.6 9.2a2.5 2.5 0 0 1 4.8.9c0 1.7-2.4 2.2-2.4 3.6M12 17h.01"/></symbol>
     <symbol id="i-flag" viewBox="0 0 24 24"><path d="M5 21V4M5 4h11l-2 4 2 4H5"/></symbol>
+    <symbol id="i-puzzle" viewBox="0 0 24 24"><path d="M4 7h4a2 2 0 1 1 4 0h4v4a2 2 0 1 1 0 4v4h-4a2 2 0 1 0-4 0H4v-4a2 2 0 1 0 0-4z"/></symbol>
     <symbol id="i-check" viewBox="0 0 24 24"><path d="M5 12l5 5 9-10"/></symbol>
     <symbol id="i-x" viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"/></symbol>
     <symbol id="i-left" viewBox="0 0 24 24"><path d="M15 5l-7 7 7 7"/></symbol>
@@ -2347,6 +2408,130 @@ async function sendFeedback(){
     const er=$("fbErr");er.hidden=false;er.innerHTML=ic("alert")+'<span>'+esc(t)+'</span>'}
 }
 
+/* ================= CÜMLE KUR (Türkçeden İngilizceye) =================
+   Türkçe cümleyi gör, İngilizcesini ya karışık kartları sıralayarak ya da yazarak kur.
+   Cümleler uygulamanın kendi içeriğinden gelir: deste örnekleri, yarışma örnekleri, gramer örnekleri.
+   Hafıza: P.seen["c:"+cümle] (görülme), yanlışlar sonra yeniden gelir; P.build={n,ok}. */
+var CB={lv:"kolay",mode:"kart",cur:null,picked:[],bank:[],answered:false,hints:0,queue:[],res:null};
+var CPOOL=null;
+
+function buildTokens(en){
+  return plain(en).replace(/[“”"]/g,"").split(/\s+/).map(t=>t.replace(/^[^\w']+|[^\w']+$/g,"")).filter(Boolean);
+}
+function cpool(){
+  if(CPOOL)return CPOOL;
+  CPOOL=LSENT.filter(s=>s.tr&&!/^Metnin tamamı/.test(s.tr)&&!/[;:()\[\]]/.test(s.en)).map(s=>({...s,tok:buildTokens(s.en)}))
+    .filter(s=>s.tok.length>=3&&s.tok.length<=(s.lv==="kolay"?9:s.lv==="orta"?11:13));
+  return CPOOL;
+}
+function ckey(s){return "c:"+plain(s.en)}
+
+function newBuild(){
+  const pool=cpool().filter(s=>s.lv===CB.lv);
+  // önce daha önce yanlış yapılıp tekrar sırası gelenler
+  let s=null;const qi=CB.queue.findIndex(q=>q.lv===CB.lv&&q.due<=Date.now());
+  if(qi>=0){s=CB.queue.splice(qi,1)[0].s}
+  if(!s){const cand=pickFresh(pool,ckey,8);s=cand[Math.floor(Math.random()*Math.min(3,cand.length))]}
+  CB.cur=s;CB.picked=[];CB.answered=false;CB.hints=0;CB.res=null;
+  // kart bankası: cümlenin kelimeleri + birkaç çeldirici
+  const own=new Set(s.tok.map(t=>t.toLowerCase()));
+  const nd=CB.lv==="kolay"?2:3;const dis=[];
+  for(const o of shuffle(pool)){if(dis.length>=nd)break;
+    for(const t of shuffle(o.tok)){const l=t.toLowerCase();
+      if(!own.has(l)&&!dis.some(d=>d.toLowerCase()===l)&&/^[a-z']+$/.test(t)&&t.length>1){dis.push(t);break}}}
+  CB.bank=shuffle(s.tok.concat(dis).map((t,i)=>({t,id:i,used:false})));
+  renderBuild();
+  if(CB.mode==="yaz")setTimeout(()=>{const i=$("bInput");if(i&&!matchMedia("(pointer:coarse)").matches)i.focus()},50);
+}
+
+function renderBuildStat(){const b=P.build||{n:0,ok:0};const el=$("buildStat");if(el)el.innerHTML='<div><b>'+b.ok+'</b><span>/ '+b.n+' doğru</span></div>'}
+function renderBuildSel(){
+  $("bLevels").innerHTML=Object.entries(LEVELS).map(([k,Lv])=>'<button style="--c:var(--lv-'+k+')" aria-pressed="'+(k===CB.lv)+'" data-k="'+k+'">'+Lv.name+'<small>'+Lv.cefr+'</small></button>').join("");
+  $("bLevels").querySelectorAll("button").forEach(b=>b.onclick=()=>{if(CB.lv===b.dataset.k)return;CB.lv=b.dataset.k;renderBuildSel();newBuild()});
+  $("bModes").querySelectorAll("button").forEach(b=>{b.setAttribute("aria-pressed",b.dataset.m===CB.mode);
+    b.onclick=()=>{if(CB.mode===b.dataset.m)return;CB.mode=b.dataset.m;renderBuildSel();if(CB.answered)newBuild();else{CB.picked=[];CB.bank.forEach(x=>x.used=false);renderBuild()}}});
+}
+function openBuild(){renderBuildStat();renderBuildSel();if(!CB.cur)newBuild();else renderBuild()}
+
+function renderBuild(){
+  const s=CB.cur,box=$("buildBox");if(!s||!box)return;
+  let h='<div class="bq"><span class="badge">'+esc(s.src||"")+'</span><p class="btr">'+esc(s.tr)+'</p><small class="bhelp">'+(CB.mode==="kart"?"İngilizcesini kartları sırayla seçerek kur":"İngilizcesini yaz")+'</small></div>';
+  if(CB.mode==="kart"){
+    h+='<div class="bans'+(CB.answered?(CB.res.ok?" ok":" bad"):"")+'" id="bAns" aria-label="Kurduğun cümle">'+(CB.picked.length?CB.picked.map((x,i)=>'<button class="btile in" data-p="'+i+'"'+(CB.answered?" disabled":"")+'>'+esc(x.t)+'</button>').join(""):'<span class="bph">Kartlara dokun</span>')+'</div>'+
+      '<div class="bbank" id="bBank">'+CB.bank.map(x=>'<button class="btile'+(x.used?" used":"")+'" data-id="'+x.id+'"'+(x.used||CB.answered?" disabled":"")+'>'+esc(x.t)+'</button>').join("")+'</div>';
+  }else{
+    h+='<label class="fld bwrite"><span class="sr">İngilizce cümle</span><textarea id="bInput" rows="2" autocomplete="off" autocapitalize="sentences" spellcheck="false" placeholder="İngilizcesini buraya yaz…"'+(CB.answered?" disabled":"")+'>'+esc(CB.typed||"")+'</textarea></label>';
+  }
+  if(!CB.answered){
+    h+='<div class="bfoot"><button class="linkbtn" id="bSkip">Bilmiyorum</button><span class="sp"></span>'+
+      (CB.mode==="kart"?'<button class="ghost" id="bHint">'+ic("bulb")+'İpucu</button>':'')+
+      '<button class="primary" id="bCheck"'+(CB.mode==="kart"&&!CB.picked.length?" disabled":"")+'>Kontrol et</button></div>';
+  }else{
+    const r=CB.res;
+    h+='<div class="bres '+(r.ok?"ok":"bad")+'"><div class="bres-h">'+ic(r.ok?"check":"x")+'<b>'+esc(r.title)+'</b></div>'+
+      '<div class="bres-s"><p>'+r.refHtml+'</p>'+sayBtn(s.en,"sm")+'</div>'+(r.usrHtml?'<div class="bres-u"><small>Senin cümlen</small><p>'+r.usrHtml+'</p></div>':'')+
+      (r.note?'<p class="note">'+esc(r.note)+'</p>':'')+
+      '<div class="bfoot"><span class="sp"></span><button class="primary" id="bNext">Sonraki cümle<span class="arr">'+ic("right")+'</span></button></div></div>';
+  }
+  box.innerHTML=h;
+  if(CB.mode==="kart"&&!CB.answered){
+    box.querySelectorAll("#bBank .btile").forEach(b=>b.onclick=()=>{const x=CB.bank.find(y=>y.id===+b.dataset.id);if(!x||x.used)return;x.used=true;CB.picked.push(x);renderBuild()});
+    box.querySelectorAll("#bAns .btile").forEach(b=>b.onclick=()=>{const x=CB.picked.splice(+b.dataset.p,1)[0];if(x)x.used=false;renderBuild()});
+    $("bHint").onclick=buildHint;
+  }
+  if(CB.mode==="yaz"&&!CB.answered){const i=$("bInput");i.oninput=()=>{CB.typed=i.value};
+    i.onkeydown=e=>{if(e.key==="Enter"&&!e.shiftKey){e.preventDefault();checkBuild()}}}
+  if(!CB.answered){$("bCheck").onclick=()=>checkBuild();$("bSkip").onclick=()=>checkBuild(true)}
+  else{$("bNext").onclick=()=>{CB.typed="";newBuild()};setTimeout(()=>{try{$("bNext").focus({preventScroll:true})}catch(e){}},30)}
+}
+function buildHint(){
+  const want=CB.cur.tok;let i=0;
+  while(i<CB.picked.length&&i<want.length&&CB.picked[i].t===want[i])i++;
+  // yanlış kartları geri gönder, sıradaki doğru kartı ekle
+  CB.picked.splice(i).forEach(x=>x.used=false);
+  if(i<want.length){const x=CB.bank.find(y=>!y.used&&y.t===want[i]);if(x){x.used=true;CB.picked.push(x)}}
+  CB.hints++;renderBuild();
+}
+function checkBuild(give){
+  if(CB.answered)return;const s=CB.cur;
+  let ok=false,title,refHtml,usrHtml="",note="";
+  if(CB.mode==="kart"){
+    const got=CB.picked.map(x=>x.t.toLowerCase()),want=s.tok.map(t=>t.toLowerCase());
+    ok=!give&&got.join(" ")===want.join(" ");
+    refHtml=esc(plain(s.en));
+    if(!ok&&!give&&got.length){const {hitA,hitB}=lcs(want,got);
+      usrHtml=CB.picked.map((x,i)=>'<span class="dw '+(hitB.has(i)?"":"x")+'">'+esc(x.t)+'</span>').join(" ");
+      refHtml=s.tok.map((t,i)=>'<span class="dw '+(hitA.has(i)?"g":"r")+'">'+esc(t)+'</span>').join(" ")}
+    if(ok&&CB.hints)note=CB.hints+" ipucuyla kurdun. Bir dahaki sefere ipucusuz dene!";
+  }else{
+    const txt=give?"":($("bInput").value||"").trim();
+    if(!give&&!txt){$("bInput").focus();return}
+    const ref=words_(s.en),usr=words_(txt);
+    if(!give){
+      if(ref.join(" ")===usr.join(" "))ok=true;
+      else if(ref.length===usr.length){let d=0;ref.forEach((w,i)=>d+=lev(w,usr[i]));if(d<=2&&d<=Math.ceil(ref.join("").length/15)){ok=true;note="Küçük bir yazım hatası var; doğrusunu yukarıda görebilirsin."}}
+    }
+    const {hitA,hitB}=lcs(ref,usr);
+    refHtml=ok&&!note?esc(plain(s.en)):ref.map((w,i)=>'<span class="dw '+(hitA.has(i)?"g":"r")+'">'+esc(w)+'</span>').join(" ");
+    if(!ok&&usr.length)usrHtml=usr.map((w,i)=>'<span class="dw '+(hitB.has(i)?"":"x")+'">'+esc(w)+'</span>').join(" ");
+    if(!ok&&!give&&usr.length){const sc=Math.round(hitA.size/ref.length*100);if(sc>=60)note="Çok yaklaştın (%"+sc+"). Kırmızı kelimelere dikkat et."}
+  }
+  title=ok?(["Harika!","Doğru!","Tam isabet!","Çok iyi!"][Math.floor(Math.random()*4)]):give?"Doğru cümle":"Tam olmadı";
+  CB.answered=true;CB.res={ok,title,refHtml,usrHtml,note};
+  P.build=P.build||{n:0,ok:0};P.build.n++;if(ok)P.build.ok++;
+  touch(ckey(s));markActive();
+  if(s.word&&winfo(s.word)){if(ok)srsOk(s.word);else srsWrong(s.word)}
+  if(!ok)CB.queue.push({s,lv:s.lv,due:Date.now()+3*60*1000}); // yanlış cümle birkaç dakika sonra yeniden gelir
+  save();renderBuildStat();renderBuild();
+  if(P.set.autoSpeak||ok)speak(plain(s.en),document.querySelector("#buildBox .bres .speak"));
+}
+
+// Klavye: Enter ile kontrol et / sonraki cümle (yazma kutusu kendi Enter'ını yönetir)
+document.addEventListener("keydown",e=>{
+  if(e.key!=="Enter"||$("v-cumle").hidden||e.target.id==="bInput"||/^(BUTTON|A|TEXTAREA|INPUT)$/.test(e.target.tagName))return;
+  if(CB.answered)$("bNext")?.click();else if(CB.mode==="kart"&&CB.picked.length)checkBuild();
+});
+
 /* ================= MARKA =================
    Uygulamada görünen ad ve logo: Fluo. Dışarıya dönük kimlik (web adresi, e-posta, depo, kayıt anahtarları): fluoenglish. */
 const BRAND={name:"Fluo",id:"fluoenglish",site:"fluoenglish.com",email:"support@fluoenglish.com",github:"github.com/umtiti719/fluoenglish"};
@@ -2445,7 +2630,7 @@ document.addEventListener("keydown",unlockAudio,{once:true,capture:true});
 // Ses dosyaları ihtiyaç olduğunda yüklenir: kelimeler ilk dokunuşta, cümleler ve metinler ilgili bölüme girilince
 document.addEventListener("pointerdown",()=>loadAudio("w").catch(()=>{}),{once:true,capture:true});
 function prefetchAudio(h){
-  const need=/^(ogren-|dinle|g-|cevir|seviye)/.test(h)?["w","s"]:h==="metin"?["w","t"]:[];
+  const need=/^(ogren-|dinle|g-|cevir|seviye|cumle)/.test(h)?["w","s"]:h==="metin"?["w","t"]:[];
   need.forEach(g=>setTimeout(()=>loadAudio(g).catch(()=>{}),300));
 }
 let enVoice=null;
@@ -2516,7 +2701,7 @@ function renderNav(){
   $("nav").innerHTML=SECTIONS.map(s=>'<a href="#'+s.id+'" data-sec="'+s.id+'" style="--c:'+s.c+'">'+ic(s.icon)+s.label+'</a>').join("");
   $("tabbar").innerHTML=SECTIONS.map(s=>'<a href="#'+s.id+'" data-sec="'+s.id+'" style="--c:'+s.c+'">'+ic(s.icon)+'<span>'+s.short+'</span></a>').join("");
 }
-const VIEWS=["destek","hesap","seviye","ayarlar","ana","ogren","calis","deckend","defter","dinle","yarisma","gramer","konu","cevir","ceviri"];
+const VIEWS=["cumle","destek","hesap","seviye","ayarlar","ana","ogren","calis","deckend","defter","dinle","yarisma","gramer","konu","cevir","ceviri"];
 function setFocus(){document.body.classList.toggle("focus",(!$("v-calis").hidden)||(!$("v-yarisma").hidden&&G.phase==="game")||(!$("v-seviye").hidden&&T.phase==="run"))}
 function showView(v,sec){
   VIEWS.forEach(x=>$("v-"+x).hidden=x!==v);setTimeout(setFocus,0);
@@ -2546,6 +2731,7 @@ function route(){
     S.done?showDeckEnd():(showView("calis","ogren"),showCard());
   }
   else if(h==="defter"){renderDefter();showView("defter","ogren")}
+  else if(h==="cumle"){showView("cumle","ogren");openBuild()}
   else if(h==="dinle"){showView("dinle","ogren");if(!L.cur)newListen();else renderListenStat()}
   else if(h==="yarisma"){showQuiz();}
   else if(h==="gramer"){renderGramList();showView("gramer","gramer")}
@@ -2613,6 +2799,7 @@ function renderHome(){
     (due?'<a class="cont hot" href="#ogren-tekrar" style="--c:var(--g2)"><span class="mod-ic">'+ic("refresh")+'</span><div><small>Aralıklı tekrar</small><b>Bugün tekrar edilecek: '+due+' kelime</b><span>Unutmadan önce bir kez daha bak</span></div>'+ic("right")+'</a>':'')+
     '<a class="cont" href="#g-'+nextT.id+'" style="--c:var(--m-gram)"><span class="mod-ic">'+ic("book")+'</span><div><small>Sıradaki gramer konusu · '+nextT.level+'</small><b>'+esc(nextT.title)+'</b><span>'+esc(nextT.tr)+'</span></div>'+ic("right")+'</a>'+
     '<a class="cont" href="#ogren-'+nextD.id+'" style="--c:'+nextD.hue+'"><span class="mod-ic">'+ic(nextD.icon)+'</span><div><small>Kelime destesi · '+learnedIn(nextD)+'/'+nextD.words.length+'</small><b>'+esc(nextD.name)+'</b><span>'+esc(nextD.en)+'</span></div>'+ic("right")+'</a>'+
+    '<a class="cont" href="#cumle" style="--c:var(--m-gram)"><span class="mod-ic">'+ic("puzzle")+'</span><div><small>Cümle kur'+(P.build?' · '+P.build.ok+' doğru':'')+'</small><b>Türkçeden İngilizceye</b><span>Kartları sırala ya da kendin yaz</span></div>'+ic("right")+'</a>'+
     '<a class="cont" href="#dinle" style="--c:var(--m-learn)"><span class="mod-ic">'+ic("headphones")+'</span><div><small>Dinleme · '+P.listen.ok+' doğru</small><b>Dinle ve anla</b><span>Cümleyi duy, kelimeyi seç ya da yaz</span></div>'+ic("right")+'</a>'+
     (Object.keys(P.saved).length?'<a class="cont" href="#defter" style="--c:var(--g3)"><span class="mod-ic">'+ic("bookmark")+'</span><div><small>Defterim</small><b>'+Object.keys(P.saved).length+' kayıtlı kelime</b><span>Kaydettiklerini çalış</span></div>'+ic("right")+'</a>':'')+
     (P.level?'<a class="cont" href="#seviye" style="--c:var(--g5)"><span class="mod-ic">'+ic("target")+'</span><div><small>Seviye testi</small><b>Testi yeniden çöz</b><span>Kelime, dil bilgisi, okuma ve dinleme</span></div>'+ic("right")+'</a>':'');
@@ -2660,7 +2847,8 @@ function renderDecks(){
   $("learnTools").innerHTML=
     '<a class="tool'+(due?" hot":" calm")+'" href="'+(due?"#ogren-tekrar":"#ogren")+'" style="--c:var(--g2);--t:var(--t-gram)"><span class="mod-ic">'+ic("refresh")+'</span><div><b>'+(due?due+" kelime tekrar bekliyor":"Bugün tekrar yok")+'</b><span>'+(due?"Unutmadan önce bir kez daha bak.":inRev?inRev+" kelime takvimde. Zamanı gelince burada görünür.":"Kartlarda \"Tekrar et\" dediğin kelimeler burada birikir.")+'</span></div>'+(due?'<span class="tool-go">Başla '+ic("right")+'</span>':'')+'</a>'+
     '<a class="tool" href="#defter" style="--c:var(--g3);--t:var(--t-trans)"><span class="mod-ic">'+ic("bookmark")+'</span><div><b>Defterim</b><span>'+(nb?nb+" kayıtlı kelime":"Henüz kayıtlı kelime yok")+'</span></div><span class="tool-go">Aç '+ic("right")+'</span></a>'+
-    '<a class="tool" href="#dinle" style="--c:var(--m-learn);--t:var(--t-learn)"><span class="mod-ic">'+ic("headphones")+'</span><div><b>Dinleme</b><span>Duy, seç ya da yaz</span></div><span class="tool-go">Başla '+ic("right")+'</span></a>';
+    '<a class="tool" href="#dinle" style="--c:var(--m-learn);--t:var(--t-learn)"><span class="mod-ic">'+ic("headphones")+'</span><div><b>Dinleme</b><span>Duy, seç ya da yaz</span></div><span class="tool-go">Başla '+ic("right")+'</span></a>'+
+    '<a class="tool" href="#cumle" style="--c:var(--m-gram);--t:var(--t-gram)"><span class="mod-ic">'+ic("puzzle")+'</span><div><b>Cümle Kur</b><span>Türkçeden İngilizceye</span></div><span class="tool-go">Başla '+ic("right")+'</span></a>';
   $("decks").innerHTML=DECKS.map(d=>{
     const l=learnedIn(d),n=d.words.length,off=119.4*(1-l/n);
     return '<a class="deck" href="#ogren-'+d.id+'" style="--c:'+d.hue+'">'+

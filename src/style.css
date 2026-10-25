@@ -1068,3 +1068,41 @@ a.stat{text-decoration:none;color:inherit}
 .sitefoot a:hover{color:var(--ink);text-decoration:underline}
 body.focus .sitefoot{display:none}
 @media (max-width:520px){.fb-kinds button{flex-direction:row;justify-content:center;padding:10px 8px;font-size:.84rem}.fb-kinds button .ic{width:17px;height:17px}}
+
+/* ================= CÜMLE KUR ================= */
+.seg.two{grid-template-columns:repeat(2,1fr)}
+@media (max-width:460px){.seg.two{grid-template-columns:repeat(2,1fr)}}
+.build #buildBox{display:flex;flex-direction:column;gap:16px;margin-top:18px}
+.bq{display:flex;flex-direction:column;align-items:flex-start;gap:8px;padding:20px 20px 18px;border-radius:22px;background:var(--surface2);border:1px solid var(--line)}
+.btr{margin:0;font-size:clamp(1.2rem,3.2vw,1.5rem);font-weight:600;letter-spacing:-.02em;line-height:1.35}
+.bhelp{color:var(--muted);font-size:.84rem}
+.bans{min-height:58px;display:flex;flex-wrap:wrap;align-content:flex-start;gap:8px;padding:10px 4px 12px;border-bottom:2px solid var(--line);transition:border-color .2s}
+.bans.ok{border-color:var(--good)}.bans.bad{border-color:var(--bad)}
+.bph{color:var(--muted);font-size:.9rem;align-self:center;padding:0 6px}
+.bbank{display:flex;flex-wrap:wrap;justify-content:center;gap:8px;min-height:50px}
+.btile{font:inherit;font-size:1rem;font-weight:600;color:var(--ink);cursor:pointer;padding:9px 14px;border-radius:14px;background:var(--surface);
+  border:1px solid var(--line);box-shadow:0 2px 0 color-mix(in srgb,var(--line) 90%,var(--ink));transition:transform .12s,opacity .15s;touch-action:manipulation}
+.btile:hover:not(:disabled){transform:translateY(-1px)}
+.btile:active:not(:disabled){transform:translateY(1px);box-shadow:none}
+.btile.used{opacity:.25;box-shadow:none;cursor:default;color:transparent;background:var(--surface2)}
+.btile.in{animation:flipin .18s ease}
+.btile:disabled{cursor:default}
+.bwrite textarea{font-size:1.1rem;min-height:84px}
+.bfoot{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.bfoot .sp{flex:1}
+.bfoot .ghost .ic{width:16px;height:16px;color:var(--marigold,#d98b1f)}
+.bfoot .primary:disabled{opacity:.45;cursor:default}
+.bres{display:flex;flex-direction:column;gap:12px;padding:16px 18px;border-radius:20px;border:1px solid var(--line);background:var(--surface)}
+.bres.ok{background:color-mix(in srgb,var(--good-bg) 70%,var(--surface));border-color:color-mix(in srgb,var(--good) 30%,var(--line))}
+.bres.bad{background:color-mix(in srgb,var(--bad-bg) 60%,var(--surface));border-color:color-mix(in srgb,var(--bad) 25%,var(--line))}
+.bres-h{display:flex;align-items:center;gap:8px;font-size:1.05rem}
+.bres-h .ic{width:20px;height:20px}
+.bres.ok .bres-h{color:var(--good)}.bres.bad .bres-h{color:var(--bad)}
+.bres-s{display:flex;align-items:center;gap:10px}
+.bres-s p{margin:0;font-size:1.1rem;font-weight:600;line-height:1.5;flex:1}
+.bres-u small{display:block;font-size:.78rem;color:var(--muted);margin-bottom:2px}
+.bres-u p{margin:0;line-height:1.5}
+.bres .note{margin:0}
+@media (max-width:600px){.bq{padding:16px}.btile{padding:8px 12px;font-size:.98rem}.bfoot .primary{flex:1}}
+.tools{grid-template-columns:repeat(4,1fr)}@media (max-width:1100px){.tools{grid-template-columns:repeat(2,1fr)}}@media (max-width:560px){.tools{grid-template-columns:1fr}}
+.bfoot .primary{white-space:nowrap}

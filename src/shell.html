@@ -150,6 +150,28 @@
   </section>
 
   <!-- ================= DİNLEME ================= -->
+  <section class="view" id="v-cumle" hidden>
+    <div class="page-head">
+      <div>
+        <a class="backlink" href="#ogren"><svg class="ic"><use href="#i-left"/></svg>Kelime Öğren</a>
+        <span class="eyebrow c-gram" style="margin-top:10px">Cümle Kur</span>
+        <h1 class="h-page">Türkçeden İngilizceye</h1>
+        <p class="lead">Türkçe cümleyi oku, İngilizcesini kur. Yanlış yaptığın cümleler birkaç dakika sonra yeniden karşına çıkar.</p>
+      </div>
+      <div class="ph-stat" id="buildStat"></div>
+    </div>
+    <div class="card listen build">
+      <div class="lsel">
+        <div><small class="lsel-l">Seviye</small><div class="seg" id="bLevels"></div></div>
+        <div><small class="lsel-l">Alıştırma</small><div class="seg two" id="bModes">
+          <button data-m="kart" aria-pressed="true">Kelimelerle kur<small>Kartları sırala</small></button>
+          <button data-m="yaz" aria-pressed="false">Kendin yaz<small>Klavyeyle</small></button>
+        </div></div>
+      </div>
+      <div id="buildBox"></div>
+    </div>
+  </section>
+
   <section class="view" id="v-dinle" hidden>
     <div class="page-head">
       <div>
@@ -401,6 +423,7 @@
     <symbol id="i-globe" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c2.5 2.6 3.8 5.6 3.8 9s-1.3 6.4-3.8 9c-2.5-2.6-3.8-5.6-3.8-9S9.5 5.6 12 3z"/></symbol>
     <symbol id="i-help" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M9.6 9.2a2.5 2.5 0 0 1 4.8.9c0 1.7-2.4 2.2-2.4 3.6M12 17h.01"/></symbol>
     <symbol id="i-flag" viewBox="0 0 24 24"><path d="M5 21V4M5 4h11l-2 4 2 4H5"/></symbol>
+    <symbol id="i-puzzle" viewBox="0 0 24 24"><path d="M4 7h4a2 2 0 1 1 4 0h4v4a2 2 0 1 1 0 4v4h-4a2 2 0 1 0-4 0H4v-4a2 2 0 1 0 0-4z"/></symbol>
     <symbol id="i-check" viewBox="0 0 24 24"><path d="M5 12l5 5 9-10"/></symbol>
     <symbol id="i-x" viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"/></symbol>
     <symbol id="i-left" viewBox="0 0 24 24"><path d="M15 5l-7 7 7 7"/></symbol>
