@@ -67,6 +67,7 @@ function renderStudy(){
       return '<div class="srow"><div><b>Ünite '+(i+1)+' · '+k+' '+esc(L.name)+'</b><small>'+(r?examVerdict(r.ok/r.n).short+" · son sonuç "+r.ok+"/"+r.n:"Henüz girilmedi")+'</small></div><a class="ghost" href="#sinav-'+k.toLowerCase()+'">'+(r?"Yeniden gir":"Sınava gir")+'</a></div>'}).join("")+
       (()=>{const vs=DECKS.filter(d=>P.vexam&&P.vexam[d.id]),good=vs.filter(d=>P.vexam[d.id].ok/P.vexam[d.id].n>=.85).length;
         return '<div class="srow"><div><b>Kelime desteleri</b><small>'+(vs.length?vs.length+' / '+DECKS.length+' deste sınandı · '+good+' destede başarılı':'Henüz bir deste sınavına girmedin')+'</small></div><a class="ghost" href="#sinav-kelime">'+(vs.length?"Sonuçlar":"Sınava gir")+'</a></div>'})()+'</section>';
+    h+=ttSummaryHtml();
     // Dil bilgisi
     h+='<section class="sgroup"><h2>'+ic("book")+'Dil bilgisi</h2><div class="st-rows">'+Object.entries(GRAMMAR_LEVELS).map(([k,L])=>{const ts=GRAMMAR.filter(t=>t.level===k);
       return stRow(k+" · "+L.name,ts.filter(t=>P.gram[t.id]?.done).length,ts.length,L.color,"#gramer")}).join("")+'</div></section>';

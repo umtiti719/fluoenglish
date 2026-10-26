@@ -106,7 +106,7 @@ function mergeP(a,b){
         for(const w in del){if(!(newer.saved||{})[w])delete o[w]}r[k]=o;break}
       case "sents":{const del=maxMap(a._del||{},b._del||{}),o={...older.sents,...newer.sents};
         for(const w in o){const d=del["s:"+w];if(d&&d>(o[w][3]||0))delete o[w]}r[k]=o;break}
-      case "exam":case "vexam":{const o={...x};for(const lv in y){const p=o[lv],q=y[lv];o[lv]=!p||(q.at||0)>(p.at||0)?{...q,best:Math.max(q.best||0,p?p.best||0:0)}:{...p,best:Math.max(p.best||0,q.best||0)}}r[k]=o;break}
+      case "exam":case "vexam":case "ttest":{const o={...x};for(const lv in y){const p=o[lv],q=y[lv];o[lv]=!p||(q.at||0)>(p.at||0)?{...q,best:Math.max(q.best||0,p?p.best||0:0)}:{...p,best:Math.max(p.best||0,q.best||0)}}r[k]=o;break}
       case "pomoLog":{const m={};[...x,...y].forEach(e=>{if(e&&e.t)m[e.t]=e});r[k]=Object.values(m).sort((a,b)=>a.t-b.t).slice(-500);break}
       case "_del":r[k]=maxMap(x,y);break;
       case "hist":r[k]=newer.hist;break;

@@ -1619,6 +1619,74 @@ body.focus .sitefoot{display:none}
 .trbox.res .trhint{display:none}
 @media (max-width:520px){.trform textarea{flex:none}}
 
+/* Bölüm testi */
+.ttest{display:flex;flex-direction:column;gap:14px}
+.tt-intro{display:flex;align-items:center;gap:16px;flex-wrap:wrap;background:var(--surface2);border-radius:20px;padding:16px 18px}
+.tt-intro>div{flex:1 1 260px;min-width:0}
+.tt-intro b{display:block;font-weight:600}
+.tt-intro span{display:block;color:var(--muted);font-size:.9rem;line-height:1.45;margin-top:2px}
+.tt-intro span b{display:inline;color:var(--ink)}
+.tt-run{--c:var(--brand);display:flex;flex-direction:column;gap:14px}
+.tt-q{padding:22px 16px}
+.tt-res{display:flex;flex-direction:column;gap:14px}
+.tt-sum{display:flex;align-items:center;gap:20px;flex-wrap:wrap;background:var(--surface2);border-radius:20px;padding:18px}
+.tt-sum>div:last-child{flex:1 1 260px;min-width:0}
+.tt-sum h3{margin:0 0 4px;font-weight:600;font-size:1.3rem;letter-spacing:-.02em}
+.tt-sum p{margin:0 0 12px;color:var(--muted)}
+.tt-sum .ex-score{width:112px;height:112px;background:var(--surface)}
+.tt-sum .ex-score b{font-size:2rem}
+.tt-wrong{display:flex;flex-direction:column;gap:12px}
+.tt-perfect{display:flex;align-items:center;gap:6px;margin:0}.tt-perfect .ic{width:16px;height:16px;color:var(--good)}
+.srow .tt-chip{margin:0;flex:none;white-space:nowrap}
+@media (max-width:560px){.srow .tt-chip{display:none}}
+
+/* Yarışma türleri */
+.mode-bar{display:flex;flex-direction:column;gap:10px;margin:4px 0 16px}
+.mode-bar[hidden]{display:none}
+.mode-tabs{display:flex;gap:6px;flex-wrap:wrap}
+.mode-t{display:inline-flex;align-items:center;gap:7px;border:1px solid var(--line);background:var(--surface);color:var(--ink);border-radius:999px;padding:8px 14px;font:inherit;font-weight:600;font-size:.9rem;cursor:pointer}
+.mode-t .ic{width:16px;height:16px;color:var(--m-quiz)}
+.mode-t:hover{background:var(--surface2)}
+.mode-t[aria-selected="true"]{background:var(--accent);color:var(--accent-ink);border-color:var(--accent)}
+.mode-t[aria-selected="true"] .ic{color:inherit}
+.mode-d{margin:0;color:var(--muted)}
+.g2{max-width:760px;margin:0 auto;gap:16px}
+.g2[hidden]{display:none}
+.g2-stage{min-height:150px}
+.g2-foot{display:flex;justify-content:center}
+.g2-help{margin:0;text-align:center}
+.dy-stage{gap:4px;transition:background .2s}
+.dy-stage .word{margin:0}
+.dy-eq{margin:0;color:var(--muted);font-size:1.2rem}
+.dy-mean{margin:0;font-size:1.5rem;font-weight:600}
+.dy-stage.good{background:var(--good-bg)}.dy-stage.bad{background:var(--bad-bg)}
+.dy-fix{margin:6px 0 0;font-weight:600;color:var(--good)}
+.dy-btns{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.dy-b{display:flex;align-items:center;justify-content:center;gap:8px;border:0;border-radius:18px;padding:18px;font:inherit;font-weight:600;font-size:1.1rem;cursor:pointer}
+.dy-b .ic{width:20px;height:20px}
+.dy-b.no{background:var(--bad-bg);color:var(--bad)}.dy-b.yes{background:var(--good-bg);color:var(--good)}
+.dy-b:active{transform:scale(.97)}
+.mt-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.mt-col{display:flex;flex-direction:column;gap:8px}
+.mt-b{border:1px solid var(--line);background:var(--surface);color:var(--ink);border-radius:14px;padding:13px 12px;font:inherit;font-weight:600;cursor:pointer;min-height:52px;line-height:1.25;transition:background .15s,opacity .3s}
+.mt-b.tr{font-weight:500}
+.mt-b.sel{border-color:var(--c);background:color-mix(in srgb,var(--c) 12%,var(--surface))}
+.mt-b.done{opacity:.35;background:var(--good-bg);border-color:transparent;cursor:default}
+.mt-b.bad{background:var(--bad-bg);border-color:var(--bad);animation:shake .35s}
+.yz-stage{gap:10px}
+.yz-tr{margin:0;font-size:1.35rem;font-weight:600;text-align:center}
+.yz-mask{margin:0;font-family:ui-monospace,Menlo,Consolas,monospace;font-size:1.25rem;letter-spacing:.06em;color:var(--muted)}
+.yz-mask.good{color:var(--good);font-weight:700}.yz-mask.bad{color:var(--bad);font-weight:700}
+.yz-form{display:flex;gap:8px}
+.yz-form input{flex:1;min-width:0;font:inherit;font-size:1.15rem;padding:12px 16px;border-radius:16px;border:1px solid var(--line);background:var(--surface);color:var(--ink)}
+.yz-form input:focus{outline:none;border-color:var(--ink)}
+.yz-acts{display:flex;justify-content:space-between;align-items:center}
+.g2-end{display:flex;flex-direction:column;gap:16px;text-align:center}
+.g2-end .final small{font-size:1.2rem}
+.g2-stats{grid-template-columns:repeat(auto-fit,minmax(110px,1fr))}
+@media (max-width:560px){.mode-t{padding:7px 11px;font-size:.84rem}.dy-b{padding:16px}}
+.g2 .timer .sec{white-space:nowrap}
+
 </style>
 
 <header class="top">
@@ -1859,11 +1927,13 @@ body.focus .sitefoot{display:none}
       <div>
         <span class="eyebrow c-quiz">Kelime Yarışması</span>
         <h1 class="h-page">Seviyeni seç, yarışma başlasın</h1>
-        <div class="rules"><span>10 kelime</span><span>Süre sınırı</span><span>Hızlı cevap = bonus</span><span>Seri yap, puanı katla</span></div>
+        <div class="rules" id="quizRules"></div>
       </div>
     </div>
 
+    <div id="modeBar" class="mode-bar"></div>
     <div id="lobby" class="levelgrid"></div>
+    <div id="game2" class="card game g2" hidden></div>
     <div id="lobbyMore" class="lobby-more"></div>
 
     <div id="game" class="card game" hidden>
@@ -4729,6 +4799,7 @@ function renderStudy(){
       return '<div class="srow"><div><b>Ünite '+(i+1)+' · '+k+' '+esc(L.name)+'</b><small>'+(r?examVerdict(r.ok/r.n).short+" · son sonuç "+r.ok+"/"+r.n:"Henüz girilmedi")+'</small></div><a class="ghost" href="#sinav-'+k.toLowerCase()+'">'+(r?"Yeniden gir":"Sınava gir")+'</a></div>'}).join("")+
       (()=>{const vs=DECKS.filter(d=>P.vexam&&P.vexam[d.id]),good=vs.filter(d=>P.vexam[d.id].ok/P.vexam[d.id].n>=.85).length;
         return '<div class="srow"><div><b>Kelime desteleri</b><small>'+(vs.length?vs.length+' / '+DECKS.length+' deste sınandı · '+good+' destede başarılı':'Henüz bir deste sınavına girmedin')+'</small></div><a class="ghost" href="#sinav-kelime">'+(vs.length?"Sonuçlar":"Sınava gir")+'</a></div>'})()+'</section>';
+    h+=ttSummaryHtml();
     // Dil bilgisi
     h+='<section class="sgroup"><h2>'+ic("book")+'Dil bilgisi</h2><div class="st-rows">'+Object.entries(GRAMMAR_LEVELS).map(([k,L])=>{const ts=GRAMMAR.filter(t=>t.level===k);
       return stRow(k+" · "+L.name,ts.filter(t=>P.gram[t.id]?.done).length,ts.length,L.color,"#gramer")}).join("")+'</div></section>';
@@ -4945,6 +5016,71 @@ function renderVList(){
     '<div class="ex-g ex-vlist">'+DECKS.map(d=>{const r=P.vexam&&P.vexam[d.id],v=r&&vVerdict(r.ok/r.n);
       return '<a class="ex-t" href="#sinav-k-'+d.id+(r?'-sonuc':'')+'" style="--c:'+d.hue+'"><span class="mod-ic ex-vic">'+ic(d.icon)+'</span><div><b>'+esc(d.name)+'</b><small>'+esc(d.level)+' · '+d.words.length+' soru</small></div>'+
         (r?'<span class="gt-ex v-'+v.k+'">'+r.ok+'/'+r.n+'<i> · '+v.short+'</i></span>':'<span class="ex-new">Sınava gir</span>')+ic("right")+'</a>'}).join("")+'</div>';
+}
+
+/* ================= BÖLÜM TESTİ (dil bilgisi konusunun en altında) =================
+   İsteğe bağlı. Konunun alıştırma soruları + ünite sınavı soruları + "Hangisi doğru?" (sık yapılan hatalardan) karışık gelir.
+   Sınav sırasında doğru/yanlış gösterilmez; sonunda puan, değerlendirme ve açıklamalar. Sonuç: P.ttest[konu]={best,last,n,at,runs}
+   %60 ve üstü konu "tamamlandı" sayılır. */
+var TT=null;
+function ttBuild(t){
+  const items=[];
+  (t.quiz||[]).forEach(q=>items.push({q:q[0],opts:q[1],right:q[2],why:q[3]}));
+  ((typeof EXAM!=="undefined"&&EXAM[t.id])||[]).forEach(q=>items.push({q:q[0],opts:q[1],right:q[2],why:q[3]}));
+  (t.mistakes||[]).slice(0,3).forEach(m=>items.push({q:"Hangisi doğru?",opts:[m[0],plain(m[1])],right:1,why:m[2]}));
+  return shuffle(items).map(it=>{const order=shuffle(it.opts.map((_,i)=>i));return{...it,order}});
+}
+function ttVerdict(r){return r>=.85?{k:"ok",t:"Konuyu biliyorsun",d:"Harika! Bir sonraki konuya geçebilirsin."}:r>=.6?{k:"mid",t:"Birkaç eksik var",d:"Konu tamamlandı sayıldı. Yanlışlarının açıklamalarına göz at."}:{k:"bad",t:"Konuyu tekrar et",d:"Anlatımı ve sık yapılan hataları bir kez daha oku, sonra yeniden dene."}}
+function ttIntro(t){
+  const r=P.ttest&&P.ttest[t.id],n=ttBuild(t).length;
+  return '<div class="tt-intro"><div><b>'+n+' soruluk bölüm testi</b><span>İstersen konuyu bitirince kendini dene. Cevaplar testin sonunda gösterilir.'+
+    (r?' Son sonucun <b>'+r.last+'/'+r.n+'</b>, en iyisi <b>'+r.best+'/'+r.n+'</b>.':'')+'</span></div><button class="primary" id="ttStart">'+(r?ic("refresh")+"Yeniden çöz":"Teste başla"+ic("right"))+'</button></div>';
+}
+function ttRender(){
+  const box=$("ttest");if(!box||!TT)return;
+  const t=TT.t,L=GRAMMAR_LEVELS[t.level];
+  if(TT.phase==="intro"){box.innerHTML=ttIntro(t);$("ttStart").onclick=()=>{TT={t,phase:"run",items:ttBuild(t),i:0,pick:[]};ttRender();$("s-test").scrollIntoView({behavior:reduceMotion()?"auto":"smooth",block:"start"})};return}
+  if(TT.phase==="run"){
+    const n=TT.items.length,it=TT.items[TT.i],sel=TT.pick[TT.i],parts=esc(it.q).split("___");
+    box.innerHTML='<div class="tt-run" style="--c:'+L.color+'"><div class="ex-top"><span class="badge" style="--c:'+L.color+'">Bölüm testi</span><span class="note">Soru '+(TT.i+1)+' / '+n+'</span></div>'+
+      '<div class="mbar ex-bar"><i style="width:'+(TT.i/n*100)+'%"></i></div>'+
+      '<p class="pr-q tt-q">'+parts[0]+(parts.length>1?'<span class="blank">'+(sel!==undefined?esc(it.opts[sel]):"&nbsp;")+'</span>'+parts[1]:"")+'</p>'+
+      '<div class="opts'+(it.opts.length===2?" dg-opts":"")+'" id="ttOpts">'+it.order.map((oi,p)=>'<button class="opt'+(sel===oi?" sel":"")+'" data-i="'+oi+'"><span class="k">'+"ABCD"[p]+'</span><span>'+esc(it.opts[oi])+'</span></button>').join("")+'</div>'+
+      '<div class="ex-foot">'+(TT.i?'<button class="ghost" id="ttPrev">'+ic("left")+'Önceki</button>':'<button class="linkbtn" id="ttQuit">Testten çık</button>')+'<span class="sp"></span><button class="primary" id="ttNext"'+(sel===undefined?" disabled":"")+'>'+(TT.i+1<n?"Sonraki":"Testi bitir")+ic("right")+'</button></div></div>';
+    box.querySelectorAll("#ttOpts .opt").forEach(b=>b.onclick=()=>{TT.pick[TT.i]=+b.dataset.i;markActive();ttRender()});
+    if($("ttPrev"))$("ttPrev").onclick=()=>{TT.i--;ttRender()};
+    if($("ttQuit"))$("ttQuit").onclick=()=>{TT={t,phase:"intro"};ttRender()};
+    $("ttNext").onclick=()=>{if(TT.pick[TT.i]===undefined)return;if(TT.i+1<n){TT.i++;ttRender()}else ttFinish()};
+    return;
+  }
+  // sonuç
+  const n=TT.items.length,ok=TT.items.filter((it,i)=>TT.pick[i]===it.right).length,v=ttVerdict(ok/n),wrong=TT.items.map((it,i)=>[it,TT.pick[i]]).filter(([it,p])=>p!==it.right);
+  const idx=GRAMMAR.indexOf(t),nxt=GRAMMAR[idx+1];
+  box.innerHTML='<div class="tt-res"><div class="ex-sum v-'+v.k+' tt-sum"><div class="ex-score"><b>'+Math.round(ok/n*100)+'<small>%</small></b><span>'+ok+' / '+n+' doğru</span></div>'+
+    '<div><h3>'+v.t+'</h3><p>'+v.d+'</p><div class="hero-row">'+(v.k!=="bad"&&nxt?'<a class="primary" href="#g-'+nxt.id+'">Sonraki konu: '+esc(nxt.title)+'<span class="arr">'+ic("right")+'</span></a>':'')+
+    '<button class="ghost" id="ttAgain">'+ic("refresh")+'Yeniden çöz</button>'+(v.k==="bad"?'<button class="ghost" id="ttTop">'+ic("book")+'Anlatıma dön</button>':'')+'</div></div></div>'+
+    (wrong.length?'<div class="tt-wrong"><h3 class="tres-h">Yanlış cevapların <small>'+wrong.length+'</small></h3>'+wrong.map(([it,p])=>'<div class="ex-w"><p class="ex-wq">'+(it.q==="Hangisi doğru?"?esc(it.opts[it.right]):esc(it.q).replace("___","<u>"+esc(it.opts[it.right])+"</u>"))+'</p>'+
+      '<p class="ex-wa"><span class="chip miss">Senin cevabın: '+esc(it.opts[p])+'</span>'+(it.q==="Hangisi doğru?"?'':'<span class="chip hit">Doğrusu: '+esc(it.opts[it.right])+'</span>')+'</p><p class="note">'+ic("bulb")+esc(it.why)+'</p></div>').join("")+'</div>'
+      :'<p class="note tt-perfect">'+ic("check")+'Tüm soruları doğru cevapladın!</p>')+'</div>';
+  $("ttAgain").onclick=()=>{TT={t,phase:"run",items:ttBuild(t),i:0,pick:[]};ttRender();$("s-test").scrollIntoView({behavior:reduceMotion()?"auto":"smooth",block:"start"})};
+  if($("ttTop"))$("ttTop").onclick=()=>window.scrollTo({top:0,behavior:reduceMotion()?"auto":"smooth"});
+}
+function ttFinish(){
+  const t=TT.t,n=TT.items.length,ok=TT.items.filter((it,i)=>TT.pick[i]===it.right).length;
+  P.ttest=P.ttest||{};const prev=P.ttest[t.id];
+  P.ttest[t.id]={best:Math.max(ok,prev?prev.best:0),last:ok,n,at:Date.now(),runs:(prev?prev.runs||1:0)+1};
+  if(ok/n>=.6){const g=P.gram[t.id]||{best:0,total:t.quiz.length,done:false};P.gram[t.id]={...g,done:true}}
+  save();TT.phase="end";ttRender();$("s-test").scrollIntoView({behavior:reduceMotion()?"auto":"smooth",block:"start"});
+}
+function ttMount(t){TT={t,phase:"intro"};ttRender()}
+/* Çalışmam'daki özet */
+function ttSummaryHtml(){
+  const list=GRAMMAR.filter(t=>P.ttest&&P.ttest[t.id]).sort((a,b)=>P.ttest[b.id].at-P.ttest[a.id].at);
+  return '<section class="sgroup"><h2>'+ic("check")+'Bölüm testleri <small class="note">'+list.length+' / '+GRAMMAR.length+'</small></h2>'+
+    (list.length?list.slice(0,8).map(t=>{const r=P.ttest[t.id],v=ttVerdict(r.last/r.n);
+      return '<div class="srow"><div><b>'+esc(t.title)+'</b><small>'+t.level+' · son '+r.last+'/'+r.n+' · en iyi '+r.best+'/'+r.n+' · '+new Date(r.at).toLocaleDateString("tr-TR",{day:"numeric",month:"short"})+'</small></div><span class="gt-ex v-'+v.k+' tt-chip">'+v.t+'</span><a class="ghost" href="#g-'+t.id+'-test">'+(v.k==="ok"?"Aç":"Tekrar")+'</a></div>'}).join("")+
+      (list.length>8?'<p class="note" style="margin:0 0 14px">ve '+(list.length-8)+' test daha…</p>':'')
+    :'<div class="srow"><div><b>Henüz bölüm testi çözmedin</b><small>Her dil bilgisi konusunun en altında isteğe bağlı bir test var.</small></div><a class="ghost" href="#gramer">Konular</a></div>')+'</section>';
 }
 
 /* ================= CÜMLE KUR (Türkçeden İngilizceye) =================
@@ -5759,6 +5895,161 @@ function pomoHistHtml(){
   return h;
 }
 
+/* ================= YARIŞMA TÜRLERİ =================
+   Klasik yarışmaya ek olarak: 60 Saniye, Doğru mu?, Eşleştir, Dinle ve Yaz. Hepsi seviye seçerek oynanır.
+   Rekorlar: P.best["m:<tür>:<seviye>"] (Eşleştir'de en kısa süre, diğerlerinde en yüksek puan). Son oyunlar: P.qhist */
+var QMODES={
+  klasik:{t:"Klasik",icon:"trophy",d:"10 kelime, her biri için süre. Hız bonusu ve seri çarpanı.",rules:["10 kelime","Süre sınırı","Hızlı cevap = bonus","Seri yap, puanı katla"]},
+  hizli:{t:"60 Saniye",icon:"clock",d:"Bir dakikada bildiğin kadar kelimenin anlamını bul.",rules:["60 saniye","Sınırsız soru","Her doğru 1 puan"]},
+  dy:{t:"Doğru mu?",icon:"check",d:"Kelime ile anlam eşleşiyor mu? Hızlıca karar ver.",rules:["60 saniye","Doğru +1, yanlış −1","Klavye: ← yanlış · → doğru"]},
+  eslestir:{t:"Eşleştir",icon:"puzzle",d:"Kelimeleri anlamlarıyla eşleştir. En kısa süre kazanır.",rules:["3 tur × 5 kelime","Yanlış eşleşme +2 sn","En kısa süre rekor"]},
+  yaz:{t:"Dinle ve Yaz",icon:"headphones",d:"Kelimeyi dinle, Türkçesine bak, İngilizcesini yaz.",rules:["10 kelime","Doğru 10 puan","İpucu alırsan 5 puan"]}
+};
+var G2=null;
+const qMode=()=>QMODES[P.set.qMode]?P.set.qMode:"klasik";
+const m2Key=(m,k)=>"m:"+m+":"+k;
+function m2Best(m,k){const v=P.best[m2Key(m,k)];return v===undefined?null:v}
+function m2BestLabel(m,k){if(m==="klasik")return "Rekor <b>"+(P.best[k]||0)+"</b>";const v=m2Best(m,k);return v===null?"Rekor <b>–</b>":"Rekor <b>"+v+(m==="eslestir"?" sn":"")+"</b>"}
+function m2Pool(k){return shuffle(WORDS[k].filter(w=>w[1]))}
+function m2Stop(){if(!G2)return;clearInterval(G2.tick);clearTimeout(G2.tm);G2=null;if(G.phase==="m2")G.phase="lobby"}
+function m2Start(mode,k){
+  const L=LEVELS[k];m2Stop();
+  G2={mode,k,L,c:"var(--lv-"+k+")",score:0,ok:0,no:0,hint:0,missed:[],start:Date.now(),pool:m2Pool(k),pi:0,lock:false};
+  G.phase="m2";$("modeBar").hidden=true;$("lobby").hidden=true;$("lobbyMore").hidden=true;$("quizHead").hidden=true;$("game").hidden=true;$("end").hidden=true;
+  const box=$("game2");box.hidden=false;box.style.setProperty("--c",G2.c);
+  if(mode==="hizli"||mode==="dy"){G2.left=60;G2.end=Date.now()+60000;G2.tick=setInterval(m2Timer,200)}
+  if(mode==="eslestir"){G2.round=0;G2.pen=0;m2MatchRound()}
+  else if(mode==="yaz"){G2.list=G2.pool.slice(0,10);G2.i=0;m2YazQ()}
+  else m2Next();
+  window.scrollTo({top:0,behavior:"auto"});markActive();
+}
+function m2Take(){if(G2.pi>=G2.pool.length){G2.pool=m2Pool(G2.k);G2.pi=0}return G2.pool[G2.pi++]}
+function m2Timer(){
+  if(!G2)return;const left=Math.max(0,(G2.end-Date.now())/1000);G2.left=left;
+  const f=$("m2Fill"),s=$("m2Sec");if(f){f.style.width=(left/60*100)+"%";s.textContent=Math.ceil(left)+" sn";$("m2Bar").classList.toggle("low",left<=10)}
+  if(left<=0)m2Finish();
+}
+function m2Head(extra){
+  const M=QMODES[G2.mode];
+  return '<div class="hud"><span class="badge" style="--c:'+G2.c+'">'+M.t+' · '+G2.L.name+'</span><span class="qn">'+(extra||"")+'</span><div class="points"><b id="m2Pts">'+G2.score+'</b><small>'+(G2.mode==="eslestir"?"sn":"puan")+'</small></div></div>'+
+    (G2.mode==="hizli"||G2.mode==="dy"?'<div class="timer"><div class="tbar" id="m2Bar"><i id="m2Fill" style="width:'+(G2.left/60*100)+'%"></i></div><span class="sec" id="m2Sec">'+Math.ceil(G2.left)+' sn</span></div>':'');
+}
+function m2Foot(){return '<div class="g2-foot"><button class="linkbtn" id="m2Quit">Bitir</button></div>'}
+function m2BindFoot(){$("m2Quit").onclick=()=>m2Finish(true)}
+/* ---------- 60 Saniye ---------- */
+function m2Next(){
+  if(!G2)return;G2.lock=false;
+  if(G2.mode==="dy"){m2DyQ();return}
+  const w=m2Take(),opts=shuffle([w[1],...shuffle(WORDS[G2.k].filter(x=>x[1]!==w[1])).slice(0,3).map(x=>x[1])]);G2.cur=w;
+  $("game2").innerHTML=m2Head(G2.ok+" doğru")+
+    '<div class="stage g2-stage"><p class="word">'+esc(w[0])+'</p><span class="pill">'+esc(w[2]||"")+'</span></div>'+
+    '<div class="opts" id="m2Opts">'+opts.map((o,i)=>'<button class="opt" data-v="'+esc(o)+'"><span class="k">'+(i+1)+'</span><span>'+esc(o)+'</span></button>').join("")+'</div>'+m2Foot();
+  $("m2Opts").querySelectorAll(".opt").forEach(b=>b.onclick=()=>m2Pick(b));m2BindFoot();
+}
+function m2Pick(b){
+  if(!G2||G2.lock)return;G2.lock=true;const ok=b.dataset.v===G2.cur[1];
+  $("m2Opts").querySelectorAll(".opt").forEach(x=>{x.disabled=true;if(x.dataset.v===G2.cur[1])x.classList.add("ok")});
+  if(ok){G2.ok++;G2.score++;if(inBox(G2.cur[0]))srsOk(G2.cur[0])}else{b.classList.add("no");G2.no++;G2.missed.push(G2.cur);srsWrong(G2.cur[0])}
+  $("m2Pts").textContent=G2.score;save();
+  G2.tm=setTimeout(m2Next,ok?260:850);
+}
+/* ---------- Doğru mu? ---------- */
+function m2DyQ(){
+  const w=m2Take(),truth=Math.random()<.5,shown=truth?w[1]:shuffle(WORDS[G2.k].filter(x=>x[1]!==w[1]))[0][1];G2.cur=w;G2.truth=truth;G2.shown=shown;
+  $("game2").innerHTML=m2Head(G2.ok+" doğru · "+G2.no+" yanlış")+
+    '<div class="stage g2-stage dy-stage"><p class="word">'+esc(w[0])+'</p><p class="dy-eq">=</p><p class="dy-mean">'+esc(shown)+'</p></div>'+
+    '<div class="dy-btns"><button class="dy-b no" id="dyNo">'+ic("x")+'Yanlış</button><button class="dy-b yes" id="dyYes">'+ic("check")+'Doğru</button></div>'+m2Foot();
+  $("dyNo").onclick=()=>m2Dy(false);$("dyYes").onclick=()=>m2Dy(true);m2BindFoot();
+}
+function m2Dy(say){
+  if(!G2||G2.lock)return;G2.lock=true;const ok=say===G2.truth;
+  if(ok){G2.ok++;G2.score++}else{G2.no++;G2.score=Math.max(0,G2.score-1);G2.missed.push(G2.cur);srsWrong(G2.cur[0])}
+  const st=document.querySelector(".dy-stage");st.classList.add(ok?"good":"bad");
+  if(!ok&&!G2.truth)st.insertAdjacentHTML("beforeend",'<p class="dy-fix">Doğrusu: '+esc(G2.cur[1])+'</p>');
+  $("m2Pts").textContent=G2.score;save();
+  G2.tm=setTimeout(m2Next,ok?220:(G2.truth?700:1100));
+}
+/* ---------- Eşleştir ---------- */
+function m2MatchRound(){
+  if(!G2)return;
+  if(G2.round>=3){m2Finish();return}
+  const ws=[];while(ws.length<5){const w=m2Take();if(!ws.some(x=>x[1]===w[1]))ws.push(w)}
+  G2.round++;G2.pairs=ws;G2.sel=null;G2.done=0;if(!G2.tick){G2.tick=setInterval(()=>{if(!G2)return;const s=Math.floor((Date.now()-G2.start)/1000)+G2.pen;G2.score=s;const e=$("m2Pts");if(e)e.textContent=s},250)}
+  const left=shuffle(ws.map((w,i)=>[i,w[0]])),right=shuffle(ws.map((w,i)=>[i,w[1]]));
+  $("game2").innerHTML=m2Head("Tur "+G2.round+" / 3")+
+    '<p class="note g2-help">Bir İngilizce kelimeye, sonra Türkçe anlamına dokun.</p><div class="mt-grid"><div class="mt-col">'+left.map(([i,t])=>'<button class="mt-b" data-s="en" data-i="'+i+'">'+esc(t)+'</button>').join("")+'</div>'+
+    '<div class="mt-col">'+right.map(([i,t])=>'<button class="mt-b tr" data-s="tr" data-i="'+i+'">'+esc(t)+'</button>').join("")+'</div></div>'+m2Foot();
+  document.querySelectorAll(".mt-b").forEach(b=>b.onclick=()=>m2MatchTap(b));m2BindFoot();
+}
+function m2MatchTap(b){
+  if(!G2||b.classList.contains("done"))return;
+  if(!G2.sel||G2.sel.dataset.s===b.dataset.s){if(G2.sel)G2.sel.classList.remove("sel");G2.sel=b;b.classList.add("sel");return}
+  const a=G2.sel;G2.sel=null;a.classList.remove("sel");
+  if(a.dataset.i===b.dataset.i){[a,b].forEach(x=>{x.classList.add("done");x.disabled=true});G2.ok++;G2.done++;if(G2.done===5)G2.tm=setTimeout(m2MatchRound,450)}
+  else{G2.no++;G2.pen+=2;const w=G2.pairs[+(a.dataset.s==="en"?a:b).dataset.i];if(!G2.missed.includes(w))G2.missed.push(w);
+    [a,b].forEach(x=>{x.classList.add("bad");setTimeout(()=>x.classList.remove("bad"),450)})}
+}
+/* ---------- Dinle ve Yaz ---------- */
+function m2Mask(w,show){return w.split("").map((c,i)=>c===" "?"&nbsp;&nbsp;":(i<show?esc(c):"_")).join(" ")}
+function m2YazQ(){
+  if(!G2)return;if(G2.i>=G2.list.length){m2Finish();return}
+  const w=G2.list[G2.i];G2.cur=w;G2.hintN=0;G2.lock=false;
+  $("game2").innerHTML=m2Head("Kelime "+(G2.i+1)+" / "+G2.list.length)+
+    '<div class="stage g2-stage yz-stage"><button class="speak big" id="yzSay" aria-label="Dinle">'+ic("speaker")+'</button><p class="yz-tr">'+esc(w[1])+'</p><p class="yz-mask" id="yzMask">'+m2Mask(w[0],0)+'</p></div>'+
+    '<form class="yz-form" id="yzForm" autocomplete="off"><input id="yzIn" type="text" autocapitalize="off" autocorrect="off" spellcheck="false" placeholder="İngilizcesini yaz…" aria-label="İngilizcesini yaz"><button class="primary" type="submit">Kontrol et</button></form>'+
+    '<div class="yz-acts"><button class="ghost" id="yzHint">'+ic("bulb")+'İpucu</button><button class="linkbtn" id="yzSkip">Bilmiyorum</button></div><p class="feedback" id="yzFb"></p>'+m2Foot();
+  const say=()=>speak(w[0],$("yzSay"));$("yzSay").onclick=say;setTimeout(()=>{if(G2&&G2.cur===w)say()},250);
+  $("yzHint").onclick=()=>{if(G2.lock)return;G2.hintN=Math.min(G2.hintN+1,Math.max(1,w[0].length-1));$("yzMask").innerHTML=m2Mask(w[0],G2.hintN);$("yzIn").focus()};
+  $("yzSkip").onclick=()=>m2YazDone(false);
+  $("yzForm").onsubmit=e=>{e.preventDefault();if(G2.lock){return}const v=$("yzIn").value.trim().toLowerCase().replace(/\s+/g," ");if(!v)return;
+    if(v===w[0].toLowerCase())m2YazDone(true);else{$("yzFb").textContent="Olmadı, bir daha dene ya da ipucu al.";$("yzFb").className="feedback no";$("yzIn").select()}};
+  try{$("yzIn").focus({preventScroll:true})}catch(e){}m2BindFoot();
+}
+function m2YazDone(ok){
+  if(!G2||G2.lock)return;G2.lock=true;const w=G2.cur;
+  if(ok){const p=G2.hintN?5:10;G2.score+=p;G2.ok++;if(G2.hintN)G2.hint++;if(inBox(w[0]))srsOk(w[0])}else{G2.no++;G2.missed.push(w);srsWrong(w[0])}
+  $("m2Pts").textContent=G2.score;$("yzMask").innerHTML=esc(w[0]);$("yzMask").classList.add(ok?"good":"bad");
+  $("yzFb").textContent=ok?(G2.hintN?"Doğru! (+5, ipucuyla)":"Doğru! +10"):"Doğrusu: "+w[0];$("yzFb").className="feedback "+(ok?"ok":"no");
+  $("yzIn").disabled=true;save();speak(w[0],null);G2.i++;G2.tm=setTimeout(m2YazQ,ok?1100:1900);
+}
+/* ---------- Bitiş ---------- */
+function m2Finish(early){
+  if(!G2)return;clearInterval(G2.tick);clearTimeout(G2.tm);G2.tick=null;
+  const m=G2.mode,k=G2.k,key=m2Key(m,k),M=QMODES[m],prev=m2Best(m,k);
+  let score=G2.score,valid=true;
+  if(m==="eslestir"){score=Math.floor((Date.now()-G2.start)/1000)+G2.pen;valid=G2.round>=3&&G2.done===5&&!early}
+  if(m==="yaz"&&early)valid=G2.i>0;
+  const isRec=valid&&(m==="eslestir"?(prev===null||score<prev):score>0&&(prev===null||score>prev));
+  if(isRec)P.best[key]=score;
+  if(valid)P.qhist=(P.qhist||[]).concat([{t:Date.now(),k:key,n:M.t+" · "+G2.L.name,c:G2.L.cefr,p:score,u:m==="eslestir"?" sn":"",ok:G2.ok,q:G2.ok+G2.no,r:isRec?1:0}]).slice(-20);
+  save();
+  const missed=[...new Map(G2.missed.map(w=>[w[0],w])).values()];
+  $("game2").innerHTML='<div class="g2-end"><span class="badge" style="--c:'+G2.c+';align-self:center">'+M.t+' · '+G2.L.name+'</span>'+
+    '<div><div class="final">'+score+(m==="eslestir"?'<small> sn</small>':'')+'</div><p class="note">'+(m==="eslestir"?"toplam süre":"puan")+(valid?"":" · tamamlanmadı, rekora sayılmaz")+'</p></div>'+
+    (isRec?'<span class="record">Yeni rekor!</span>':(prev!==null&&valid?'<p class="note">Rekorun: '+prev+(m==="eslestir"?" sn":"")+'</p>':''))+
+    '<div class="stats4 g2-stats"><div class="stat"><b>'+G2.ok+'</b><span>'+(m==="eslestir"?"Eşleşme":"Doğru")+'</span></div><div class="stat"><b>'+G2.no+'</b><span>Yanlış</span></div>'+
+      (m==="yaz"?'<div class="stat"><b>'+G2.hint+'</b><span>İpucuyla</span></div>':'')+'</div>'+
+    (missed.length?'<div class="missed"><h3>Tekrar etmen gereken kelimeler</h3><div class="mlist">'+missed.slice(0,12).map(w=>'<div class="mrow"><span><b>'+esc(w[0])+'</b> <span>— '+esc(w[1])+'</span></span>'+savBtn(w[0],"sm")+'</div>').join("")+'</div></div>':'')+
+    '<div class="endbtns"><button class="ghost" id="m2Lobby">Yarışmalar</button><button class="primary" id="m2Again">Tekrar oyna</button></div></div>';
+  const mode=m;
+  $("m2Lobby").onclick=()=>{G2=null;$("game2").hidden=true;G.phase="lobby";showQuiz();window.scrollTo({top:0,behavior:"auto"})};
+  $("m2Again").onclick=()=>m2Start(mode,k);
+  G2.finished=true;
+}
+document.addEventListener("keydown",e=>{
+  if(!G2||G2.finished||$("game2").hidden||/INPUT|TEXTAREA/.test(document.activeElement&&document.activeElement.tagName))return;
+  if(G2.mode==="dy"){if(e.key==="ArrowLeft"){e.preventDefault();m2Dy(false)}else if(e.key==="ArrowRight"){e.preventDefault();m2Dy(true)}}
+  if(G2.mode==="hizli"){const n="1234".indexOf(e.key);if(n>=0){const b=document.querySelectorAll("#m2Opts .opt")[n];if(b&&!b.disabled)b.click()}}
+});
+/* ---------- Lobi: tür seçimi ---------- */
+function renderModeBar(){
+  const bar=$("modeBar");if(!bar)return;const m=qMode();
+  bar.innerHTML='<div class="mode-tabs" role="tablist">'+Object.entries(QMODES).map(([k,M])=>'<button class="mode-t" role="tab" data-m="'+k+'" aria-selected="'+(m===k)+'">'+ic(M.icon)+'<span>'+M.t+'</span></button>').join("")+'</div>'+
+    '<p class="mode-d">'+esc(QMODES[m].d)+'</p>';
+  $("quizRules").innerHTML=QMODES[m].rules.map(r=>'<span>'+esc(r)+'</span>').join("");
+  bar.querySelectorAll("[data-m]").forEach(b=>b.onclick=()=>{P.set.qMode=b.dataset.m;save();renderLobby()});
+}
+
 /* ================= MARKA =================
    Uygulamada görünen ad ve logo: Fluo. Dışarıya dönük kimlik (web adresi, e-posta, depo, kayıt anahtarları): fluoenglish. */
 const BRAND={name:"Fluo",id:"fluoenglish",site:"fluoenglish.com",email:"support@fluoenglish.com",github:"github.com/umtiti719/fluoenglish"};
@@ -5944,7 +6235,7 @@ function route(){
   if(/^(cevir|metin|okuma)/.test(h))loadDict().catch(()=>{});
   if(h==="ceviri"){location.replace("#metin");return}
   if(h===lastHash)return;lastHash=h;
-  if(h!=="yarisma")pauseGame();
+  if(h!=="yarisma"){pauseGame();m2Stop();$("game2").hidden=true}
   RD.playing=false;if(h!=="telaffuz")prStop();DG.play=-1;
   prefetchAudio(h);
   stopSpeak();
@@ -5974,8 +6265,10 @@ function route(){
   else if(h==="yarisma"){showQuiz();}
   else if(h==="gramer"){renderGramList();showView("gramer","gramer")}
   else if(h.startsWith("g-")){
-    const t=GRAMMAR.find(x=>x.id===h.slice(2));if(!t){location.hash="gramer";return}
+    const wantTest=/-test$/.test(h),tid=h.slice(2).replace(/-test$/,"");
+    const t=GRAMMAR.find(x=>x.id===h.slice(2))||GRAMMAR.find(x=>x.id===tid);if(!t){location.hash="gramer";return}
     renderTopic(t);showView("konu","gramer");
+    if(wantTest&&t.id!==h.slice(2))setTimeout(()=>{const s=$("s-test");if(s)window.scrollTo({top:s.getBoundingClientRect().top+scrollY-90,behavior:"auto"})},300);
   }
   else if(h==="metin"){showView("ceviri","metin")}
   else if(h==="ayarlar"){renderSettings();showView("ayarlar","ayarlar")}
@@ -6177,21 +6470,22 @@ const G={phase:"lobby",active:false};
 function showQuiz(){
   if(G.pending){showView("yarisma","yarisma");startGame(G.pending);return}
   $("lobby").hidden=G.phase!=="lobby";$("game").hidden=G.phase!=="game";$("end").hidden=G.phase!=="end";
-  $("quizHead").hidden=G.phase!=="lobby";$("lobbyMore").hidden=G.phase!=="lobby";
+  $("quizHead").hidden=G.phase!=="lobby";$("lobbyMore").hidden=G.phase!=="lobby";$("modeBar").hidden=G.phase!=="lobby";$("game2").hidden=G.phase!=="m2";
   if(G.phase==="lobby")renderLobby();
   showView("yarisma","yarisma");
   if(G.phase==="game")resumeGame();
 }
 function renderLobby(){
+  renderModeBar();const mode=qMode();
   $("lobby").innerHTML=Object.entries(LEVELS).map(([k,L])=>{
     const sample=shuffle(WORDS[k]).slice(0,3).map(w=>"<span>"+esc(w[0])+"</span>").join("");
     return '<button class="lvcard" data-lv="'+k+'" style="--c:var(--lv-'+k+')">'+
       '<div class="lvtop"><span class="cefr">'+L.cefr+'</span><span class="bars">'+[1,2,3,4].map(i=>'<i class="'+(i<=L.bars?"on":"")+'"></i>').join("")+'</span></div>'+
       '<p class="lvname">'+L.name+'</p><p class="lvdesc">'+L.desc+'</p><div class="lvsample">'+sample+'</div>'+
-      '<div class="lvfoot"><span>Rekor <b>'+(P.best[k]||0)+'</b> · '+Math.round(L.time*(P.set.quizTime==="uzun"?1.5:1))+' sn</span><span class="lvgo">Başla →</span></div></button>';
+      '<div class="lvfoot"><span>'+m2BestLabel(mode,k)+(mode==="klasik"?' · '+Math.round(L.time*(P.set.quizTime==="uzun"?1.5:1))+' sn':'')+'</span><span class="lvgo">Başla →</span></div></button>';
   }).join("");
   renderLobbyMore();
-  $("lobby").querySelectorAll(".lvcard").forEach(b=>b.onclick=()=>{const k=b.dataset.lv;startGame({key:k,name:LEVELS[k].name,cefr:LEVELS[k].cefr,c:"var(--lv-"+k+")",words:WORDS[k],time:LEVELS[k].time})});
+  $("lobby").querySelectorAll(".lvcard").forEach(b=>b.onclick=()=>{const k=b.dataset.lv;if(mode!=="klasik"){m2Start(mode,k);return}startGame({key:k,name:LEVELS[k].name,cefr:LEVELS[k].cefr,c:"var(--lv-"+k+")",words:WORDS[k],time:LEVELS[k].time})});
 }
 /* Yarışma lobisinin alt kısmı: özel yarışlar, son oyunlar, puan kuralları */
 function renderLobbyMore(){
@@ -6204,7 +6498,7 @@ function renderLobbyMore(){
     '<button class="tool" id="qWeak" style="--c:var(--g2);--t:var(--t-gram)"'+(weak<4?' aria-disabled="true"':'')+'><span class="mod-ic">'+ic("refresh")+'</span><div><b>Zorlandıklarımla</b><span>'+(weak>=4?weak+" kelime":"Yanlış yaptıkların burada birikir")+'</span></div><span class="tool-go">'+ic("right")+'</span></button>'+
     '<div class="tool lm-deck" style="--c:var(--m-learn);--t:var(--t-learn)"><span class="mod-ic">'+ic("cards")+'</span><div><b>Bir desteyle</b><select id="qDeckSel" aria-label="Deste seç">'+DECKS.map(d=>'<option value="'+d.id+'"'+(d.id===lastDeck?" selected":"")+'>'+esc(d.name)+'</option>').join("")+'</select></div><button class="tool-go lm-go" id="qDeckGo" aria-label="Desteyle başla">'+ic("right")+'</button></div>'+
     '</div><div class="lm-grid">'+
-    '<section class="sgroup"><h2>'+ic("trophy")+'Son oyunların</h2>'+(hist.length?hist.map(h=>'<div class="srow lm-row"><div><b>'+esc(h.n)+'</b><small>'+h.ok+' / '+h.q+' doğru · '+new Date(h.t).toLocaleDateString("tr-TR",{day:"numeric",month:"short"})+'</small></div><span class="lm-pts">'+(h.r?'<i>Rekor</i>':'')+h.p+'</span></div>').join("")
+    '<section class="sgroup"><h2>'+ic("trophy")+'Son oyunların</h2>'+(hist.length?hist.map(h=>'<div class="srow lm-row"><div><b>'+esc(h.n)+'</b><small>'+h.ok+' / '+h.q+' doğru · '+new Date(h.t).toLocaleDateString("tr-TR",{day:"numeric",month:"short"})+'</small></div><span class="lm-pts">'+(h.r?'<i>Rekor</i>':'')+h.p+(h.u||'')+'</span></div>').join("")
       :'<p class="note lm-empty">Henüz oyun yok. Bir seviye seç; sonuçların burada görünür.</p>')+'</section>'+
     '<section class="sgroup"><h2>'+ic("bulb")+'Nasıl puan alırsın?</h2><ul class="lm-rules">'+
       '<li><b>100</b><span>Her doğru cevap</span></li><li><b>+50</b><span>Hızlı cevap bonusu (süre azaldıkça düşer)</span></li>'+
@@ -6357,7 +6651,7 @@ function renderGramList(){
       '<div class="gtopics">'+ts.map((t,i)=>{const g=P.gram[t.id];
         return '<a class="gt'+(g?.done?" done":"")+'" href="#g-'+t.id+'" style="--c:'+L.color+'"><span class="gt-n">'+(g?.done?ic("check"):i+1)+'</span>'+
           '<b>'+esc(t.title)+'</b><span class="sub">'+esc(t.sub)+'</span><span class="trt">'+esc(t.tr)+'</span>'+
-          (er&&er.t[t.id]!==undefined?'<span class="gt-ex v-'+topicVerdict(er.t[t.id]).k+'">'+topicVerdict(er.t[t.id]).t+'</span>':'')+'<span class="gt-st">'+(g?(g.done?ic("check")+"Tamamlandı · "+g.best+"/"+g.total:"Alıştırma: "+g.best+"/"+g.total):"Başlanmadı")+'</span></a>'}).join("")+'</div></section>';
+          (P.ttest&&P.ttest[t.id]?'<span class="gt-ex v-'+ttVerdict(P.ttest[t.id].best/P.ttest[t.id].n).k+'">Test '+P.ttest[t.id].best+'/'+P.ttest[t.id].n+'</span>':'')+(er&&er.t[t.id]!==undefined?'<span class="gt-ex v-'+topicVerdict(er.t[t.id]).k+'">'+topicVerdict(er.t[t.id]).t+'</span>':'')+'<span class="gt-st">'+(g?(g.done?ic("check")+"Tamamlandı · "+g.best+"/"+g.total:"Alıştırma: "+g.best+"/"+g.total):"Başlanmadı")+'</span></a>'}).join("")+'</div></section>';
   }).join("");
 }
 let PR=null;
@@ -6383,6 +6677,8 @@ function renderTopic(t){
     h+='<section class="tsec" id="s-mis"><h2>'+ic("alert")+'Sık yapılan hatalar</h2><div class="mistakes">'+t.mistakes.map(x=>'<div class="mistake"><div class="wrong">'+ic("x")+'<span>'+esc(x[0])+'</span></div><div class="right">'+ic("check")+'<span>'+hl(x[1])+'</span></div><p>'+ic("bulb")+esc(x[2])+'</p></div>').join("")+'</div></section>'}
   secs.push(["s-pr","Alıştırma"]);
   h+='<section class="tsec" id="s-pr"><h2>'+ic("check")+'Alıştırma</h2><div class="practice" id="practice"></div></section>';
+  secs.push(["s-test","Bölüm testi"]);
+  h+='<section class="tsec" id="s-test"><h2>'+ic("target")+'Bölüm testi</h2><div class="ttest" id="ttest"></div></section>';
   h+='<nav class="tnav">'+(prev?'<a href="#g-'+prev.id+'"><small>← Önceki konu</small><b>'+esc(prev.title)+'</b></a>':'')+(nxt?'<a class="next" href="#g-'+nxt.id+'"><small>Sonraki konu →</small><b>'+esc(nxt.title)+'</b></a>':'')+'</nav>';
   h+='<p class="report-line">'+ic("flag")+'Bu konuda bir hata mı gördün? <button class="linkbtn" id="tReport">Bildir</button></p>';
   m.innerHTML=h;
@@ -6390,7 +6686,7 @@ function renderTopic(t){
   $("toc").innerHTML='<a class="backlink" href="#gramer">'+ic("left")+'Tüm konular</a><small style="margin-top:12px">Bu sayfada</small>'+secs.map(s=>'<a href="javascript:void 0" data-jump="'+s[0]+'">'+s[1]+'</a>').join("")+
     '<div class="toc-nav">'+(nxt?'<a href="#g-'+nxt.id+'">Sonraki: '+esc(nxt.title)+' →</a>':'')+'</div>';
   $("toc").querySelectorAll("[data-jump]").forEach(a=>a.onclick=e=>{e.preventDefault();$(a.dataset.jump).scrollIntoView({behavior:reduceMotion()?"auto":"smooth"})});
-  PR={t,i:0,score:0,res:[],answered:false,order:shuffle(t.quiz.map((_,i)=>i))};renderPractice();
+  PR={t,i:0,score:0,res:[],answered:false,order:shuffle(t.quiz.map((_,i)=>i))};renderPractice();ttMount(t);
 }
 function renderPractice(){
   const t=PR.t,box=$("practice"),n=t.quiz.length;
@@ -7171,7 +7467,7 @@ function mergeP(a,b){
         for(const w in del){if(!(newer.saved||{})[w])delete o[w]}r[k]=o;break}
       case "sents":{const del=maxMap(a._del||{},b._del||{}),o={...older.sents,...newer.sents};
         for(const w in o){const d=del["s:"+w];if(d&&d>(o[w][3]||0))delete o[w]}r[k]=o;break}
-      case "exam":case "vexam":{const o={...x};for(const lv in y){const p=o[lv],q=y[lv];o[lv]=!p||(q.at||0)>(p.at||0)?{...q,best:Math.max(q.best||0,p?p.best||0:0)}:{...p,best:Math.max(p.best||0,q.best||0)}}r[k]=o;break}
+      case "exam":case "vexam":case "ttest":{const o={...x};for(const lv in y){const p=o[lv],q=y[lv];o[lv]=!p||(q.at||0)>(p.at||0)?{...q,best:Math.max(q.best||0,p?p.best||0:0)}:{...p,best:Math.max(p.best||0,q.best||0)}}r[k]=o;break}
       case "pomoLog":{const m={};[...x,...y].forEach(e=>{if(e&&e.t)m[e.t]=e});r[k]=Object.values(m).sort((a,b)=>a.t-b.t).slice(-500);break}
       case "_del":r[k]=maxMap(x,y);break;
       case "hist":r[k]=newer.hist;break;

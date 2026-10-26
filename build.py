@@ -24,7 +24,7 @@ for g,d in groups.items():
     (root/f'audio-{g}.js').write_text('Object.assign(window.FLUO_AUDIO=window.FLUO_AUDIO||{},'+json.dumps(d,separators=(',',':'))+');\n')
 silent=base64.b64encode((ses/'silent.mp3').read_bytes()).decode() if (ses/'silent.mp3').exists() else ''
 shell=(src/'shell.html').read_text(); css=(src/'style.css').read_text()
-js='\n'.join((src/f).read_text() for f in ['config.js','data-quiz.js','data-texts2.js','data-examples.js','data-learn.js','data-grammar.js','data-test.js','data-reading.js','data-exam.js','data-grammar-c1.js','data-dialog.js','data-hatalar.js','data-aile.js','support.js','hedef.js','calismam.js','sinav.js','cumle.js','gunun.js','okuma.js','telaffuz.js','diyalog.js','hatalar.js','buyuksozluk.js','pwa.js','pomodoro.js','app.js','auth.js'])
+js='\n'.join((src/f).read_text() for f in ['config.js','data-quiz.js','data-texts2.js','data-examples.js','data-learn.js','data-grammar.js','data-test.js','data-reading.js','data-exam.js','data-grammar-c1.js','data-dialog.js','data-hatalar.js','data-aile.js','support.js','hedef.js','calismam.js','sinav.js','konutest.js','cumle.js','gunun.js','okuma.js','telaffuz.js','diyalog.js','hatalar.js','buyuksozluk.js','pwa.js','pomodoro.js','yarisma2.js','app.js','auth.js'])
 js=js.replace('/*AIDX*/{}',json.dumps(aidx,separators=(',',':'))).replace('/*SILENT*/""','"'+silent+'"')
 out=shell.replace('/*CSS*/',css).replace('/*JS*/',js)
 # artifact.html: Claude yayını için (yayın sistemi sayfa iskeletini kendisi ekler)

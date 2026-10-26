@@ -183,7 +183,7 @@ function route(){
   if(/^(cevir|metin|okuma)/.test(h))loadDict().catch(()=>{});
   if(h==="ceviri"){location.replace("#metin");return}
   if(h===lastHash)return;lastHash=h;
-  if(h!=="yarisma")pauseGame();
+  if(h!=="yarisma"){pauseGame();m2Stop();$("game2").hidden=true}
   RD.playing=false;if(h!=="telaffuz")prStop();DG.play=-1;
   prefetchAudio(h);
   stopSpeak();
@@ -213,8 +213,10 @@ function route(){
   else if(h==="yarisma"){showQuiz();}
   else if(h==="gramer"){renderGramList();showView("gramer","gramer")}
   else if(h.startsWith("g-")){
-    const t=GRAMMAR.find(x=>x.id===h.slice(2));if(!t){location.hash="gramer";return}
+    const wantTest=/-test$/.test(h),tid=h.slice(2).replace(/-test$/,"");
+    const t=GRAMMAR.find(x=>x.id===h.slice(2))||GRAMMAR.find(x=>x.id===tid);if(!t){location.hash="gramer";return}
     renderTopic(t);showView("konu","gramer");
+    if(wantTest&&t.id!==h.slice(2))setTimeout(()=>{const s=$("s-test");if(s)window.scrollTo({top:s.getBoundingClientRect().top+scrollY-90,behavior:"auto"})},300);
   }
   else if(h==="metin"){showView("ceviri","metin")}
   else if(h==="ayarlar"){renderSettings();showView("ayarlar","ayarlar")}
@@ -416,21 +418,22 @@ const G={phase:"lobby",active:false};
 function showQuiz(){
   if(G.pending){showView("yarisma","yarisma");startGame(G.pending);return}
   $("lobby").hidden=G.phase!=="lobby";$("game").hidden=G.phase!=="game";$("end").hidden=G.phase!=="end";
-  $("quizHead").hidden=G.phase!=="lobby";$("lobbyMore").hidden=G.phase!=="lobby";
+  $("quizHead").hidden=G.phase!=="lobby";$("lobbyMore").hidden=G.phase!=="lobby";$("modeBar").hidden=G.phase!=="lobby";$("game2").hidden=G.phase!=="m2";
   if(G.phase==="lobby")renderLobby();
   showView("yarisma","yarisma");
   if(G.phase==="game")resumeGame();
 }
 function renderLobby(){
+  renderModeBar();const mode=qMode();
   $("lobby").innerHTML=Object.entries(LEVELS).map(([k,L])=>{
     const sample=shuffle(WORDS[k]).slice(0,3).map(w=>"<span>"+esc(w[0])+"</span>").join("");
     return '<button class="lvcard" data-lv="'+k+'" style="--c:var(--lv-'+k+')">'+
       '<div class="lvtop"><span class="cefr">'+L.cefr+'</span><span class="bars">'+[1,2,3,4].map(i=>'<i class="'+(i<=L.bars?"on":"")+'"></i>').join("")+'</span></div>'+
       '<p class="lvname">'+L.name+'</p><p class="lvdesc">'+L.desc+'</p><div class="lvsample">'+sample+'</div>'+
-      '<div class="lvfoot"><span>Rekor <b>'+(P.best[k]||0)+'</b> · '+Math.round(L.time*(P.set.quizTime==="uzun"?1.5:1))+' sn</span><span class="lvgo">Başla →</span></div></button>';
+      '<div class="lvfoot"><span>'+m2BestLabel(mode,k)+(mode==="klasik"?' · '+Math.round(L.time*(P.set.quizTime==="uzun"?1.5:1))+' sn':'')+'</span><span class="lvgo">Başla →</span></div></button>';
   }).join("");
   renderLobbyMore();
-  $("lobby").querySelectorAll(".lvcard").forEach(b=>b.onclick=()=>{const k=b.dataset.lv;startGame({key:k,name:LEVELS[k].name,cefr:LEVELS[k].cefr,c:"var(--lv-"+k+")",words:WORDS[k],time:LEVELS[k].time})});
+  $("lobby").querySelectorAll(".lvcard").forEach(b=>b.onclick=()=>{const k=b.dataset.lv;if(mode!=="klasik"){m2Start(mode,k);return}startGame({key:k,name:LEVELS[k].name,cefr:LEVELS[k].cefr,c:"var(--lv-"+k+")",words:WORDS[k],time:LEVELS[k].time})});
 }
 /* Yarışma lobisinin alt kısmı: özel yarışlar, son oyunlar, puan kuralları */
 function renderLobbyMore(){
@@ -443,7 +446,7 @@ function renderLobbyMore(){
     '<button class="tool" id="qWeak" style="--c:var(--g2);--t:var(--t-gram)"'+(weak<4?' aria-disabled="true"':'')+'><span class="mod-ic">'+ic("refresh")+'</span><div><b>Zorlandıklarımla</b><span>'+(weak>=4?weak+" kelime":"Yanlış yaptıkların burada birikir")+'</span></div><span class="tool-go">'+ic("right")+'</span></button>'+
     '<div class="tool lm-deck" style="--c:var(--m-learn);--t:var(--t-learn)"><span class="mod-ic">'+ic("cards")+'</span><div><b>Bir desteyle</b><select id="qDeckSel" aria-label="Deste seç">'+DECKS.map(d=>'<option value="'+d.id+'"'+(d.id===lastDeck?" selected":"")+'>'+esc(d.name)+'</option>').join("")+'</select></div><button class="tool-go lm-go" id="qDeckGo" aria-label="Desteyle başla">'+ic("right")+'</button></div>'+
     '</div><div class="lm-grid">'+
-    '<section class="sgroup"><h2>'+ic("trophy")+'Son oyunların</h2>'+(hist.length?hist.map(h=>'<div class="srow lm-row"><div><b>'+esc(h.n)+'</b><small>'+h.ok+' / '+h.q+' doğru · '+new Date(h.t).toLocaleDateString("tr-TR",{day:"numeric",month:"short"})+'</small></div><span class="lm-pts">'+(h.r?'<i>Rekor</i>':'')+h.p+'</span></div>').join("")
+    '<section class="sgroup"><h2>'+ic("trophy")+'Son oyunların</h2>'+(hist.length?hist.map(h=>'<div class="srow lm-row"><div><b>'+esc(h.n)+'</b><small>'+h.ok+' / '+h.q+' doğru · '+new Date(h.t).toLocaleDateString("tr-TR",{day:"numeric",month:"short"})+'</small></div><span class="lm-pts">'+(h.r?'<i>Rekor</i>':'')+h.p+(h.u||'')+'</span></div>').join("")
       :'<p class="note lm-empty">Henüz oyun yok. Bir seviye seç; sonuçların burada görünür.</p>')+'</section>'+
     '<section class="sgroup"><h2>'+ic("bulb")+'Nasıl puan alırsın?</h2><ul class="lm-rules">'+
       '<li><b>100</b><span>Her doğru cevap</span></li><li><b>+50</b><span>Hızlı cevap bonusu (süre azaldıkça düşer)</span></li>'+
@@ -596,7 +599,7 @@ function renderGramList(){
       '<div class="gtopics">'+ts.map((t,i)=>{const g=P.gram[t.id];
         return '<a class="gt'+(g?.done?" done":"")+'" href="#g-'+t.id+'" style="--c:'+L.color+'"><span class="gt-n">'+(g?.done?ic("check"):i+1)+'</span>'+
           '<b>'+esc(t.title)+'</b><span class="sub">'+esc(t.sub)+'</span><span class="trt">'+esc(t.tr)+'</span>'+
-          (er&&er.t[t.id]!==undefined?'<span class="gt-ex v-'+topicVerdict(er.t[t.id]).k+'">'+topicVerdict(er.t[t.id]).t+'</span>':'')+'<span class="gt-st">'+(g?(g.done?ic("check")+"Tamamlandı · "+g.best+"/"+g.total:"Alıştırma: "+g.best+"/"+g.total):"Başlanmadı")+'</span></a>'}).join("")+'</div></section>';
+          (P.ttest&&P.ttest[t.id]?'<span class="gt-ex v-'+ttVerdict(P.ttest[t.id].best/P.ttest[t.id].n).k+'">Test '+P.ttest[t.id].best+'/'+P.ttest[t.id].n+'</span>':'')+(er&&er.t[t.id]!==undefined?'<span class="gt-ex v-'+topicVerdict(er.t[t.id]).k+'">'+topicVerdict(er.t[t.id]).t+'</span>':'')+'<span class="gt-st">'+(g?(g.done?ic("check")+"Tamamlandı · "+g.best+"/"+g.total:"Alıştırma: "+g.best+"/"+g.total):"Başlanmadı")+'</span></a>'}).join("")+'</div></section>';
   }).join("");
 }
 let PR=null;
@@ -622,6 +625,8 @@ function renderTopic(t){
     h+='<section class="tsec" id="s-mis"><h2>'+ic("alert")+'Sık yapılan hatalar</h2><div class="mistakes">'+t.mistakes.map(x=>'<div class="mistake"><div class="wrong">'+ic("x")+'<span>'+esc(x[0])+'</span></div><div class="right">'+ic("check")+'<span>'+hl(x[1])+'</span></div><p>'+ic("bulb")+esc(x[2])+'</p></div>').join("")+'</div></section>'}
   secs.push(["s-pr","Alıştırma"]);
   h+='<section class="tsec" id="s-pr"><h2>'+ic("check")+'Alıştırma</h2><div class="practice" id="practice"></div></section>';
+  secs.push(["s-test","Bölüm testi"]);
+  h+='<section class="tsec" id="s-test"><h2>'+ic("target")+'Bölüm testi</h2><div class="ttest" id="ttest"></div></section>';
   h+='<nav class="tnav">'+(prev?'<a href="#g-'+prev.id+'"><small>← Önceki konu</small><b>'+esc(prev.title)+'</b></a>':'')+(nxt?'<a class="next" href="#g-'+nxt.id+'"><small>Sonraki konu →</small><b>'+esc(nxt.title)+'</b></a>':'')+'</nav>';
   h+='<p class="report-line">'+ic("flag")+'Bu konuda bir hata mı gördün? <button class="linkbtn" id="tReport">Bildir</button></p>';
   m.innerHTML=h;
@@ -629,7 +634,7 @@ function renderTopic(t){
   $("toc").innerHTML='<a class="backlink" href="#gramer">'+ic("left")+'Tüm konular</a><small style="margin-top:12px">Bu sayfada</small>'+secs.map(s=>'<a href="javascript:void 0" data-jump="'+s[0]+'">'+s[1]+'</a>').join("")+
     '<div class="toc-nav">'+(nxt?'<a href="#g-'+nxt.id+'">Sonraki: '+esc(nxt.title)+' →</a>':'')+'</div>';
   $("toc").querySelectorAll("[data-jump]").forEach(a=>a.onclick=e=>{e.preventDefault();$(a.dataset.jump).scrollIntoView({behavior:reduceMotion()?"auto":"smooth"})});
-  PR={t,i:0,score:0,res:[],answered:false,order:shuffle(t.quiz.map((_,i)=>i))};renderPractice();
+  PR={t,i:0,score:0,res:[],answered:false,order:shuffle(t.quiz.map((_,i)=>i))};renderPractice();ttMount(t);
 }
 function renderPractice(){
   const t=PR.t,box=$("practice"),n=t.quiz.length;
