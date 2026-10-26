@@ -169,7 +169,7 @@ function renderNav(){
   $("tabbar").innerHTML=SECTIONS.map(s=>'<a href="#'+s.id+'" data-sec="'+s.id+'" style="--c:'+s.c+'">'+ic(s.icon)+'<span>'+s.short+'</span></a>').join("");
 }
 const VIEWS=["diyalog","diyalogoku","hatalar","calismam","sinav","telaffuz","okuma","okumaoku","gunun","cumle","destek","hesap","seviye","ayarlar","ana","ogren","calis","deckend","defter","dinle","yarisma","gramer","konu","cevir","ceviri"];
-function setFocus(){document.body.classList.toggle("focus",(!$("v-calis").hidden)||(!$("v-yarisma").hidden&&G.phase==="game")||(!$("v-seviye").hidden&&T.phase==="run")||(!$("v-gunun").hidden&&DL.d&&!DL.d.done))}
+function setFocus(){document.body.classList.toggle("focus",(!$("v-calis").hidden)||(!$("v-seviye").hidden&&T.phase==="run")||(!$("v-gunun").hidden&&DL.d&&!DL.d.done))}
 function showView(v,sec){
   VIEWS.forEach(x=>$("v-"+x).hidden=x!==v);setTimeout(setFocus,0);
   document.querySelectorAll("[data-sec]").forEach(a=>{if(a.dataset.sec===sec)a.setAttribute("aria-current","page");else a.removeAttribute("aria-current")});
@@ -245,6 +245,7 @@ document.addEventListener("click",e=>{
   if(target!==cur)return;
   e.preventDefault();
   if(target==="ana")renderHome();
+  if(target==="yarisma"&&G.phase!=="lobby"){quizAbort();showQuiz()}
   window.scrollTo({top:0,behavior:reduceMotion()?"auto":"smooth"});
   if(!reduceMotion())replayView();
 });
@@ -427,15 +428,22 @@ function showQuiz(){
 }
 function renderLobby(){
   renderModeBar();const mode=qMode();
+  const sel=LEVELS[P.set.qLv]?P.set.qLv:null;
   $("lobby").innerHTML=Object.entries(LEVELS).map(([k,L])=>{
     const sample=shuffle(WORDS[k]).slice(0,3).map(w=>"<span>"+esc(w[0])+"</span>").join("");
-    return '<button class="lvcard" data-lv="'+k+'" style="--c:var(--lv-'+k+')">'+
+    return '<button class="lvcard'+(sel===k?" sel":"")+'" data-lv="'+k+'" aria-pressed="'+(sel===k)+'" style="--c:var(--lv-'+k+')">'+
       '<div class="lvtop"><span class="cefr">'+L.cefr+'</span><span class="bars">'+[1,2,3,4].map(i=>'<i class="'+(i<=L.bars?"on":"")+'"></i>').join("")+'</span></div>'+
       '<p class="lvname">'+L.name+'</p><p class="lvdesc">'+L.desc+'</p><div class="lvsample">'+sample+'</div>'+
-      '<div class="lvfoot"><span>'+m2BestLabel(mode,k)+(mode==="klasik"?' · '+Math.round(L.time*(P.set.quizTime==="uzun"?1.5:1))+' sn':'')+'</span><span class="lvgo">Başla →</span></div></button>';
-  }).join("");
+      '<div class="lvfoot"><span>'+m2BestLabel(mode,k)+(mode==="klasik"?' · '+Math.round(L.time*(P.set.quizTime==="uzun"?1.5:1))+' sn':'')+'</span><span class="lvgo">'+(sel===k?ic("check")+'Seçildi':'Seç')+'</span></div></button>';
+  }).join("")+
+  '<div class="lvstart" id="lvStart">'+(sel?'<div><small>Hazır</small><b>'+QMODES[mode].t+' · '+LEVELS[sel].name+' ('+LEVELS[sel].cefr+')</b></div><button class="primary" id="lvGo">'+ic("play")+'Yarışmayı başlat</button>'
+    :'<div><small>Seviye seç</small><b>Önce yukarıdan bir seviye seç, sonra yarışmayı başlat.</b></div><button class="primary" id="lvGo" disabled>'+ic("play")+'Yarışmayı başlat</button>')+'</div>';
   renderLobbyMore();
-  $("lobby").querySelectorAll(".lvcard").forEach(b=>b.onclick=()=>{const k=b.dataset.lv;if(mode!=="klasik"){m2Start(mode,k);return}startGame({key:k,name:LEVELS[k].name,cefr:LEVELS[k].cefr,c:"var(--lv-"+k+")",words:WORDS[k],time:LEVELS[k].time})});
+  $("lobby").querySelectorAll(".lvcard").forEach(b=>b.onclick=()=>{P.set.qLv=b.dataset.lv;save();renderLobby();
+    const g=$("lvStart");if(g&&g.getBoundingClientRect().bottom>innerHeight-90)g.scrollIntoView({behavior:reduceMotion()?"auto":"smooth",block:"center"})});
+  $("lvGo").onclick=()=>{const k=P.set.qLv;if(!LEVELS[k])return;
+    if(mode!=="klasik"){m2Start(mode,k);return}
+    startGame({key:k,name:LEVELS[k].name,cefr:LEVELS[k].cefr,c:"var(--lv-"+k+")",words:WORDS[k],time:LEVELS[k].time})};
 }
 /* Yarışma lobisinin alt kısmı: özel yarışlar, son oyunlar, puan kuralları */
 function renderLobbyMore(){
