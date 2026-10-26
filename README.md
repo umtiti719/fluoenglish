@@ -23,6 +23,7 @@ Türkçe arayüzlü, genel İngilizce öğrenme uygulaması.
 - **Günün dersi:** her gün seviyeye göre ~5 dakikalık paket: 3 yeni kelime, kelime testi, mini gramer, cümle kurma ve dinleme (ana sayfada).
 - **Cümle Kur:** Türkçe cümleyi gör, İngilizcesini karışık kartları sıralayarak ya da yazarak kur (4 seviye, ~300 cümle; yanlışlar birkaç dakika sonra yeniden gelir).
 - **Yardım ve destek:** sık sorulanlar ve "Bize yaz" formu; kelime kartı ve dil bilgisi konularından tek dokunuşla hata bildirme. Mesajlar Supabase'deki `feedback` tablosuna düşer (kurulum: `belgeler/destek.sql`).
+- **Cümle çevirisi (Çeviri):** cümleler ücretsiz makine çevirisiyle çevrilir (önce tarayıcının kendi çevirisi, yoksa MyMemory); sonuçta önemli kelimeler ve kelime kelime anlamlar, servis çalışmazsa sözlük anlamları.
 - **Büyük sözlük (Çeviri):** ~32.000 İngilizce kelime; en sık kelimeler için Fluo'nun kendi güncel çekirdek sözlüğü (~5.900 kelime), nadir kelimeler için FreeDict (GPL-2.0+) yedeği; çekimli biçimler köke bağlanır; Türkçe→İngilizce arama; cümlelerde kelime kelime anlam (`sozluk.js`, kaynaklar: `sozluk/LISANS.md`).
 - **Sınavlar:** her dil bilgisi ünitesi (A1–C1, konu başına 3 soru) ve her kelime destesi (12 soru) için sınav; sonuca göre "çalışmalısın / kısa tekrar / hazırsın" yönlendirmesi, bilinemeyen kelimeler için ayrı çalışma destesi.
 - **Çalışmam:** giriş yapınca üst menüde; haftalık hedef, rozetler, kayıtlı kelimeler ve cümleler, tüm bölümlerdeki ilerleme ve "sırada ne var" önerileri.

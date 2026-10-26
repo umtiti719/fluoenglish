@@ -1593,3 +1593,10 @@ body.focus .sitefoot{display:none}
 @media (max-width:420px){.lm-rules{grid-template-columns:1fr}}
 .lm-tools{grid-template-columns:repeat(3,minmax(0,1fr))}
 @media (max-width:820px){.lm-tools{grid-template-columns:1fr}}
+.trwarn{color:var(--ink)}.trwarn .ic{color:var(--warn)}
+.trgloss{border-top:1px solid var(--line);padding-top:10px}
+.trgloss summary{cursor:pointer;font-size:.86rem;font-weight:600;color:var(--brand)}
+.trgloss .glossline{margin-top:10px}
+@media (max-width:560px){.trtext{font-size:1.18rem}}
+.trbox.res .trhint{display:none}
+@media (max-width:520px){.trform textarea{flex:none}}

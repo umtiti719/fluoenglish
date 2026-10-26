@@ -1598,6 +1598,13 @@ body.focus .sitefoot{display:none}
 @media (max-width:420px){.lm-rules{grid-template-columns:1fr}}
 .lm-tools{grid-template-columns:repeat(3,minmax(0,1fr))}
 @media (max-width:820px){.lm-tools{grid-template-columns:1fr}}
+.trwarn{color:var(--ink)}.trwarn .ic{color:var(--warn)}
+.trgloss{border-top:1px solid var(--line);padding-top:10px}
+.trgloss summary{cursor:pointer;font-size:.86rem;font-weight:600;color:var(--brand)}
+.trgloss .glossline{margin-top:10px}
+@media (max-width:560px){.trtext{font-size:1.18rem}}
+.trbox.res .trhint{display:none}
+@media (max-width:520px){.trform textarea{flex:none}}
 
 </style>
 
@@ -6655,11 +6662,11 @@ function renderTrHint(){
   const sugg=TR.dir==="en"?["breakfast","look forward to","resilient","Could we have the bill, please?"]:["kahvaltı","sabırlı","yolculuk","Yarın görüşürüz"];
   $("trHint").innerHTML=(P.hist.length?'<small>Son aramalar</small><div class="chips-s">'+P.hist.slice(0,8).map(h=>'<button class="chip-s" data-q="'+esc(h.q)+'" data-d="'+h.d+'">'+esc(h.q)+'</button>').join("")+'</div>':'')+
     '<small>Örnekler</small><div class="chips-s">'+sugg.map(q=>'<button class="chip-s ghosty" data-q="'+esc(q)+'" data-d="'+TR.dir+'">'+esc(q)+'</button>').join("")+'</div>'+
-    (sampleFn?'':'<p class="note trnote">'+ic("bulb")+(DICT?' Sözlükte '+dictCount().toLocaleString("tr-TR")+' İngilizce kelime var; çekimli biçimler (running, studies…) de bulunur. Cümleler için şimdilik kelime kelime arama yapılır.':' Sözlük yükleniyor…')+(signedIn()||!AUTH.on||!FLUO_CONFIG.aiOn?'':' <a href="#hesap">Giriş yaparsan</a> her kelimeyi ve cümleyi yapay zekâyla çevirebilirsin.')+'</p>');
+    (sampleFn?'':'<p class="note trnote">'+ic("bulb")+(DICT?' Kelimeler Fluo sözlüğünden ('+dictCount().toLocaleString("tr-TR")+' kelime), cümleler ücretsiz makine çevirisiyle çevrilir.':' Sözlük yükleniyor…')+(signedIn()||!AUTH.on||!FLUO_CONFIG.aiOn?'':' <a href="#hesap">Giriş yaparsan</a> her kelimeyi ve cümleyi yapay zekâyla çevirebilirsin.')+'</p>');
   $("trHint").querySelectorAll("[data-q]").forEach(b=>b.onclick=()=>{TR.dir=b.dataset.d;$("trInput").value=b.dataset.q;renderTrHint();doTranslate()});
 }
 $("trSwap").onclick=()=>{TR.dir=TR.dir==="en"?"tr":"en";const r=$("trResult").dataset.out;if(r){$("trInput").value=r}renderTrHint();autoGrow();$("trInput").focus()};
-function autoGrow(){const t=$("trInput");t.style.height="auto";t.style.height=Math.min(t.scrollHeight,180)+"px"}
+function autoGrow(){const t=$("trInput");t.style.height="auto";t.style.height=Math.min(t.scrollHeight+(t.offsetHeight-t.clientHeight),200)+"px"}
 $("trInput").addEventListener("input",()=>{autoGrow();liveTranslate()});
 $("trInput").addEventListener("keydown",e=>{if(e.key==="Enter"&&!e.shiftKey){e.preventDefault();clearTimeout(TR.t1);clearTimeout(TR.t2);doTranslate()}});
 $("trForm").addEventListener("submit",e=>{e.preventDefault();doTranslate()});
@@ -6679,11 +6686,48 @@ function wordCard(r,big){
     (r.syn&&r.syn.length?'<div class="trsec"><small>Benzer kelimeler</small><div class="chips-s">'+r.syn.map(w=>'<button class="chip-s" data-q="'+esc(w)+'" data-d="en">'+esc(w)+'</button>').join("")+'</div></div>':'')+
     '<span class="srcb">'+esc(r.src)+'</span></article>';
 }
+/* ---------- Ücretsiz cümle çevirisi (yapay zekâ kapalıyken) ----------
+   1) Tarayıcının kendi çevirisi (Chrome masaüstü, cihazda çalışır)  2) MyMemory çeviri servisi (ücretsiz, günlük sınırlı)
+   Olmazsa kelime kelime sözlük anlamları gösterilir. */
+const MT={chrome:{},quota:false};
+function decodeEnt(s){const t=document.createElement("textarea");t.innerHTML=s;return t.value}
+function mtChunks(q){if(q.length<=450)return[q];const out=[];let cur="";(q.match(/[^.!?\n]+[.!?]*\s*|\n+/g)||[q]).forEach(s=>{if((cur+s).length>450&&cur){out.push(cur);cur=""}cur+=s});if(cur)out.push(cur);return out.flatMap(c=>c.length>450?c.match(/.{1,450}(\s|$)/g):[c])}
+async function machineTranslate(q,dir,gesture){
+  const src=dir==="en"?"en":"tr",dst=dir==="en"?"tr":"en";
+  const k=src+dst,within=(pr,ms)=>Promise.race([pr,new Promise((_,no)=>setTimeout(()=>no(new Error("timeout")),ms))]);
+  if("Translator" in self&&!MT.noChrome)try{
+    const a=await within(Translator.availability({sourceLanguage:src,targetLanguage:dst}),3000);
+    if(a==="available"||(gesture&&(a==="downloadable"||a==="downloading"))){MT.chrome[k]=MT.chrome[k]||Translator.create({sourceLanguage:src,targetLanguage:dst});
+      const tr=await within(MT.chrome[k],a==="available"?4000:20000);const t=await within(tr.translate(q),6000);if(t&&t.trim())return{text:t.trim(),src:"Tarayıcının çevirisi"}}
+  }catch(e){delete MT.chrome[k];if(e.message==="timeout")MT.noChrome=true}
+  if(MT.quota)throw new Error("quota");
+  const parts=[];
+  for(const c of mtChunks(q)){
+    const ac=new AbortController(),tm=setTimeout(()=>ac.abort(),9000);
+    try{const r=await fetch("https://api.mymemory.translated.net/get?q="+encodeURIComponent(c.trim())+"&langpair="+src+"|"+dst,{signal:ac.signal});
+      const j=await r.json();const t=j&&j.responseData&&j.responseData.translatedText;
+      if(j.quotaFinished||/MYMEMORY WARNING/i.test(t||"")){MT.quota=true;throw new Error("quota")}
+      if(!t||+j.responseStatus!==200)throw new Error("mt");parts.push(decodeEnt(t))}
+    finally{clearTimeout(tm)}
+  }
+  return{text:parts.join(" ").replace(/\s+/g," ").trim(),src:"Makine çevirisi (MyMemory)"};
+}
+const STOPW=new Set("a an the is are am was were be been being to of in on at for and or but i you he she it we they me him her us them my your his its our their this that these those do does did have has had will would can could should not no yes so if as by with from up out about than then there here what who how when where why which very just also too".split(" "));
+function keyWords(q,dir){
+  if(dir!=="en"||!DICT)return[];
+  const seen=new Set();
+  return glossSentence(q,"en").filter(x=>{const k=x.w.toLowerCase();if(!x.tr||STOPW.has(k)||k.length<3||seen.has(k))return false;seen.add(k);return true}).slice(0,8).map(x=>({en:x.w,tr:x.tr}));
+}
+function glossHtml(q,dir){
+  if(!DICT)return "";const g=glossSentence(q,dir);if(!g.some(x=>x.tr))return "";
+  return '<div class="glossline">'+g.map(x=>'<span class="gw'+(x.tr?'':' none')+'"><b>'+esc(x.w)+'</b><small>'+esc(x.tr||"—")+'</small></span>').join("")+'</div>';
+}
 function renderTr(r,q){
-  const box=$("trResult");box.dataset.out="";
+  const box=$("trResult");box.dataset.out="";document.querySelector(".trbox").classList.add("res");
   if(!r&&!sampleFn&&DICT&&q.trim().split(/\s+/).length>1){const g=glossSentence(q,TR.dir);if(g.some(x=>x.tr)){
-    box.innerHTML='<article class="trcard"><small class="trlbl">Kelime kelime anlamları</small><div class="glossline">'+g.map(x=>'<span class="gw'+(x.tr?'':' none')+'"><b>'+esc(x.w)+'</b><small>'+esc(x.tr||"—")+'</small></span>').join("")+'</div>'+
-      '<p class="trnote2">'+ic("bulb")+'Cümlenin tamamının doğal çevirisi yapay zekâ çevirisiyle gelecek. Şimdilik her kelimenin sözlük anlamını görüyorsun.</p><span class="srcb">Fluo sözlüğü</span></article>';return}}
+    box.innerHTML='<article class="trcard"><p class="trnote2 trwarn">'+ic("alert")+(MT.err==="quota"?'Bugünkü ücretsiz cümle çevirisi sınırı doldu; yarın yeniden çalışır.':MT.err==="offline"?'İnternet bağlantısı yok; cümle çevirisi yapılamadı.':'Cümle çevirisi şu an yapılamadı. Biraz sonra yeniden dene.')+' Şimdilik kelimelerin sözlük anlamlarını görüyorsun:</p><div class="glossline">'+g.map(x=>'<span class="gw'+(x.tr?'':' none')+'"><b>'+esc(x.w)+'</b><small>'+esc(x.tr||"—")+'</small></span>').join("")+'</div>'+
+      '<div class="tractions"><button class="ghost" id="trRetry">'+ic("refresh")+'Yeniden dene</button></div><span class="srcb">Fluo sözlüğü</span></article>';
+    $("trRetry").onclick=()=>{MT.quota=false;doTranslate()};return}}
   if(!r){box.innerHTML='<div class="empty"><span class="mod-ic">'+ic("search")+'</span><h3>Sonuç bulunamadı</h3><p>"'+esc(q)+'" uygulamanın sözlüğünde yok.'+(sampleFn?' Yazımı kontrol edip tekrar dene.':' Şu an yalnızca uygulamanın kendi sözlüğü kullanılabiliyor.'+(signedIn()||!AUTH.on||!FLUO_CONFIG.aiOn?'':' <a href="#hesap">Giriş yaparsan</a> her kelimeyi ve cümleyi yapay zekâyla çevirebilirsin.'))+'</p></div>';return}
   if(r.type==="word"){box.innerHTML=wordCard(r,"tr");box.dataset.out=TR.dir==="en"?(r.senses||[])[0]||"":r.head}
   else if(r.type==="words"){box.innerHTML='<p class="note">"'+esc(q)+'" için İngilizce karşılıklar:</p>'+r.items.map(it=>wordCard({head:it.head,pos:it.pos,senses:[it.mean],examples:it.ex?[it.ex]:[],src:r.src},"en")).join("");box.dataset.out=r.items[0].head}
@@ -6693,6 +6737,7 @@ function renderTr(r,q){
     box.innerHTML='<article class="trcard"><small class="trlbl">'+(enOut?"İngilizcesi":"Türkçesi")+'</small><p class="trtext">'+esc(out)+'</p>'+
       '<div class="tractions">'+(enOut?trSay(out):"")+'<button class="ghost" id="trCopy">'+ic("copy")+'Kopyala</button></div>'+
       (r.note?'<p class="trnote2">'+ic("bulb")+esc(r.note)+'</p>':'')+
+      (r.mt?'<details class="trgloss"><summary>Kelime kelime anlamları</summary>'+glossHtml(q,TR.dir==="en"?"en":"tr")+'</details>':'')+
       (r.words&&r.words.length?'<div class="trsec"><small>Önemli kelimeler</small><div class="glossrow">'+r.words.map(w=>'<span class="lw"><b>'+esc(w.en)+'</b> = '+esc(w.tr)+trSave(w.en,w.tr,"",TR.dir==="en"?q:out,TR.dir==="en"?out:q).replace('class="savebtn ','class="savebtn xs ')+'</span>').join("")+'</div></div>':'')+
       '<span class="srcb">'+esc(r.src)+'</span></article>';
     $("trCopy").onclick=async()=>{try{await navigator.clipboard.writeText(out);toast("Kopyalandı")}catch(e){const sel=window.getSelection(),rg=document.createRange();rg.selectNodeContents(box.querySelector(".trtext"));sel.removeAllRanges();sel.addRange(rg);toast("Metin seçildi, kopyalayabilirsin")}};
@@ -6715,7 +6760,7 @@ function suggest(q,dir){
 function liveTranslate(){
   clearTimeout(TR.t1);clearTimeout(TR.t2);
   const q=$("trInput").value.trim(),dir=TR.dir;
-  if(!q){TR.busy++;$("trResult").innerHTML="";$("trResult").dataset.out="";$("trGo").disabled=false;return}
+  if(!q){TR.busy++;$("trResult").innerHTML="";$("trResult").dataset.out="";$("trGo").disabled=false;document.querySelector(".trbox").classList.remove("res");return}
   TR.t1=setTimeout(()=>{
     const isWord=q.split(/\s+/).length<=3&&!/[.?!]$/.test(q);
     const cached=TRC[dir+"|"+q.toLowerCase()];
@@ -6726,20 +6771,31 @@ function liveTranslate(){
       TR.liveLocal=null;const sg=isWord?suggest(q,dir):[];
       if(sg.length){TR.busy++;$("trResult").innerHTML='<div class="sugg"><small>'+(dir==="en"?"Bunu mu arıyorsun?":"Şunlardan biri olabilir:")+'</small><div class="chips-s">'+sg.map(w=>'<button class="chip-s" data-q="'+esc(w)+'" data-d="'+dir+'">'+esc(w)+(dir==="en"&&WINFO[w]?' <span class="sg-tr">'+esc(WINFO[w][1])+'</span>':'')+'</button>').join("")+'</div></div>';
         $("trResult").querySelectorAll("[data-q]").forEach(b=>b.onclick=()=>{$("trInput").value=b.dataset.q;autoGrow();clearTimeout(TR.t2);doTranslate()})}
-      else if(!sampleFn&&q.length>2){TR.busy++;renderTr(null,q)}
+      else if(!sampleFn&&q.length>2){TR.busy++;const ck0="mt|"+dir+"|"+q.toLowerCase();
+        if(TRC[ck0])renderTr(TRC[ck0],q);else{$("trResult").innerHTML='<div class="trload"><span></span><span></span><span></span> Yazmayı bitirince çevrilecek…</div>';TR.t2=setTimeout(()=>{if($("trInput").value.trim()===q)doTranslate(true)},1100)}}
     }
     // yapay zekâ: yazma durunca (sözlükte olmayanlar için)
     if(sampleFn&&!local&&q.length>=2)TR.t2=setTimeout(()=>{if($("trInput").value.trim()===q)doTranslate(true)},sampleFn.remote?900:450);
     else if(local)TR.t2=setTimeout(()=>{if($("trInput").value.trim()===q){addHist(q,dir);renderTrHint();markActive()}},1500);
   },120);
 }
+function trShow(){if(innerWidth<700){const b=$("trResult");if(b.getBoundingClientRect().top>innerHeight*.6)b.scrollIntoView({behavior:reduceMotion()?"auto":"smooth",block:"start"})}}
 async function doTranslate(auto){
   const q=$("trInput").value.trim();if(!q){$("trInput").focus();return}
   markActive();const id=++TR.busy,dir=TR.dir;
   addHist(q,dir);renderTrHint();
   const isWord=q.split(/\s+/).length<=3&&!/[.?!]$/.test(q);
   const local=isWord?localLookup(q,dir):null;
-  if(!sampleFn){renderTr(local,q);return}
+  if(!sampleFn){
+    if(local){renderTr(local,q);return}
+    const ck0="mt|"+dir+"|"+q.toLowerCase();
+    if(TRC[ck0]){renderTr(TRC[ck0],q);trShow();return}
+    $("trResult").innerHTML='<div class="trload"><span></span><span></span><span></span> Çevriliyor…</div>';$("trGo").disabled=true;
+    try{const m=await machineTranslate(q,dir,!auto);if(id!==TR.busy)return;
+      const out={type:"text",translation:m.text,words:keyWords(q,dir),src:m.src,mt:1};TRC[ck0]=out;saveTRC();MT.err=null;renderTr(out,q)}
+    catch(e){if(id!==TR.busy)return;MT.err=!navigator.onLine?"offline":e.message==="quota"?"quota":"err";renderTr(null,q)}
+    finally{if(id===TR.busy)$("trGo").disabled=false}
+    trShow();return}
   const ck=dir+"|"+q.toLowerCase();
   if(TRC[ck]){renderTr(TRC[ck],q);return}
   const from=dir==="en"?"İngilizce":"Türkçe",to=dir==="en"?"Türkçe":"İngilizce";
