@@ -1,7 +1,7 @@
 /* Fluo çevrimdışı çalışma ve hatırlatma (service worker). Sürüm build.py tarafından yazılır. */
-const VERSION="d3fe2e0b2b",CORE="fluo-core-"+VERSION,RUN="fluo-run",META="fluo-meta";
+const VERSION="90793f5818",CORE="fluo-core-"+VERSION,RUN="fluo-run",META="fluo-meta";
 const CORE_FILES=["./","index.html","manifest.webmanifest","icons/icon-192.png","icons/icon-512.png","vendor/supabase.js"];
-const BIG={"audio-w.js": "10db78333a", "audio-s.js": "668732a5d3", "audio-t.js": "41a3a5d099", "audio-r.js": "0926ecf90b", "audio-d.js": "5b380a556e", "sozluk.js": "128d0b87ef"},BIG_FILES=Object.keys(BIG); /* dosya → içerik özeti: yalnızca değişen dosya yeniden indirilir */
+const BIG={"audio-w.js": "10db78333a", "audio-s.js": "668732a5d3", "audio-t.js": "41a3a5d099", "audio-r.js": "0926ecf90b", "audio-d.js": "5b380a556e", "audio-q1.js": "d6e1e99596", "audio-q2.js": "d6e1e99596", "audio-q3.js": "d6e1e99596", "audio-q4.js": "d6e1e99596", "sozluk.js": "128d0b87ef"},BIG_FILES=Object.keys(BIG); /* dosya → içerik özeti: yalnızca değişen dosya yeniden indirilir */
 self.addEventListener("install",e=>{e.waitUntil(caches.open(CORE).then(c=>c.addAll(CORE_FILES)).then(()=>self.skipWaiting()))});
 self.addEventListener("activate",e=>{e.waitUntil((async()=>{
   for(const k of await caches.keys())if(k.startsWith("fluo-core-")&&k!==CORE)await caches.delete(k);

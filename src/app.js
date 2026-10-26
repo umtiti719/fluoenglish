@@ -67,6 +67,16 @@ const WINFO={};
 Object.values(WORDS).flat().forEach(w=>WINFO[w[0]]=[w[0],w[1],w[2],w[3]||"",w[4]||""]);
 DECKS.forEach(d=>d.words.forEach(w=>WINFO[w[0]]=w));
 const EXTRA={};
+/* Yarışma havuzu: seçilmiş yarışma kelimeleri + seviyesine göre deste kelimeleri + çekirdek sözlükten sık kelimeler (data-quiz2.js) */
+const DECK_LV={"A1–A2":"kolay","A2":"kolay","A2–B1":"orta","B1":"orta","B1–B2":"zor","B2":"zor","B2–C1":"uzman","C1":"uzman"};
+const QCACHE={};
+function quizPool(k){
+  if(QCACHE[k])return QCACHE[k];
+  const m=new Map(),add=w=>{if(!w||!w[1]||w[0].split(" ").length>3||/[?!.,]/.test(w[0]))return;const key=w[0].toLowerCase();if(m.has(key))return;m.set(key,[w[0],String(w[1]).split(";")[0].trim(),w[2]||""])};
+  (WORDS[k]||[]).forEach(add);DECKS.filter(d=>DECK_LV[d.level]===k).forEach(d=>d.words.forEach(add));
+  ((typeof QPOOL!=="undefined"&&QPOOL[k])||[]).forEach(w=>{add(w);if(!WINFO[w[0]])EXTRA[w[0]]=[w[0],w[1],w[2],"",""]});
+  return QCACHE[k]=[...m.values()];
+}
 const winfo=en=>WINFO[en]||P.saved[en]||EXTRA[en];
 function virtualDeck(id){
   if(id==="tekrar")return{id,name:"Tekrar zamanı",en:"Review",level:"Tekrar",icon:"refresh",hue:"var(--g2)",words:dueWords().map(winfo).filter(Boolean)};
@@ -429,7 +439,7 @@ function showQuiz(){
 function renderLobby(){
   renderModeBar();const mode=qMode();
   $("lobby").innerHTML=Object.entries(LEVELS).map(([k,L])=>{
-    const sample=shuffle(WORDS[k]).slice(0,3).map(w=>"<span>"+esc(w[0])+"</span>").join("");
+    const sample=shuffle(quizPool(k)).slice(0,3).map(w=>"<span>"+esc(w[0])+"</span>").join("");
     return '<button class="lvcard" data-lv="'+k+'" style="--c:var(--lv-'+k+')">'+
       '<div class="lvtop"><span class="cefr">'+L.cefr+'</span><span class="bars">'+[1,2,3,4].map(i=>'<i class="'+(i<=L.bars?"on":"")+'"></i>').join("")+'</span></div>'+
       '<p class="lvname">'+L.name+'</p><p class="lvdesc">'+L.desc+'</p><div class="lvsample">'+sample+'</div>'+
@@ -443,7 +453,8 @@ function renderReady(){
   const mode=qMode(),k=LEVELS[P.set.qLv]?P.set.qLv:"kolay",L=LEVELS[k],M=QMODES[mode];
   const t=Math.round(L.time*(P.set.quizTime==="uzun"?1.5:1));
   const extra={klasik:"Her kelime için "+t+" saniyen var. 50:50 ve Pas jokerlerini kullanabilirsin.",hizli:"Süre başlayınca durmaz; hızlı ama dikkatli ol.",dy:"Emin değilsen tahmin etme: yanlış cevap 1 puan götürür.",eslestir:"Süre ilk turla başlar ve 3 tur boyunca işler.",yaz:"Sesin açık olsun. Kelimeyi istediğin kadar tekrar dinleyebilirsin."}[mode];
-  const words=shuffle(WORDS[k]).slice(0,6);
+  const words=shuffle(quizPool(k)).slice(0,6);
+  setTimeout(()=>{loadAudio("w").catch(()=>{});loadAudio({kolay:"q1",orta:"q2",zor:"q3",uzman:"q4"}[k]).catch(()=>{})},150);
   $("ready").innerHTML='<button class="backlink rd-back" id="rdBack">'+ic("left")+'Seviyeler</button>'+
     '<article class="rd-card card" style="--c:var(--lv-'+k+')">'+
       '<div class="rd-head"><span class="rd-ic">'+ic(M.icon)+'</span><div><small>'+esc(L.name)+' · '+L.cefr+'</small><h2>'+esc(M.t)+'</h2><p>'+esc(M.d)+'</p></div></div>'+
@@ -455,7 +466,7 @@ function renderReady(){
   const back=()=>{G.phase="lobby";showQuiz();window.scrollTo({top:0,behavior:"auto"})};
   $("rdBack").onclick=back;$("rdBack2").onclick=back;
   $("rdGo").onclick=()=>{if(mode!=="klasik"){m2Start(mode,k);return}
-    startGame({key:k,name:L.name,cefr:L.cefr,c:"var(--lv-"+k+")",words:WORDS[k],time:L.time})};
+    startGame({key:k,name:L.name,cefr:L.cefr,c:"var(--lv-"+k+")",words:quizPool(k),time:L.time})};
   setTimeout(()=>{try{$("rdGo").focus({preventScroll:true})}catch(e){}},50);
 }
 /* Yarışma lobisinin alt kısmı: özel yarışlar, son oyunlar, puan kuralları */

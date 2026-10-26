@@ -13,20 +13,30 @@ const qMode=()=>QMODES[P.set.qMode]?P.set.qMode:"klasik";
 const m2Key=(m,k)=>"m:"+m+":"+k;
 function m2Best(m,k){const v=P.best[m2Key(m,k)];return v===undefined?null:v}
 function m2BestLabel(m,k){if(m==="klasik")return "Rekor <b>"+(P.best[k]||0)+"</b>";const v=m2Best(m,k);return v===null?"Rekor <b>–</b>":"Rekor <b>"+v+(m==="eslestir"?" sn":"")+"</b>"}
-function m2Pool(k){return shuffle(WORDS[k].filter(w=>w[1]))}
+/* Önce hiç görülmemiş kelimeler (karışık), sonra en uzun zamandır görülmeyenler; Dinle ve Yaz'da yalnızca sesi kayıtlı olanlar */
+function m2Pool(k,audio){
+  let ws=quizPool(k);if(audio){const a=ws.filter(w=>hasAudio(w[0]));if(a.length>=20)ws=a}
+  return ws.map(w=>({w,t:P.seen["w:"+w[0]]||0,r:Math.random()})).sort((a,b)=>(a.t?1:0)-(b.t?1:0)||a.t-b.t||a.r-b.r).map(x=>x.w);
+}
+function m2Distract(w,n){
+  const all=quizPool(G2.k).filter(x=>x[1]!==w[1]&&x[0]!==w[0]),same=all.filter(x=>x[2]===w[2]);
+  const src=same.length>=n*3?same:all,out=[],used=new Set([w[1]]);
+  for(const x of shuffle(src)){if(!used.has(x[1])){used.add(x[1]);out.push(x)}if(out.length>=n)break}
+  return out;
+}
 function m2Stop(){if(!G2)return;clearInterval(G2.tick);clearTimeout(G2.tm);G2=null;if(G.phase==="m2")G.phase="lobby"}
 function m2Start(mode,k){
   const L=LEVELS[k];m2Stop();
-  G2={mode,k,L,c:"var(--lv-"+k+")",score:0,ok:0,no:0,hint:0,missed:[],start:Date.now(),pool:m2Pool(k),pi:0,lock:false};
+  G2={mode,k,L,c:"var(--lv-"+k+")",score:0,ok:0,no:0,hint:0,missed:[],start:Date.now(),pool:m2Pool(k,mode==="yaz"),pi:0,lock:false};
   G.phase="m2";$("lobby").hidden=true;$("ready").hidden=true;$("modeBar").hidden=false;$("lobbyMore").hidden=true;$("quizHead").hidden=true;$("game").hidden=true;$("end").hidden=true;
   const box=$("game2");box.hidden=false;box.style.setProperty("--c",G2.c);
   if(mode==="hizli"||mode==="dy"){G2.left=60;G2.end=Date.now()+60000;G2.tick=setInterval(m2Timer,200)}
   if(mode==="eslestir"){G2.round=0;G2.pen=0;m2MatchRound()}
-  else if(mode==="yaz"){G2.list=G2.pool.slice(0,10);G2.i=0;m2YazQ()}
+  else if(mode==="yaz"){G2.list=G2.pool.slice(0,10);G2.list.forEach(w=>touch("w:"+w[0]));G2.i=0;m2YazQ()}
   else m2Next();
   window.scrollTo({top:0,behavior:"auto"});markActive();
 }
-function m2Take(){if(G2.pi>=G2.pool.length){G2.pool=m2Pool(G2.k);G2.pi=0}return G2.pool[G2.pi++]}
+function m2Take(){if(G2.pi>=G2.pool.length){G2.pool=m2Pool(G2.k,G2.mode==="yaz");G2.pi=0}const w=G2.pool[G2.pi++];touch("w:"+w[0]);return w}
 function m2Timer(){
   if(!G2)return;const left=Math.max(0,(G2.end-Date.now())/1000);G2.left=left;
   const f=$("m2Fill"),s=$("m2Sec");if(f){f.style.width=(left/60*100)+"%";s.textContent=Math.ceil(left)+" sn";$("m2Bar").classList.toggle("low",left<=10)}
@@ -43,7 +53,7 @@ function m2BindFoot(){$("m2Quit").onclick=()=>m2Finish(true)}
 function m2Next(){
   if(!G2)return;G2.lock=false;
   if(G2.mode==="dy"){m2DyQ();return}
-  const w=m2Take(),opts=shuffle([w[1],...shuffle(WORDS[G2.k].filter(x=>x[1]!==w[1])).slice(0,3).map(x=>x[1])]);G2.cur=w;
+  const w=m2Take(),opts=shuffle([w[1],...m2Distract(w,3).map(x=>x[1])]);G2.cur=w;
   $("game2").innerHTML=m2Head(G2.ok+" doğru")+
     '<div class="stage g2-stage"><p class="word">'+esc(w[0])+'</p><span class="pill">'+esc(w[2]||"")+'</span></div>'+
     '<div class="opts" id="m2Opts">'+opts.map((o,i)=>'<button class="opt" data-v="'+esc(o)+'"><span class="k">'+(i+1)+'</span><span>'+esc(o)+'</span></button>').join("")+'</div>'+m2Foot();
@@ -58,7 +68,7 @@ function m2Pick(b){
 }
 /* ---------- Doğru mu? ---------- */
 function m2DyQ(){
-  const w=m2Take(),truth=Math.random()<.5,shown=truth?w[1]:shuffle(WORDS[G2.k].filter(x=>x[1]!==w[1]))[0][1];G2.cur=w;G2.truth=truth;G2.shown=shown;
+  const w=m2Take(),truth=Math.random()<.5,shown=truth?w[1]:m2Distract(w,1)[0][1];G2.cur=w;G2.truth=truth;G2.shown=shown;
   $("game2").innerHTML=m2Head(G2.ok+" doğru · "+G2.no+" yanlış")+
     '<div class="stage g2-stage dy-stage"><p class="word">'+esc(w[0])+'</p><p class="dy-eq">=</p><p class="dy-mean">'+esc(shown)+'</p></div>'+
     '<div class="dy-btns"><button class="dy-b no" id="dyNo">'+ic("x")+'Yanlış</button><button class="dy-b yes" id="dyYes">'+ic("check")+'Doğru</button></div>'+m2Foot();
