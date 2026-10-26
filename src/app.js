@@ -210,7 +210,7 @@ function route(){
   else if(h==="gunun"){openDaily();showView("gunun","ana")}
   else if(h==="cumle"){showView("cumle","ogren");openBuild()}
   else if(h==="dinle"){showView("dinle","ogren");if(!L.cur)newListen();else renderListenStat()}
-  else if(h==="yarisma"){showQuiz();}
+  else if(h==="yarisma"){if(!G.pending)quizAbort();showQuiz();}
   else if(h==="gramer"){renderGramList();showView("gramer","gramer")}
   else if(h.startsWith("g-")){
     const wantTest=/-test$/.test(h),tid=h.slice(2).replace(/-test$/,"");
@@ -415,10 +415,12 @@ document.addEventListener("keydown",e=>{
 
 /* ================= YARIŞMA ================= */
 const G={phase:"lobby",active:false};
+/* Yarışmayı durdur ve seçim ekranına dön (sayfaya girerken ya da tür değiştirirken) */
+function quizAbort(){stopTimer();clearTimeout(G.tm);G.active=false;G.paused=false;G.phase="lobby";if(typeof m2Stop==="function")m2Stop()}
 function showQuiz(){
   if(G.pending){showView("yarisma","yarisma");startGame(G.pending);return}
   $("lobby").hidden=G.phase!=="lobby";$("game").hidden=G.phase!=="game";$("end").hidden=G.phase!=="end";
-  $("quizHead").hidden=G.phase!=="lobby";$("lobbyMore").hidden=G.phase!=="lobby";$("modeBar").hidden=G.phase!=="lobby";$("game2").hidden=G.phase!=="m2";
+  $("quizHead").hidden=G.phase!=="lobby";$("lobbyMore").hidden=G.phase!=="lobby";$("modeBar").hidden=false;$("game2").hidden=G.phase!=="m2";
   if(G.phase==="lobby")renderLobby();
   showView("yarisma","yarisma");
   if(G.phase==="game")resumeGame();
@@ -470,7 +472,8 @@ function startGame(cfg){
   ["game","end"].forEach(x=>$(x).style.setProperty("--c",cfg.c));$("gLevel").style.setProperty("--c",cfg.c);$("eLevel").style.setProperty("--c",cfg.c);
   $("gSteps").style.setProperty("--n",Q);
   $("gLevel").textContent=cfg.name+" · "+cfg.cefr;$("gPts").textContent="0";
-  $("lobby").hidden=true;$("end").hidden=true;$("quizHead").hidden=true;$("game").hidden=false;setTimeout(setFocus,0);
+  if(typeof m2Stop==="function")m2Stop();$("game2").hidden=true;
+  $("lobby").hidden=true;$("lobbyMore").hidden=true;$("end").hidden=true;$("quizHead").hidden=true;$("game").hidden=false;setTimeout(setFocus,0);
   renderSteps();updJokers();
   $("gWordBox").hidden=true;$("gOpts").innerHTML="";$("gFb").textContent="";$("gCombo").hidden=true;
   $("gQn").textContent="Hazır ol!";$("gTfill").style.width="100%";$("gSec").textContent=cfg.time+"s";

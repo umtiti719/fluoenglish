@@ -5902,7 +5902,7 @@ function m2Stop(){if(!G2)return;clearInterval(G2.tick);clearTimeout(G2.tm);G2=nu
 function m2Start(mode,k){
   const L=LEVELS[k];m2Stop();
   G2={mode,k,L,c:"var(--lv-"+k+")",score:0,ok:0,no:0,hint:0,missed:[],start:Date.now(),pool:m2Pool(k),pi:0,lock:false};
-  G.phase="m2";$("modeBar").hidden=true;$("lobby").hidden=true;$("lobbyMore").hidden=true;$("quizHead").hidden=true;$("game").hidden=true;$("end").hidden=true;
+  G.phase="m2";$("lobby").hidden=true;$("lobbyMore").hidden=true;$("quizHead").hidden=true;$("game").hidden=true;$("end").hidden=true;
   const box=$("game2");box.hidden=false;box.style.setProperty("--c",G2.c);
   if(mode==="hizli"||mode==="dy"){G2.left=60;G2.end=Date.now()+60000;G2.tick=setInterval(m2Timer,200)}
   if(mode==="eslestir"){G2.round=0;G2.pen=0;m2MatchRound()}
@@ -6034,7 +6034,7 @@ function renderModeBar(){
   bar.innerHTML='<div class="mode-tabs" role="tablist">'+Object.entries(QMODES).map(([k,M])=>'<button class="mode-t" role="tab" data-m="'+k+'" aria-selected="'+(m===k)+'">'+ic(M.icon)+'<span>'+M.t+'</span></button>').join("")+'</div>'+
     '<p class="mode-d">'+esc(QMODES[m].d)+'</p>';
   $("quizRules").innerHTML=QMODES[m].rules.map(r=>'<span>'+esc(r)+'</span>').join("");
-  bar.querySelectorAll("[data-m]").forEach(b=>b.onclick=()=>{P.set.qMode=b.dataset.m;save();renderLobby()});
+  bar.querySelectorAll("[data-m]").forEach(b=>b.onclick=()=>{const was=G.phase!=="lobby";P.set.qMode=b.dataset.m;save();quizAbort();showQuiz();if(was)window.scrollTo({top:0,behavior:"auto"})});
 }
 
 /* ================= MARKA =================
@@ -6249,7 +6249,7 @@ function route(){
   else if(h==="gunun"){openDaily();showView("gunun","ana")}
   else if(h==="cumle"){showView("cumle","ogren");openBuild()}
   else if(h==="dinle"){showView("dinle","ogren");if(!L.cur)newListen();else renderListenStat()}
-  else if(h==="yarisma"){showQuiz();}
+  else if(h==="yarisma"){if(!G.pending)quizAbort();showQuiz();}
   else if(h==="gramer"){renderGramList();showView("gramer","gramer")}
   else if(h.startsWith("g-")){
     const wantTest=/-test$/.test(h),tid=h.slice(2).replace(/-test$/,"");
@@ -6454,10 +6454,12 @@ document.addEventListener("keydown",e=>{
 
 /* ================= YARIŞMA ================= */
 const G={phase:"lobby",active:false};
+/* Yarışmayı durdur ve seçim ekranına dön (sayfaya girerken ya da tür değiştirirken) */
+function quizAbort(){stopTimer();clearTimeout(G.tm);G.active=false;G.paused=false;G.phase="lobby";if(typeof m2Stop==="function")m2Stop()}
 function showQuiz(){
   if(G.pending){showView("yarisma","yarisma");startGame(G.pending);return}
   $("lobby").hidden=G.phase!=="lobby";$("game").hidden=G.phase!=="game";$("end").hidden=G.phase!=="end";
-  $("quizHead").hidden=G.phase!=="lobby";$("lobbyMore").hidden=G.phase!=="lobby";$("modeBar").hidden=G.phase!=="lobby";$("game2").hidden=G.phase!=="m2";
+  $("quizHead").hidden=G.phase!=="lobby";$("lobbyMore").hidden=G.phase!=="lobby";$("modeBar").hidden=false;$("game2").hidden=G.phase!=="m2";
   if(G.phase==="lobby")renderLobby();
   showView("yarisma","yarisma");
   if(G.phase==="game")resumeGame();
@@ -6509,7 +6511,8 @@ function startGame(cfg){
   ["game","end"].forEach(x=>$(x).style.setProperty("--c",cfg.c));$("gLevel").style.setProperty("--c",cfg.c);$("eLevel").style.setProperty("--c",cfg.c);
   $("gSteps").style.setProperty("--n",Q);
   $("gLevel").textContent=cfg.name+" · "+cfg.cefr;$("gPts").textContent="0";
-  $("lobby").hidden=true;$("end").hidden=true;$("quizHead").hidden=true;$("game").hidden=false;setTimeout(setFocus,0);
+  if(typeof m2Stop==="function")m2Stop();$("game2").hidden=true;
+  $("lobby").hidden=true;$("lobbyMore").hidden=true;$("end").hidden=true;$("quizHead").hidden=true;$("game").hidden=false;setTimeout(setFocus,0);
   renderSteps();updJokers();
   $("gWordBox").hidden=true;$("gOpts").innerHTML="";$("gFb").textContent="";$("gCombo").hidden=true;
   $("gQn").textContent="Hazır ol!";$("gTfill").style.width="100%";$("gSec").textContent=cfg.time+"s";

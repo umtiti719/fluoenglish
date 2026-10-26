@@ -18,7 +18,7 @@ function m2Stop(){if(!G2)return;clearInterval(G2.tick);clearTimeout(G2.tm);G2=nu
 function m2Start(mode,k){
   const L=LEVELS[k];m2Stop();
   G2={mode,k,L,c:"var(--lv-"+k+")",score:0,ok:0,no:0,hint:0,missed:[],start:Date.now(),pool:m2Pool(k),pi:0,lock:false};
-  G.phase="m2";$("modeBar").hidden=true;$("lobby").hidden=true;$("lobbyMore").hidden=true;$("quizHead").hidden=true;$("game").hidden=true;$("end").hidden=true;
+  G.phase="m2";$("lobby").hidden=true;$("lobbyMore").hidden=true;$("quizHead").hidden=true;$("game").hidden=true;$("end").hidden=true;
   const box=$("game2");box.hidden=false;box.style.setProperty("--c",G2.c);
   if(mode==="hizli"||mode==="dy"){G2.left=60;G2.end=Date.now()+60000;G2.tick=setInterval(m2Timer,200)}
   if(mode==="eslestir"){G2.round=0;G2.pen=0;m2MatchRound()}
@@ -150,5 +150,5 @@ function renderModeBar(){
   bar.innerHTML='<div class="mode-tabs" role="tablist">'+Object.entries(QMODES).map(([k,M])=>'<button class="mode-t" role="tab" data-m="'+k+'" aria-selected="'+(m===k)+'">'+ic(M.icon)+'<span>'+M.t+'</span></button>').join("")+'</div>'+
     '<p class="mode-d">'+esc(QMODES[m].d)+'</p>';
   $("quizRules").innerHTML=QMODES[m].rules.map(r=>'<span>'+esc(r)+'</span>').join("");
-  bar.querySelectorAll("[data-m]").forEach(b=>b.onclick=()=>{P.set.qMode=b.dataset.m;save();renderLobby()});
+  bar.querySelectorAll("[data-m]").forEach(b=>b.onclick=()=>{const was=G.phase!=="lobby";P.set.qMode=b.dataset.m;save();quizAbort();showQuiz();if(was)window.scrollTo({top:0,behavior:"auto"})});
 }
