@@ -1668,14 +1668,28 @@ body.focus .sitefoot{display:none}
 .g2-stats{grid-template-columns:repeat(auto-fit,minmax(110px,1fr))}
 @media (max-width:560px){.mode-t{padding:7px 11px;font-size:.84rem}.dy-b{padding:16px}}
 .g2 .timer .sec{white-space:nowrap}
-.lvcard.sel{box-shadow:0 0 0 2.5px var(--c),var(--shadow-lg);transform:translateY(-3px)}
-.lvcard.sel .lvgo{color:var(--c);display:inline-flex;align-items:center;gap:4px}
-.lvcard.sel .lvgo .ic{width:15px;height:15px}
-.lvstart{grid-column:1/-1;display:flex;align-items:center;gap:14px;flex-wrap:wrap;background:var(--surface);border:1px solid var(--line);border-radius:22px;padding:14px 16px 14px 20px;box-shadow:var(--shadow)}
-.lvstart>div{flex:1 1 240px;min-width:0}
-.lvstart small{display:block;color:var(--muted);font-size:.78rem;font-weight:600}
-.lvstart b{font-weight:600}
-.lvstart .primary{flex:none}
-.lvstart .primary:disabled{opacity:.45;cursor:not-allowed}
-@media (max-width:560px){.lvstart .primary{width:100%;justify-content:center}}
-@media (max-width:880px){.lvstart{position:sticky;bottom:calc(86px + env(safe-area-inset-bottom,0px));z-index:5;box-shadow:var(--shadow-lg)}}
+
+/* Yarışma: hazırlık ekranı */
+.ready{max-width:720px;margin:0 auto;display:flex;flex-direction:column;gap:12px;animation:dgIn .25s ease-out}
+.ready[hidden]{display:none}
+.rd-back{align-self:flex-start;border:0;background:none;font:inherit;cursor:pointer}
+.rd-card{--c:var(--brand);position:relative;overflow:hidden;isolation:isolate;gap:18px;padding:26px}
+.rd-card::before{content:"";position:absolute;inset:0 0 auto;height:160px;z-index:-1;background:radial-gradient(70% 100% at 100% 0%,color-mix(in srgb,var(--c) 22%,transparent),transparent 70%)}
+.rd-head{display:flex;gap:16px;align-items:center}
+.rd-ic{width:58px;height:58px;border-radius:18px;display:grid;place-items:center;flex:none;background:color-mix(in srgb,var(--c) 15%,var(--surface));color:var(--c)}
+.rd-ic .ic{width:28px;height:28px}
+.rd-head small{color:var(--c);font-weight:600;font-size:.85rem}
+.rd-head h2{margin:2px 0 4px;font-size:clamp(1.6rem,4.5vw,2.1rem);font-weight:600;letter-spacing:-.03em}
+.rd-head p{margin:0;color:var(--muted)}
+.rd-rules{list-style:none;margin:0;padding:0;display:flex;flex-wrap:wrap;gap:8px}
+.rd-rules li{display:flex;align-items:center;gap:7px;background:var(--surface2);border-radius:999px;padding:7px 14px;font-size:.9rem;font-weight:500}
+.rd-rules .ic{width:15px;height:15px;color:var(--c)}
+.rd-note{display:flex;gap:8px;align-items:flex-start;margin:0;color:var(--muted);font-size:.92rem;line-height:1.45}
+.rd-note .ic{width:17px;height:17px;flex:none;margin-top:2px;color:var(--warn)}
+.rd-words small{display:block;color:var(--muted);font-size:.78rem;font-weight:600;margin-bottom:8px}
+.rd-foot{display:flex;align-items:center;gap:14px;flex-wrap:wrap;border-top:1px solid var(--line);padding-top:16px}
+.rd-rec{color:var(--muted);flex:1 1 auto}.rd-rec b{color:var(--ink)}
+.rd-btns{display:flex;gap:10px;flex-wrap:wrap}
+.rd-go{font-size:1.05rem;padding-left:22px;padding-right:22px}
+.rd-btns button{white-space:nowrap}
+@media (max-width:560px){.rd-card{padding:20px}.rd-btns{width:100%;flex-direction:column-reverse}.rd-btns button{width:100%;justify-content:center}}

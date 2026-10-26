@@ -18,7 +18,7 @@ function m2Stop(){if(!G2)return;clearInterval(G2.tick);clearTimeout(G2.tm);G2=nu
 function m2Start(mode,k){
   const L=LEVELS[k];m2Stop();
   G2={mode,k,L,c:"var(--lv-"+k+")",score:0,ok:0,no:0,hint:0,missed:[],start:Date.now(),pool:m2Pool(k),pi:0,lock:false};
-  G.phase="m2";$("lobby").hidden=true;$("lobbyMore").hidden=true;$("quizHead").hidden=true;$("game").hidden=true;$("end").hidden=true;
+  G.phase="m2";$("lobby").hidden=true;$("ready").hidden=true;$("modeBar").hidden=false;$("lobbyMore").hidden=true;$("quizHead").hidden=true;$("game").hidden=true;$("end").hidden=true;
   const box=$("game2");box.hidden=false;box.style.setProperty("--c",G2.c);
   if(mode==="hizli"||mode==="dy"){G2.left=60;G2.end=Date.now()+60000;G2.tick=setInterval(m2Timer,200)}
   if(mode==="eslestir"){G2.round=0;G2.pen=0;m2MatchRound()}

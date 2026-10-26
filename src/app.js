@@ -421,29 +421,42 @@ function quizAbort(){stopTimer();clearTimeout(G.tm);G.active=false;G.paused=fals
 function showQuiz(){
   if(G.pending){showView("yarisma","yarisma");startGame(G.pending);return}
   $("lobby").hidden=G.phase!=="lobby";$("game").hidden=G.phase!=="game";$("end").hidden=G.phase!=="end";
-  $("quizHead").hidden=G.phase!=="lobby";$("lobbyMore").hidden=G.phase!=="lobby";$("modeBar").hidden=false;$("game2").hidden=G.phase!=="m2";
+  $("quizHead").hidden=G.phase!=="lobby";$("lobbyMore").hidden=G.phase!=="lobby";$("modeBar").hidden=G.phase==="ready";$("game2").hidden=G.phase!=="m2";$("ready").hidden=G.phase!=="ready";if(G.phase==="ready")renderReady();
   if(G.phase==="lobby")renderLobby();
   showView("yarisma","yarisma");
   if(G.phase==="game")resumeGame();
 }
 function renderLobby(){
   renderModeBar();const mode=qMode();
-  const sel=LEVELS[P.set.qLv]?P.set.qLv:null;
   $("lobby").innerHTML=Object.entries(LEVELS).map(([k,L])=>{
     const sample=shuffle(WORDS[k]).slice(0,3).map(w=>"<span>"+esc(w[0])+"</span>").join("");
-    return '<button class="lvcard'+(sel===k?" sel":"")+'" data-lv="'+k+'" aria-pressed="'+(sel===k)+'" style="--c:var(--lv-'+k+')">'+
+    return '<button class="lvcard" data-lv="'+k+'" style="--c:var(--lv-'+k+')">'+
       '<div class="lvtop"><span class="cefr">'+L.cefr+'</span><span class="bars">'+[1,2,3,4].map(i=>'<i class="'+(i<=L.bars?"on":"")+'"></i>').join("")+'</span></div>'+
       '<p class="lvname">'+L.name+'</p><p class="lvdesc">'+L.desc+'</p><div class="lvsample">'+sample+'</div>'+
-      '<div class="lvfoot"><span>'+m2BestLabel(mode,k)+(mode==="klasik"?' · '+Math.round(L.time*(P.set.quizTime==="uzun"?1.5:1))+' sn':'')+'</span><span class="lvgo">'+(sel===k?ic("check")+'Seçildi':'Seç')+'</span></div></button>';
-  }).join("")+
-  '<div class="lvstart" id="lvStart">'+(sel?'<div><small>Hazır</small><b>'+QMODES[mode].t+' · '+LEVELS[sel].name+' ('+LEVELS[sel].cefr+')</b></div><button class="primary" id="lvGo">'+ic("play")+'Yarışmayı başlat</button>'
-    :'<div><small>Seviye seç</small><b>Önce yukarıdan bir seviye seç, sonra yarışmayı başlat.</b></div><button class="primary" id="lvGo" disabled>'+ic("play")+'Yarışmayı başlat</button>')+'</div>';
+      '<div class="lvfoot"><span>'+m2BestLabel(mode,k)+(mode==="klasik"?' · '+Math.round(L.time*(P.set.quizTime==="uzun"?1.5:1))+' sn':'')+'</span><span class="lvgo">Seç →</span></div></button>';
+  }).join("");
   renderLobbyMore();
-  $("lobby").querySelectorAll(".lvcard").forEach(b=>b.onclick=()=>{P.set.qLv=b.dataset.lv;save();renderLobby();
-    const g=$("lvStart");if(g&&g.getBoundingClientRect().bottom>innerHeight-90)g.scrollIntoView({behavior:reduceMotion()?"auto":"smooth",block:"center"})});
-  $("lvGo").onclick=()=>{const k=P.set.qLv;if(!LEVELS[k])return;
-    if(mode!=="klasik"){m2Start(mode,k);return}
-    startGame({key:k,name:LEVELS[k].name,cefr:LEVELS[k].cefr,c:"var(--lv-"+k+")",words:WORDS[k],time:LEVELS[k].time})};
+  $("lobby").querySelectorAll(".lvcard").forEach(b=>b.onclick=()=>{P.set.qLv=b.dataset.lv;save();G.phase="ready";showQuiz();window.scrollTo({top:0,behavior:"auto"})});
+}
+/* Seviye seçildikten sonraki hazırlık ekranı: başlat ya da geri dön */
+function renderReady(){
+  const mode=qMode(),k=LEVELS[P.set.qLv]?P.set.qLv:"kolay",L=LEVELS[k],M=QMODES[mode];
+  const t=Math.round(L.time*(P.set.quizTime==="uzun"?1.5:1));
+  const extra={klasik:"Her kelime için "+t+" saniyen var. 50:50 ve Pas jokerlerini kullanabilirsin.",hizli:"Süre başlayınca durmaz; hızlı ama dikkatli ol.",dy:"Emin değilsen tahmin etme: yanlış cevap 1 puan götürür.",eslestir:"Süre ilk turla başlar ve 3 tur boyunca işler.",yaz:"Sesin açık olsun. Kelimeyi istediğin kadar tekrar dinleyebilirsin."}[mode];
+  const words=shuffle(WORDS[k]).slice(0,6);
+  $("ready").innerHTML='<button class="backlink rd-back" id="rdBack">'+ic("left")+'Seviyeler</button>'+
+    '<article class="rd-card card" style="--c:var(--lv-'+k+')">'+
+      '<div class="rd-head"><span class="rd-ic">'+ic(M.icon)+'</span><div><small>'+esc(L.name)+' · '+L.cefr+'</small><h2>'+esc(M.t)+'</h2><p>'+esc(M.d)+'</p></div></div>'+
+      '<ul class="rd-rules">'+M.rules.filter(r=>!(/^Klavye/.test(r)&&matchMedia("(hover:none)").matches)).map(r=>'<li>'+ic("check")+'<span>'+esc(r)+'</span></li>').join("")+'</ul>'+
+      '<p class="rd-note">'+ic("bulb")+'<span>'+esc(extra)+'</span></p>'+
+      '<div class="rd-words"><small>Bu seviyeden kelimeler</small><div class="lvsample">'+words.map(w=>'<span>'+esc(w[0])+'</span>').join("")+'</div></div>'+
+      '<div class="rd-foot"><span class="rd-rec">'+m2BestLabel(mode,k)+'</span><div class="rd-btns"><button class="ghost" id="rdBack2">'+ic("left")+'Geri dön</button><button class="primary rd-go" id="rdGo">'+ic("play")+'Yarışmayı başlat</button></div></div>'+
+    '</article>';
+  const back=()=>{G.phase="lobby";showQuiz();window.scrollTo({top:0,behavior:"auto"})};
+  $("rdBack").onclick=back;$("rdBack2").onclick=back;
+  $("rdGo").onclick=()=>{if(mode!=="klasik"){m2Start(mode,k);return}
+    startGame({key:k,name:L.name,cefr:L.cefr,c:"var(--lv-"+k+")",words:WORDS[k],time:L.time})};
+  setTimeout(()=>{try{$("rdGo").focus({preventScroll:true})}catch(e){}},50);
 }
 /* Yarışma lobisinin alt kısmı: özel yarışlar, son oyunlar, puan kuralları */
 function renderLobbyMore(){
@@ -481,7 +494,7 @@ function startGame(cfg){
   $("gSteps").style.setProperty("--n",Q);
   $("gLevel").textContent=cfg.name+" · "+cfg.cefr;$("gPts").textContent="0";
   if(typeof m2Stop==="function")m2Stop();$("game2").hidden=true;
-  $("lobby").hidden=true;$("lobbyMore").hidden=true;$("end").hidden=true;$("quizHead").hidden=true;$("game").hidden=false;setTimeout(setFocus,0);
+  $("lobby").hidden=true;$("ready").hidden=true;$("modeBar").hidden=false;$("lobbyMore").hidden=true;$("end").hidden=true;$("quizHead").hidden=true;$("game").hidden=false;setTimeout(setFocus,0);
   renderSteps();updJokers();
   $("gWordBox").hidden=true;$("gOpts").innerHTML="";$("gFb").textContent="";$("gCombo").hidden=true;
   $("gQn").textContent="Hazır ol!";$("gTfill").style.width="100%";$("gSec").textContent=cfg.time+"s";
