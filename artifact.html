@@ -1782,6 +1782,28 @@ body.focus .sitefoot{display:none}
 .fb-legal{margin:2px 0 0;font-size:.8rem}
 .sitefoot{flex-wrap:wrap;row-gap:4px}
 
+/* ================= Ortak alan kartı tasarımı (yarışma türü kartlarıyla aynı dil) =================
+   Kelime Öğren araçları, ana sayfa çalışma alanları, "kaldığın yerden devam et", Dil Bilgisi üst kartları, diyalog listesi */
+.tool,.mod,.cont,.ex-cta,.dg-card{position:relative;isolation:isolate;overflow:hidden;background:var(--surface);color:var(--ink);
+  border:1.5px solid var(--line);box-shadow:var(--shadow);transition:transform .18s,box-shadow .18s,border-color .18s}
+.tool::before,.mod::before,.cont::before,.ex-cta::before,.dg-card::before{content:"";position:absolute;inset:auto -40px -70px auto;width:150px;height:150px;border-radius:50%;
+  background:radial-gradient(closest-side,color-mix(in srgb,var(--c) 22%,transparent),transparent);z-index:-1;opacity:.75;transition:opacity .2s,transform .3s;pointer-events:none}
+.tool:hover,.mod:hover,.cont:hover,.ex-cta:hover,.dg-card:hover{transform:translateY(-2px);box-shadow:var(--shadow-lg);border-color:color-mix(in srgb,var(--c) 45%,var(--line))}
+.tool:hover::before,.mod:hover::before,.cont:hover::before,.ex-cta:hover::before,.dg-card:hover::before{opacity:1;transform:scale(1.1)}
+.tool .mod-ic,.mod .mod-ic,.cont .mod-ic,.ex-cta .mod-ic,.dg-card .mod-ic{background:color-mix(in srgb,var(--c) 14%,var(--surface));color:var(--c);box-shadow:none;border-radius:13px;transition:background .2s,color .2s}
+.tool:hover .mod-ic,.mod:hover .mod-ic,.cont:hover .mod-ic,.ex-cta:hover .mod-ic,.dg-card:hover .mod-ic{background:var(--c);color:#fff}
+.tool .tool-go{background:color-mix(in srgb,var(--c) 10%,var(--surface))}
+/* tekrar bekleyen kelime varsa kart vurgulu */
+.tool.hot{background:color-mix(in srgb,var(--c) 7%,var(--surface));border-color:color-mix(in srgb,var(--c) 55%,var(--line));box-shadow:0 0 0 3px color-mix(in srgb,var(--c) 14%,transparent),var(--shadow)}
+.tool.hot .mod-ic{background:var(--c);color:#fff}
+.tool.calm:hover{border-color:var(--line)}.tool.calm:hover .mod-ic{background:color-mix(in srgb,var(--c) 14%,var(--surface));color:var(--c)}
+/* ana sayfa çalışma alanları */
+.mod{border-radius:22px}
+.mod .mbar{background:color-mix(in srgb,var(--c) 12%,var(--surface2))}
+.cont.hot{background:color-mix(in srgb,var(--c) 7%,var(--surface));border-color:color-mix(in srgb,var(--c) 45%,var(--line))}
+.cont.hot .mod-ic{background:var(--c);color:#fff}
+@media (prefers-reduced-motion:reduce){.tool,.mod,.cont,.ex-cta,.dg-card{transition:none}.tool:hover,.mod:hover,.cont:hover,.ex-cta:hover,.dg-card:hover{transform:none}}
+
 </style>
 
 <header class="top">
@@ -6543,7 +6565,7 @@ function renderHome(){
   const totalW=ALLWORDS.length,rec=Object.keys(LEVELS).filter(k=>P.best[k]).length,gd=gramDone();
   const mods=[
     {id:"ogren",t:"Kelime Öğren",c:"var(--m-learn)",tint:"var(--t-learn)",icon:"cards",d:DECKS.length+" konu destesi, örnek cümleler ve telaffuzla kalıcı kelime öğrenimi.",f:learned+" / "+totalW+" kelime",p:learned/totalW},
-    {id:"yarisma",t:"Kelime Yarışması",c:"var(--m-quiz)",tint:"var(--t-quiz)",icon:"trophy",d:"Süreye karşı 10 soruluk turlar, jokerler ve seri çarpanı.",f:rec+" / 4 seviyede rekor",p:rec/4},
+    {id:"yarisma",t:"Kelime Yarışması",c:"var(--m-quiz)",tint:"var(--t-quiz)",icon:"trophy",d:"5 yarışma türü: Klasik, 60 Saniye, Doğru mu?, Eşleştir, Dinle ve Yaz.",f:rec+" / 4 seviyede rekor",p:rec/4},
     {id:"gramer",t:"Dil Bilgisi",c:"var(--m-gram)",tint:"var(--t-gram)",icon:"book",d:"A1'den C1'e "+GRAMMAR.length+" konu: anlatım, tablolar, örnekler ve alıştırmalar.",f:gd+" / "+GRAMMAR.length+" konu",p:gd/GRAMMAR.length},
     {id:"metin",t:"Metin Çevirisi",c:"var(--m-trans)",tint:"var(--t-trans)",icon:"doc",d:"Gerçek metinleri oku, kelimelere dokun, çevir ve puan al.",f:P.trans+" çeviri yapıldı",p:Math.min(1,P.trans/16)}
   ];
