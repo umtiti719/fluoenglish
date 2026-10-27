@@ -1750,3 +1750,10 @@ body.focus .sitefoot{display:none}
 .am-i:hover,.am-i:focus-visible{background:var(--surface2);outline:none}
 .am-out{color:var(--bad);margin-top:4px;border-top:1px solid var(--line);border-radius:0 0 12px 12px;padding-top:12px}
 .am-out .ic{color:var(--bad)}
+/* Üst menü sığsın: alt başlık ve Çalışmam yazısı gizli (simge + ipucu yeterli) */
+.brand-t small{display:none}
+.studybtn{padding:0;width:36px;justify-content:center}.studybtn .acct-t{display:none}
+.top-in{min-width:0}.nav{min-width:0}
+@media (min-width:881px) and (max-width:1100px){.nav a{padding:6px 7px;font-size:.84rem}.streak .sk-t{display:none}.streak{padding:7px 11px 7px 9px}.top-r{gap:4px}.top-in{gap:8px}}
+@media (min-width:881px) and (max-width:1000px){:root.fs-buyuk .nav a{font-size:13px;padding:6px 6px}}
+.nav{overflow-x:auto;scrollbar-width:none}.nav::-webkit-scrollbar{display:none}.nav a{flex:none}
