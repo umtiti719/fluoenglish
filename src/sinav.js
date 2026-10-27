@@ -110,7 +110,7 @@ function vVerdict(r){
   return{k:"bad",short:"Desteyi çalışmalısın",long:"Bu destede bilmediğin kelimeler çok. Desteyi kartlarla baştan çalışmanı öneririz."};
 }
 function vQuestions(d){
-  const ws=shuffle(d.words),pick=(arr,n,not)=>shuffle(arr.filter(x=>!not.includes(x))).slice(0,n);
+  const ws=shuffle(pickFresh(d.words,w=>"w:"+w[0],15)),pick=(arr,n,not)=>shuffle(arr.filter(x=>!not.includes(x))).slice(0,n);
   return ws.map((w,i)=>{
     const others=d.words.filter(x=>x!==w);
     const m=(w[3]||"").match(/\*\*(.+?)\*\*/),blankOk=m&&m[1].toLowerCase()===w[0].toLowerCase();
@@ -175,8 +175,8 @@ function renderVResult(d,run){
 function renderVList(){
   const box=$("exam");if(!box)return;VX=null;EXTAB="kelime";
   const done=DECKS.filter(d=>P.vexam&&P.vexam[d.id]).length;
-  box.innerHTML=examTabs()+'<p class="note ex-intro">Her destedeki '+DECKS[0].words.length+' kelime için birer soru: anlamını seç, İngilizcesini bul ya da cümledeki boşluğu doldur. '+done+' / '+DECKS.length+' deste sınandı.</p>'+
+  box.innerHTML=examTabs()+'<p class="note ex-intro">Her sınavda destenin geniş kelime havuzundan 15 rastgele soru: anlamını seç, İngilizcesini bul ya da cümledeki boşluğu doldur. '+done+' / '+DECKS.length+' deste sınandı.</p>'+
     '<div class="ex-g ex-vlist">'+DECKS.map(d=>{const r=P.vexam&&P.vexam[d.id],v=r&&vVerdict(r.ok/r.n);
-      return '<a class="ex-t" href="#sinav-k-'+d.id+(r?'-sonuc':'')+'" style="--c:'+d.hue+'"><span class="mod-ic ex-vic">'+ic(d.icon)+'</span><div><b>'+esc(d.name)+'</b><small>'+esc(d.level)+' · '+d.words.length+' soru</small></div>'+
+      return '<a class="ex-t" href="#sinav-k-'+d.id+(r?'-sonuc':'')+'" style="--c:'+d.hue+'"><span class="mod-ic ex-vic">'+ic(d.icon)+'</span><div><b>'+esc(d.name)+'</b><small>'+esc(d.level)+' · 15 soru</small></div>'+
         (r?'<span class="gt-ex v-'+v.k+'">'+r.ok+'/'+r.n+'<i> · '+v.short+'</i></span>':'<span class="ex-new">Sınava gir</span>')+ic("right")+'</a>'}).join("")+'</div>';
 }

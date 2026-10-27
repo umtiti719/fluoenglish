@@ -1,7 +1,7 @@
 /* Fluo çevrimdışı çalışma ve hatırlatma (service worker). Sürüm build.py tarafından yazılır. */
-const VERSION="975bbf5aa5",CORE="fluo-core-"+VERSION,RUN="fluo-run",META="fluo-meta";
+const VERSION="1cdc4bcb69",CORE="fluo-core-"+VERSION,RUN="fluo-run",META="fluo-meta";
 const CORE_FILES=["./","index.html","manifest.webmanifest","icons/icon-192.png","icons/icon-512.png","vendor/supabase.js","fonts/onest-latin-wght-normal.woff2","fonts/onest-latin-ext-wght-normal.woff2"];
-const BIG={"audio-w.js": "10db78333a", "audio-s.js": "668732a5d3", "audio-t.js": "41a3a5d099", "audio-r.js": "0926ecf90b", "audio-d.js": "5b380a556e", "audio-q1.js": "9b9cd2d246", "audio-q2.js": "09aa01dc7f", "audio-q3.js": "bd908dc342", "audio-q4.js": "8481ff7c9b", "sozluk.js": "128d0b87ef"},BIG_FILES=Object.keys(BIG); /* dosya → içerik özeti: yalnızca değişen dosya yeniden indirilir */
+const BIG={"audio-w.js": "10db78333a", "audio-s.js": "668732a5d3", "audio-t.js": "41a3a5d099", "audio-r.js": "0926ecf90b", "audio-d.js": "5b380a556e", "audio-q1.js": "9b9cd2d246", "audio-q2.js": "09aa01dc7f", "audio-q3.js": "bd908dc342", "audio-q4.js": "8481ff7c9b", "audio-x1.js": "d6e1e99596", "audio-x2.js": "d6e1e99596", "sozluk.js": "128d0b87ef"},BIG_FILES=Object.keys(BIG); /* dosya → içerik özeti: yalnızca değişen dosya yeniden indirilir */
 self.addEventListener("install",e=>{e.waitUntil(caches.open(CORE).then(c=>c.addAll(CORE_FILES)).then(()=>self.skipWaiting()))});
 self.addEventListener("activate",e=>{e.waitUntil((async()=>{
   for(const k of await caches.keys())if(k.startsWith("fluo-core-")&&k!==CORE)await caches.delete(k);

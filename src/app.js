@@ -349,17 +349,17 @@ function renderDecks(){
     '<a class="tool" href="#cumle" style="--c:var(--m-gram);--t:var(--t-gram)"><span class="mod-ic">'+ic("puzzle")+'</span><div><b>Cümle Kur</b><span>Türkçeden İngilizceye</span></div><span class="tool-go">Başla '+ic("right")+'</span></a>'+
     '<a class="tool" href="#telaffuz" style="--c:var(--g3);--t:var(--t-trans)"><span class="mod-ic">'+ic("mic")+'</span><div><b>Telaffuz</b><span>Dinle, söyle, puan al</span></div><span class="tool-go">Başla '+ic("right")+'</span></a>';
   $("decks").innerHTML=DECKS.map(d=>{
-    const l=learnedIn(d),n=d.words.length,off=119.4*(1-l/n);
+    const l=learnedIn(d),n=d.words.length,off=119.4*(1-l/n),sw=shuffle(d.words).slice(0,4);
     return '<a class="deck" href="#ogren-'+d.id+'" style="--c:'+d.hue+'">'+
-      '<div class="deck-top"><span class="mod-ic">'+ic(d.icon)+'</span><div class="ring"><svg viewBox="0 0 46 46"><circle class="trk" cx="23" cy="23" r="19"/><circle class="val" cx="23" cy="23" r="19" stroke-dasharray="119.4" stroke-dashoffset="'+off+'"/></svg><span>'+l+'/'+n+'</span></div></div>'+
+      '<div class="deck-top"><span class="mod-ic">'+ic(d.icon)+'</span><div class="ring"><svg viewBox="0 0 46 46"><circle class="trk" cx="23" cy="23" r="19"/><circle class="val" cx="23" cy="23" r="19" stroke-dasharray="119.4" stroke-dashoffset="'+off+'"/></svg>'+(l>=n?'<span>'+ic("check")+'</span>':'')+'</div></div>'+
       '<div><h3>'+esc(d.name)+'</h3><span class="en">'+esc(d.en)+'</span></div><p>'+esc(d.desc)+'</p>'+
-      '<div class="deck-words">'+d.words.slice(0,4).map(w=>'<span>'+esc(w[0])+'</span>').join("")+'</div>'+
-      '<div class="deck-foot"><span class="lvl">'+d.level+'</span><span class="go">'+(l===n?"Tekrar et":l?"Devam et":"Çalışmaya başla")+' →</span></div></a>';
+      '<div class="deck-words">'+sw.map(w=>'<span>'+esc(w[0])+'</span>').join("")+'</div>'+
+      '<div class="deck-foot"><span class="lvl">'+d.level+'</span><span class="go">'+(l?"Devam et":"Çalışmaya başla")+' →</span></div></a>';
   }).join("");
 }
-let S=null;
+let S=null;const SESSION_N=12;
 function startStudy(d,only){
-  const idx=only||pickFresh(d.words.map((_,i)=>i),i=>"w:"+d.words[i][0],d.words.length,i=>isDue(d.words[i][0]));
+  const real=DECKS.includes(d),idx=only||shuffle(pickFresh(d.words.map((_,i)=>i),i=>"w:"+d.words[i][0],real?SESSION_N:d.words.length,i=>isDue(d.words[i][0])));
   S={deck:d,order:idx,i:0,known:[],rev:[],done:false,flipped:false};
   const c=d.hue;["v-calis","v-deckend"].forEach(v=>$(v).style.setProperty("--c",c));
   $("sDeck").innerHTML=$("dDeck").innerHTML=ic(d.icon)+esc(d.name);
@@ -392,7 +392,8 @@ function judge(knew){
 }
 function showDeckEnd(){
   const d=S.deck;$("dOk").textContent=S.known.length;$("dRev").textContent=S.rev.length;
-  $("dTitle").textContent=d.id==="tekrar"?"Bugünkü tekrar bitti":S.rev.length?"Destenin sonuna geldin":"Harika! Hepsini biliyorsun";
+  $("dTitle").textContent=d.id==="tekrar"?"Bugünkü tekrar bitti":S.rev.length?"Bu tur bitti":"Harika! Hepsini biliyorsun";
+  $("dRestart").textContent=DECKS.includes(d)?"Yeni kelimelerle devam et":"Baştan çalış";
   $("dQuiz").hidden=d.words.length<4;
   $("dRevList").innerHTML=S.rev.map(i=>{const w=d.words[i];return '<div class="mrow"><span><b>'+esc(w[0])+'</b> <span>— '+esc(w[1])+'</span></span>'+savBtn(w[0],"sm")+'</div>'}).join("");
   $("dRevList").hidden=!S.rev.length;$("dReview").hidden=!S.rev.length;
