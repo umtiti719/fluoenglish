@@ -343,3 +343,28 @@ function siteSample(){
   f.remote=true;return f;
 }
 
+
+/* ---------- Hesap menüsü: giriş yapınca profil simgesine dokununca açılır (çıkış tek dokunuşta) ---------- */
+function renderAcctMenu(){
+  const m=$("acctMenu");if(!m)return;const n=fullName(),img=avatarUrl();
+  m.innerHTML='<div class="am-head"><span class="am-av">'+(img?'<img src="'+esc(img)+'" alt="" referrerpolicy="no-referrer">':esc((n[0]||"?").toLocaleUpperCase("tr")))+'</span><div><b>'+esc(n)+'</b><small>'+esc(AUTH.user.email||"")+'</small></div></div>'+
+    '<a class="am-i" role="menuitem" href="#hesap">'+ic("user")+'Hesabım</a>'+
+    '<a class="am-i" role="menuitem" href="#calismam">'+ic("target")+'Çalışmam</a>'+
+    '<a class="am-i" role="menuitem" href="#ayarlar">'+ic("gear")+'Ayarlar</a>'+
+    '<a class="am-i" role="menuitem" href="#destek">'+ic("help")+'Yardım ve destek</a>'+
+    '<button class="am-i am-out" role="menuitem" id="amOut">'+ic("left")+'Çıkış yap</button>';
+  m.querySelectorAll("a.am-i").forEach(a=>a.onclick=()=>acctMenu(false));
+  $("amOut").onclick=()=>{acctMenu(false);signOut()};
+}
+function acctMenu(open){
+  const m=$("acctMenu"),b=$("acctBtn");if(!m)return;
+  if(open===undefined)open=m.hidden;
+  if(open){renderAcctMenu();m.hidden=false;b.setAttribute("aria-expanded","true");const f=m.querySelector(".am-i");if(f)setTimeout(()=>f.focus({preventScroll:true}),20)}
+  else{m.hidden=true;b.setAttribute("aria-expanded","false")}
+}
+document.addEventListener("click",e=>{
+  const b=e.target.closest&&e.target.closest("#acctBtn");
+  if(b&&AUTH.user){e.preventDefault();acctMenu();return}
+  const m=$("acctMenu");if(m&&!m.hidden&&!e.composedPath().some(n=>n.id==="acctMenu"))acctMenu(false);
+});
+document.addEventListener("keydown",e=>{if(e.key==="Escape"){const m=$("acctMenu");if(m&&!m.hidden){acctMenu(false);$("acctBtn").focus()}}});

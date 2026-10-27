@@ -326,7 +326,7 @@ function renderHero(){
   else if(st===1)parts.push("bugün serini başlattın");
   $("heroLead").textContent=!started?"İlk adım için bir kelime destesi seçebilir ya da ilk gramer konusuyla başlayabilirsin."
     :parts.length?parts.join(", ").replace(/^./,c=>c.toLocaleUpperCase("tr"))+".":"Kısa bir tekrar ya da yeni bir konu için iyi bir zaman.";
-  const primary=due?{h:"#ogren-tekrar",t:"Tekrara başla ("+due+")"}
+  const primary=due?{h:"#ogren-tekrar",t:due+" kelimeyi tekrar et"}
     :inProg?{h:"#ogren-"+inProg.id,t:inProg.name+" destesine dön"}
     :{h:"#ogren",t:"Bir kelime destesi seç"};
   $("heroCta").innerHTML='<div class="hero-row"><a class="primary" href="'+primary.h+'">'+esc(primary.t)+'<span class="arr">'+ic("right")+'</span></a>'+

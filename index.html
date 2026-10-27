@@ -275,7 +275,7 @@ mark.hl{background:color-mix(in srgb,var(--c,var(--g3)) 18%,transparent);color:i
 .face-top{position:absolute;left:18px;right:18px;top:16px;display:flex;justify-content:space-between;align-items:center;gap:8px}
 .face-top .pill{background:color-mix(in srgb,var(--surface) 80%,transparent)}
 .fword{font-weight:600;font-size:clamp(2.4rem,9vw,3.9rem);letter-spacing:-.045em;line-height:1;margin:0;overflow-wrap:anywhere;text-wrap:balance}
-.tap{position:absolute;bottom:16px;left:0;right:0;margin:0;font-size:.82rem;color:var(--muted)}
+p.tap{position:absolute;bottom:16px;left:0;right:0;margin:0;font-size:.82rem;color:var(--muted)}
 .back.face{transform:rotateY(180deg);background:var(--surface);justify-content:center;padding-top:62px}
 .bmean{font-weight:600;font-size:clamp(1.8rem,6.4vw,2.6rem);line-height:1.08;letter-spacing:-.035em;margin:0;text-wrap:balance}
 .bex{display:flex;flex-direction:column;gap:6px;background:var(--surface2);border-radius:18px;padding:14px 16px}
@@ -1754,6 +1754,21 @@ body.focus .sitefoot{display:none}
 }
 @media (max-width:820px){.mode-bar:not(.compact) .mode-card[aria-selected="true"]{padding-right:38px}}
 
+/* Hesap menüsü */
+.acctmenu{position:fixed;z-index:31;top:calc(env(safe-area-inset-top,0px) + 70px);right:max(16px,calc((100vw - 1180px)/2 + 8px));width:min(270px,calc(100vw - 32px));background:var(--surface);border:1px solid var(--line);border-radius:20px;box-shadow:var(--shadow-lg);padding:8px;display:flex;flex-direction:column;gap:2px;animation:dgIn .18s ease-out}
+.acctmenu[hidden]{display:none}
+.am-head{display:flex;align-items:center;gap:10px;padding:8px 8px 12px;border-bottom:1px solid var(--line);margin-bottom:6px}
+.am-head>div{min-width:0}
+.am-head b{display:block;font-weight:600;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.am-head small{display:block;color:var(--muted);font-size:.8rem;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.am-av{width:38px;height:38px;border-radius:50%;flex:none;display:grid;place-items:center;overflow:hidden;color:#fff;font-weight:600;background:linear-gradient(135deg,var(--gr1),var(--gr2),var(--gr3))}
+.am-av img{width:100%;height:100%;object-fit:cover}
+.am-i{display:flex;align-items:center;gap:10px;padding:10px 10px;border-radius:12px;text-decoration:none;color:var(--ink);font:inherit;font-weight:500;font-size:.94rem;background:none;border:0;cursor:pointer;text-align:left;width:100%}
+.am-i .ic{width:17px;height:17px;color:var(--muted)}
+.am-i:hover,.am-i:focus-visible{background:var(--surface2);outline:none}
+.am-out{color:var(--bad);margin-top:4px;border-top:1px solid var(--line);border-radius:0 0 12px 12px;padding-top:12px}
+.am-out .ic{color:var(--bad)}
+
 </style>
 
 <header class="top">
@@ -2255,6 +2270,7 @@ body.focus .sitefoot{display:none}
 
 <nav class="tabbar" id="tabbar" aria-label="Bölümler"></nav>
 <div class="pomopanel" id="pomoPanel" hidden role="dialog" aria-label="Pomodoro"></div>
+<div class="acctmenu" id="acctMenu" hidden role="menu" aria-label="Hesap menüsü"></div>
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
 
 <svg width="0" height="0" style="position:absolute" aria-hidden="true">
@@ -6468,7 +6484,7 @@ function renderHero(){
   else if(st===1)parts.push("bugün serini başlattın");
   $("heroLead").textContent=!started?"İlk adım için bir kelime destesi seçebilir ya da ilk gramer konusuyla başlayabilirsin."
     :parts.length?parts.join(", ").replace(/^./,c=>c.toLocaleUpperCase("tr"))+".":"Kısa bir tekrar ya da yeni bir konu için iyi bir zaman.";
-  const primary=due?{h:"#ogren-tekrar",t:"Tekrara başla ("+due+")"}
+  const primary=due?{h:"#ogren-tekrar",t:due+" kelimeyi tekrar et"}
     :inProg?{h:"#ogren-"+inProg.id,t:inProg.name+" destesine dön"}
     :{h:"#ogren",t:"Bir kelime destesi seç"};
   $("heroCta").innerHTML='<div class="hero-row"><a class="primary" href="'+primary.h+'">'+esc(primary.t)+'<span class="arr">'+ic("right")+'</span></a>'+
@@ -7835,6 +7851,31 @@ function siteSample(){
   f.remote=true;return f;
 }
 
+
+/* ---------- Hesap menüsü: giriş yapınca profil simgesine dokununca açılır (çıkış tek dokunuşta) ---------- */
+function renderAcctMenu(){
+  const m=$("acctMenu");if(!m)return;const n=fullName(),img=avatarUrl();
+  m.innerHTML='<div class="am-head"><span class="am-av">'+(img?'<img src="'+esc(img)+'" alt="" referrerpolicy="no-referrer">':esc((n[0]||"?").toLocaleUpperCase("tr")))+'</span><div><b>'+esc(n)+'</b><small>'+esc(AUTH.user.email||"")+'</small></div></div>'+
+    '<a class="am-i" role="menuitem" href="#hesap">'+ic("user")+'Hesabım</a>'+
+    '<a class="am-i" role="menuitem" href="#calismam">'+ic("target")+'Çalışmam</a>'+
+    '<a class="am-i" role="menuitem" href="#ayarlar">'+ic("gear")+'Ayarlar</a>'+
+    '<a class="am-i" role="menuitem" href="#destek">'+ic("help")+'Yardım ve destek</a>'+
+    '<button class="am-i am-out" role="menuitem" id="amOut">'+ic("left")+'Çıkış yap</button>';
+  m.querySelectorAll("a.am-i").forEach(a=>a.onclick=()=>acctMenu(false));
+  $("amOut").onclick=()=>{acctMenu(false);signOut()};
+}
+function acctMenu(open){
+  const m=$("acctMenu"),b=$("acctBtn");if(!m)return;
+  if(open===undefined)open=m.hidden;
+  if(open){renderAcctMenu();m.hidden=false;b.setAttribute("aria-expanded","true");const f=m.querySelector(".am-i");if(f)setTimeout(()=>f.focus({preventScroll:true}),20)}
+  else{m.hidden=true;b.setAttribute("aria-expanded","false")}
+}
+document.addEventListener("click",e=>{
+  const b=e.target.closest&&e.target.closest("#acctBtn");
+  if(b&&AUTH.user){e.preventDefault();acctMenu();return}
+  const m=$("acctMenu");if(m&&!m.hidden&&!e.composedPath().some(n=>n.id==="acctMenu"))acctMenu(false);
+});
+document.addEventListener("keydown",e=>{if(e.key==="Escape"){const m=$("acctMenu");if(m&&!m.hidden){acctMenu(false);$("acctBtn").focus()}}});
 
 </script>
 
