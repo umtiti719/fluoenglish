@@ -1,8 +1,9 @@
 <title>Fluo</title>
 <meta name="claude:viewport-fit-sides" content="cover">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Onest:wght@400;500;600;700&display=swap">
 <style>
+/* Yazı tipi: Onest (SIL OFL 1.1, fonts/OFL.txt) — siteyle birlikte sunulur, Google Fonts'a bağlanılmaz */
+@font-face{font-family:'Onest';font-style:normal;font-display:swap;font-weight:100 900;src:url(fonts/onest-latin-ext-wght-normal.woff2) format('woff2');}
+@font-face{font-family:'Onest';font-style:normal;font-display:swap;font-weight:100 900;src:url(fonts/onest-latin-wght-normal.woff2) format('woff2');unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD;}
 /* Layout: açık zemin, ortada yüzen hap menü; ana sayfa ortalanmış başlık + pastel "aurora" panel üzerinde
    yüzen beyaz kartlar. Bölüm renkleri: öğren (gök mavisi), yarışma (turuncu), gramer (indigo), çeviri (pembe). */
 :root{
@@ -1763,6 +1764,24 @@ body.focus .sitefoot{display:none}
 @media (min-width:881px) and (max-width:1000px){:root.fs-buyuk .nav a{font-size:13px;padding:6px 6px}}
 .nav{overflow-x:auto;scrollbar-width:none}.nav::-webkit-scrollbar{display:none}.nav a{flex:none}
 
+/* Yasal metinler */
+.legal{display:flex;flex-direction:column;gap:14px;margin-top:20px;max-width:860px}
+.lg-tabs .fchip{text-decoration:none}
+.lg-draft{display:flex;gap:8px;align-items:flex-start;margin:0;background:var(--warn-bg);border-radius:14px;padding:10px 14px;font-size:.9rem}
+.lg-draft .ic{width:17px;height:17px;flex:none;margin-top:2px;color:var(--warn)}
+.lg-doc{gap:0;line-height:1.65}
+.lg-doc h2{margin:0;font-size:1.5rem;font-weight:600;letter-spacing:-.02em}
+.lg-date{margin:4px 0 14px}
+.lg-doc h3{margin:22px 0 6px;font-size:1.05rem;font-weight:600}
+.lg-doc p{margin:0 0 10px}
+.lg-doc ul{margin:0 0 10px;padding-left:22px}
+.lg-doc li{margin:3px 0}
+.lg-doc a{color:var(--brand)}
+.auth-legal{margin:12px 0 0;font-size:.8rem;color:var(--muted);line-height:1.45;text-align:center}
+.auth-legal a,.fb-legal a{color:inherit;text-decoration:underline}
+.fb-legal{margin:2px 0 0;font-size:.8rem}
+.sitefoot{flex-wrap:wrap;row-gap:4px}
+
 </style>
 
 <header class="top">
@@ -2145,6 +2164,18 @@ body.focus .sitefoot{display:none}
     <div id="htBox"></div>
   </section>
 
+  <!-- ================= YASAL METİNLER ================= -->
+  <section class="view" id="v-yasal" hidden>
+    <div class="page-head">
+      <div>
+        <span class="eyebrow"><svg class="ic"><use href="#i-doc"/></svg>Yasal</span>
+        <h1 class="h-page">Gizlilik ve kullanım koşulları</h1>
+        <p class="lead">Verilerini nasıl işlediğimizi, hakların ve Fluo'yu kullanma kurallarını burada bulabilirsin.</p>
+      </div>
+    </div>
+    <div id="legalBox" class="legal"></div>
+  </section>
+
   <!-- ================= ÇALIŞMAM ================= -->
   <section class="view" id="v-calismam" hidden>
     <div class="page-head">
@@ -2259,7 +2290,7 @@ body.focus .sitefoot{display:none}
       </div>
     </div>
   </section>
-  <footer class="sitefoot"><span>Fluo · Türkçe anlatımlı İngilizce</span><a href="#destek">Yardım ve destek</a><a href="#ayarlar">Ayarlar</a></footer>
+  <footer class="sitefoot"><span>Fluo · Türkçe anlatımlı İngilizce</span><a href="#destek">Yardım ve destek</a><a href="#ayarlar">Ayarlar</a><a href="#yasal">KVKK Aydınlatma Metni</a><a href="#yasal-gizlilik">Gizlilik</a><a href="#yasal-kosullar">Kullanım Koşulları</a><a href="#yasal-cerez">Çerezler</a></footer>
 </main>
 
 <nav class="tabbar" id="tabbar" aria-label="Bölümler"></nav>
@@ -4667,7 +4698,8 @@ const FAQ=[
   ["Sesler çalmıyor ya da robot gibi geliyor.","Telefonunun sessiz modda olmadığından ve sesin açık olduğundan emin ol. Kelime ve cümlelerin çoğu doğal sesle kaydedildi; kaydı olmayanlar cihazının İngilizce sesiyle okunur. Ayarlar'dan konuşma hızını değiştirebilirsin."],
   ["Çeviri bazı kelimeleri bulamıyor.","Sitede çeviri şimdilik uygulamanın kendi sözlüğüyle çalışıyor. Her kelimeyi ve cümleyi çevirebilen yapay zekâ çevirisini yakında ekleyeceğiz."],
   ["Seviye testi nasıl çalışıyor?","Test kelime, dil bilgisi, okuma ve dinleme sorularıyla yaklaşık 18 sorudan oluşur ve cevaplarına göre zorlaşır ya da kolaylaşır. Sonuçta A1–C1 ölçeğinde seviyeni, becerilerini ve cevaplarını görürsün. İstediğin zaman yeniden çözebilirsin."],
-  ["Hesabımı nasıl silerim?","Aşağıdaki formdan \"Soru\" seçip hesabını silmek istediğini yaz; hesabın ve tüm verilerin silinir."]
+  ["Hesabımı nasıl silerim?","Aşağıdaki formdan \"Soru\" seçip hesabını silmek istediğini yaz; hesabın ve ilerleme verilerin en geç 30 gün içinde silinir. Ayrıntılar Gizlilik Politikası'nda."],
+  ["Verilerim nasıl işleniyor?","Reklam yok, takip çerezi yok, verilerin satılmaz. Hangi verilerin neden işlendiğini ve hakların KVKK Aydınlatma Metni'nde (sayfanın en altında) bulabilirsin."]
 ];
 const FB_KINDS=[["sorun","Sorun bildir","alert"],["icerik","İçerik hatası","book"],["oneri","Öneri","bulb"],["soru","Soru","help"]];
 const FB={kind:"sorun",ctx:null,busy:false,done:false,last:0,draft:""};
@@ -4706,6 +4738,7 @@ function renderSupport(){
         '<label class="fb-check"><input type="checkbox" id="fbTech" checked><span>Sorunu çözmemize yardımcı olacak teknik bilgileri ekle <small>(tarayıcı, ekran boyutu, bulunduğun sayfa)</small></span></label>'+
         '<p class="auth-msg err" id="fbErr" role="alert" hidden></p>'+
         '<button class="primary wide" type="submit"'+(FB.busy?" disabled":"")+'>'+(FB.busy?"Gönderiliyor…":"Gönder")+'</button>'+
+        '<p class="note fb-legal">Mesajın ve yazdıysan e-postan yalnızca destek amacıyla işlenir. Ayrıntılar: <a href="#yasal">KVKK Aydınlatma Metni</a>.</p>'+
       '</form></section>';
   }
   box.innerHTML='<div class="sup-grid">'+form+faq+'</div>';
@@ -4734,6 +4767,86 @@ async function sendFeedback(){
       :/relation .* does not exist|could not find the table|permission denied|42501|PGRST205/i.test(m)?"Destek kutusu henüz kurulmadı. Kısa süre içinde açılacak."
       :"Mesaj gönderilemedi: "+m;
     const er=$("fbErr");er.hidden=false;er.innerHTML=ic("alert")+'<span>'+esc(t)+'</span>'}
+}
+
+/* ================= YASAL METİNLER =================
+   #yasal (KVKK Aydınlatma Metni) · #yasal-gizlilik · #yasal-kosullar · #yasal-cerez
+   Köşeli parantezli alanlar yayından önce doldurulmalı; doldurulmadıkça sayfanın başında "taslak" uyarısı görünür.
+   Not: Bu metinler genel bir taslaktır, hukuki danışmanlık değildir; yayından önce bir hukukçuya kontrol ettirilmelidir. */
+var LEGAL_INFO={
+  owner:"[VERİ SORUMLUSU: AD SOYAD ya da ŞİRKET UNVANI]",
+  address:"[AÇIK ADRES]",
+  email:"[BAŞVURU E-POSTA ADRESİ]",
+  city:"[İL]",
+  updated:"27 Ekim 2026"
+};
+var LEGAL_TABS=[["kvkk","Aydınlatma Metni"],["gizlilik","Gizlilik"],["kosullar","Kullanım Koşulları"],["cerez","Çerezler"]];
+function lgDocs(){
+  const I=LEGAL_INFO,E='<b>'+esc(I.email)+'</b>',O='<b>'+esc(I.owner)+'</b>';
+  const providers='<ul>'+
+    '<li><b>Supabase</b> (Supabase Inc.): üyelik, giriş ve ilerleme kaydı için veritabanı ve kimlik doğrulama hizmeti. Sunucular İrlanda\'da (Avrupa Birliği) bulunur.</li>'+
+    '<li><b>GitHub Pages</b> (GitHub Inc., ABD): sitenin barındırılması. Siteye her girişte IP adresi ve tarayıcı bilgisi gibi teknik bağlantı kayıtları GitHub sunucularında oluşur.</li>'+
+    '<li><b>Google</b> (Google LLC / Google Ireland Ltd.): yalnızca "Google ile devam et" seçeneğini kullanırsan kimlik doğrulama; ayrıca Chrome gibi bazı tarayıcılarda Telaffuz bölümündeki konuşma tanıma, tarayıcının kendi hizmetiyle yapılır.</li>'+
+    '<li><b>MyMemory</b> (Translated S.r.l., İtalya): Çeviri bölümüne yazdığın <b>cümleler</b>, makine çevirisi için bu hizmete gönderilir. Bu metinler hesabınla ilişkilendirilmez; kişisel bilgi içeren metinleri çeviriye yazmamanı öneririz.</li></ul>';
+  return{
+  kvkk:{t:"KVKK Aydınlatma Metni",h:
+    '<p>Bu metin, 6698 sayılı Kişisel Verilerin Korunması Kanunu ("KVKK") madde 10 uyarınca, Fluo ("Fluo", "biz") İngilizce öğrenme sitesi ve uygulamasını kullananlara ("sen") kişisel verilerinin nasıl işlendiğini anlatmak için hazırlanmıştır.</p>'+
+    '<h3>1. Veri sorumlusu</h3><p>Veri sorumlusu: '+O+'<br>Adres: '+esc(I.address)+'<br>E-posta: '+E+'</p>'+
+    '<h3>2. Hangi kişisel verileri işliyoruz?</h3><ul>'+
+      '<li><b>Kimlik ve iletişim:</b> e-posta adresin, isteğe bağlı olarak yazdığın adın. "Google ile devam et" seçeneğini kullanırsan Google hesabındaki ad, e-posta adresi ve profil fotoğrafı bağlantısı.</li>'+
+      '<li><b>Öğrenme ve kullanım verileri:</b> öğrendiğin kelimeler, Defterim\'e ve Cümlelerim\'e kaydettiklerin, tekrar takvimin, dil bilgisi, test, sınav ve yarışma sonuçların, seviye testi sonucun, günlük serin, haftalık hedefin, rozetlerin, pomodoro geçmişin ve ayarların.</li>'+
+      '<li><b>İşlem güvenliği:</b> oturum anahtarları, giriş zamanları ve hizmet sağlayıcılarımızın sunucu kayıtlarında oluşan IP adresi ve tarayıcı bilgileri.</li>'+
+      '<li><b>Destek ve geri bildirim:</b> "Bize yaz" ya da "Bildir" ile gönderdiğin mesaj, isteğe bağlı olarak yazdığın e-posta ve onay verirsen teknik bilgiler (tarayıcı, ekran boyutu, bulunduğun sayfa).</li>'+
+      '<li><b>Çeviri metinleri:</b> Çeviri bölümüne yazdığın cümleler (yalnızca çeviri için hizmet sağlayıcıya iletilir, tarafımızca saklanmaz).</li></ul>'+
+    '<p>Fluo <b>ses kaydı almaz ve saklamaz</b>. Telaffuz bölümünde mikrofon yalnızca sen başlattığında açılır; söylediğin, tarayıcının kendi konuşma tanıma hizmeti tarafından yazıya çevrilir. Özel nitelikli kişisel veri (sağlık, din, biyometrik vb.) işlemeyiz.</p>'+
+    '<p><b>Giriş yapmadan</b> kullandığında ilerlemen yalnızca kendi cihazındaki tarayıcıda saklanır ve bize ulaşmaz.</p>'+
+    '<h3>3. İşleme amaçları</h3><ul><li>Hesabını oluşturmak, giriş yapmanı sağlamak ve hesabını yönetmek,</li><li>öğrenme ilerlemeni kaydetmek ve cihazların arasında eşitlemek,</li><li>sitenin ve içeriğin çalışmasını, güvenliğini ve gelişmesini sağlamak, hataları gidermek,</li><li>destek taleplerini ve geri bildirimleri yanıtlamak,</li><li>kötüye kullanımı önlemek ve hukuki yükümlülüklerimizi yerine getirmek.</li></ul>'+
+    '<h3>4. Hukuki sebepler</h3><p>Kişisel verilerin KVKK madde 5/2 kapsamında; bir sözleşmenin kurulması veya ifasıyla doğrudan ilgili olması (hesap ve hizmetin sunulması), veri sorumlusunun hukuki yükümlülüğünü yerine getirmesi ve temel hak ve özgürlüklerine zarar vermemek kaydıyla meşru menfaatimiz (güvenlik, hizmetin geliştirilmesi) hukuki sebeplerine dayanarak işlenir.</p>'+
+    '<h3>5. Toplama yöntemi</h3><p>Veriler; site üzerindeki formlar (kayıt, giriş, destek), Google ile giriş ve siteyi kullanırken otomatik yollarla elektronik ortamda toplanır.</p>'+
+    '<h3>6. Aktarım</h3><p>Kişisel verilerin, yalnızca hizmetin sunulması için gereken ölçüde aşağıdaki hizmet sağlayıcılarla paylaşılır. Bu sağlayıcıların bir kısmı yurt dışında bulunduğundan veriler yurt dışına aktarılabilir:</p>'+providers+
+    '<p>Yurt dışına aktarım, KVKK madde 9 hükümlerine uygun olarak yapılır. [YURT DIŞI AKTARIM DAYANAĞI: örn. standart sözleşme ve Kurul\'a bildirim — hukukçu ile belirlenecek]. Kişisel verilerin satılmaz, reklam amacıyla paylaşılmaz. Yasal bir zorunluluk olduğunda yetkili kamu kurumlarına aktarılabilir.</p>'+
+    '<h3>7. Saklama süresi</h3><p>Hesap verilerin hesabın açık olduğu sürece saklanır. Hesabını silmeni istediğinde verilerin en geç 30 gün içinde silinir ya da anonim hâle getirilir. Destek mesajları en fazla 2 yıl saklanır. Hizmet sağlayıcıların güvenlik kayıtları ve yedekleri kendi politikalarında belirtilen sürelerle tutulur.</p>'+
+    '<h3>8. KVKK madde 11 kapsamındaki hakların</h3><ul><li>Kişisel verilerinin işlenip işlenmediğini öğrenme ve işlenmişse bilgi talep etme,</li><li>işlenme amacını ve amacına uygun kullanılıp kullanılmadığını öğrenme,</li><li>yurt içinde veya yurt dışında aktarıldığı üçüncü kişileri bilme,</li><li>eksik veya yanlış işlenmişse düzeltilmesini isteme,</li><li>KVKK madde 7 çerçevesinde silinmesini veya yok edilmesini isteme,</li><li>düzeltme ve silme işlemlerinin aktarıldığı üçüncü kişilere bildirilmesini isteme,</li><li>münhasıran otomatik sistemlerle analiz edilmesi sonucu aleyhine bir sonuç çıkmasına itiraz etme,</li><li>kanuna aykırı işleme nedeniyle zarara uğraman hâlinde zararın giderilmesini talep etme.</li></ul>'+
+    '<h3>9. Başvuru</h3><p>Haklarını kullanmak için hesabına kayıtlı e-posta adresinden '+E+' adresine ya da '+esc(I.address)+' adresine yazılı olarak başvurabilirsin. Başvurun en geç 30 gün içinde ücretsiz olarak yanıtlanır. Hesabını silmek için Destek sayfasındaki formu da kullanabilirsin. Başvurunun reddedilmesi, yanıtın yetersiz bulunması veya süresinde yanıt verilmemesi hâlinde Kişisel Verileri Koruma Kurulu\'na şikâyette bulunma hakkın saklıdır.</p>'},
+  gizlilik:{t:"Gizlilik Politikası",h:
+    '<p>Fluo\'yu öğrenmene yardım etmek için tasarladık; verilerini bundan başka bir amaçla kullanmıyoruz. Bu sayfa, neyi neden topladığımızı kısaca anlatır. Ayrıntılar için <a href="#yasal">KVKK Aydınlatma Metni</a>\'ne bakabilirsin.</p>'+
+    '<h3>Kısaca</h3><ul><li><b>Reklam yok</b>, verilerini satmıyoruz ve reklam amacıyla paylaşmıyoruz.</li><li><b>Takip çerezi yok.</b> Fluo çerez kullanmaz; ayrıntılar <a href="#yasal-cerez">Çerezler ve Yerel Depolama</a> sayfasında.</li><li><b>Giriş zorunlu değil.</b> Giriş yapmadan kullanırsan ilerlemen sadece kendi cihazında kalır.</li><li><b>Ses kaydı yok.</b> Telaffuz bölümünde söylediklerin kaydedilmez.</li></ul>'+
+    '<h3>Giriş yaparsan</h3><p>E-posta adresin, (isteğe bağlı) adın ve öğrenme ilerlemen, cihazların arasında eşitlenebilmesi için Supabase üzerindeki hesabında saklanır. Veritabanındaki her kayıt satır düzeyinde güvenlik kurallarıyla korunur: herkes yalnızca kendi verisini görebilir ve değiştirebilir. Şifren bizim tarafımızdan görülemez; yalnızca şifrelenmiş (hash) hâli kimlik doğrulama hizmetinde tutulur.</p>'+
+    '<h3>Üçüncü taraf hizmetler</h3>'+providers+
+    '<h3>Bildirimler</h3><p>Tekrar hatırlatması ve pomodoro bildirimleri yalnızca sen açarsan ve tarayıcın izin verirse gösterilir; bu bildirimler cihazında oluşturulur. Pazarlama e-postası göndermeyiz; yalnızca kayıt onayı, giriş bağlantısı ve şifre yenileme gibi hesapla ilgili e-postalar gönderilir.</p>'+
+    '<h3>Çocuklar</h3><p>Fluo her yaştan öğrenciye açıktır. 18 yaşından küçükler hesap oluşturmadan önce velisinin ya da vasisinin onayını almalıdır. Veli olarak çocuğuna ait verilerin silinmesini istersen '+E+' adresinden bize ulaşabilirsin.</p>'+
+    '<h3>Güvenlik</h3><p>Bağlantılar şifrelidir (HTTPS). Verilerini korumak için makul teknik ve idari önlemleri alırız; ancak internet üzerinden hiçbir aktarımın tamamen güvenli olduğu garanti edilemez.</p>'+
+    '<h3>Hesabını silmek</h3><p>Destek sayfasındaki formda "Soru"yu seçip hesabını silmek istediğini yaz ya da '+E+' adresine kayıtlı e-postandan yaz. Hesabın ve ilerleme verilerin en geç 30 gün içinde silinir. Bu cihazdaki verileri ise istediğin an Ayarlar → Veriler bölümünden silebilirsin.</p>'+
+    '<h3>Değişiklikler</h3><p>Bu politikayı güncelleyebiliriz; önemli değişiklikleri sitede duyururuz. Sayfanın başındaki tarih son güncellemeyi gösterir.</p>'},
+  kosullar:{t:"Kullanım Koşulları",h:
+    '<p>Bu koşullar, Fluo sitesini ve uygulamasını ("Hizmet") kullanımına ilişkin kuralları belirler. Hizmeti kullanarak ya da hesap oluşturarak bu koşulları kabul etmiş olursun. Hizmeti sunan: '+O+', '+esc(I.address)+'.</p>'+
+    '<h3>1. Hizmet</h3><p>Fluo; kelime kartları, dil bilgisi anlatımları, alıştırmalar, testler, yarışmalar, okuma, dinleme, diyaloglar ve çeviri araçlarıyla Türkçe konuşanlara İngilizce öğrenmede yardımcı olan bir eğitim hizmetidir. Hizmet şu an ücretsizdir. İleride ücretli özellikler eklenirse koşulları ve ücretleri önceden açıkça bildiririz; mevcut ücretsiz kullanım bu nedenle kendiliğinden ücretli hâle gelmez.</p>'+
+    '<h3>2. Hesap</h3><ul><li>Hesap oluştururken doğru bilgi vermeyi ve hesabını yalnızca kendin kullanmayı kabul edersin.</li><li>Şifrenin ve e-posta hesabının güvenliğinden sen sorumlusun; hesabının izinsiz kullanıldığını düşünürsen bize hemen bildir.</li><li>18 yaşından küçüksen hesap oluşturmadan önce velinin ya da vasinin onayını almalısın.</li></ul>'+
+    '<h3>3. Kullanım kuralları</h3><p>Hizmeti kullanırken şunları yapmamayı kabul edersin:</p><ul><li>Hizmetin işleyişini bozmaya, güvenliğini aşmaya, başkalarının hesaplarına veya verilerine erişmeye çalışmak,</li><li>otomatik araçlarla aşırı istek göndermek, içeriği toplu olarak kopyalamak veya ticari amaçla yeniden yayınlamak,</li><li>geri bildirim alanlarına hakaret, nefret söylemi, yasa dışı ya da başkalarının haklarını ihlal eden içerik yazmak.</li></ul>'+
+    '<h3>4. İçerik ve fikri mülkiyet</h3><p>Sitedeki anlatımlar, alıştırmalar, testler, kelime listeleri, metinler, tasarım ve yazılım, aksi belirtilmedikçe Fluo\'ya aittir ve yalnızca kişisel öğrenme amacıyla kullanılabilir. Bazı bileşenler kendi lisanslarıyla kullanılır: sözlüğün yedek katmanı FreeDict (GPL-2.0 ve sonrası), yazı tipi Onest (SIL Open Font License 1.1). Ayrıntılar proje belgelerinde yer alır.</p>'+
+    '<h3>5. Doğruluk ve sorumluluk</h3><ul><li>İçeriği özenle hazırlıyoruz; yine de hatalar bulunabilir. Gördüğün hataları "Bildir" düğmesiyle bize iletebilirsin.</li><li><b>Makine çevirisi</b> ve sözlük sonuçları yaklaşık sonuçlardır; resmî belgeler, hukuki, tıbbi veya ticari önemi olan metinler için tek başına kullanılmamalıdır.</li><li>Seviye testi ve diğer değerlendirmeler yol gösterici niteliktedir; resmî bir dil yeterlilik belgesi yerine geçmez.</li><li>Hizmet "olduğu gibi" sunulur. Kesintisiz veya hatasız çalışacağını garanti etmeyiz; bakım, güncelleme veya üçüncü taraf hizmetlerdeki sorunlar nedeniyle geçici kesintiler olabilir.</li><li>Yürürlükteki mevzuatın izin verdiği ölçüde; hizmetin kullanılmasından veya kullanılamamasından doğan dolaylı zararlardan sorumlu değiliz. Kasıt ve ağır kusurdan doğan sorumluluk ile tüketicinin kanundan doğan hakları saklıdır.</li></ul>'+
+    '<h3>6. Hesabın kapatılması</h3><p>Hesabını istediğin zaman kapatabilir ve verilerinin silinmesini isteyebilirsin. Bu koşulları açıkça ve ciddi biçimde ihlal eden hesapları, mümkünse önceden bildirerek askıya alabilir veya kapatabiliriz.</p>'+
+    '<h3>7. Değişiklikler</h3><p>Hizmeti ve bu koşulları geliştirebilir veya değiştirebiliriz. Önemli değişiklikleri sitede duyururuz; değişiklikten sonra hizmeti kullanmaya devam etmen güncel koşulları kabul ettiğin anlamına gelir.</p>'+
+    '<h3>8. Uygulanacak hukuk ve uyuşmazlıklar</h3><p>Bu koşullar Türkiye Cumhuriyeti hukukuna tabidir. Uyuşmazlıklarda '+esc(I.city)+' mahkemeleri ve icra daireleri yetkilidir. Tüketici sıfatıyla kanundan doğan; tüketici hakem heyetlerine ve tüketici mahkemelerine başvurma hakların saklıdır.</p>'+
+    '<h3>9. İletişim</h3><p>Sorular için: '+E+' ya da <a href="#destek">Yardım ve destek</a> sayfası.</p>'},
+  cerez:{t:"Çerezler ve Yerel Depolama",h:
+    '<p><b>Fluo çerez (cookie) kullanmaz.</b> Reklam veya takip amaçlı hiçbir araç yoktur. Sitenin çalışması için tarayıcının yerel depolama alanı (localStorage ve uygulama önbelleği) kullanılır. Bu bilgiler senin cihazında tutulur:</p><ul>'+
+      '<li><b>İlerleme ve ayarlar:</b> öğrendiğin kelimeler, Defterim, sonuçların, tema ve ses ayarların. Giriş yapmadıysan bu bilgiler yalnızca bu cihazda kalır.</li>'+
+      '<li><b>Oturum:</b> giriş yaptıysan, oturumunu açık tutmak için kimlik doğrulama hizmetinin oluşturduğu oturum anahtarı.</li>'+
+      '<li><b>Çeviri geçmişi:</b> son aramaların ve hızlı yanıt için daha önce çevrilen metinler.</li>'+
+      '<li><b>Pomodoro:</b> çalışan sayacın durumu.</li>'+
+      '<li><b>Çevrimdışı kullanım:</b> siteyi internetsiz açabilmen için sayfa, yazı tipi, ses ve sözlük dosyalarının önbellek kopyaları; hatırlatmayı açtıysan hatırlatma ayarın.</li></ul>'+
+    '<p>Sitenin yazı tipi ve sesleri Fluo ile birlikte sunulur; bu dosyalar için üçüncü taraf sunuculara bağlanılmaz.</p>'+
+    '<h3>Bu verileri silmek</h3><p>Ayarlar → Veriler bölümünden çeviri geçmişini veya tüm ilerlemeni silebilirsin. Tarayıcının ayarlarından bu site için depolanan verileri temizleyerek her şeyi silebilirsin. Giriş yaptıysan hesabındaki kopya ayrıca saklanır; onun silinmesi için <a href="#yasal-gizlilik">Gizlilik Politikası</a>\'ndaki adımları izle.</p>'+
+    '<p>İleride ziyaretçi istatistikleri için bir analiz aracı eklenirse bu sayfa güncellenecek ve gerekiyorsa onayın alınacaktır.</p>'}
+  };
+}
+function renderLegal(tab){
+  const box=$("legalBox");if(!box)return;const D=lgDocs(),d=D[tab]||D.kvkk;
+  const draft=JSON.stringify(LEGAL_INFO).includes("[")||d.h.includes("[YURT");
+  box.innerHTML='<div class="chips-row st-tabs lg-tabs">'+LEGAL_TABS.map(([k,l])=>'<a class="fchip" href="#yasal'+(k==="kvkk"?"":"-"+k)+'" aria-pressed="'+(k===(D[tab]?tab:"kvkk"))+'">'+l+'</a>').join("")+'</div>'+
+    (draft?'<p class="lg-draft">'+ic("alert")+'<span>Bu metin taslaktır. Köşeli parantez içindeki bilgiler yayından önce doldurulacak.</span></p>':'')+
+    '<article class="card lg-doc"><h2>'+esc(d.t)+'</h2><p class="note lg-date">Son güncelleme: '+esc(LEGAL_INFO.updated)+'</p>'+d.h+'</article>';
 }
 
 /* ================= HAFTALIK HEDEF VE ROZETLER =================
@@ -6330,7 +6443,7 @@ function renderNav(){
   $("nav").innerHTML=SECTIONS.map(s=>'<a href="#'+s.id+'" data-sec="'+s.id+'" style="--c:'+s.c+'">'+ic(s.icon)+s.label+'</a>').join("");
   $("tabbar").innerHTML=SECTIONS.map(s=>'<a href="#'+s.id+'" data-sec="'+s.id+'" style="--c:'+s.c+'">'+ic(s.icon)+'<span>'+s.short+'</span></a>').join("");
 }
-const VIEWS=["diyalog","diyalogoku","hatalar","calismam","sinav","telaffuz","okuma","okumaoku","gunun","cumle","destek","hesap","seviye","ayarlar","ana","ogren","calis","deckend","defter","dinle","yarisma","gramer","konu","cevir","ceviri"];
+const VIEWS=["yasal","diyalog","diyalogoku","hatalar","calismam","sinav","telaffuz","okuma","okumaoku","gunun","cumle","destek","hesap","seviye","ayarlar","ana","ogren","calis","deckend","defter","dinle","yarisma","gramer","konu","cevir","ceviri"];
 function setFocus(){document.body.classList.toggle("focus",(!$("v-calis").hidden)||(!$("v-seviye").hidden&&T.phase==="run")||(!$("v-gunun").hidden&&DL.d&&!DL.d.done))}
 function showView(v,sec){
   VIEWS.forEach(x=>$("v-"+x).hidden=x!==v);setTimeout(setFocus,0);
@@ -6362,6 +6475,7 @@ function route(){
     if(!S||S.deck!==d)startStudy(d);
     S.done?showDeckEnd():(showView("calis","ogren"),showCard());
   }
+  else if(h==="yasal"||h.startsWith("yasal-")){renderLegal(h.slice(6)||"kvkk");showView("yasal","")}
   else if(h==="hatalar"){renderMistakes();showView("hatalar","gramer")}
   else if(h==="diyalog"){renderDlgList();showView("diyalog","ogren")}
   else if(h.startsWith("diyalog-")){if(!openDialog(h.slice(8))){location.hash="diyalog";return}showView("diyalogoku","ogren");if(DG.mode==="konus"&&DG.step===0)dgAdvance()}
@@ -7749,6 +7863,7 @@ function renderAccount(){
       '<button class="primary wide" type="submit"'+(AUTH.busy?" disabled":"")+'>'+(AUTH.busy?"Bekle…":su?"Hesap oluştur":"Giriş yap")+'</button></form>'+
       '<button class="ghost wide" data-mode="magic">'+ic("mail")+'E-postama giriş bağlantısı gönder</button>';
   }
+  if(m==="login"||m==="signup"||m==="magic")h+='<p class="auth-legal">Devam ederek <a href="#yasal-kosullar">Kullanım Koşulları</a>\'nı kabul etmiş olursun. Kişisel verilerin <a href="#yasal">KVKK Aydınlatma Metni</a>\'nde anlatıldığı şekilde işlenir.</p>';
   h+='</div><p class="auth-foot">Giriş yapmadan da kullanmaya devam edebilirsin; ilerlemen bu cihazda saklanır.<br>Giriş yapınca bu cihazdaki ilerlemen hesabına eklenir.</p>';
   box.innerHTML='<div class="auth">'+h+'</div>';
   box.querySelectorAll("[data-mode]").forEach(b=>b.onclick=()=>{const em=$("aEmail")?.value.trim();if(em)AUTH.sentTo=em;AUTH.mode=b.dataset.mode;AUTH.msg=null;renderAccount();setTimeout(()=>{const f=box.querySelector("input");if(f&&!matchMedia("(pointer:coarse)").matches)f.focus()},30)});
@@ -7854,6 +7969,7 @@ function renderAcctMenu(){
     '<a class="am-i" role="menuitem" href="#calismam">'+ic("target")+'Çalışmam</a>'+
     '<a class="am-i" role="menuitem" href="#ayarlar">'+ic("gear")+'Ayarlar</a>'+
     '<a class="am-i" role="menuitem" href="#destek">'+ic("help")+'Yardım ve destek</a>'+
+    '<a class="am-i" role="menuitem" href="#yasal-gizlilik">'+ic("doc")+'Gizlilik ve koşullar</a>'+
     '<button class="am-i am-out" role="menuitem" id="amOut">'+ic("left")+'Çıkış yap</button>';
   m.querySelectorAll("a.am-i").forEach(a=>a.onclick=()=>acctMenu(false));
   $("amOut").onclick=()=>{acctMenu(false);signOut()};

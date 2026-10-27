@@ -1,6 +1,6 @@
 /* Fluo çevrimdışı çalışma ve hatırlatma (service worker). Sürüm build.py tarafından yazılır. */
 const VERSION="__VERSION__",CORE="fluo-core-"+VERSION,RUN="fluo-run",META="fluo-meta";
-const CORE_FILES=["./","index.html","manifest.webmanifest","icons/icon-192.png","icons/icon-512.png","vendor/supabase.js"];
+const CORE_FILES=["./","index.html","manifest.webmanifest","icons/icon-192.png","icons/icon-512.png","vendor/supabase.js","fonts/onest-latin-wght-normal.woff2","fonts/onest-latin-ext-wght-normal.woff2"];
 const BIG=__BIG__,BIG_FILES=Object.keys(BIG); /* dosya → içerik özeti: yalnızca değişen dosya yeniden indirilir */
 self.addEventListener("install",e=>{e.waitUntil(caches.open(CORE).then(c=>c.addAll(CORE_FILES)).then(()=>self.skipWaiting()))});
 self.addEventListener("activate",e=>{e.waitUntil((async()=>{

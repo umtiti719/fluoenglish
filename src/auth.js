@@ -247,6 +247,7 @@ function renderAccount(){
       '<button class="primary wide" type="submit"'+(AUTH.busy?" disabled":"")+'>'+(AUTH.busy?"Bekle…":su?"Hesap oluştur":"Giriş yap")+'</button></form>'+
       '<button class="ghost wide" data-mode="magic">'+ic("mail")+'E-postama giriş bağlantısı gönder</button>';
   }
+  if(m==="login"||m==="signup"||m==="magic")h+='<p class="auth-legal">Devam ederek <a href="#yasal-kosullar">Kullanım Koşulları</a>\'nı kabul etmiş olursun. Kişisel verilerin <a href="#yasal">KVKK Aydınlatma Metni</a>\'nde anlatıldığı şekilde işlenir.</p>';
   h+='</div><p class="auth-foot">Giriş yapmadan da kullanmaya devam edebilirsin; ilerlemen bu cihazda saklanır.<br>Giriş yapınca bu cihazdaki ilerlemen hesabına eklenir.</p>';
   box.innerHTML='<div class="auth">'+h+'</div>';
   box.querySelectorAll("[data-mode]").forEach(b=>b.onclick=()=>{const em=$("aEmail")?.value.trim();if(em)AUTH.sentTo=em;AUTH.mode=b.dataset.mode;AUTH.msg=null;renderAccount();setTimeout(()=>{const f=box.querySelector("input");if(f&&!matchMedia("(pointer:coarse)").matches)f.focus()},30)});
@@ -352,6 +353,7 @@ function renderAcctMenu(){
     '<a class="am-i" role="menuitem" href="#calismam">'+ic("target")+'Çalışmam</a>'+
     '<a class="am-i" role="menuitem" href="#ayarlar">'+ic("gear")+'Ayarlar</a>'+
     '<a class="am-i" role="menuitem" href="#destek">'+ic("help")+'Yardım ve destek</a>'+
+    '<a class="am-i" role="menuitem" href="#yasal-gizlilik">'+ic("doc")+'Gizlilik ve koşullar</a>'+
     '<button class="am-i am-out" role="menuitem" id="amOut">'+ic("left")+'Çıkış yap</button>';
   m.querySelectorAll("a.am-i").forEach(a=>a.onclick=()=>acctMenu(false));
   $("amOut").onclick=()=>{acctMenu(false);signOut()};

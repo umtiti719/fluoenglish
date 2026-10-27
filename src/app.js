@@ -178,7 +178,7 @@ function renderNav(){
   $("nav").innerHTML=SECTIONS.map(s=>'<a href="#'+s.id+'" data-sec="'+s.id+'" style="--c:'+s.c+'">'+ic(s.icon)+s.label+'</a>').join("");
   $("tabbar").innerHTML=SECTIONS.map(s=>'<a href="#'+s.id+'" data-sec="'+s.id+'" style="--c:'+s.c+'">'+ic(s.icon)+'<span>'+s.short+'</span></a>').join("");
 }
-const VIEWS=["diyalog","diyalogoku","hatalar","calismam","sinav","telaffuz","okuma","okumaoku","gunun","cumle","destek","hesap","seviye","ayarlar","ana","ogren","calis","deckend","defter","dinle","yarisma","gramer","konu","cevir","ceviri"];
+const VIEWS=["yasal","diyalog","diyalogoku","hatalar","calismam","sinav","telaffuz","okuma","okumaoku","gunun","cumle","destek","hesap","seviye","ayarlar","ana","ogren","calis","deckend","defter","dinle","yarisma","gramer","konu","cevir","ceviri"];
 function setFocus(){document.body.classList.toggle("focus",(!$("v-calis").hidden)||(!$("v-seviye").hidden&&T.phase==="run")||(!$("v-gunun").hidden&&DL.d&&!DL.d.done))}
 function showView(v,sec){
   VIEWS.forEach(x=>$("v-"+x).hidden=x!==v);setTimeout(setFocus,0);
@@ -210,6 +210,7 @@ function route(){
     if(!S||S.deck!==d)startStudy(d);
     S.done?showDeckEnd():(showView("calis","ogren"),showCard());
   }
+  else if(h==="yasal"||h.startsWith("yasal-")){renderLegal(h.slice(6)||"kvkk");showView("yasal","")}
   else if(h==="hatalar"){renderMistakes();showView("hatalar","gramer")}
   else if(h==="diyalog"){renderDlgList();showView("diyalog","ogren")}
   else if(h.startsWith("diyalog-")){if(!openDialog(h.slice(8))){location.hash="diyalog";return}showView("diyalogoku","ogren");if(DG.mode==="konus"&&DG.step===0)dgAdvance()}

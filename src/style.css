@@ -1,3 +1,6 @@
+/* Yazı tipi: Onest (SIL OFL 1.1, fonts/OFL.txt) — siteyle birlikte sunulur, Google Fonts'a bağlanılmaz */
+@font-face{font-family:'Onest';font-style:normal;font-display:swap;font-weight:100 900;src:url(fonts/onest-latin-ext-wght-normal.woff2) format('woff2');}
+@font-face{font-family:'Onest';font-style:normal;font-display:swap;font-weight:100 900;src:url(fonts/onest-latin-wght-normal.woff2) format('woff2');unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD;}
 /* Layout: açık zemin, ortada yüzen hap menü; ana sayfa ortalanmış başlık + pastel "aurora" panel üzerinde
    yüzen beyaz kartlar. Bölüm renkleri: öğren (gök mavisi), yarışma (turuncu), gramer (indigo), çeviri (pembe). */
 :root{
@@ -1757,3 +1760,21 @@ body.focus .sitefoot{display:none}
 @media (min-width:881px) and (max-width:1100px){.nav a{padding:6px 7px;font-size:.84rem}.streak .sk-t{display:none}.streak{padding:7px 11px 7px 9px}.top-r{gap:4px}.top-in{gap:8px}}
 @media (min-width:881px) and (max-width:1000px){:root.fs-buyuk .nav a{font-size:13px;padding:6px 6px}}
 .nav{overflow-x:auto;scrollbar-width:none}.nav::-webkit-scrollbar{display:none}.nav a{flex:none}
+
+/* Yasal metinler */
+.legal{display:flex;flex-direction:column;gap:14px;margin-top:20px;max-width:860px}
+.lg-tabs .fchip{text-decoration:none}
+.lg-draft{display:flex;gap:8px;align-items:flex-start;margin:0;background:var(--warn-bg);border-radius:14px;padding:10px 14px;font-size:.9rem}
+.lg-draft .ic{width:17px;height:17px;flex:none;margin-top:2px;color:var(--warn)}
+.lg-doc{gap:0;line-height:1.65}
+.lg-doc h2{margin:0;font-size:1.5rem;font-weight:600;letter-spacing:-.02em}
+.lg-date{margin:4px 0 14px}
+.lg-doc h3{margin:22px 0 6px;font-size:1.05rem;font-weight:600}
+.lg-doc p{margin:0 0 10px}
+.lg-doc ul{margin:0 0 10px;padding-left:22px}
+.lg-doc li{margin:3px 0}
+.lg-doc a{color:var(--brand)}
+.auth-legal{margin:12px 0 0;font-size:.8rem;color:var(--muted);line-height:1.45;text-align:center}
+.auth-legal a,.fb-legal a{color:inherit;text-decoration:underline}
+.fb-legal{margin:2px 0 0;font-size:.8rem}
+.sitefoot{flex-wrap:wrap;row-gap:4px}

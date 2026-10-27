@@ -9,7 +9,8 @@ const FAQ=[
   ["Sesler çalmıyor ya da robot gibi geliyor.","Telefonunun sessiz modda olmadığından ve sesin açık olduğundan emin ol. Kelime ve cümlelerin çoğu doğal sesle kaydedildi; kaydı olmayanlar cihazının İngilizce sesiyle okunur. Ayarlar'dan konuşma hızını değiştirebilirsin."],
   ["Çeviri bazı kelimeleri bulamıyor.","Sitede çeviri şimdilik uygulamanın kendi sözlüğüyle çalışıyor. Her kelimeyi ve cümleyi çevirebilen yapay zekâ çevirisini yakında ekleyeceğiz."],
   ["Seviye testi nasıl çalışıyor?","Test kelime, dil bilgisi, okuma ve dinleme sorularıyla yaklaşık 18 sorudan oluşur ve cevaplarına göre zorlaşır ya da kolaylaşır. Sonuçta A1–C1 ölçeğinde seviyeni, becerilerini ve cevaplarını görürsün. İstediğin zaman yeniden çözebilirsin."],
-  ["Hesabımı nasıl silerim?","Aşağıdaki formdan \"Soru\" seçip hesabını silmek istediğini yaz; hesabın ve tüm verilerin silinir."]
+  ["Hesabımı nasıl silerim?","Aşağıdaki formdan \"Soru\" seçip hesabını silmek istediğini yaz; hesabın ve ilerleme verilerin en geç 30 gün içinde silinir. Ayrıntılar Gizlilik Politikası'nda."],
+  ["Verilerim nasıl işleniyor?","Reklam yok, takip çerezi yok, verilerin satılmaz. Hangi verilerin neden işlendiğini ve hakların KVKK Aydınlatma Metni'nde (sayfanın en altında) bulabilirsin."]
 ];
 const FB_KINDS=[["sorun","Sorun bildir","alert"],["icerik","İçerik hatası","book"],["oneri","Öneri","bulb"],["soru","Soru","help"]];
 const FB={kind:"sorun",ctx:null,busy:false,done:false,last:0,draft:""};
@@ -48,6 +49,7 @@ function renderSupport(){
         '<label class="fb-check"><input type="checkbox" id="fbTech" checked><span>Sorunu çözmemize yardımcı olacak teknik bilgileri ekle <small>(tarayıcı, ekran boyutu, bulunduğun sayfa)</small></span></label>'+
         '<p class="auth-msg err" id="fbErr" role="alert" hidden></p>'+
         '<button class="primary wide" type="submit"'+(FB.busy?" disabled":"")+'>'+(FB.busy?"Gönderiliyor…":"Gönder")+'</button>'+
+        '<p class="note fb-legal">Mesajın ve yazdıysan e-postan yalnızca destek amacıyla işlenir. Ayrıntılar: <a href="#yasal">KVKK Aydınlatma Metni</a>.</p>'+
       '</form></section>';
   }
   box.innerHTML='<div class="sup-grid">'+form+faq+'</div>';
