@@ -431,7 +431,7 @@ function quizAbort(){stopTimer();clearTimeout(G.tm);G.active=false;G.paused=fals
 function showQuiz(){
   if(G.pending){showView("yarisma","yarisma");startGame(G.pending);return}
   $("lobby").hidden=G.phase!=="lobby";$("game").hidden=G.phase!=="game";$("end").hidden=G.phase!=="end";
-  $("quizHead").hidden=G.phase!=="lobby";$("lobbyMore").hidden=G.phase!=="lobby";$("modeBar").hidden=G.phase==="ready";$("game2").hidden=G.phase!=="m2";$("ready").hidden=G.phase!=="ready";if(G.phase==="ready")renderReady();
+  $("quizHead").hidden=G.phase!=="lobby";$("lobbyMore").hidden=G.phase!=="lobby";$("modeBar").hidden=G.phase==="ready";$("modeBar").classList.toggle("compact",G.phase!=="lobby");$("game2").hidden=G.phase!=="m2";$("ready").hidden=G.phase!=="ready";if(G.phase==="ready")renderReady();
   if(G.phase==="lobby")renderLobby();
   showView("yarisma","yarisma");
   if(G.phase==="game")resumeGame();
@@ -505,7 +505,7 @@ function startGame(cfg){
   $("gSteps").style.setProperty("--n",Q);
   $("gLevel").textContent=cfg.name+" · "+cfg.cefr;$("gPts").textContent="0";
   if(typeof m2Stop==="function")m2Stop();$("game2").hidden=true;
-  $("lobby").hidden=true;$("ready").hidden=true;$("modeBar").hidden=false;$("lobbyMore").hidden=true;$("end").hidden=true;$("quizHead").hidden=true;$("game").hidden=false;setTimeout(setFocus,0);
+  $("lobby").hidden=true;$("ready").hidden=true;$("modeBar").hidden=false;$("modeBar").classList.add("compact");$("lobbyMore").hidden=true;$("end").hidden=true;$("quizHead").hidden=true;$("game").hidden=false;setTimeout(setFocus,0);
   renderSteps();updJokers();
   $("gWordBox").hidden=true;$("gOpts").innerHTML="";$("gFb").textContent="";$("gCombo").hidden=true;
   $("gQn").textContent="Hazır ol!";$("gTfill").style.width="100%";$("gSec").textContent=cfg.time+"s";

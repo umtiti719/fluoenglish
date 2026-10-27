@@ -28,7 +28,7 @@ function m2Stop(){if(!G2)return;clearInterval(G2.tick);clearTimeout(G2.tm);G2=nu
 function m2Start(mode,k){
   const L=LEVELS[k];m2Stop();
   G2={mode,k,L,c:"var(--lv-"+k+")",score:0,ok:0,no:0,hint:0,missed:[],start:Date.now(),pool:m2Pool(k,mode==="yaz"),pi:0,lock:false};
-  G.phase="m2";$("lobby").hidden=true;$("ready").hidden=true;$("modeBar").hidden=false;$("lobbyMore").hidden=true;$("quizHead").hidden=true;$("game").hidden=true;$("end").hidden=true;
+  G.phase="m2";$("lobby").hidden=true;$("ready").hidden=true;$("modeBar").hidden=false;$("modeBar").classList.add("compact");$("lobbyMore").hidden=true;$("quizHead").hidden=true;$("game").hidden=true;$("end").hidden=true;
   const box=$("game2");box.hidden=false;box.style.setProperty("--c",G2.c);
   if(mode==="hizli"||mode==="dy"){G2.left=60;G2.end=Date.now()+60000;G2.tick=setInterval(m2Timer,200)}
   if(mode==="eslestir"){G2.round=0;G2.pen=0;m2MatchRound()}
@@ -157,8 +157,15 @@ document.addEventListener("keydown",e=>{
 /* ---------- Lobi: tür seçimi ---------- */
 function renderModeBar(){
   const bar=$("modeBar");if(!bar)return;const m=qMode();
-  bar.innerHTML='<div class="mode-tabs" role="tablist">'+Object.entries(QMODES).map(([k,M])=>'<button class="mode-t" role="tab" data-m="'+k+'" aria-selected="'+(m===k)+'">'+ic(M.icon)+'<span>'+M.t+'</span></button>').join("")+'</div>'+
-    '<p class="mode-d">'+esc(QMODES[m].d)+'</p>';
+  const SUB={klasik:"Süreli 10 soru",hizli:"1 dakikada en çok",dy:"Hızlı karar ver",eslestir:"Çiftleri bul",yaz:"Duy ve yaz"};
+  const COL={klasik:"var(--m-quiz)",hizli:"var(--bad)",dy:"var(--good)",eslestir:"var(--g5)",yaz:"var(--m-learn)"};
+  bar.innerHTML='<div class="mode-grid" role="tablist" aria-label="Yarışma türü">'+Object.entries(QMODES).map(([k,M])=>{
+    const recs=Object.keys(LEVELS).map(l=>k==="klasik"?P.best[l]:P.best[m2Key(k,l)]).filter(v=>v!==undefined&&v!==0).length;
+    return '<button class="mode-card" role="tab" data-m="'+k+'" aria-selected="'+(m===k)+'" style="--mc:'+COL[k]+'"><span class="mc-ic">'+ic(M.icon)+'</span>'+
+      '<span class="mc-tx"><b>'+M.t+'</b><small>'+SUB[k]+'</small></span>'+(recs?'<span class="mc-rec" title="Rekor kırdığın seviye sayısı">'+ic("trophy")+recs+'/4</span>':'')+
+      '<span class="mc-ok">'+ic("check")+'</span></button>'}).join("")+'</div>'+
+    '<p class="mode-d" style="--mc:'+COL[m]+'"><i></i>'+esc(QMODES[m].d)+'</p>';
+  bar.classList.toggle("compact",G.phase!=="lobby"&&G.phase!=="ready");
   $("quizRules").innerHTML=QMODES[m].rules.map(r=>'<span>'+esc(r)+'</span>').join("");
   bar.querySelectorAll("[data-m]").forEach(b=>b.onclick=()=>{const was=G.phase!=="lobby";P.set.qMode=b.dataset.m;save();quizAbort();showQuiz();if(was)window.scrollTo({top:0,behavior:"auto"})});
 }
