@@ -5310,9 +5310,11 @@ function dlBuild(day){
   const gq=topic.quiz[Math.floor(r()*topic.quiz.length)];
   // cümle: bugünkü kelimelerden biriyle kurulan bir cümle, yoksa seviyeden biri
   const cp=cpool().filter(s=>s.lv===lv);
-  const sent=cp.find(s=>words.some(w=>s.word===w[0]))||dlShuffle(cp,r)[0];
+  const cpF=cp.filter(s=>!P.seen[ckey(s)]);
+  const sent=cp.find(s=>words.some(w=>s.word===w[0])&&!P.seen[ckey(s)])||dlShuffle(cpF.length?cpF:cp,r)[0];
   // dinleme: seviyeden bir cümle + iki çeldirici
-  const ls=dlShuffle(LSENT.filter(s=>s.lv===lv&&!/^Metnin tamamı/.test(s.tr)&&s.en!==sent.en),r);
+  const lsAll=LSENT.filter(s=>s.lv===lv&&!/^Metnin tamamı/.test(s.tr)&&s.en!==sent.en),lsF=lsAll.filter(s=>!P.seen["l:"+s.en]);
+  const ls=lsF.length>=3?dlShuffle(lsF,r).concat(dlShuffle(lsAll,r)):dlShuffle(lsAll,r);touch("l:"+ls[0].en);
   const listen={en:ls[0].en,tr:ls[0].tr,opts:dlShuffle([ls[0].en,ls[1].en,ls[2].en],r)};
   return{day,lv,step:0,score:0,max:6,done:false,words:words.map(w=>w.slice(0,5)),quiz,topic:topic.id,gq:[gq[0],gq[1],gq[2],gq[3]],sent:sent.en,listen};
 }
@@ -5521,7 +5523,7 @@ var PZ={lv:"kolay",mode:"kelime",cur:null,state:"idle",heard:"",score:null,rec:n
 function prSupported(){return !!(window.SpeechRecognition||window.webkitSpeechRecognition)}
 function prPool(){return PZ.mode==="kelime"?LWORDS.filter(w=>w.lv===PZ.lv&&/^[a-z' -]+$/i.test(w.en)):LSENT.filter(s=>s.lv===PZ.lv&&!/^Metnin tamamı/.test(s.tr)&&buildTokens(s.en).length<=(PZ.lv==="kolay"?8:11))}
 function newSpeakItem(){
-  const c=pickFresh(prPool(),x=>"p:"+plain(x.en),6);PZ.cur=c[Math.floor(Math.random()*Math.min(3,c.length))];
+  const c=pickFresh(prPool(),x=>"p:"+plain(x.en),6);PZ.cur=c[Math.floor(Math.random()*Math.min(3,c.length))];if(PZ.cur)touch("p:"+plain(PZ.cur.en));
   PZ.state="idle";PZ.heard="";PZ.score=null;PZ.tries=0;PZ.err="";PZ.counted=false;renderSpeak();
 }
 function openSpeak(){renderSpeakStat();renderSpeakSel();if(!PZ.cur)newSpeakItem();else renderSpeak()}
@@ -5693,7 +5695,7 @@ function renderMistakes(){
     '<div class="chips-row" id="htCats">'+[["all","Tümü"],...cats.map(c=>[c,c])].map(([k,l])=>'<button class="fchip" data-c="'+esc(k)+'" aria-pressed="'+(HT.cat===k)+'">'+esc(l)+'</button>').join("")+'</div>'+
     '<div class="mistakes ht-list">'+list.map(m=>'<div class="mistake"><div class="wrong">'+ic("x")+'<span>'+esc(m[1])+'</span></div><div class="right">'+ic("check")+'<span>'+esc(m[2])+'</span>'+sayBtn(m[2],"sm")+sntBtn(m[2],"","Sık yapılan hatalar","sm")+'</div><p>'+ic("bulb")+esc(m[3])+'</p></div>').join("")+'</div>';
   box.querySelectorAll("#htCats .fchip").forEach(b=>b.onclick=()=>{HT.cat=b.dataset.c;renderMistakes()});
-  $("htStart").onclick=()=>{HT.quiz={items:shuffle(MISTAKES).slice(0,10).map(m=>({m,right:Math.random()<.5?0:1})),i:0,ok:0,ans:null};renderMistakes();window.scrollTo({top:0,behavior:"auto"})};
+  $("htStart").onclick=()=>{HT.quiz={items:shuffle(pickFresh(MISTAKES,m=>"h:"+m[1],10)).map(m=>({m,right:Math.random()<.5?0:1})),i:0,ok:0,ans:null};renderMistakes();window.scrollTo({top:0,behavior:"auto"})};
 }
 function renderMistQuiz(){
   const box=$("htBox"),Q=HT.quiz,n=Q.items.length;
@@ -5705,7 +5707,7 @@ function renderMistQuiz(){
     $("htAgain").onclick=()=>{HT.quiz=null;renderMistakes();$("htStart").click()};
     return;
   }
-  const it=Q.items[Q.i],opts=it.right===0?[it.m[2],it.m[1]]:[it.m[1],it.m[2]],done=Q.ans!==null;
+  const it=Q.items[Q.i];touch("h:"+it.m[1]);const opts=it.right===0?[it.m[2],it.m[1]]:[it.m[1],it.m[2]],done=Q.ans!==null;
   box.innerHTML='<div class="card exrun"><div class="ex-top"><span class="badge">'+esc(it.m[0])+'</span><span class="note">Soru '+(Q.i+1)+' / '+n+'</span></div>'+
     '<div class="mbar ex-bar" style="--c:var(--brand)"><i style="width:'+(Q.i/n*100)+'%"></i></div><p class="pr-q ht-q">Hangisi doğru?</p>'+
     '<div class="opts dg-opts">'+opts.map((o,p)=>'<button class="opt'+(done?(o===it.m[2]?" ok":Q.ans===p?" no":""):"")+'" data-p="'+p+'"'+(done?" disabled":"")+'><span class="k">'+"AB"[p]+'</span><span>'+esc(o)+'</span></button>').join("")+'</div>'+
@@ -6809,10 +6811,16 @@ function renderTopic(t){
   $("toc").innerHTML='<a class="backlink" href="#gramer">'+ic("left")+'Tüm konular</a><small style="margin-top:12px">Bu sayfada</small>'+secs.map(s=>'<a href="javascript:void 0" data-jump="'+s[0]+'">'+s[1]+'</a>').join("")+
     '<div class="toc-nav">'+(nxt?'<a href="#g-'+nxt.id+'">Sonraki: '+esc(nxt.title)+' →</a>':'')+'</div>';
   $("toc").querySelectorAll("[data-jump]").forEach(a=>a.onclick=e=>{e.preventDefault();$(a.dataset.jump).scrollIntoView({behavior:reduceMotion()?"auto":"smooth"})});
-  PR={t,i:0,score:0,res:[],answered:false,order:shuffle(t.quiz.map((_,i)=>i))};renderPractice();ttMount(t);
+  PR=newPractice(t);renderPractice();ttMount(t);
+}
+/* Alıştırma: konunun alıştırma + sınav soruları arasından, en uzun zamandır görülmeyenler önce (her denemede farklı bir set) */
+function newPractice(t){
+  const all=t.quiz.concat((typeof EXAM!=="undefined"&&EXAM[t.id])||[]),seenQ=new Set();
+  const uniq=all.filter(q=>{if(seenQ.has(q[0]+"|"+q[1].join()))return false;seenQ.add(q[0]+"|"+q[1].join());return true});
+  return{t,i:0,score:0,res:[],answered:false,qs:shuffle(pickFresh(uniq,q=>"gq:"+q[0],Math.min(t.quiz.length,uniq.length)))};
 }
 function renderPractice(){
-  const t=PR.t,box=$("practice"),n=t.quiz.length;
+  const t=PR.t,box=$("practice"),n=PR.qs.length;
   if(PR.i>=n){
     const total=n,ok=PR.score,done=ok>=Math.ceil(total*.6);
     const prev=P.gram[t.id]||{best:0,total,done:false};
@@ -6822,10 +6830,10 @@ function renderPractice(){
       '<p style="margin:0;font-weight:700">'+(ok===total?"Kusursuz! Bu konuyu çok iyi anlamışsın.":done?"Tebrikler, konu tamamlandı.":"Biraz daha pratik yapalım. Anlatımı tekrar gözden geçirip yeniden dene.")+'</p>'+
       '<p class="note">Konuyu tamamlamak için en az '+Math.ceil(total*.6)+' doğru gerekir.</p>'+
       '<div class="endbtns"><button class="ghost" id="prAgain">'+ic("refresh")+'Tekrar çöz</button>'+(nxt?'<a class="primary" href="#g-'+nxt.id+'">Sonraki konu '+ic("right")+'</a>':'<a class="primary" href="#gramer">Tüm konular</a>')+'</div></div>';
-    $("prAgain").onclick=()=>{PR={t,i:0,score:0,res:[],answered:false,order:shuffle(t.quiz.map((_,i)=>i))};renderPractice()};
+    $("prAgain").onclick=()=>{PR=newPractice(t);renderPractice()};
     return;
   }
-  const q=t.quiz[PR.order[PR.i]];PR.answered=false;
+  const q=PR.qs[PR.i];PR.answered=false;touch("gq:"+q[0]);
   const parts=esc(q[0]).split("___");
   box.innerHTML='<div class="pr-top"><span class="badge">Soru '+(PR.i+1)+' / '+n+'</span><div class="dots">'+Array.from({length:n},(_,i)=>'<i class="'+(PR.res[i]||(i===PR.i?"cur":""))+'"></i>').join("")+'</div></div>'+
     '<p class="pr-q">'+parts[0]+'<span class="blank" id="prBlank">&nbsp;</span>'+(parts[1]||"")+'</p>'+
@@ -6986,7 +6994,7 @@ function setPlayState(st){
 function newListen(){
   stopSpeak();
   const isW=L.mode==="kelime",pool=(isW?LWORDS:LSENT).filter(x=>x.lv===L.lv);
-  L.cur=pickFresh(pool,x=>"l:"+x.en,1)[0];L.plays=0;L.answered=false;setPlayState("idle");
+  L.cur=pickFresh(pool,x=>"l:"+x.en,1)[0];touch("l:"+L.cur.en);L.plays=0;L.answered=false;setPlayState("idle");
   $("lSrc").textContent=isW?(LEVELS[L.lv].name+" · kelime"):L.cur.src;
   $("lPlays").textContent="Dinlemek için oynat düğmesine dokun";
   $("lResult").hidden=true;$("lResult").innerHTML="";
@@ -7351,7 +7359,7 @@ const T={phase:"intro"};
 const IRT={a:1.6,off:.55,sd:4};
 function estTheta(ans){let best=0,bl=-1e9;for(let t=-1.5;t<=5.5;t+=.05){let ll=-((t-2)**2)/(2*IRT.sd*IRT.sd);ans.forEach(x=>{const p=1/(1+Math.exp(-IRT.a*(t-x.q.lv)));ll+=Math.log(x.ok?p:1-p)});if(ll>bl){bl=ll;best=t}}return best}
 const thetaLevel=t=>Math.max(0,Math.min(4,Math.round(t-IRT.off)));
-function pickQ(lv,skills,used){const pool=shuffle(TESTQ.filter(q=>q.lv===lv&&skills.includes(q.sk)&&!used.has(q)));return pool[0]}
+function pickQ(lv,skills,used){const pool=TESTQ.filter(q=>q.lv===lv&&skills.includes(q.sk)&&!used.has(q));const q=pickFresh(pool,x=>"tq:"+TESTQ.indexOf(x),1)[0];if(q)touch("tq:"+TESTQ.indexOf(q));return q}
 function startTest(){
   const used=new Set(),items=[];
   for(let lv=0;lv<5;lv++){[["kelime","gramer"],["okuma","dinleme"]].forEach(sk=>{const q=pickQ(lv,sk,used);if(q){used.add(q);items.push(q)}})}

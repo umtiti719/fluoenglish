@@ -5,7 +5,7 @@ var PZ={lv:"kolay",mode:"kelime",cur:null,state:"idle",heard:"",score:null,rec:n
 function prSupported(){return !!(window.SpeechRecognition||window.webkitSpeechRecognition)}
 function prPool(){return PZ.mode==="kelime"?LWORDS.filter(w=>w.lv===PZ.lv&&/^[a-z' -]+$/i.test(w.en)):LSENT.filter(s=>s.lv===PZ.lv&&!/^Metnin tamamı/.test(s.tr)&&buildTokens(s.en).length<=(PZ.lv==="kolay"?8:11))}
 function newSpeakItem(){
-  const c=pickFresh(prPool(),x=>"p:"+plain(x.en),6);PZ.cur=c[Math.floor(Math.random()*Math.min(3,c.length))];
+  const c=pickFresh(prPool(),x=>"p:"+plain(x.en),6);PZ.cur=c[Math.floor(Math.random()*Math.min(3,c.length))];if(PZ.cur)touch("p:"+plain(PZ.cur.en));
   PZ.state="idle";PZ.heard="";PZ.score=null;PZ.tries=0;PZ.err="";PZ.counted=false;renderSpeak();
 }
 function openSpeak(){renderSpeakStat();renderSpeakSel();if(!PZ.cur)newSpeakItem();else renderSpeak()}

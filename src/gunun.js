@@ -30,9 +30,11 @@ function dlBuild(day){
   const gq=topic.quiz[Math.floor(r()*topic.quiz.length)];
   // cümle: bugünkü kelimelerden biriyle kurulan bir cümle, yoksa seviyeden biri
   const cp=cpool().filter(s=>s.lv===lv);
-  const sent=cp.find(s=>words.some(w=>s.word===w[0]))||dlShuffle(cp,r)[0];
+  const cpF=cp.filter(s=>!P.seen[ckey(s)]);
+  const sent=cp.find(s=>words.some(w=>s.word===w[0])&&!P.seen[ckey(s)])||dlShuffle(cpF.length?cpF:cp,r)[0];
   // dinleme: seviyeden bir cümle + iki çeldirici
-  const ls=dlShuffle(LSENT.filter(s=>s.lv===lv&&!/^Metnin tamamı/.test(s.tr)&&s.en!==sent.en),r);
+  const lsAll=LSENT.filter(s=>s.lv===lv&&!/^Metnin tamamı/.test(s.tr)&&s.en!==sent.en),lsF=lsAll.filter(s=>!P.seen["l:"+s.en]);
+  const ls=lsF.length>=3?dlShuffle(lsF,r).concat(dlShuffle(lsAll,r)):dlShuffle(lsAll,r);touch("l:"+ls[0].en);
   const listen={en:ls[0].en,tr:ls[0].tr,opts:dlShuffle([ls[0].en,ls[1].en,ls[2].en],r)};
   return{day,lv,step:0,score:0,max:6,done:false,words:words.map(w=>w.slice(0,5)),quiz,topic:topic.id,gq:[gq[0],gq[1],gq[2],gq[3]],sent:sent.en,listen};
 }

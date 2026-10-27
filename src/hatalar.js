@@ -9,7 +9,7 @@ function renderMistakes(){
     '<div class="chips-row" id="htCats">'+[["all","Tümü"],...cats.map(c=>[c,c])].map(([k,l])=>'<button class="fchip" data-c="'+esc(k)+'" aria-pressed="'+(HT.cat===k)+'">'+esc(l)+'</button>').join("")+'</div>'+
     '<div class="mistakes ht-list">'+list.map(m=>'<div class="mistake"><div class="wrong">'+ic("x")+'<span>'+esc(m[1])+'</span></div><div class="right">'+ic("check")+'<span>'+esc(m[2])+'</span>'+sayBtn(m[2],"sm")+sntBtn(m[2],"","Sık yapılan hatalar","sm")+'</div><p>'+ic("bulb")+esc(m[3])+'</p></div>').join("")+'</div>';
   box.querySelectorAll("#htCats .fchip").forEach(b=>b.onclick=()=>{HT.cat=b.dataset.c;renderMistakes()});
-  $("htStart").onclick=()=>{HT.quiz={items:shuffle(MISTAKES).slice(0,10).map(m=>({m,right:Math.random()<.5?0:1})),i:0,ok:0,ans:null};renderMistakes();window.scrollTo({top:0,behavior:"auto"})};
+  $("htStart").onclick=()=>{HT.quiz={items:shuffle(pickFresh(MISTAKES,m=>"h:"+m[1],10)).map(m=>({m,right:Math.random()<.5?0:1})),i:0,ok:0,ans:null};renderMistakes();window.scrollTo({top:0,behavior:"auto"})};
 }
 function renderMistQuiz(){
   const box=$("htBox"),Q=HT.quiz,n=Q.items.length;
@@ -21,7 +21,7 @@ function renderMistQuiz(){
     $("htAgain").onclick=()=>{HT.quiz=null;renderMistakes();$("htStart").click()};
     return;
   }
-  const it=Q.items[Q.i],opts=it.right===0?[it.m[2],it.m[1]]:[it.m[1],it.m[2]],done=Q.ans!==null;
+  const it=Q.items[Q.i];touch("h:"+it.m[1]);const opts=it.right===0?[it.m[2],it.m[1]]:[it.m[1],it.m[2]],done=Q.ans!==null;
   box.innerHTML='<div class="card exrun"><div class="ex-top"><span class="badge">'+esc(it.m[0])+'</span><span class="note">Soru '+(Q.i+1)+' / '+n+'</span></div>'+
     '<div class="mbar ex-bar" style="--c:var(--brand)"><i style="width:'+(Q.i/n*100)+'%"></i></div><p class="pr-q ht-q">Hangisi doğru?</p>'+
     '<div class="opts dg-opts">'+opts.map((o,p)=>'<button class="opt'+(done?(o===it.m[2]?" ok":Q.ans===p?" no":""):"")+'" data-p="'+p+'"'+(done?" disabled":"")+'><span class="k">'+"AB"[p]+'</span><span>'+esc(o)+'</span></button>').join("")+'</div>'+
