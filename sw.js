@@ -1,5 +1,5 @@
 /* Fluo çevrimdışı çalışma ve hatırlatma (service worker). Sürüm build.py tarafından yazılır. */
-const VERSION="632b113c11",CORE="fluo-core-"+VERSION,RUN="fluo-run",META="fluo-meta";
+const VERSION="6041e28003",CORE="fluo-core-"+VERSION,RUN="fluo-run",META="fluo-meta";
 const CORE_FILES=["./","index.html","manifest.webmanifest","icons/icon-192.png","icons/icon-512.png","vendor/supabase.js","fonts/onest-latin-wght-normal.woff2","fonts/onest-latin-ext-wght-normal.woff2"];
 const BIG={"audio-w.js": "10db78333a", "audio-s.js": "668732a5d3", "audio-t.js": "41a3a5d099", "audio-r.js": "0926ecf90b", "audio-d.js": "5b380a556e", "audio-q1.js": "9b9cd2d246", "audio-q2.js": "09aa01dc7f", "audio-q3.js": "bd908dc342", "audio-q4.js": "8481ff7c9b", "audio-x1.js": "7c79c8bf12", "audio-x2.js": "4f27bafe17", "sozluk.js": "128d0b87ef"},BIG_FILES=Object.keys(BIG); /* dosya → içerik özeti: yalnızca değişen dosya yeniden indirilir */
 self.addEventListener("install",e=>{e.waitUntil(caches.open(CORE).then(c=>c.addAll(CORE_FILES)).then(()=>self.skipWaiting()))});

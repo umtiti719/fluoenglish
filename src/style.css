@@ -1800,3 +1800,26 @@ body.focus .sitefoot{display:none}
 .cont.hot{background:color-mix(in srgb,var(--c) 7%,var(--surface));border-color:color-mix(in srgb,var(--c) 45%,var(--line))}
 .cont.hot .mod-ic{background:var(--c);color:#fff}
 @media (prefers-reduced-motion:reduce){.tool,.mod,.cont,.ex-cta,.dg-card{transition:none}.tool:hover,.mod:hover,.cont:hover,.ex-cta:hover,.dg-card:hover{transform:none}}
+
+/* Notlarım */
+@media (max-width:560px){.st-tabs:not(.ex-tabs) .fchip:last-child:nth-child(odd){grid-column:1/-1}}
+.nt-bar{margin-bottom:12px}
+.nt-search{display:flex;align-items:center;gap:8px;flex:1;min-width:180px;max-width:360px;background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:0 12px}
+.nt-search .ic{width:16px;height:16px;opacity:.6;flex:none}
+.nt-search input{border:0;background:none;outline:none;padding:10px 0;width:100%;font:inherit;color:inherit}
+.nt-list{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:10px}
+.nt-card{display:flex;flex-direction:column;gap:6px;text-align:left;font:inherit;color:inherit;background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:14px 16px;cursor:pointer;min-height:110px;transition:border-color .15s,transform .15s}
+.nt-card:hover{border-color:color-mix(in srgb,var(--brand) 45%,var(--line));transform:translateY(-1px)}
+.nt-card b{font-size:1rem;line-height:1.3;overflow-wrap:anywhere}
+.nt-card p{margin:0;color:var(--muted);font-size:.9rem;line-height:1.45;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden;overflow-wrap:anywhere}
+.nt-card small{margin-top:auto;color:var(--muted);font-size:.78rem}
+.nt-edit{display:flex;flex-direction:column;gap:10px;padding:16px}
+.nt-top{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap}
+.nt-top .ghost .ic,.nt-foot .ic{width:16px;height:16px}
+.nt-title{font:inherit;font-size:1.15rem;font-weight:600;border:0;border-bottom:1px solid var(--line);background:none;color:inherit;padding:8px 2px;outline:none}
+.nt-title:focus{border-bottom-color:var(--brand)}
+.nt-body{font:inherit;font-size:1rem;line-height:1.6;border:0;background:none;color:inherit;resize:none;outline:none;padding:4px 2px;min-height:220px;flex:none}
+.nt-foot{display:flex;align-items:center;justify-content:flex-end;gap:8px;flex-wrap:wrap;border-top:1px solid var(--line);padding-top:10px}
+.nt-foot .note{margin-right:auto}
+.nt-delbtn{margin-right:auto}
+.nt-danger{background:#d64545;border-color:#d64545}

@@ -50,7 +50,7 @@ function renderStudy(){
   const box=$("study");if(!box)return;
   const learned=Object.keys(P.learned).length,saved=Object.values(P.saved),sents=Object.values(P.sents||{}).sort((a,b)=>(b[3]||0)-(a[3]||0));
   const due=dueWords().length,lv=P.level?CEFR[P.level.idx].code:"–";
-  const tabs=[["durum","Çalışma durumu","Durum",ic("target")],["pomo","Pomodoro","Pomodoro",ic("clock")+'<i class="tn">'+pomoToday()+'</i>'],["kelime","Kelimelerim","Kelimeler",ic("bookmark")+'<i class="tn">'+saved.length+'</i>'],["cumle","Cümlelerim","Cümleler",ic("chat")+'<i class="tn">'+sents.length+'</i>']];
+  const tabs=[["durum","Çalışma durumu","Durum",ic("target")],["pomo","Pomodoro","Pomodoro",ic("clock")+'<i class="tn">'+pomoToday()+'</i>'],["kelime","Kelimelerim","Kelimeler",ic("bookmark")+'<i class="tn">'+saved.length+'</i>'],["cumle","Cümlelerim","Cümleler",ic("chat")+'<i class="tn">'+sents.length+'</i>'],["not","Notlarım","Notlar",ic("pen")+'<i class="tn">'+noteCount()+'</i>']];
   let h='<div class="prof-stats st-top">'+[[learned,"öğrenilen kelime"],[gramDone()+"/"+GRAMMAR.length,"gramer konusu"],[lv,"seviye"],[streakCount(),"günlük seri"]].map(([b,s])=>'<div class="stat"><b>'+b+'</b><span>'+s+'</span></div>').join("")+'</div>';
   h+='<div class="chips-row st-tabs" role="tablist">'+tabs.map(([k,l,sh,i])=>'<button class="fchip" role="tab" data-st="'+k+'" aria-pressed="'+(STUDY.tab===k)+'" aria-selected="'+(STUDY.tab===k)+'" style="--c:var(--brand)">'+i+'<span class="tl">'+l+'</span><span class="ts">'+sh+'</span></button>').join("")+'</div>';
   if(STUDY.tab==="durum"){
@@ -92,13 +92,56 @@ function renderStudy(){
       :'<div class="empty aurora"><span class="mod-ic">'+ic("bookmark")+'</span><h3>Henüz kayıtlı kelime yok</h3><p>Kartlarda ve metinlerde kelimelerin yanındaki '+ic("bookmark")+' işaretine dokunarak buraya ekleyebilirsin.</p><a class="primary" href="#ogren">Kelime Öğren</a></div>';
   }else if(STUDY.tab==="pomo"){
     h+=pomoHistHtml();
+  }else if(STUDY.tab==="not"){
+    h+=notesHtml();
   }else{
     h+=sents.length?'<div class="st-bar"><span class="note">'+sents.length+' kayıtlı cümle</span></div><div class="st-sents">'+sents.map(s=>'<div class="ex st-s"><div><p>'+esc(s[0])+'</p>'+(s[1]?'<small>'+esc(s[1])+'</small>':'')+(s[2]?'<span class="st-src">'+esc(s[2])+'</span>':'')+'</div><div class="dbtns">'+sayBtn(s[0],"sm")+sntBtn(s[0],s[1],s[2],"sm")+'</div></div>').join("")+'</div>'
       :'<div class="empty aurora"><span class="mod-ic">'+ic("chat")+'</span><h3>Henüz kayıtlı cümle yok</h3><p>Dil bilgisi örneklerinde, kelime kartlarında, Cümle Kur ve Dinleme sonuçlarında cümlenin yanındaki '+ic("bookmark")+' işaretine dokun; cümle buraya eklenir.</p><a class="primary" href="#gramer">Dil Bilgisi</a></div>';
   }
   box.innerHTML=h;
-  box.querySelectorAll("[data-st]").forEach(b=>b.onclick=()=>{STUDY.tab=b.dataset.st;renderStudy()});
+  box.querySelectorAll("[data-st]").forEach(b=>b.onclick=()=>{if(b.dataset.st!==STUDY.tab||NOTE.open)noteCleanup();STUDY.tab=b.dataset.st;renderStudy()});
   if($("phStart"))$("phStart").onclick=e=>{e.stopPropagation();window.scrollTo({top:0,behavior:"auto"});pomoToggle(true)};
   if($("stPomo"))$("stPomo").onclick=e=>{e.preventDefault();STUDY.tab="pomo";renderStudy();window.scrollTo({top:0,behavior:"auto"})};
+  if(STUDY.tab==="not")bindNotes();
   bindGoal(open=>{renderStudy();if(open){$("goalBox").hidden=false;$("goalEdit").textContent="Kapat"}});
+}
+
+/* ================= NOTLARIM =================
+   P.notes[id]={id,t:başlık,b:metin,c:oluşturma,u:son değişiklik} · silinenler P._del["n:"+id] (cihazlar arası) */
+var NOTE={open:null,q:"",del:null};
+function noteCleanup(){P._del=P._del||{};const n=NOTE.open&&P.notes&&P.notes[NOTE.open];if(n&&!n.t.trim()&&!n.b.trim()){delete P.notes[n.id];if(n.u)P._del["n:"+n.id]=Date.now();save()}NOTE.open=null;NOTE.del=null}
+const noteCount=()=>Object.values(P.notes||{}).filter(n=>(n.t||"").trim()||(n.b||"").trim()).length;
+function notesList(){
+  const q=NOTE.q.trim().toLocaleLowerCase("tr");
+  return Object.values(P.notes||{}).filter(n=>((n.t||"").trim()||(n.b||"").trim())&&(!q||(n.t+" "+n.b).toLocaleLowerCase("tr").includes(q))).sort((a,b)=>(b.u||0)-(a.u||0));
+}
+function noteDate(t){const d=new Date(t),now=new Date();
+  return d.toDateString()===now.toDateString()?"Bugün "+d.toLocaleTimeString("tr-TR",{hour:"2-digit",minute:"2-digit"}):d.toLocaleDateString("tr-TR",{day:"numeric",month:"long",year:d.getFullYear()===now.getFullYear()?undefined:"numeric"})}
+function notesHtml(){
+  P.notes=P.notes||{};P._del=P._del||{};const all=noteCount();
+  const n=NOTE.open&&P.notes[NOTE.open];
+  if(n)return '<div class="nt-edit card"><div class="nt-top"><button class="ghost" id="ntBack">'+ic("left")+'Notlar</button><span class="note" id="ntSaved">'+(n.u?"Kaydedildi · "+noteDate(n.u):"")+'</span></div>'+
+    '<input id="ntTitle" class="nt-title" maxlength="120" placeholder="Başlık (isteğe bağlı)" value="'+esc(n.t||"")+'" aria-label="Not başlığı">'+
+    '<textarea id="ntBody" class="nt-body" maxlength="20000" placeholder="Notunu buraya yaz… Örneğin: make ile do farkı, sınavdan önce tekrar edeceğim konular, yeni öğrendiğim kalıplar." aria-label="Not metni">'+esc(n.b||"")+'</textarea>'+
+    '<div class="nt-foot">'+(NOTE.del===n.id?'<span class="note">Bu not silinsin mi?</span><button class="ghost" id="ntNo">Vazgeç</button><button class="primary nt-danger" id="ntYes">Sil</button>':'<button class="ghost nt-delbtn" id="ntDel">'+ic("x")+'Notu sil</button><button class="primary" id="ntDone">'+ic("check")+'Bitti</button>')+'</div></div>';
+  const list=notesList();
+  return '<div class="st-bar nt-bar">'+(all>3?'<label class="nt-search">'+ic("search")+'<input id="ntQ" type="search" placeholder="Notlarda ara" value="'+esc(NOTE.q)+'" aria-label="Notlarda ara"></label>':'<span class="note">'+(all?all+" not":"")+'</span>')+'<button class="primary" id="ntNew">'+ic("pen")+'Yeni not</button></div>'+
+    (all?(list.length?'<div class="nt-list">'+list.map(n=>'<button class="nt-card" data-nt="'+n.id+'"><b>'+esc(n.t||(n.b||"").split("\n")[0].slice(0,60)||"Başlıksız not")+'</b><p>'+esc((n.t?n.b:(n.b||"").split("\n").slice(1).join(" ")).slice(0,160))+'</p><small>'+noteDate(n.u||n.c)+'</small></button>').join("")+'</div>'
+      :'<p class="note st-empty">"'+esc(NOTE.q)+'" için not bulunamadı.</p>')
+    :'<div class="empty aurora"><span class="mod-ic">'+ic("pen")+'</span><h3>Henüz notun yok</h3><p>Öğrendiklerini, zorlandığın konuları ya da kendine hatırlatmalarını buraya yazabilirsin. Notların otomatik kaydedilir; giriş yaptıysan cihazların arasında da eşitlenir.</p><button class="primary" id="ntNew2">'+ic("pen")+'İlk notunu yaz</button></div>');
+}
+function bindNotes(){
+  const go=()=>{renderStudy()},nw=()=>{const id=Date.now().toString(36)+Math.random().toString(36).slice(2,6),t=Date.now();P.notes[id]={id,t:"",b:"",c:t,u:0};NOTE.open=id;NOTE.del=null;go();setTimeout(()=>$("ntBody")&&$("ntBody").focus(),30)};
+  if($("ntNew"))$("ntNew").onclick=nw;if($("ntNew2"))$("ntNew2").onclick=nw;
+  if($("ntQ"))$("ntQ").oninput=e=>{NOTE.q=e.target.value;const pos=e.target.selectionStart;go();const q=$("ntQ");if(q){q.focus();q.setSelectionRange(pos,pos)}};
+  $("study").querySelectorAll("[data-nt]").forEach(b=>b.onclick=()=>{NOTE.open=b.dataset.nt;NOTE.del=null;go();window.scrollTo({top:0,behavior:"auto"})});
+  const n=NOTE.open&&P.notes[NOTE.open];if(!n)return;
+  let tm=null;const store=()=>{n.t=$("ntTitle").value;n.b=$("ntBody").value;n.u=Date.now();delete P._del["n:"+n.id];clearTimeout(tm);tm=setTimeout(()=>{save();const s=$("ntSaved");if(s)s.textContent="Kaydedildi · "+noteDate(n.u)},400)};
+  $("ntTitle").oninput=store;$("ntBody").oninput=store;
+  const ta=$("ntBody"),fit=()=>{ta.style.height="auto";ta.style.height=Math.max(220,ta.scrollHeight+2)+"px"};ta.addEventListener("input",fit);fit();
+  const close=()=>{clearTimeout(tm);if(n.u)save();noteCleanup();go()};
+  $("ntBack").onclick=close;if($("ntDone"))$("ntDone").onclick=close;
+  if($("ntDel"))$("ntDel").onclick=()=>{if(!n.t.trim()&&!n.b.trim()){close();return}NOTE.del=n.id;go()};
+  if($("ntNo"))$("ntNo").onclick=()=>{NOTE.del=null;go()};
+  if($("ntYes"))$("ntYes").onclick=()=>{delete P.notes[n.id];P._del["n:"+n.id]=Date.now();save();NOTE.open=null;NOTE.del=null;toast("Not silindi");go()};
 }
