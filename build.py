@@ -30,10 +30,10 @@ for g,items in groups.items():
     def flush():
         global n,cur,size
         if cur:
-            name=f'{g}{n}'; (adir/f'{name}.js').write_text('Object.assign(window.FLUO_AUDIO=window.FLUO_AUDIO||{},'+json.dumps(cur,separators=(',',':'))+');\n')
+            name=f'{g}-{n}'; (adir/f'{name}.js').write_text('Object.assign(window.FLUO_AUDIO=window.FLUO_AUDIO||{},'+json.dumps(cur,separators=(',',':'))+');\n')
             chunks.append(name); n+=1; cur={}; size=0
     for h,b in items:
-        cur[h]=b; size+=len(b); aidx[h]=f'{g}{n}'
+        cur[h]=b; size+=len(b); aidx[h]=f'{g}-{n}'
         if size>=CHUNK: flush()
     flush()
 silent=base64.b64encode((ses/'silent.mp3').read_bytes()).decode() if (ses/'silent.mp3').exists() else ''
