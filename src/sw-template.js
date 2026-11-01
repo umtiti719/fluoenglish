@@ -6,10 +6,14 @@ self.addEventListener("install",e=>{e.waitUntil(caches.open(CORE).then(c=>c.addA
 self.addEventListener("activate",e=>{e.waitUntil((async()=>{
   for(const k of await caches.keys())if(k.startsWith("fluo-core-")&&k!==CORE)await caches.delete(k);
   // Büyük dosyalar sürüm değişince yenilensin
-  const run=await caches.open(RUN);for(const f of BIG_FILES){const r=await run.match(f);if(r&&r.headers.get("x-fluo-v")!==BIG[f])await run.delete(f)}
+  const run=await caches.open(RUN);
+  for(const req of await run.keys()){const f=relPath(req.url);
+    if(/^(audio-|ses-js\/)/.test(f)&&!BIG[f])await run.delete(req); /* eski ses paketleri */
+    else if(BIG[f]){const r=await run.match(req);if(r&&r.headers.get("x-fluo-v")!==BIG[f])await run.delete(req)}}
   await self.clients.claim();
 })())});
-async function putRun(req,res){if(!res||!res.ok)return;const h=new Headers(res.headers);const f=new URL(typeof req==="string"?req:req.url,location.href).pathname.split("/").pop();h.set("x-fluo-v",BIG[f]||VERSION);
+const relPath=u=>{const p=new URL(u,location.href).pathname,b=new URL(self.registration.scope).pathname;return p.startsWith(b)?p.slice(b.length):p.split("/").pop()};
+async function putRun(req,res){if(!res||!res.ok)return;const h=new Headers(res.headers);const f=relPath(typeof req==="string"?req:req.url);h.set("x-fluo-v",BIG[f]||VERSION);
   const body=await res.clone().blob();await (await caches.open(RUN)).put(req,new Response(body,{status:res.status,headers:h}))}
 self.addEventListener("fetch",e=>{
   const req=e.request,url=new URL(req.url);

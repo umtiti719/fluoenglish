@@ -3,7 +3,7 @@
 Ses: ses/index.json  {metin_anahtarı: [grup, dosya]}  ·  ses/*.mp3
 Çıktı: index.html, audio-w.js (kelimeler), audio-s.js (cümleler), audio-t.js (metinler)"""
 from pathlib import Path
-import json, base64
+import json, base64, re
 root=Path(__file__).parent; src=root/'src'; ses=root/'ses'
 def fnv(s):
     h=0x811c9dc5
@@ -14,16 +14,35 @@ def fnv(s):
         out=d[n%36]+out; n//=36
         if n==0: break
     return out
-aidx={}; groups={'w':{},'s':{},'t':{},'r':{},'d':{},'q1':{},'q2':{},'q3':{},'q4':{},'x1':{},'x2':{}}
+aidx={}; groups={}
 if (ses/'index.json').exists():
     for key,(g,f) in json.loads((ses/'index.json').read_text()).items():
         p=ses/f
-        if p.exists():
-            h=fnv(key); aidx[h]=g; groups[g][h]=base64.b64encode(p.read_bytes()).decode()
-for g,d in groups.items():
-    (root/f'audio-{g}.js').write_text('Object.assign(window.FLUO_AUDIO=window.FLUO_AUDIO||{},'+json.dumps(d,separators=(',',':'))+');\n')
+        if p.exists(): groups.setdefault(g,[]).append((fnv(key),base64.b64encode(p.read_bytes()).decode()))
+# Sesler küçük parçalara bölünür (~400 KB): bir kelimeyi dinlemek için yalnızca onun parçası iner.
+# Kayıtlar üretim sırasıyla (deste/konu sırası) dizildiği için aynı destenin sesleri çoğunlukla aynı parçalardadır.
+CHUNK=400_000; adir=root/'ses-js'; adir.mkdir(exist_ok=True)
+for old in adir.glob('*.js'): old.unlink()
+for f in root.glob('audio-*.js'): f.unlink()
+chunks=[]
+for g,items in groups.items():
+    n=0; cur={}; size=0
+    def flush():
+        global n,cur,size
+        if cur:
+            name=f'{g}{n}'; (adir/f'{name}.js').write_text('Object.assign(window.FLUO_AUDIO=window.FLUO_AUDIO||{},'+json.dumps(cur,separators=(',',':'))+');\n')
+            chunks.append(name); n+=1; cur={}; size=0
+    for h,b in items:
+        cur[h]=b; size+=len(b); aidx[h]=f'{g}{n}'
+        if size>=CHUNK: flush()
+    flush()
 silent=base64.b64encode((ses/'silent.mp3').read_bytes()).decode() if (ses/'silent.mp3').exists() else ''
 shell=(src/'shell.html').read_text(); css=(src/'style.css').read_text()
+# Dokunmatik ekranlarda :hover "yapışıp" kalmasın: üst düzeydeki :hover kuralları yalnızca fareli cihazlarda geçerli
+def _hov(line):
+    if not line or line[0] in ' @\t' or ':hover' not in line: return line
+    return re.sub(r'([^{}]+)\{([^{}]*)\}',lambda m:('@media (hover:hover){'+m.group(0)+'}') if ':hover' in m.group(1) else m.group(0),line)
+css='\n'.join(_hov(l) for l in css.split('\n'))
 js='\n'.join((src/f).read_text() for f in ['config.js','data-quiz.js','data-quiz2.js','data-texts2.js','data-examples.js','data-learn.js','data-learn2.js','data-learn2b.js','data-learn2c.js','data-learn2d.js','data-grammar.js','data-test.js','data-reading.js','data-exam.js','data-grammar-c1.js','data-dialog.js','data-hatalar.js','data-aile.js','support.js','yasal.js','hedef.js','calismam.js','sinav.js','konutest.js','cumle.js','gunun.js','okuma.js','telaffuz.js','diyalog.js','hatalar.js','buyuksozluk.js','pwa.js','pomodoro.js','yarisma2.js','app.js','auth.js'])
 js=js.replace('/*AIDX*/{}',json.dumps(aidx,separators=(',',':'))).replace('/*SILENT*/""','"'+silent+'"')
 out=shell.replace('/*CSS*/',css).replace('/*JS*/',js)
@@ -42,7 +61,7 @@ full=('<!doctype html>\n<html lang="tr">\n<head>\n<meta charset="utf-8">\n'
 (root/'index.html').write_text(full)
 # Service worker: sürüm = sayfanın özeti; büyük dosyalar kendi içerik özetiyle (yalnızca değişen yeniden indirilir)
 import hashlib
-big={f:hashlib.md5((root/f).read_bytes()).hexdigest()[:10] for f in ['audio-w.js','audio-s.js','audio-t.js','audio-r.js','audio-d.js','audio-q1.js','audio-q2.js','audio-q3.js','audio-q4.js','audio-x1.js','audio-x2.js','sozluk.js'] if (root/f).exists()}
+big={f:hashlib.md5((root/f).read_bytes()).hexdigest()[:10] for f in ['ses-js/'+c+'.js' for c in chunks]+['sozluk.js'] if (root/f).exists()}
 sw=(src/'sw-template.js').read_text().replace('__VERSION__',hashlib.md5(full.encode()).hexdigest()[:10]).replace('__BIG__',json.dumps(big))
 (root/'sw.js').write_text(sw)
-print('index.html',len(out)//1024,'KB · ses:',{g:len(d) for g,d in groups.items()},'· dosyalar:',{g:(root/f"audio-{g}.js").stat().st_size//1024 for g in groups},'KB')
+print('index.html',len(out)//1024,'KB · ses:',{g:len(d) for g,d in groups.items()},'· parça:',len(chunks))

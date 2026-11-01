@@ -58,8 +58,8 @@ function srsOk(w){const s=P.srs[w];if(!s||!s.b)return;s.b=Math.min(s.b+1,5);s.d=
 function srsLearn(w){if(inBox(w))srsOk(w);else P.srs[w]={b:3,d:today()+INTERVALS[3],ok:1}}
 function srsWrong(w){const s=P.srs[w]||{};s.b=1;s.d=today()+1;s.no=(s.no||0)+1;P.srs[w]=s}
 /* Önce tekrarı gelenler, sonra hiç görülmeyenler, sonra en uzun süredir görülmeyenler */
-function pickFresh(items,keyFn,n,dueFn){
-  return items.map(it=>{const t=P.seen[keyFn(it)];return{it,g:dueFn&&dueFn(it)?0:t?2:1,t:t||0,r:Math.random()}})
+function pickFresh(items,keyFn,n,dueFn,wFn){
+  return items.map(it=>{const t=P.seen[keyFn(it)];return{it,g:dueFn&&dueFn(it)?0:t?2:1,t:t||0,r:(wFn?wFn(it):0)+Math.random()*2}})
     .sort((a,b)=>a.g-b.g||a.t-b.t||a.r-b.r).slice(0,n).map(x=>x.it);
 }
 /* Kelime bilgisi: desteler (örnekli) > yarışma > defter > metinden kaydedilen */
@@ -73,7 +73,8 @@ const QCACHE={};
 function quizPool(k){
   if(QCACHE[k])return QCACHE[k];
   const m=new Map(),add=w=>{if(!w||!w[1]||w[0].split(" ").length>3||/[?!.,]/.test(w[0]))return;const key=w[0].toLowerCase();if(m.has(key))return;m.set(key,[w[0],String(w[1]).split(";")[0].trim(),w[2]||""])};
-  (WORDS[k]||[]).forEach(add);DECKS.filter(d=>DECK_LV[d.level]===k).forEach(d=>d.words.forEach(add));
+  const QL=typeof QLV!=="undefined"?QLV:{},addL=(w,lv)=>{if(w&&(QL[w[0].toLowerCase()]||lv)===k)add(w)};
+  Object.entries(WORDS).forEach(([lv,ws])=>ws.forEach(w=>addL(w,lv)));DECKS.forEach(d=>d.words.forEach(w=>addL(w,DECK_LV[d.level])));
   ((typeof QPOOL!=="undefined"&&QPOOL[k])||[]).forEach(w=>{add(w);if(!WINFO[w[0]])EXTRA[w[0]]=[w[0],w[1],w[2],"",""]});
   return QCACHE[k]=[...m.values()];
 }
@@ -86,8 +87,8 @@ function virtualDeck(id){
 }
 
 /* ================= SESLENDİRME =================
-   Tüm kelime ve cümleler önceden doğal bir İngilizce sesle kaydedildi (audio-w/s/t.js).
-   AIDX: metin anahtarının özeti -> hangi ses dosyasında olduğu. Kaydı olmayan nadir durumlarda
+   Tüm kelime ve cümleler önceden doğal bir İngilizce sesle kaydedildi (ses-js/ altında ~400 KB'lık parçalar).
+   AIDX: metin anahtarının özeti -> hangi ses parçasında olduğu (ör. "w3"). Yalnızca gereken parça iner. Kaydı olmayan nadir durumlarda
    yalnızca cihazda İngilizce ses varsa cihaz sesi kullanılır; Türkçe sesle İngilizce okunmaz. */
 const AIDX=/*AIDX*/{};
 const SILENT=/*SILENT*/"";
@@ -96,7 +97,7 @@ const fnv=s=>{let h=0x811c9dc5;for(let i=0;i<s.length;i++){h^=s.charCodeAt(i);h=
 window.FLUO_AUDIO=window.FLUO_AUDIO||{}; /* ses paketlerinin ortak adı */
 const aLoad={};
 function loadAudio(g){
-  return aLoad[g]||(aLoad[g]=new Promise((res,rej)=>{const sc=document.createElement("script");sc.src="audio-"+g+".js";sc.async=true;
+  return aLoad[g]||(aLoad[g]=new Promise((res,rej)=>{const sc=document.createElement("script");sc.src="ses-js/"+g+".js";sc.async=true;
     sc.onload=res;sc.onerror=()=>{aLoad[g]=null;rej()};document.head.appendChild(sc)}));
 }
 const player=new Audio();player.preload="auto";
@@ -104,12 +105,10 @@ let unlocked=false;
 function unlockAudio(){if(unlocked||!SILENT)return;unlocked=true;try{player.src="data:audio/mpeg;base64,"+SILENT;const p=player.play();if(p)p.catch(()=>{})}catch(e){}}
 document.addEventListener("pointerdown",unlockAudio,{once:true,capture:true});
 document.addEventListener("keydown",unlockAudio,{once:true,capture:true});
-// Ses dosyaları ihtiyaç olduğunda yüklenir: kelimeler ilk dokunuşta, cümleler ve metinler ilgili bölüme girilince
-document.addEventListener("pointerdown",()=>loadAudio("w").catch(()=>{}),{once:true,capture:true});
-function prefetchAudio(h){
-  const need=h.startsWith("diyalog")?["d"]:/^(ogren-|dinle|g-|cevir|seviye|cumle|gunun|telaffuz|hatalar)/.test(h)?["w","s"]:h==="metin"?["w","t"]:h.startsWith("okuma")?["w","r"]:[];
-  need.forEach(g=>setTimeout(()=>loadAudio(g).catch(()=>{}),300));
-}
+// Ses parçaları ihtiyaç olduğunda yüklenir: ekranda görünen ve sıradaki ifadelerin parçaları önceden indirilir
+function warmAudio(texts){const seen={};(texts||[]).forEach(t=>{if(!t)return;const c=AIDX[fnv(akey(t))];if(c&&!seen[c]){seen[c]=1;loadAudio(c).catch(()=>{})}})}
+function prefetchAudio(){setTimeout(()=>{const v=[...document.querySelectorAll('[id^="v-"]')].find(x=>!x.hidden);if(!v)return;
+  warmAudio([...v.querySelectorAll("[data-say]")].slice(0,24).map(b=>b.dataset.say))},700)}
 let enVoice=null;
 function pickVoice(){
   try{
@@ -145,7 +144,10 @@ function speak(text,btn,rate,onend){
   const play=()=>{const b64=window.FLUO_AUDIO[h];if(!b64){deviceSpeak(text,rate);return}
     try{player.src="data:audio/mpeg;base64,"+b64;player.playbackRate=(rate&&rate<.8?.72:1)*(P.set.rate||1);player.preservesPitch=true;
       const p=player.play();if(p)p.catch(()=>finishSpeak())}catch(e){finishSpeak()}};
-  if(window.FLUO_AUDIO[h])play();else loadAudio(g).then(play,()=>deviceSpeak(text,rate));
+  if(window.FLUO_AUDIO[h]){play();return}
+  // Parça henüz inmediyse kısa bir süre bekle; gecikirse cihaz sesiyle hemen oku, parça arka planda inmeye devam etsin
+  let done=false;const tm=setTimeout(()=>{if(done)return;done=true;pickVoice();if(enVoice)deviceSpeak(text,rate);else finishSpeak()},1800);
+  loadAudio(g).then(()=>{if(done)return;done=true;clearTimeout(tm);play()},()=>{if(done)return;done=true;clearTimeout(tm);deviceSpeak(text,rate)});
 }
 document.addEventListener("click",e=>{const b=e.target.closest("[data-say]");if(b){e.stopPropagation();speak(b.dataset.say,b)}},true);
 const isSaved=en=>!!P.saved[en];
@@ -293,7 +295,7 @@ function renderHome(){
     (!P.level?'<a class="cont hot" href="#seviye" style="--c:var(--g5)"><span class="mod-ic">'+ic("target")+'</span><div><small>Seviye testi · 8–10 dakika</small><b>Seviyeni öğren</b><span>Kelime, dil bilgisi, okuma ve dinleme</span></div>'+ic("right")+'</a>':'')+
     (due?'<a class="cont hot" href="#ogren-tekrar" style="--c:var(--g2)"><span class="mod-ic">'+ic("refresh")+'</span><div><small>Aralıklı tekrar</small><b>'+due+' kelime tekrarda</b><span>Unutmadan önce bir kez daha bak</span></div>'+ic("right")+'</a>':'')+
     '<a class="cont" href="#g-'+nextT.id+'" style="--c:var(--m-gram)"><span class="mod-ic">'+ic("book")+'</span><div><small>Sıradaki gramer konusu · '+nextT.level+'</small><b>'+esc(nextT.title)+'</b><span>'+esc(nextT.tr)+'</span></div>'+ic("right")+'</a>'+
-    '<a class="cont" href="#ogren-'+nextD.id+'" style="--c:'+nextD.hue+'"><span class="mod-ic">'+ic(nextD.icon)+'</span><div><small>Kelime destesi · '+learnedIn(nextD)+'/'+nextD.words.length+'</small><b>'+esc(nextD.name)+'</b><span>'+esc(nextD.en)+'</span></div>'+ic("right")+'</a>'+
+    '<a class="cont" href="#ogren-'+nextD.id+'" style="--c:'+nextD.hue+'"><span class="mod-ic">'+ic(nextD.icon)+'</span><div><small>Kelime destesi · '+(learnedIn(nextD)?"kaldığın yerden":"yeni deste")+'</small><b>'+esc(nextD.name)+'</b><span>'+esc(nextD.en)+'</span></div>'+ic("right")+'</a>'+
     '<a class="cont" href="#cumle" style="--c:var(--m-gram)"><span class="mod-ic">'+ic("puzzle")+'</span><div><small>Cümle kur'+(P.build?' · '+P.build.ok+' doğru':'')+'</small><b>Türkçeden İngilizceye</b><span>Kartları sırala ya da kendin yaz</span></div>'+ic("right")+'</a>'+
     (()=>{const nx=READING.find(t=>!(P.read&&P.read[t.id])&&(!P.level||t.lv===TEST_REC[P.level.idx].quiz))||READING.find(t=>!(P.read&&P.read[t.id]));return nx?'<a class="cont" href="#okuma-'+nx.id+'" style="--c:var(--m-trans)"><span class="mod-ic">'+ic("doc")+'</span><div><small>Okuma · '+LEVELS[nx.lv].cefr+'</small><b>'+esc(nx.title)+'</b><span>'+esc(nx.tt)+' · anlama soruları</span></div>'+ic("right")+'</a>':''})()+
     '<a class="cont" href="#dinle" style="--c:var(--m-learn)"><span class="mod-ic">'+ic("headphones")+'</span><div><small>Dinleme · '+P.listen.ok+' doğru</small><b>Dinle ve anla</b><span>Cümleyi duy, kelimeyi seç ya da yaz</span></div>'+ic("right")+'</a>'+
@@ -359,13 +361,14 @@ function renderDecks(){
 }
 let S=null;const SESSION_N=12;
 function startStudy(d,only){
-  const real=DECKS.includes(d),idx=only||shuffle(pickFresh(d.words.map((_,i)=>i),i=>"w:"+d.words[i][0],real?SESSION_N:d.words.length,i=>isDue(d.words[i][0])));
+  const real=DECKS.includes(d),idx=only||shuffle(pickFresh(d.words.map((_,i)=>i),i=>"w:"+d.words[i][0],real?SESSION_N:d.words.length,i=>isDue(d.words[i][0]),real&&typeof WLV!=="undefined"?i=>WLV[d.words[i][0]]||2:null));
   S={deck:d,order:idx,i:0,known:[],rev:[],done:false,flipped:false};
   const c=d.hue;["v-calis","v-deckend"].forEach(v=>$(v).style.setProperty("--c",c));
   $("sDeck").innerHTML=$("dDeck").innerHTML=ic(d.icon)+esc(d.name);
 }
 function showCard(){
   const d=S.deck,w=d.words[S.order[S.i]],n=S.order.length;
+  warmAudio([0,1,2].flatMap(j=>{const x=d.words[S.order[S.i+j]];return x?[x[0],x[3]]:[]}));
   $("sReport").onclick=()=>reportIssue("icerik",{yer:"Kelime kartı · "+d.name,oge:w[0]+" = "+w[1]});
   $("sPos").textContent=(S.i+1)+" / "+n;$("sBar").style.width=(S.i/n*100)+"%";
   $("sKnown").textContent=S.known.length;$("sRev").textContent=S.rev.length;
@@ -456,7 +459,7 @@ function renderReady(){
   const t=Math.round(L.time*(P.set.quizTime==="uzun"?1.5:1));
   const extra={klasik:"Her kelime için "+t+" saniyen var. 50:50 ve Pas jokerlerini kullanabilirsin.",hizli:"Süre başlayınca durmaz; hızlı ama dikkatli ol.",dy:"Emin değilsen tahmin etme: yanlış cevap 1 puan götürür.",eslestir:"Süre ilk turla başlar ve 3 tur boyunca işler.",yaz:"Sesin açık olsun. Kelimeyi istediğin kadar tekrar dinleyebilirsin."}[mode];
   const words=shuffle(quizPool(k)).slice(0,6);
-  setTimeout(()=>{loadAudio("w").catch(()=>{});loadAudio({kolay:"q1",orta:"q2",zor:"q3",uzman:"q4"}[k]).catch(()=>{})},150);
+
   $("ready").innerHTML='<button class="backlink rd-back" id="rdBack">'+ic("left")+'Seviyeler</button>'+
     '<article class="rd-card card" style="--c:var(--lv-'+k+')">'+
       '<div class="rd-head"><span class="rd-ic">'+ic(M.icon)+'</span><div><small>'+esc(L.name)+' · '+L.cefr+'</small><h2>'+esc(M.t)+'</h2><p>'+esc(M.d)+'</p></div></div>'+
@@ -529,7 +532,7 @@ function renderSteps(){
 }
 function updJokers(){$("jHalfN").textContent=G.half;$("jPassN").textContent=G.passes;$("jHalf").disabled=G.half<1||G.locked;$("jPass").disabled=G.passes<1||G.locked}
 function ask(){
-  const w=G.list[G.i];G.cur=w;G.locked=false;
+  const w=G.list[G.i];G.cur=w;G.locked=false;warmAudio([w[0],(G.list[G.i+1]||[])[0]]);
   $("gQn").textContent=(G.i+1)+" / "+G.Q;renderSteps();
   $("gWord").textContent=w[0];$("gPos").textContent=w[2];setSaveBtn($("gSave"),w[0]);touch("w:"+w[0]);
   if(P.set.autoSpeak)speak(w[0],$("gSpeak"));
@@ -1080,8 +1083,20 @@ function liveTranslate(){
   },120);
 }
 function trShow(){if(innerWidth<700){const b=$("trResult");if(b.getBoundingClientRect().top>innerHeight*.6)b.scrollIntoView({behavior:reduceMotion()?"auto":"smooth",block:"start"})}}
+/* Yazılan metnin dilini tahmin et: kullanıcı yön düğmesini fark etmese de doğru yönde çevirelim */
+const TR_WORDS=new Set("ve bir bu şu o ne nasıl neden niçin nerede kim ben sen biz siz onlar var yok için değil çok ile mi mı mu mü da de ki ama evet hayır merhaba selam teşekkür teşekkürler lütfen günaydın iyi kötü güzel bugün yarın dün şimdi gibi daha en her hiç bana sana beni seni benim senin olarak oldu olur ise eğer çünkü kadar sonra önce gel git yap istiyorum seviyorum nasılsın".split(" "));
+const EN_WORDS=new Set("the a an is are am was were be been i you he she it we they my your his her our their this that these those what how why where who when do does did don't can could will would should have has had to of and or but in on at for with from not no yes hello hi please thank thanks".split(" "));
+function detectLang(q){
+  if(/[çğışöüÇĞİŞÖÜ]/.test(q))return "tr";
+  const ws=q.toLocaleLowerCase("tr").match(/[a-zçğıöşü']+/g)||[];let t=0,e=0;
+  ws.forEach(w=>{if(TR_WORDS.has(w))t++;if(EN_WORDS.has(w))e++});
+  return t>e?"tr":e>t?"en":null;
+}
 async function doTranslate(auto){
   const q=$("trInput").value.trim();if(!q){$("trInput").focus();return}
+  {let d=detectLang(q);const o=TR.dir==="en"?"tr":"en";
+   if(!d&&q.split(/\s+/).length<=3&&!localLookup(q,TR.dir)&&localLookup(q,o))d=o;
+   if(d&&d!==TR.dir){TR.dir=d;renderTrHint();if(!auto)toast(d==="tr"?"Türkçe yazdın: Türkçe → İngilizce çeviriyorum":"İngilizce yazdın: İngilizce → Türkçe çeviriyorum")}}
   markActive();const id=++TR.busy,dir=TR.dir;
   addHist(q,dir);renderTrHint();
   const isWord=q.split(/\s+/).length<=3&&!/[.?!]$/.test(q);
@@ -1303,7 +1318,7 @@ function renderTest(){
   if(T.phase==="result"&&P.level){
     const L=P.level,c=CEFR[L.idx],rec=TEST_REC[L.idx],d=DECKS.find(x=>x.id===rec.deck),t=GRAMMAR.find(x=>x.id===rec.topic);
     box.innerHTML='<div class="tres">'+
-      '<div class="tres-hero aurora"><span class="eyebrow">'+ic("target")+'Seviye testi sonucu</span><div class="cefr-big">'+c.code+'</div><h1 class="h-page">'+c.name+(L.pre?' <small class="pre">· başlangıç öncesi</small>':'')+'</h1><p class="lead">'+esc(c.desc)+'</p>'+
+      '<div class="tres-hero aurora"><span class="eyebrow">'+ic("target")+'Seviye testi sonucu</span><div class="cefr-big">'+c.code+'</div><h1 class="h-page">'+c.name+(L.pre?' <small class="pre">· temelden başla</small>':'')+'</h1><p class="lead">'+esc(c.desc)+'</p>'+
         '<div class="cefr-scale">'+CEFR.map((x,i)=>'<span class="'+(i<L.idx?"past":i===L.idx?"now":"")+'">'+x.code+'</span>').join("")+'</div>'+
         '<p class="tiny">'+L.n+' sorudan '+L.ok+' doğru · '+new Date(L.date).toLocaleDateString("tr-TR")+'</p></div>'+
       '<div class="tres-grid">'+

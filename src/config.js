@@ -10,7 +10,7 @@ const FLUO_CONFIG={
   aiOn:false,
   // GELİŞTİRME KOLAYLIĞI: true iken "Giriş yap"a dokununca deneme hesabıyla anında giriş yapılır (Supabase'e bağlanmaz,
   // ilerleme yalnızca bu cihazda kalır). Yayına çıkmadan önce false yapılacak.
-  devLogin:true
+  devLogin:false
 };
 
 /* Üyelik durumu (auth.js doldurur; diğer bölümler okur) */

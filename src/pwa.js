@@ -52,7 +52,7 @@ function appSettingsHtml(){
   else inst=row("Ana ekrana ekle","Tarayıcının menüsünde “Uygulamayı yükle” ya da “Ana ekrana ekle” seçeneğini kullan.",'<span class="pill">Menü</span>');
   if(!PWA.ok)return '<section class="sgroup"><h2>'+ic("monitor")+'Uygulama</h2>'+row("Çevrimdışı ve bildirimler","Bu özellikler Fluo sitesinde çalışır (umtiti719.github.io/fluoenglish).",'')+'</section>';
   return '<section class="sgroup"><h2>'+ic("monitor")+'Uygulama</h2>'+inst+
-    row("Çevrimdışı kullanım","Tüm sesleri ve sözlüğü indir (yaklaşık 25 MB); sonra internet olmadan da çalışabilirsin.",'<span id="appDl"></span>',"appDlRow")+
+    row("Çevrimdışı kullanım","Tüm sesleri ve sözlüğü indir (yaklaşık 75 MB, Wi-Fi önerilir); sonra internet olmadan da çalışabilirsin.",'<span id="appDl"></span>',"appDlRow")+
     row("Tekrar hatırlatması","Seçtiğin saatte, o gün henüz çalışmadıysan bildirim gelir. En iyi Fluo ana ekrana eklenince çalışır.",
       '<div class="rem-ctl">'+(m.on?'<input type="time" id="remTime" value="'+esc(m.time)+'" aria-label="Hatırlatma saati">':'')+'<button class="switch" role="switch" id="remSw" aria-checked="'+!!m.on+'" aria-label="Tekrar hatırlatması"></button></div>')+
     '</section>';

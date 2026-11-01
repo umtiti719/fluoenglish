@@ -32,11 +32,11 @@ function m2Start(mode,k){
   const box=$("game2");box.hidden=false;box.style.setProperty("--c",G2.c);
   if(mode==="hizli"||mode==="dy"){G2.left=60;G2.end=Date.now()+60000;G2.tick=setInterval(m2Timer,200)}
   if(mode==="eslestir"){G2.round=0;G2.pen=0;m2MatchRound()}
-  else if(mode==="yaz"){G2.list=G2.pool.slice(0,10);G2.list.forEach(w=>touch("w:"+w[0]));G2.i=0;m2YazQ()}
+  else if(mode==="yaz"){G2.list=G2.pool.slice(0,10);warmAudio(G2.list.slice(0,3).map(w=>w[0]));G2.list.forEach(w=>touch("w:"+w[0]));G2.i=0;m2YazQ()}
   else m2Next();
   window.scrollTo({top:0,behavior:"auto"});markActive();
 }
-function m2Take(){if(G2.pi>=G2.pool.length){G2.pool=m2Pool(G2.k,G2.mode==="yaz");G2.pi=0}const w=G2.pool[G2.pi++];touch("w:"+w[0]);return w}
+function m2Take(){if(G2.pi>=G2.pool.length){G2.pool=m2Pool(G2.k,G2.mode==="yaz");G2.pi=0}const w=G2.pool[G2.pi++];touch("w:"+w[0]);warmAudio([w[0],(G2.pool[G2.pi]||[])[0]]);return w}
 function m2Timer(){
   if(!G2)return;const left=Math.max(0,(G2.end-Date.now())/1000);G2.left=left;
   const f=$("m2Fill"),s=$("m2Sec");if(f){f.style.width=(left/60*100)+"%";s.textContent=Math.ceil(left)+" sn";$("m2Bar").classList.toggle("low",left<=10)}
@@ -106,7 +106,7 @@ function m2MatchTap(b){
 function m2Mask(w,show){return w.split("").map((c,i)=>c===" "?"&nbsp;&nbsp;":(i<show?esc(c):"_")).join(" ")}
 function m2YazQ(){
   if(!G2)return;if(G2.i>=G2.list.length){m2Finish();return}
-  const w=G2.list[G2.i];G2.cur=w;G2.hintN=0;G2.lock=false;
+  const w=G2.list[G2.i];G2.cur=w;warmAudio([w[0],(G2.list[G2.i+1]||[])[0]]);G2.hintN=0;G2.lock=false;
   $("game2").innerHTML=m2Head("Kelime "+(G2.i+1)+" / "+G2.list.length)+
     '<div class="stage g2-stage yz-stage"><button class="speak big" id="yzSay" aria-label="Dinle">'+ic("speaker")+'</button><p class="yz-tr">'+esc(w[1])+'</p><p class="yz-mask" id="yzMask">'+m2Mask(w[0],0)+'</p></div>'+
     '<form class="yz-form" id="yzForm" autocomplete="off"><input id="yzIn" type="text" autocapitalize="off" autocorrect="off" spellcheck="false" placeholder="İngilizcesini yaz…" aria-label="İngilizcesini yaz"><button class="primary" type="submit">Kontrol et</button></form>'+
