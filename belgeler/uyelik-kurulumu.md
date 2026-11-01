@@ -20,7 +20,7 @@ Uygulamadaki kod hazır. Üye girişinin çalışması için aşağıdaki hesap 
 ## 3. Giriş adresleri
 **Authentication → URL Configuration**
 - **Site URL:** `https://umtiti719.github.io/fluoenglish/`
-- **Redirect URLs:** aynı adresi ekle (ileride alan adı alınca `https://fluoenglish.com/` de eklenecek).
+- **Redirect URLs:** aynı adresi ekle (alan adı: `https://fluo-english.com/` (1 Kasım 2026'da alındı, Cloudflare)).
 
 ## 4. E-posta + şifre ve e-posta bağlantısı
 **Authentication → Sign In / Providers → Email**: açık olsun, *Confirm email* açık kalsın.

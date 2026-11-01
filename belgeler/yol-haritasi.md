@@ -9,7 +9,7 @@
 
 ## Kimlik
 - Uygulamada görünen ad ve logo: **Fluo** (Akış logosu)
-- Dış kimlik: **fluoenglish** – fluoenglish.com, support@fluoenglish.com, GitHub deposu fluoenglish
+- Dış kimlik: **fluoenglish** – alan adı fluo-english.com (Cloudflare), iletisim@fluo-english.com, GitHub deposu fluoenglish
 
 ## Sıradakiler (21 Ekim)
 1. **Yeni logo** – Fluo için özgün logo ve uygulama simgesi

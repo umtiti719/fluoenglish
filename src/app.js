@@ -1,6 +1,6 @@
 /* ================= MARKA =================
    Uygulamada görünen ad ve logo: Fluo. Dışarıya dönük kimlik (web adresi, e-posta, depo, kayıt anahtarları): fluoenglish. */
-const BRAND={name:"Fluo",id:"fluoenglish",site:"fluoenglish.com",email:"support@fluoenglish.com",github:"github.com/umtiti719/fluoenglish"};
+const BRAND={name:"Fluo",id:"fluoenglish",site:"fluo-english.com",email:"iletisim@fluo-english.com",github:"github.com/umtiti719/fluoenglish"};
 
 /* ================= YARDIMCILAR ================= */
 const $=id=>document.getElementById(id);

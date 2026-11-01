@@ -7244,7 +7244,7 @@ function appSettingsHtml(){
   else if(PWA.prompt)inst=row("Ana ekrana ekle","Fluo'yu telefonuna ya da bilgisayarına uygulama gibi kur; tek dokunuşla açılır.",'<button class="primary" id="appInstall">Kur</button>');
   else if(isIOS())inst=row("Ana ekrana ekle","Safari'de alttaki Paylaş düğmesine dokun ve “Ana Ekrana Ekle”yi seç.",'<span class="pill">Safari</span>');
   else inst=row("Ana ekrana ekle","Tarayıcının menüsünde “Uygulamayı yükle” ya da “Ana ekrana ekle” seçeneğini kullan.",'<span class="pill">Menü</span>');
-  if(!PWA.ok)return '<section class="sgroup"><h2>'+ic("monitor")+'Uygulama</h2>'+row("Çevrimdışı ve bildirimler","Bu özellikler Fluo sitesinde çalışır (umtiti719.github.io/fluoenglish).",'')+'</section>';
+  if(!PWA.ok)return '<section class="sgroup"><h2>'+ic("monitor")+'Uygulama</h2>'+row("Çevrimdışı ve bildirimler","Bu özellikler Fluo sitesinde çalışır (fluo-english.com).",'')+'</section>';
   return '<section class="sgroup"><h2>'+ic("monitor")+'Uygulama</h2>'+inst+
     row("Çevrimdışı kullanım","Tüm sesleri ve sözlüğü indir (yaklaşık 75 MB, Wi-Fi önerilir); sonra internet olmadan da çalışabilirsin.",'<span id="appDl"></span>',"appDlRow")+
     row("Tekrar hatırlatması","Seçtiğin saatte, o gün henüz çalışmadıysan bildirim gelir. En iyi Fluo ana ekrana eklenince çalışır.",
@@ -7554,7 +7554,7 @@ function renderModeBar(){
 
 /* ================= MARKA =================
    Uygulamada görünen ad ve logo: Fluo. Dışarıya dönük kimlik (web adresi, e-posta, depo, kayıt anahtarları): fluoenglish. */
-const BRAND={name:"Fluo",id:"fluoenglish",site:"fluoenglish.com",email:"support@fluoenglish.com",github:"github.com/umtiti719/fluoenglish"};
+const BRAND={name:"Fluo",id:"fluoenglish",site:"fluo-english.com",email:"iletisim@fluo-english.com",github:"github.com/umtiti719/fluoenglish"};
 
 /* ================= YARDIMCILAR ================= */
 const $=id=>document.getElementById(id);
