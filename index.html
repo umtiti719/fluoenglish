@@ -9,9 +9,26 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-title" content="Fluo">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 120 120'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0' y1='1' x2='1' y2='0'%3E%3Cstop offset='0' stop-color='%234F80EC'/%3E%3Cstop offset='.5' stop-color='%238A5CF0'/%3E%3Cstop offset='1' stop-color='%23EB6D9F'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='120' height='120' rx='28' fill='url(%23g)'/%3E%3Cg fill='none' stroke='%23fff' stroke-width='11' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M24 82c6-10 12-10 18 0s12 10 18 0V46c0-13 9-19 22-16'/%3E%3Cpath d='M48 57H76'/%3E%3C/g%3E%3C/svg%3E">
+<meta name="description" content="Türkçe anlatımlı ücretsiz İngilizce çalışma alanı: 1.400+ örnekli kelime, A1–C1 dil bilgisi, seviye testi, okuma, dinleme, diyaloglar ve kelime yarışmaları.">
+<link rel="canonical" href="https://fluo-english.com/">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Fluo">
+<meta property="og:locale" content="tr_TR">
+<meta property="og:url" content="https://fluo-english.com/">
+<meta property="og:title" content="Fluo · İngilizceni Türkçe anlatımla geliştir">
+<meta property="og:description" content="Türkçe anlatımlı ücretsiz İngilizce çalışma alanı: 1.400+ örnekli kelime, A1–C1 dil bilgisi, seviye testi, okuma, dinleme, diyaloglar ve kelime yarışmaları.">
+<meta property="og:image" content="https://fluo-english.com/icons/og-image.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Fluo: İngilizceni Türkçe anlatımla adım adım geliştir">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Fluo · İngilizceni Türkçe anlatımla geliştir">
+<meta name="twitter:description" content="Türkçe anlatımlı ücretsiz İngilizce çalışma alanı: 1.400+ örnekli kelime, A1–C1 dil bilgisi, seviye testi, okuma, dinleme, diyaloglar ve kelime yarışmaları.">
+<meta name="twitter:image" content="https://fluo-english.com/icons/og-image.png">
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "WebApplication", "name": "Fluo", "url": "https://fluo-english.com/", "description": "Türkçe anlatımlı ücretsiz İngilizce çalışma alanı: 1.400+ örnekli kelime, A1–C1 dil bilgisi, seviye testi, okuma, dinleme, diyaloglar ve kelime yarışmaları.", "inLanguage": "tr", "applicationCategory": "EducationalApplication", "operatingSystem": "Web", "offers": {"@type": "Offer", "price": "0", "priceCurrency": "TRY"}, "author": {"@type": "Person", "name": "Ümit Erdoğan"}, "educationalLevel": "A1–C1", "teaches": "İngilizce (English as a foreign language)"}</script>
 </head>
 <body>
-<title>Fluo</title>
+<title>Fluo · Türkçe anlatımlı ücretsiz İngilizce: kelime, gramer, okuma</title>
 <meta name="claude:viewport-fit-sides" content="cover">
 <style>
 /* Yazı tipi: Onest (SIL OFL 1.1, fonts/OFL.txt) — siteyle birlikte sunulur, Google Fonts'a bağlanılmaz */
@@ -7266,6 +7283,7 @@ function bindAppSettings(){
   renderAppStatus();
 }
 
+var PM_TITLE=document.title;
 /* ================= POMODORO =================
    Üst menüdeki saat düğmesi küçük bir panel açar. Çalışırken düğme kalan süreyi gösterir; sayfa değişse ya da
    yenilense de sayaç devam eder (bitiş zamanı tarayıcıda saklanır). Biten çalışma oturumları P.pomo[gün] içinde sayılır. */
@@ -7315,7 +7333,7 @@ function pomoRenderBtn(){
   b.classList.toggle("run",PM.running);b.classList.toggle("brk",PM.mode!=="work");b.classList.toggle("act",active);
   b.querySelector(".pomo-t").textContent=active?mmss(r):"";
   b.setAttribute("aria-label","Pomodoro"+(active?" · "+POMO_MODES[PM.mode].l+" "+mmss(r)+(PM.running?"":" (duraklatıldı)"):""));
-  document.title=PM.running?mmss(r)+" · "+(PM.mode==="work"?"Çalışma":"Mola")+" · Fluo":"Fluo";
+  document.title=PM.running?mmss(r)+" · "+(PM.mode==="work"?"Çalışma":"Mola")+" · Fluo":PM_TITLE;
 }
 function pomoRenderTime(){
   const t=$("pomoTime");if(!t)return;const r=pomoRemain(),tot=pomoDur(PM.mode);
@@ -9297,6 +9315,6 @@ document.addEventListener("click",e=>{
 document.addEventListener("keydown",e=>{if(e.key==="Escape"){const m=$("acctMenu");if(m&&!m.hidden){acctMenu(false);$("acctBtn").focus()}}});
 
 </script>
-
+<noscript><h1>Fluo · Türkçe anlatımlı ücretsiz İngilizce</h1><p>Türkçe anlatımlı ücretsiz İngilizce çalışma alanı: 1.400+ örnekli kelime, A1–C1 dil bilgisi, seviye testi, okuma, dinleme, diyaloglar ve kelime yarışmaları.</p><p>Fluo'yu kullanmak için tarayıcında JavaScript'i aç.</p></noscript>
 </body>
 </html>

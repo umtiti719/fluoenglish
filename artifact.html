@@ -7253,6 +7253,7 @@ function bindAppSettings(){
   renderAppStatus();
 }
 
+var PM_TITLE=document.title;
 /* ================= POMODORO =================
    Üst menüdeki saat düğmesi küçük bir panel açar. Çalışırken düğme kalan süreyi gösterir; sayfa değişse ya da
    yenilense de sayaç devam eder (bitiş zamanı tarayıcıda saklanır). Biten çalışma oturumları P.pomo[gün] içinde sayılır. */
@@ -7302,7 +7303,7 @@ function pomoRenderBtn(){
   b.classList.toggle("run",PM.running);b.classList.toggle("brk",PM.mode!=="work");b.classList.toggle("act",active);
   b.querySelector(".pomo-t").textContent=active?mmss(r):"";
   b.setAttribute("aria-label","Pomodoro"+(active?" · "+POMO_MODES[PM.mode].l+" "+mmss(r)+(PM.running?"":" (duraklatıldı)"):""));
-  document.title=PM.running?mmss(r)+" · "+(PM.mode==="work"?"Çalışma":"Mola")+" · Fluo":"Fluo";
+  document.title=PM.running?mmss(r)+" · "+(PM.mode==="work"?"Çalışma":"Mola")+" · Fluo":PM_TITLE;
 }
 function pomoRenderTime(){
   const t=$("pomoTime");if(!t)return;const r=pomoRemain(),tot=pomoDur(PM.mode);
