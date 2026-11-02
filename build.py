@@ -72,8 +72,18 @@ NOSCRIPT=('<noscript><h1>Fluo · Türkçe anlatımlı ücretsiz İngilizce</h1><
           '<p>Fluo\'yu kullanmak için tarayıcında JavaScript\'i aç.</p></noscript>')
 (root/'robots.txt').write_text('User-agent: *\nAllow: /\n\nSitemap: '+SITE+'sitemap.xml\n')
 import datetime
+# Konu sayfaları (gramer/, kelime/, okuma/): Google'ın okuyabileceği gerçek adresler
+import subprocess, sys, tempfile
+sys.path.insert(0,str(root/'araclar'))
+import seo_sayfalar
+with tempfile.TemporaryDirectory() as td:
+    subprocess.run(['node',str(root/'araclar'/'icerik_dok.js'),td+'/icerik.json'],check=True,stdout=subprocess.DEVNULL)
+    seo_urls=seo_sayfalar.build(root,json.load(open(td+'/icerik.json')))
+today=datetime.date.today().isoformat()
 (root/'sitemap.xml').write_text('<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n'
-  '  <url><loc>'+SITE+'</loc><lastmod>'+datetime.date.today().isoformat()+'</lastmod><changefreq>weekly</changefreq><priority>1.0</priority></url>\n</urlset>\n')
+  '  <url><loc>'+SITE+'</loc><lastmod>'+today+'</lastmod><changefreq>weekly</changefreq><priority>1.0</priority></url>\n'
+  +''.join('  <url><loc>'+SITE+u+'</loc><lastmod>'+today+'</lastmod><priority>'+('0.8' if u.count('/')==1 else '0.6')+'</priority></url>\n' for u in seo_urls)+'</urlset>\n')
+SEOLINKS='<a href="/gramer/">Gramer konu anlatımları</a><a href="/kelime/">Kelime listeleri</a><a href="/okuma/">Okuma metinleri</a>'
 # index.html: tek başına açılan tam sayfa (GitHub, dosyadan açma) — telefon için viewport ayarı dahil
 full=('<!doctype html>\n<html lang="tr">\n<head>\n<meta charset="utf-8">\n'
       '<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">\n'
@@ -82,7 +92,7 @@ full=('<!doctype html>\n<html lang="tr">\n<head>\n<meta charset="utf-8">\n'
       '<link rel="apple-touch-icon" href="icons/apple-180.png">\n'
       '<meta name="apple-mobile-web-app-capable" content="yes">\n'
       '<meta name="apple-mobile-web-app-title" content="Fluo">\n'
-      '<link rel="icon" href="data:image/svg+xml,'+FAVICON+'">\n'+SEO+'</head>\n<body>\n'+out.replace('<title>Fluo</title>','<title>'+TITLE+'</title>',1)+NOSCRIPT+'\n</body>\n</html>\n')
+      '<link rel="icon" href="data:image/svg+xml,'+FAVICON+'">\n'+SEO+'</head>\n<body>\n'+out.replace('<title>Fluo</title>','<title>'+TITLE+'</title>',1).replace('<a href="#yasal">KVKK',SEOLINKS+'<a href="#yasal">KVKK',1)+NOSCRIPT+'\n</body>\n</html>\n')
 (root/'index.html').write_text(full)
 # Service worker: sürüm = sayfanın özeti; büyük dosyalar kendi içerik özetiyle (yalnızca değişen yeniden indirilir)
 import hashlib

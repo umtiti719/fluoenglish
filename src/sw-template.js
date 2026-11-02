@@ -23,7 +23,8 @@ self.addEventListener("fetch",e=>{
     return;
   }
   if(req.mode==="navigate"){ // sayfa: önce ağ, yoksa kayıtlı kopya
-    e.respondWith(fetch(req).then(res=>{caches.open(CORE).then(c=>c.put("index.html",res.clone()));return res}).catch(()=>caches.match("index.html",{ignoreSearch:true})));
+    const app=/^(index\.html)?$/.test(relPath(req.url)); /* konu sayfaları (gramer/, kelime/, okuma/) uygulamanın kopyasını ezmesin */
+    e.respondWith(fetch(req).then(res=>{if(app&&res.ok)caches.open(CORE).then(c=>c.put("index.html",res.clone()));return res}).catch(()=>app?caches.match("index.html",{ignoreSearch:true}):caches.match(req)));
     return;
   }
   e.respondWith((async()=>{
