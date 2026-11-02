@@ -12,9 +12,9 @@ KVKK'da "veri sorumlusu" yalnızca şirketler için değil, kişisel veri işley
 "Fluo'nun geliştiricisi" olarak tanımlandı.
 
 ## İsteğe bağlı alanlar (`src/yasal.js` → `LEGAL_INFO`)
-- `name`: adın soyadın. Boş bırakılabilir; doldurulursa metinlerde "Ad Soyad (Fluo'nun geliştiricisi)" olarak görünür.
+- `name`: Ümit Erdoğan (2 Kasım 2026)
   KVKK md. 10 veri sorumlusunun "kimliğini" bildirmeyi istediği için doldurulması daha güvenli olur.
-- `email`: KVKK başvuruları için gerçekten okuduğun bir e-posta. Boşsa başvurular Destek formuna yönlendirilir.
+- `email`: iletisim@fluo-english.com (Cloudflare Email Routing → Gmail)
   Fluo için ayrı bir adres açmak (ör. fluoenglish@...) kişisel adresini paylaşmaktan iyi olur.
 - `updated`: son güncelleme tarihi.
 

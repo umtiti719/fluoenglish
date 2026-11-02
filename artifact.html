@@ -6006,15 +6006,17 @@ async function sendFeedback(){
    name ve email boş bırakılabilir: boşsa metinlerde "Fluo'nun geliştiricisi" ve Destek formu kullanılır.
    Not: Bu metinler genel bir taslaktır, hukuki danışmanlık değildir; yayından önce bir hukukçuya kontrol ettirilmelidir. */
 var LEGAL_INFO={
-  name:"",   /* isteğe bağlı: geliştiricinin adı soyadı */
+  name:"Ümit Erdoğan",   /* isteğe bağlı: geliştiricinin adı soyadı */
   email:"iletisim@fluo-english.com",  /* isteğe bağlı: KVKK başvuruları için okunan bir e-posta */
-  updated:"28 Ekim 2026"
+  updated:"2 Kasım 2026"
 };
 var LEGAL_TABS=[["kvkk","Aydınlatma Metni"],["gizlilik","Gizlilik"],["kosullar","Kullanım Koşulları"],["cerez","Çerezler"]];
 function lgDocs(){
   const I=LEGAL_INFO,F='<a href="#destek">Yardım ve destek</a> sayfasındaki form',
     E=I.email?'<b>'+esc(I.email)+'</b> adresi ya da '+F:F,
-    O=I.name?'<b>'+esc(I.name)+'</b> (Fluo\'nun geliştiricisi)':'<b>Fluo\'nun geliştiricisi</b>';
+    on=I.name?"Fluo'nun geliştiricisi "+I.name:"Fluo'nun geliştiricisi",O='<b>'+esc(on)+'</b>',
+    /* ünlü uyumuyla ek: Erdoğan'dır, geliştiricisi'dir */
+    Ek=(()=>{const v=(on.match(/[aeıioöuü](?=[^aeıioöuü]*$)/i)||["e"])[0].toLowerCase();return "'"+({a:"dır",ı:"dır",e:"dir",i:"dir",o:"dur",u:"dur",ö:"dür",ü:"dür"}[v])})();
   const providers='<ul>'+
     '<li><b>Supabase</b> (Supabase Inc.): üyelik, giriş ve ilerleme kaydı için veritabanı ve kimlik doğrulama hizmeti. Sunucular İrlanda\'da (Avrupa Birliği) bulunur.</li>'+
     '<li><b>GitHub Pages</b> (GitHub Inc., ABD): sitenin barındırılması. Siteye her girişte IP adresi ve tarayıcı bilgisi gibi teknik bağlantı kayıtları GitHub sunucularında oluşur.</li>'+
@@ -6024,7 +6026,7 @@ function lgDocs(){
   kvkk:{t:"KVKK Aydınlatma Metni",h:
     '<p>Bu metin, 6698 sayılı Kişisel Verilerin Korunması Kanunu ("KVKK") madde 10 uyarınca, Fluo İngilizce öğrenme sitesi ve uygulamasını ("Fluo") kullananlara ("sen") kişisel verilerinin nasıl işlendiğini anlatmak için hazırlanmıştır.</p>'+
     '<h3>1. Fluo hakkında ve veri sorumlusu</h3><p>Fluo bir şirket ya da kurum tarafından değil, <b>bir gerçek kişi tarafından</b>, insanların İngilizce öğrenmesine yardımcı olmak amacıyla <b>gönüllü olarak</b> geliştirilen bireysel bir projedir. Fluo\'nun bir şirketi, ticari unvanı veya gelir amacı yoktur; reklam gösterilmez ve ücret alınmaz.</p>'+
-    '<p>KVKK, kişisel verileri işleyen gerçek kişileri de "veri sorumlusu" olarak tanımlar. Bu nedenle Fluo\'daki kişisel verilerin veri sorumlusu '+O+'\'dir. Kişisel verilerinle ilgili her konuda '+E+' üzerinden ulaşabilirsin.</p>'+
+    '<p>KVKK, kişisel verileri işleyen gerçek kişileri de "veri sorumlusu" olarak tanımlar. Bu nedenle Fluo\'daki kişisel verilerin veri sorumlusu '+O+Ek+'. Kişisel verilerinle ilgili her konuda '+E+' üzerinden ulaşabilirsin.</p>'+
     '<h3>2. Hangi kişisel verileri işliyoruz?</h3><ul>'+
       '<li><b>Kimlik ve iletişim:</b> e-posta adresin, isteğe bağlı olarak yazdığın adın. "Google ile devam et" seçeneğini kullanırsan Google hesabındaki ad, e-posta adresi ve profil fotoğrafı bağlantısı.</li>'+
       '<li><b>Öğrenme ve kullanım verileri:</b> öğrendiğin kelimeler, Defterim\'e ve Cümlelerim\'e kaydettiklerin, tekrar takvimin, dil bilgisi, test, sınav ve yarışma sonuçların, seviye testi sonucun, günlük serin, haftalık hedefin, rozetlerin, pomodoro geçmişin ve ayarların.</li>'+
@@ -6052,7 +6054,7 @@ function lgDocs(){
     '<h3>Hesabını silmek</h3><p>Destek sayfasındaki formda "Soru"yu seçip hesabını silmek istediğini ve hesabına kayıtlı e-posta adresini yaz'+(I.email?' ya da kayıtlı e-postandan <b>'+esc(I.email)+'</b> adresine yaz':'')+'. Hesabın ve ilerleme verilerin en geç 30 gün içinde silinir. Bu cihazdaki verileri ise istediğin an Ayarlar → Veriler bölümünden silebilirsin.</p>'+
     '<h3>Değişiklikler</h3><p>Bu politikayı güncelleyebiliriz; önemli değişiklikleri sitede duyururuz. Sayfanın başındaki tarih son güncellemeyi gösterir.</p>'},
   kosullar:{t:"Kullanım Koşulları",h:
-    '<p>Bu koşullar, Fluo sitesini ve uygulamasını ("Hizmet") kullanımına ilişkin kuralları belirler. Hizmeti kullanarak ya da hesap oluşturarak bu koşulları kabul etmiş olursun. Fluo, '+O+' tarafından gönüllü olarak geliştirilen, şirket veya kurum bağlantısı olmayan ve gelir amacı gütmeyen bireysel bir projedir.</p>'+
+    '<p>Bu koşullar, Fluo sitesini ve uygulamasını ("Hizmet") kullanımına ilişkin kuralları belirler. Hizmeti kullanarak ya da hesap oluşturarak bu koşulları kabul etmiş olursun. Fluo, '+(I.name?'<b>'+esc(I.name)+'</b>':'bir gerçek kişi')+' tarafından gönüllü olarak geliştirilen, şirket veya kurum bağlantısı olmayan ve gelir amacı gütmeyen bireysel bir projedir.</p>'+
     '<h3>1. Hizmet</h3><p>Fluo; kelime kartları, dil bilgisi anlatımları, alıştırmalar, testler, yarışmalar, okuma, dinleme, diyaloglar ve çeviri araçlarıyla Türkçe konuşanlara İngilizce öğrenmede yardımcı olan bir eğitim hizmetidir. Hizmet şu an ücretsizdir. İleride ücretli özellikler eklenirse koşulları ve ücretleri önceden açıkça bildiririz; mevcut ücretsiz kullanım bu nedenle kendiliğinden ücretli hâle gelmez.</p>'+
     '<h3>2. Hesap</h3><ul><li>Hesap oluştururken doğru bilgi vermeyi ve hesabını yalnızca kendin kullanmayı kabul edersin.</li><li>Şifrenin ve e-posta hesabının güvenliğinden sen sorumlusun; hesabının izinsiz kullanıldığını düşünürsen bize hemen bildir.</li><li>18 yaşından küçüksen hesap oluşturmadan önce velinin ya da vasinin onayını almalısın.</li></ul>'+
     '<h3>3. Kullanım kuralları</h3><p>Hizmeti kullanırken şunları yapmamayı kabul edersin:</p><ul><li>Hizmetin işleyişini bozmaya, güvenliğini aşmaya, başkalarının hesaplarına veya verilerine erişmeye çalışmak,</li><li>otomatik araçlarla aşırı istek göndermek, içeriği toplu olarak kopyalamak veya ticari amaçla yeniden yayınlamak,</li><li>geri bildirim alanlarına hakaret, nefret söylemi, yasa dışı ya da başkalarının haklarını ihlal eden içerik yazmak.</li></ul>'+
