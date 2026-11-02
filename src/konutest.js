@@ -46,7 +46,7 @@ function ttRender(){
   if($("ttTop"))$("ttTop").onclick=()=>window.scrollTo({top:0,behavior:reduceMotion()?"auto":"smooth"});
 }
 function ttFinish(){
-  const t=TT.t,n=TT.items.length,ok=TT.items.filter((it,i)=>TT.pick[i]===it.right).length;
+  trk("bolum-testi",{konu:TT.t.id});const t=TT.t,n=TT.items.length,ok=TT.items.filter((it,i)=>TT.pick[i]===it.right).length;
   P.ttest=P.ttest||{};const prev=P.ttest[t.id];
   P.ttest[t.id]={best:Math.max(ok,prev?prev.best:0),last:ok,n,at:Date.now(),runs:(prev?prev.runs||1:0)+1};
   if(ok/n>=.6){const g=P.gram[t.id]||{best:0,total:t.quiz.length,done:false};P.gram[t.id]={...g,done:true}}

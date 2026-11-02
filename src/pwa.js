@@ -8,7 +8,7 @@ if(PWA.ok){
   navigator.serviceWorker.addEventListener("message",e=>{const d=e.data||{};if(d.type==="dl"){PWA.dl=d;if(d.n>=d.total){try{localStorage.setItem(BRAND.id+"_offline","1")}catch(x){}toast("Çevrimdışı kullanım hazır")}if(lastHash==="ayarlar")renderAppStatus()}});
 }
 window.addEventListener("beforeinstallprompt",e=>{e.preventDefault();PWA.prompt=e;if(lastHash==="ayarlar")renderSettings()});
-window.addEventListener("appinstalled",()=>{PWA.installed=true;PWA.prompt=null;toast("Fluo ana ekrana eklendi")});
+window.addEventListener("appinstalled",()=>{trk("uygulama-yuklendi");PWA.installed=true;PWA.prompt=null;toast("Fluo ana ekrana eklendi")});
 const isIOS=()=>/iphone|ipad|ipod/i.test(navigator.userAgent)||(navigator.platform==="MacIntel"&&navigator.maxTouchPoints>1);
 
 /* ---------- Hatırlatma ---------- */

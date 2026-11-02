@@ -128,7 +128,7 @@ function m2YazDone(ok){
 /* ---------- Bitiş ---------- */
 function m2Finish(early){
   if(!G2)return;clearInterval(G2.tick);clearTimeout(G2.tm);G2.tick=null;
-  const m=G2.mode,k=G2.k,key=m2Key(m,k),M=QMODES[m],prev=m2Best(m,k);
+  const m=G2.mode,k=G2.k,key=m2Key(m,k),M=QMODES[m],prev=m2Best(m,k);trk("yarisma",{mod:m,seviye:k});
   let score=G2.score,valid=true;
   if(m==="eslestir"){score=Math.floor((Date.now()-G2.start)/1000)+G2.pen;valid=G2.round>=3&&G2.done===5&&!early}
   if(m==="yaz"&&early)valid=G2.i>0;

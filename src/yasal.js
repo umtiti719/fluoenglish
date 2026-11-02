@@ -19,6 +19,7 @@ function lgDocs(){
     '<li><b>Supabase</b> (Supabase Inc.): üyelik, giriş ve ilerleme kaydı için veritabanı ve kimlik doğrulama hizmeti. Sunucular İrlanda\'da (Avrupa Birliği) bulunur.</li>'+
     '<li><b>GitHub Pages</b> (GitHub Inc., ABD): sitenin barındırılması. Siteye her girişte IP adresi ve tarayıcı bilgisi gibi teknik bağlantı kayıtları GitHub sunucularında oluşur.</li>'+
     '<li><b>Google</b> (Google LLC / Google Ireland Ltd.): yalnızca "Google ile devam et" seçeneğini kullanırsan kimlik doğrulama; ayrıca Chrome gibi bazı tarayıcılarda Telaffuz bölümündeki konuşma tanıma, tarayıcının kendi hizmetiyle yapılır.</li>'+
+    '<li><b>Umami</b> (Umami Software, Inc.): ziyaret istatistikleri. Çerez kullanmaz, IP adresini saklamaz ve seni tanımlayacak bir kimlik oluşturmaz; yalnızca hangi bölümlerin ne sıklıkla kullanıldığı anonim olarak sayılır (ör. sayfa geçişleri, seviye testinin tamamlanması). Tarayıcında "İzlenmek istemiyorum" (Do Not Track) ayarı açıksa hiç sayılmazsın.</li>'+
     '<li><b>MyMemory</b> (Translated S.r.l., İtalya): Çeviri bölümüne yazdığın <b>cümleler</b>, makine çevirisi için bu hizmete gönderilir. Bu metinler hesabınla ilişkilendirilmez; kişisel bilgi içeren metinleri çeviriye yazmamanı öneririz.</li></ul>';
   return{
   kvkk:{t:"KVKK Aydınlatma Metni",h:
@@ -43,7 +44,7 @@ function lgDocs(){
     '<h3>9. Başvuru</h3><p>Haklarını kullanmak için '+E+' üzerinden, hesabına kayıtlı e-posta adresini belirterek başvurabilirsin. Kimliğini doğrulamak için hesabına kayıtlı e-posta adresinden ek teyit istenebilir. Başvurun en geç 30 gün içinde ücretsiz olarak yanıtlanır. Başvurunun reddedilmesi, yanıtın yetersiz bulunması veya süresinde yanıt verilmemesi hâlinde Kişisel Verileri Koruma Kurulu\'na şikâyette bulunma hakkın saklıdır.</p>'},
   gizlilik:{t:"Gizlilik Politikası",h:
     '<p>Fluo, gelir amacı gütmeyen bireysel bir projedir ve yalnızca öğrenmene yardım etmek için yapıldı; verilerin bundan başka bir amaçla kullanılmaz. Bu sayfa, neyi neden topladığımızı kısaca anlatır. Ayrıntılar için <a href="#yasal">KVKK Aydınlatma Metni</a>\'ne bakabilirsin.</p>'+
-    '<h3>Kısaca</h3><ul><li><b>Reklam yok</b>, verilerini satmıyoruz ve reklam amacıyla paylaşmıyoruz.</li><li><b>Takip çerezi yok.</b> Fluo çerez kullanmaz; ayrıntılar <a href="#yasal-cerez">Çerezler ve Yerel Depolama</a> sayfasında.</li><li><b>Giriş zorunlu değil.</b> Giriş yapmadan kullanırsan ilerlemen sadece kendi cihazında kalır.</li><li><b>Ses kaydı yok.</b> Telaffuz bölümünde söylediklerin kaydedilmez.</li></ul>'+
+    '<h3>Kısaca</h3><ul><li><b>Reklam yok</b>, verilerini satmıyoruz ve reklam amacıyla paylaşmıyoruz.</li><li><b>Takip çerezi yok.</b> Fluo çerez kullanmaz; ziyaret istatistikleri çerezsiz ve anonim olarak tutulur. Ayrıntılar <a href="#yasal-cerez">Çerezler ve Yerel Depolama</a> sayfasında.</li><li><b>Giriş zorunlu değil.</b> Giriş yapmadan kullanırsan ilerlemen sadece kendi cihazında kalır.</li><li><b>Ses kaydı yok.</b> Telaffuz bölümünde söylediklerin kaydedilmez.</li></ul>'+
     '<h3>Giriş yaparsan</h3><p>E-posta adresin, (isteğe bağlı) adın ve öğrenme ilerlemen, cihazların arasında eşitlenebilmesi için Supabase üzerindeki hesabında saklanır. Veritabanındaki her kayıt satır düzeyinde güvenlik kurallarıyla korunur: herkes yalnızca kendi verisini görebilir ve değiştirebilir. Şifren bizim tarafımızdan görülemez; yalnızca şifrelenmiş (hash) hâli kimlik doğrulama hizmetinde tutulur.</p>'+
     '<h3>Üçüncü taraf hizmetler</h3>'+providers+
     '<h3>Bildirimler</h3><p>Tekrar hatırlatması ve pomodoro bildirimleri yalnızca sen açarsan ve tarayıcın izin verirse gösterilir; bu bildirimler cihazında oluşturulur. Pazarlama e-postası göndermeyiz; yalnızca kayıt onayı, giriş bağlantısı ve şifre yenileme gibi hesapla ilgili e-postalar gönderilir.</p>'+
@@ -63,7 +64,7 @@ function lgDocs(){
     '<h3>8. Uygulanacak hukuk ve uyuşmazlıklar</h3><p>Bu koşullar Türkiye Cumhuriyeti hukukuna tabidir. Uyuşmazlıklarda genel hükümlere göre yetkili Türkiye Cumhuriyeti mahkemeleri ve icra daireleri yetkilidir; kanundan doğan hakların saklıdır.</p>'+
     '<h3>9. İletişim</h3><p>Sorular için: '+E+'.</p>'},
   cerez:{t:"Çerezler ve Yerel Depolama",h:
-    '<p><b>Fluo çerez (cookie) kullanmaz.</b> Reklam veya takip amaçlı hiçbir araç yoktur. Sitenin çalışması için tarayıcının yerel depolama alanı (localStorage ve uygulama önbelleği) kullanılır. Bu bilgiler senin cihazında tutulur:</p><ul>'+
+    '<p><b>Fluo çerez (cookie) kullanmaz.</b> Reklam aracı ya da seni siteler arasında takip eden bir araç yoktur. Sitenin çalışması için tarayıcının yerel depolama alanı (localStorage ve uygulama önbelleği) kullanılır. Bu bilgiler senin cihazında tutulur:</p><ul>'+
       '<li><b>İlerleme ve ayarlar:</b> öğrendiğin kelimeler, Defterim, sonuçların, tema ve ses ayarların. Giriş yapmadıysan bu bilgiler yalnızca bu cihazda kalır.</li>'+
       '<li><b>Oturum:</b> giriş yaptıysan, oturumunu açık tutmak için kimlik doğrulama hizmetinin oluşturduğu oturum anahtarı.</li>'+
       '<li><b>Çeviri geçmişi:</b> son aramaların ve hızlı yanıt için daha önce çevrilen metinler.</li>'+
@@ -71,7 +72,7 @@ function lgDocs(){
       '<li><b>Çevrimdışı kullanım:</b> siteyi internetsiz açabilmen için sayfa, yazı tipi, ses ve sözlük dosyalarının önbellek kopyaları; hatırlatmayı açtıysan hatırlatma ayarın.</li></ul>'+
     '<p>Sitenin yazı tipi ve sesleri Fluo ile birlikte sunulur; bu dosyalar için üçüncü taraf sunuculara bağlanılmaz.</p>'+
     '<h3>Bu verileri silmek</h3><p>Ayarlar → Veriler bölümünden çeviri geçmişini veya tüm ilerlemeni silebilirsin. Tarayıcının ayarlarından bu site için depolanan verileri temizleyerek her şeyi silebilirsin. Giriş yaptıysan hesabındaki kopya ayrıca saklanır; onun silinmesi için <a href="#yasal-gizlilik">Gizlilik Politikası</a>\'ndaki adımları izle.</p>'+
-    '<p>İleride ziyaretçi istatistikleri için bir analiz aracı eklenirse bu sayfa güncellenecek ve gerekiyorsa onayın alınacaktır.</p>'}
+    '<h3>Ziyaret istatistikleri</h3><p>Fluo\'nun hangi bölümlerinin kullanıldığını anlamak için çerezsiz çalışan <b>Umami</b> kullanılır. Umami cihazına çerez ya da kalıcı bir kimlik yazmaz, IP adresini saklamaz; sayımlar anonimdir. Tarayıcında "İzlenmek istemiyorum" (Do Not Track) ayarı açıksa sayım yapılmaz.</p>'}
   };
 }
 function renderLegal(tab){

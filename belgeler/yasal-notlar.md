@@ -29,6 +29,6 @@ KVKK'da "veri sorumlusu" yalnızca şirketler için değil, kişisel veri işley
 
 ## Teknik olarak yapılanlar
 - Yazı tipi Google Fonts yerine siteyle birlikte sunuluyor (Google'a IP aktarımı yok).
-- Fluo çerez kullanmıyor; analiz aracı eklenirse Çerez sayfası güncellenmeli (Google Analytics seçilirse onay penceresi gerekir).
+- Fluo çerez kullanmıyor. Ziyaret istatistikleri: Umami (çerezsiz, anonim, DNT saygılı; yalnızca fluo-english.com). Olaylar: sayfa geçişi, seviye-testi, deste-turu, yarisma, unite-sinavi, bolum-testi, kayit, giris, uygulama-yuklendi.
 - Kayıt ve giriş ekranında Kullanım Koşulları ve Aydınlatma Metni bağlantıları; destek formunda aydınlatma notu var.
 - Hesap silme şimdilik destek talebiyle (30 gün içinde). İleride "Hesabımı sil" düğmesi eklenebilir (Supabase Edge Function ile).

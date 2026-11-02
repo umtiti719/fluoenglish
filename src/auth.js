@@ -273,9 +273,9 @@ async function submitAuth(){
   AUTH.busy=true;AUTH.msg=null;renderAccount();
   const A=AUTH.sb.auth;let r;
   try{
-    if(m==="login"){r=await A.signInWithPassword({email,password:pw});if(r.error)throw r.error;AUTH.busy=false;AUTH.msg=null;return}
+    if(m==="login"){r=await A.signInWithPassword({email,password:pw});if(r.error)throw r.error;trk("giris",{yol:"sifre"});AUTH.busy=false;AUTH.msg=null;return}
     if(m==="signup"){
-      r=await A.signUp({email,password:pw,options:{data:name?{full_name:name}:{},emailRedirectTo:SITE_URL}});if(r.error)throw r.error;
+      r=await A.signUp({email,password:pw,options:{data:name?{full_name:name}:{},emailRedirectTo:SITE_URL}});if(r.error)throw r.error;trk("kayit");
       AUTH.busy=false;
       if(!r.data.session){
         // Supabase, var olan bir e-posta için de hata vermeden döner; kimlik listesi boşsa hesap zaten vardır

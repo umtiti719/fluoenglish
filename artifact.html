@@ -6021,6 +6021,7 @@ function lgDocs(){
     '<li><b>Supabase</b> (Supabase Inc.): üyelik, giriş ve ilerleme kaydı için veritabanı ve kimlik doğrulama hizmeti. Sunucular İrlanda\'da (Avrupa Birliği) bulunur.</li>'+
     '<li><b>GitHub Pages</b> (GitHub Inc., ABD): sitenin barındırılması. Siteye her girişte IP adresi ve tarayıcı bilgisi gibi teknik bağlantı kayıtları GitHub sunucularında oluşur.</li>'+
     '<li><b>Google</b> (Google LLC / Google Ireland Ltd.): yalnızca "Google ile devam et" seçeneğini kullanırsan kimlik doğrulama; ayrıca Chrome gibi bazı tarayıcılarda Telaffuz bölümündeki konuşma tanıma, tarayıcının kendi hizmetiyle yapılır.</li>'+
+    '<li><b>Umami</b> (Umami Software, Inc.): ziyaret istatistikleri. Çerez kullanmaz, IP adresini saklamaz ve seni tanımlayacak bir kimlik oluşturmaz; yalnızca hangi bölümlerin ne sıklıkla kullanıldığı anonim olarak sayılır (ör. sayfa geçişleri, seviye testinin tamamlanması). Tarayıcında "İzlenmek istemiyorum" (Do Not Track) ayarı açıksa hiç sayılmazsın.</li>'+
     '<li><b>MyMemory</b> (Translated S.r.l., İtalya): Çeviri bölümüne yazdığın <b>cümleler</b>, makine çevirisi için bu hizmete gönderilir. Bu metinler hesabınla ilişkilendirilmez; kişisel bilgi içeren metinleri çeviriye yazmamanı öneririz.</li></ul>';
   return{
   kvkk:{t:"KVKK Aydınlatma Metni",h:
@@ -6045,7 +6046,7 @@ function lgDocs(){
     '<h3>9. Başvuru</h3><p>Haklarını kullanmak için '+E+' üzerinden, hesabına kayıtlı e-posta adresini belirterek başvurabilirsin. Kimliğini doğrulamak için hesabına kayıtlı e-posta adresinden ek teyit istenebilir. Başvurun en geç 30 gün içinde ücretsiz olarak yanıtlanır. Başvurunun reddedilmesi, yanıtın yetersiz bulunması veya süresinde yanıt verilmemesi hâlinde Kişisel Verileri Koruma Kurulu\'na şikâyette bulunma hakkın saklıdır.</p>'},
   gizlilik:{t:"Gizlilik Politikası",h:
     '<p>Fluo, gelir amacı gütmeyen bireysel bir projedir ve yalnızca öğrenmene yardım etmek için yapıldı; verilerin bundan başka bir amaçla kullanılmaz. Bu sayfa, neyi neden topladığımızı kısaca anlatır. Ayrıntılar için <a href="#yasal">KVKK Aydınlatma Metni</a>\'ne bakabilirsin.</p>'+
-    '<h3>Kısaca</h3><ul><li><b>Reklam yok</b>, verilerini satmıyoruz ve reklam amacıyla paylaşmıyoruz.</li><li><b>Takip çerezi yok.</b> Fluo çerez kullanmaz; ayrıntılar <a href="#yasal-cerez">Çerezler ve Yerel Depolama</a> sayfasında.</li><li><b>Giriş zorunlu değil.</b> Giriş yapmadan kullanırsan ilerlemen sadece kendi cihazında kalır.</li><li><b>Ses kaydı yok.</b> Telaffuz bölümünde söylediklerin kaydedilmez.</li></ul>'+
+    '<h3>Kısaca</h3><ul><li><b>Reklam yok</b>, verilerini satmıyoruz ve reklam amacıyla paylaşmıyoruz.</li><li><b>Takip çerezi yok.</b> Fluo çerez kullanmaz; ziyaret istatistikleri çerezsiz ve anonim olarak tutulur. Ayrıntılar <a href="#yasal-cerez">Çerezler ve Yerel Depolama</a> sayfasında.</li><li><b>Giriş zorunlu değil.</b> Giriş yapmadan kullanırsan ilerlemen sadece kendi cihazında kalır.</li><li><b>Ses kaydı yok.</b> Telaffuz bölümünde söylediklerin kaydedilmez.</li></ul>'+
     '<h3>Giriş yaparsan</h3><p>E-posta adresin, (isteğe bağlı) adın ve öğrenme ilerlemen, cihazların arasında eşitlenebilmesi için Supabase üzerindeki hesabında saklanır. Veritabanındaki her kayıt satır düzeyinde güvenlik kurallarıyla korunur: herkes yalnızca kendi verisini görebilir ve değiştirebilir. Şifren bizim tarafımızdan görülemez; yalnızca şifrelenmiş (hash) hâli kimlik doğrulama hizmetinde tutulur.</p>'+
     '<h3>Üçüncü taraf hizmetler</h3>'+providers+
     '<h3>Bildirimler</h3><p>Tekrar hatırlatması ve pomodoro bildirimleri yalnızca sen açarsan ve tarayıcın izin verirse gösterilir; bu bildirimler cihazında oluşturulur. Pazarlama e-postası göndermeyiz; yalnızca kayıt onayı, giriş bağlantısı ve şifre yenileme gibi hesapla ilgili e-postalar gönderilir.</p>'+
@@ -6065,7 +6066,7 @@ function lgDocs(){
     '<h3>8. Uygulanacak hukuk ve uyuşmazlıklar</h3><p>Bu koşullar Türkiye Cumhuriyeti hukukuna tabidir. Uyuşmazlıklarda genel hükümlere göre yetkili Türkiye Cumhuriyeti mahkemeleri ve icra daireleri yetkilidir; kanundan doğan hakların saklıdır.</p>'+
     '<h3>9. İletişim</h3><p>Sorular için: '+E+'.</p>'},
   cerez:{t:"Çerezler ve Yerel Depolama",h:
-    '<p><b>Fluo çerez (cookie) kullanmaz.</b> Reklam veya takip amaçlı hiçbir araç yoktur. Sitenin çalışması için tarayıcının yerel depolama alanı (localStorage ve uygulama önbelleği) kullanılır. Bu bilgiler senin cihazında tutulur:</p><ul>'+
+    '<p><b>Fluo çerez (cookie) kullanmaz.</b> Reklam aracı ya da seni siteler arasında takip eden bir araç yoktur. Sitenin çalışması için tarayıcının yerel depolama alanı (localStorage ve uygulama önbelleği) kullanılır. Bu bilgiler senin cihazında tutulur:</p><ul>'+
       '<li><b>İlerleme ve ayarlar:</b> öğrendiğin kelimeler, Defterim, sonuçların, tema ve ses ayarların. Giriş yapmadıysan bu bilgiler yalnızca bu cihazda kalır.</li>'+
       '<li><b>Oturum:</b> giriş yaptıysan, oturumunu açık tutmak için kimlik doğrulama hizmetinin oluşturduğu oturum anahtarı.</li>'+
       '<li><b>Çeviri geçmişi:</b> son aramaların ve hızlı yanıt için daha önce çevrilen metinler.</li>'+
@@ -6073,7 +6074,7 @@ function lgDocs(){
       '<li><b>Çevrimdışı kullanım:</b> siteyi internetsiz açabilmen için sayfa, yazı tipi, ses ve sözlük dosyalarının önbellek kopyaları; hatırlatmayı açtıysan hatırlatma ayarın.</li></ul>'+
     '<p>Sitenin yazı tipi ve sesleri Fluo ile birlikte sunulur; bu dosyalar için üçüncü taraf sunuculara bağlanılmaz.</p>'+
     '<h3>Bu verileri silmek</h3><p>Ayarlar → Veriler bölümünden çeviri geçmişini veya tüm ilerlemeni silebilirsin. Tarayıcının ayarlarından bu site için depolanan verileri temizleyerek her şeyi silebilirsin. Giriş yaptıysan hesabındaki kopya ayrıca saklanır; onun silinmesi için <a href="#yasal-gizlilik">Gizlilik Politikası</a>\'ndaki adımları izle.</p>'+
-    '<p>İleride ziyaretçi istatistikleri için bir analiz aracı eklenirse bu sayfa güncellenecek ve gerekiyorsa onayın alınacaktır.</p>'}
+    '<h3>Ziyaret istatistikleri</h3><p>Fluo\'nun hangi bölümlerinin kullanıldığını anlamak için çerezsiz çalışan <b>Umami</b> kullanılır. Umami cihazına çerez ya da kalıcı bir kimlik yazmaz, IP adresini saklamaz; sayımlar anonimdir. Tarayıcında "İzlenmek istemiyorum" (Do Not Track) ayarı açıksa sayım yapılmaz.</p>'}
   };
 }
 function renderLegal(tab){
@@ -6363,7 +6364,7 @@ function renderExam(){
 function finishExam(){
   const t={};let ok=0;
   EX.qs.forEach((it,i)=>{const r=EX.pick[i]===it.q[2];t[it.tid]=(t[it.tid]||0)+(r?1:0);if(r)ok++});
-  P.exam=P.exam||{};const prev=P.exam[EX.lv];
+  trk("unite-sinavi",{seviye:EX.lv});P.exam=P.exam||{};const prev=P.exam[EX.lv];
   P.exam[EX.lv]={at:Date.now(),ok,n:EX.qs.length,t,best:Math.max(ok,prev?prev.best||prev.ok:0)};
   save();EX.done=true;
   try{history.replaceState(null,"","#sinav-"+EX.lv.toLowerCase()+"-sonuc")}catch(e){}
@@ -6538,7 +6539,7 @@ function ttRender(){
   if($("ttTop"))$("ttTop").onclick=()=>window.scrollTo({top:0,behavior:reduceMotion()?"auto":"smooth"});
 }
 function ttFinish(){
-  const t=TT.t,n=TT.items.length,ok=TT.items.filter((it,i)=>TT.pick[i]===it.right).length;
+  trk("bolum-testi",{konu:TT.t.id});const t=TT.t,n=TT.items.length,ok=TT.items.filter((it,i)=>TT.pick[i]===it.right).length;
   P.ttest=P.ttest||{};const prev=P.ttest[t.id];
   P.ttest[t.id]={best:Math.max(ok,prev?prev.best:0),last:ok,n,at:Date.now(),runs:(prev?prev.runs||1:0)+1};
   if(ok/n>=.6){const g=P.gram[t.id]||{best:0,total:t.quiz.length,done:false};P.gram[t.id]={...g,done:true}}
@@ -7191,7 +7192,7 @@ if(PWA.ok){
   navigator.serviceWorker.addEventListener("message",e=>{const d=e.data||{};if(d.type==="dl"){PWA.dl=d;if(d.n>=d.total){try{localStorage.setItem(BRAND.id+"_offline","1")}catch(x){}toast("Çevrimdışı kullanım hazır")}if(lastHash==="ayarlar")renderAppStatus()}});
 }
 window.addEventListener("beforeinstallprompt",e=>{e.preventDefault();PWA.prompt=e;if(lastHash==="ayarlar")renderSettings()});
-window.addEventListener("appinstalled",()=>{PWA.installed=true;PWA.prompt=null;toast("Fluo ana ekrana eklendi")});
+window.addEventListener("appinstalled",()=>{trk("uygulama-yuklendi");PWA.installed=true;PWA.prompt=null;toast("Fluo ana ekrana eklendi")});
 const isIOS=()=>/iphone|ipad|ipod/i.test(navigator.userAgent)||(navigator.platform==="MacIntel"&&navigator.maxTouchPoints>1);
 
 /* ---------- Hatırlatma ---------- */
@@ -7500,7 +7501,7 @@ function m2YazDone(ok){
 /* ---------- Bitiş ---------- */
 function m2Finish(early){
   if(!G2)return;clearInterval(G2.tick);clearTimeout(G2.tm);G2.tick=null;
-  const m=G2.mode,k=G2.k,key=m2Key(m,k),M=QMODES[m],prev=m2Best(m,k);
+  const m=G2.mode,k=G2.k,key=m2Key(m,k),M=QMODES[m],prev=m2Best(m,k);trk("yarisma",{mod:m,seviye:k});
   let score=G2.score,valid=true;
   if(m==="eslestir"){score=Math.floor((Date.now()-G2.start)/1000)+G2.pen;valid=G2.round>=3&&G2.done===5&&!early}
   if(m==="yaz"&&early)valid=G2.i>0;
@@ -7545,6 +7546,12 @@ function renderModeBar(){
 /* ================= MARKA =================
    Uygulamada görünen ad ve logo: Fluo. Dışarıya dönük kimlik (web adresi, e-posta, depo, kayıt anahtarları): fluoenglish. */
 const BRAND={name:"Fluo",id:"fluoenglish",site:"fluo-english.com",email:"iletisim@fluo-english.com",github:"github.com/umtiti719/fluoenglish"};
+
+/* ================= ZİYARET İSTATİSTİKLERİ (Umami) =================
+   Çerezsiz ve anonim. Yalnızca fluo-english.com'da çalışır (index.html'deki betik); sayfa geçişleri ve birkaç önemli işlem sayılır. */
+function trk(name,data){try{if(window.umami&&typeof umami.track==="function")umami.track(name,data)}catch(e){}}
+window.addEventListener("load",()=>setTimeout(()=>trkPage(lastHash||"ana"),0)); /* ilk sayfa: betik yüklendikten sonra */
+function trkPage(h){try{if(window.umami&&typeof umami.track==="function")umami.track(p=>Object.assign({},p,{url:"/"+h,title:"Fluo · "+h}))}catch(e){}}
 
 /* ================= YARDIMCILAR ================= */
 const $=id=>document.getElementById(id);
@@ -7738,7 +7745,7 @@ function route(){
   let h=(location.hash.slice(1)||"ana").toLowerCase();
   if(/^(cevir|metin|okuma)/.test(h))loadDict().catch(()=>{});
   if(h==="ceviri"){location.replace("#metin");return}
-  if(h===lastHash)return;lastHash=h;
+  if(h===lastHash)return;lastHash=h;trkPage(h);
   if(h!=="yarisma"){pauseGame();m2Stop();$("game2").hidden=true}
   RD.playing=false;if(h!=="telaffuz")prStop();DG.play=-1;
   prefetchAudio(h);
@@ -7938,7 +7945,7 @@ function judge(knew){
   setTimeout(()=>{judging=false;S.i++;if(S.i>=S.order.length){S.done=true;showDeckEnd()}else showCard()},reduceMotion()?0:280);
 }
 function showDeckEnd(){
-  const d=S.deck;$("dOk").textContent=S.known.length;$("dRev").textContent=S.rev.length;
+  const d=S.deck;trk("deste-turu",{deste:d.id});$("dOk").textContent=S.known.length;$("dRev").textContent=S.rev.length;
   $("dTitle").textContent=d.id==="tekrar"?"Bugünkü tekrar bitti":S.rev.length?"Bu tur bitti":"Harika! Hepsini biliyorsun";
   $("dRestart").textContent=DECKS.includes(d)?"Yeni kelimelerle devam et":"Baştan çalış";
   $("dQuiz").hidden=d.words.length<4;
@@ -8143,7 +8150,7 @@ $("jPass").onclick=()=>{
 $("gSpeak").onclick=e=>speak($("gWord").textContent,e.currentTarget);
 $("gQuit").onclick=()=>{stopTimer();clearTimeout(G.tm);finish()};
 function finish(){
-  stopTimer();clearTimeout(G.tm);G.active=false;G.phase="end";setTimeout(setFocus,0);
+  stopTimer();clearTimeout(G.tm);G.active=false;G.phase="end";setTimeout(setFocus,0);trk("yarisma",{mod:"klasik",seviye:G.cfg.key});
   const k=G.cfg.key,best=P.best[k]||0,isRec=G.pts>best&&G.pts>0;if(isRec){P.best[k]=G.pts}
   P.qhist=(P.qhist||[]).concat([{t:Date.now(),k,n:G.cfg.name,c:G.cfg.cefr,p:G.pts,ok:G.ok,q:G.Q,r:isRec?1:0}]).slice(-20);save();
   $("eLevel").textContent=G.cfg.name+" · "+G.cfg.cefr;
@@ -8801,6 +8808,7 @@ function finishTest(){
   const per=[0,1,2,3,4].map(lv=>{const a=T.ans.filter(x=>x.q.lv===lv);return{n:a.length,ok:a.filter(x=>x.ok).length}});
   const th=estTheta(T.ans),level=thetaLevel(th),pre=(th-IRT.off)<-.5||(per[0].n>0&&per[0].ok/per[0].n<.5);
   const skills={};Object.keys(SKILLS).forEach(k=>{const a=T.ans.filter(x=>x.q.sk===k);skills[k]=a.length?Math.round(a.filter(x=>x.ok).length/a.length*100):null});
+  trk("seviye-testi",{seviye:CEFR[level]?CEFR[level].code:level});
   P.level={idx:level,pre,skills,date:Date.now(),n:T.ans.length,ok:T.ans.filter(a=>a.ok).length,
     review:T.ans.map(x=>[TESTQ.indexOf(x.q),x.pick])};save();T.rf="all";
   T.phase="result";renderTest();window.scrollTo({top:0});
@@ -9184,9 +9192,9 @@ async function submitAuth(){
   AUTH.busy=true;AUTH.msg=null;renderAccount();
   const A=AUTH.sb.auth;let r;
   try{
-    if(m==="login"){r=await A.signInWithPassword({email,password:pw});if(r.error)throw r.error;AUTH.busy=false;AUTH.msg=null;return}
+    if(m==="login"){r=await A.signInWithPassword({email,password:pw});if(r.error)throw r.error;trk("giris",{yol:"sifre"});AUTH.busy=false;AUTH.msg=null;return}
     if(m==="signup"){
-      r=await A.signUp({email,password:pw,options:{data:name?{full_name:name}:{},emailRedirectTo:SITE_URL}});if(r.error)throw r.error;
+      r=await A.signUp({email,password:pw,options:{data:name?{full_name:name}:{},emailRedirectTo:SITE_URL}});if(r.error)throw r.error;trk("kayit");
       AUTH.busy=false;
       if(!r.data.session){
         // Supabase, var olan bir e-posta için de hata vermeden döner; kimlik listesi boşsa hesap zaten vardır

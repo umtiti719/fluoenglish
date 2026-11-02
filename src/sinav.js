@@ -54,7 +54,7 @@ function renderExam(){
 function finishExam(){
   const t={};let ok=0;
   EX.qs.forEach((it,i)=>{const r=EX.pick[i]===it.q[2];t[it.tid]=(t[it.tid]||0)+(r?1:0);if(r)ok++});
-  P.exam=P.exam||{};const prev=P.exam[EX.lv];
+  trk("unite-sinavi",{seviye:EX.lv});P.exam=P.exam||{};const prev=P.exam[EX.lv];
   P.exam[EX.lv]={at:Date.now(),ok,n:EX.qs.length,t,best:Math.max(ok,prev?prev.best||prev.ok:0)};
   save();EX.done=true;
   try{history.replaceState(null,"","#sinav-"+EX.lv.toLowerCase()+"-sonuc")}catch(e){}

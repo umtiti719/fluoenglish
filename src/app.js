@@ -2,6 +2,12 @@
    Uygulamada görünen ad ve logo: Fluo. Dışarıya dönük kimlik (web adresi, e-posta, depo, kayıt anahtarları): fluoenglish. */
 const BRAND={name:"Fluo",id:"fluoenglish",site:"fluo-english.com",email:"iletisim@fluo-english.com",github:"github.com/umtiti719/fluoenglish"};
 
+/* ================= ZİYARET İSTATİSTİKLERİ (Umami) =================
+   Çerezsiz ve anonim. Yalnızca fluo-english.com'da çalışır (index.html'deki betik); sayfa geçişleri ve birkaç önemli işlem sayılır. */
+function trk(name,data){try{if(window.umami&&typeof umami.track==="function")umami.track(name,data)}catch(e){}}
+window.addEventListener("load",()=>setTimeout(()=>trkPage(lastHash||"ana"),0)); /* ilk sayfa: betik yüklendikten sonra */
+function trkPage(h){try{if(window.umami&&typeof umami.track==="function")umami.track(p=>Object.assign({},p,{url:"/"+h,title:"Fluo · "+h}))}catch(e){}}
+
 /* ================= YARDIMCILAR ================= */
 const $=id=>document.getElementById(id);
 const esc=s=>String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
@@ -194,7 +200,7 @@ function route(){
   let h=(location.hash.slice(1)||"ana").toLowerCase();
   if(/^(cevir|metin|okuma)/.test(h))loadDict().catch(()=>{});
   if(h==="ceviri"){location.replace("#metin");return}
-  if(h===lastHash)return;lastHash=h;
+  if(h===lastHash)return;lastHash=h;trkPage(h);
   if(h!=="yarisma"){pauseGame();m2Stop();$("game2").hidden=true}
   RD.playing=false;if(h!=="telaffuz")prStop();DG.play=-1;
   prefetchAudio(h);
@@ -394,7 +400,7 @@ function judge(knew){
   setTimeout(()=>{judging=false;S.i++;if(S.i>=S.order.length){S.done=true;showDeckEnd()}else showCard()},reduceMotion()?0:280);
 }
 function showDeckEnd(){
-  const d=S.deck;$("dOk").textContent=S.known.length;$("dRev").textContent=S.rev.length;
+  const d=S.deck;trk("deste-turu",{deste:d.id});$("dOk").textContent=S.known.length;$("dRev").textContent=S.rev.length;
   $("dTitle").textContent=d.id==="tekrar"?"Bugünkü tekrar bitti":S.rev.length?"Bu tur bitti":"Harika! Hepsini biliyorsun";
   $("dRestart").textContent=DECKS.includes(d)?"Yeni kelimelerle devam et":"Baştan çalış";
   $("dQuiz").hidden=d.words.length<4;
@@ -599,7 +605,7 @@ $("jPass").onclick=()=>{
 $("gSpeak").onclick=e=>speak($("gWord").textContent,e.currentTarget);
 $("gQuit").onclick=()=>{stopTimer();clearTimeout(G.tm);finish()};
 function finish(){
-  stopTimer();clearTimeout(G.tm);G.active=false;G.phase="end";setTimeout(setFocus,0);
+  stopTimer();clearTimeout(G.tm);G.active=false;G.phase="end";setTimeout(setFocus,0);trk("yarisma",{mod:"klasik",seviye:G.cfg.key});
   const k=G.cfg.key,best=P.best[k]||0,isRec=G.pts>best&&G.pts>0;if(isRec){P.best[k]=G.pts}
   P.qhist=(P.qhist||[]).concat([{t:Date.now(),k,n:G.cfg.name,c:G.cfg.cefr,p:G.pts,ok:G.ok,q:G.Q,r:isRec?1:0}]).slice(-20);save();
   $("eLevel").textContent=G.cfg.name+" · "+G.cfg.cefr;
@@ -1257,6 +1263,7 @@ function finishTest(){
   const per=[0,1,2,3,4].map(lv=>{const a=T.ans.filter(x=>x.q.lv===lv);return{n:a.length,ok:a.filter(x=>x.ok).length}});
   const th=estTheta(T.ans),level=thetaLevel(th),pre=(th-IRT.off)<-.5||(per[0].n>0&&per[0].ok/per[0].n<.5);
   const skills={};Object.keys(SKILLS).forEach(k=>{const a=T.ans.filter(x=>x.q.sk===k);skills[k]=a.length?Math.round(a.filter(x=>x.ok).length/a.length*100):null});
+  trk("seviye-testi",{seviye:CEFR[level]?CEFR[level].code:level});
   P.level={idx:level,pre,skills,date:Date.now(),n:T.ans.length,ok:T.ans.filter(a=>a.ok).length,
     review:T.ans.map(x=>[TESTQ.indexOf(x.q),x.pick])};save();T.rf="all";
   T.phase="result";renderTest();window.scrollTo({top:0});
