@@ -5,7 +5,7 @@
    Not: Bu metinler genel bir taslaktır, hukuki danışmanlık değildir; yayından önce bir hukukçuya kontrol ettirilmelidir. */
 var LEGAL_INFO={
   name:"",   /* isteğe bağlı: geliştiricinin adı soyadı */
-  email:"",  /* isteğe bağlı: KVKK başvuruları için okunan bir e-posta */
+  email:"iletisim@fluo-english.com",  /* isteğe bağlı: KVKK başvuruları için okunan bir e-posta */
   updated:"28 Ekim 2026"
 };
 var LEGAL_TABS=[["kvkk","Aydınlatma Metni"],["gizlilik","Gizlilik"],["kosullar","Kullanım Koşulları"],["cerez","Çerezler"]];
