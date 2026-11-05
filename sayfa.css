@@ -31,7 +31,7 @@ table{width:100%;border-collapse:collapse;background:var(--s);border:1px solid v
 th,td{text-align:left;padding:9px 12px;border-bottom:1px solid var(--line);vertical-align:top}
 th{background:var(--s2);font-size:.85rem}
 .ex p{margin:0}
-.ex small{color:var(--mut);display:block}
+.ex small,.tr{color:var(--mut);display:block;font-size:.92rem}
 .mis .no{color:var(--no);text-decoration:line-through}
 .mis .ok{color:var(--ok);font-weight:600}
 .mis small{display:block;color:var(--mut)}

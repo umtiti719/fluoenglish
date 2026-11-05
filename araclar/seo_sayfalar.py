@@ -105,7 +105,7 @@ table{width:100%;border-collapse:collapse;background:var(--s);border:1px solid v
 th,td{text-align:left;padding:9px 12px;border-bottom:1px solid var(--line);vertical-align:top}
 th{background:var(--s2);font-size:.85rem}
 .ex p{margin:0}
-.ex small{color:var(--mut);display:block}
+.ex small,.tr{color:var(--mut);display:block;font-size:.92rem}
 .mis .no{color:var(--no);text-decoration:line-through}
 .mis .ok{color:var(--ok);font-weight:600}
 .mis small{display:block;color:var(--mut)}
@@ -134,17 +134,19 @@ summary{cursor:pointer;font-weight:700}
 '''
 
 
-def grammar_page(g, lv_name, prev, nxt):
+def grammar_page(g, lv_name, prev, nxt, T=None):
+    T = T or {}
+    tr = lambda k: f'<small class="tr">{e(T[k])}</small>' if k in T else ''
     b = [f'<p><span class="pill">{e(g["level"])} · {e(lv_name)}</span></p>',
          f'<h1>{e(g["title"])} konu anlatımı</h1>',
          f'<p class="sub">{e(g["sub"])} · {e(g["tr"])}</p>',
          f'<p class="lead">{bold(g["intro"])}</p>']
     if g.get('uses'):
         b.append('<h2>Ne zaman kullanılır?</h2><ul class="uses">' + ''.join(
-            '<li>' + (f'<strong>{e(u.split(":", 1)[0])}</strong>:{bold(u.split(":", 1)[1])}' if ':' in u else bold(u)) + '</li>' for u in g['uses']) + '</ul>')
+            '<li>' + (f'<strong>{e(u.split(":", 1)[0])}</strong>:{bold(u.split(":", 1)[1])}' if ':' in u else bold(u)) + tr(u) + '</li>' for u in g['uses']) + '</ul>')
     if g.get('forms'):
         b.append('<h2>Cümle yapısı</h2>' + ''.join(
-            f'<div class="card form"><b>{e(f[0])}</b><code>{e(f[1])}</code><i>{bold(f[2]) if len(f) > 2 else ""}</i></div>' for f in g['forms']))
+            f'<div class="card form"><b>{e(f[0])}</b><code>{e(f[1])}</code><i>{bold(f[2]) if len(f) > 2 else ""}</i>{tr(f[2]) if len(f) > 2 else ""}</div>' for f in g['forms']))
     if g.get('table'):
         t = g['table']
         b.append('<h2>Özet tablo</h2><table><thead><tr>' + ''.join(f'<th>{e(h)}</th>' for h in t['head']) + '</tr></thead><tbody>' +
@@ -217,7 +219,7 @@ def build(root, data):
         write(f'gramer/{g["id"]}', page(f'gramer/{g["id"]}/', f'{g["title"]} konu anlatımı ({g["sub"]}) · İngilizce gramer | Fluo',
                                         short(f'{g["title"]} ({g["tr"]}): {g["intro"]}'),
                                         [('Fluo', ''), ('Gramer', 'gramer/'), (g['title'], f'gramer/{g["id"]}/')],
-                                        grammar_page(g, L.get('name', ''), G[i - 1] if i else None, G[i + 1] if i + 1 < len(G) else None),
+                                        grammar_page(g, L.get('name', ''), G[i - 1] if i else None, G[i + 1] if i + 1 < len(G) else None, data.get('GTR')),
                                         f'/#g-{g["id"]}', 'Alıştırmaları çöz'))
     lst = ''.join(f'<h2>{e(k)} · {e(v["name"])}</h2><p class="sub">{e(v["desc"])}</p><div class="grid">' +
                   ''.join(f'<a href="/gramer/{g["id"]}/"><b>{e(g["title"])}</b><small>{e(g["sub"])} · {e(g["tr"])}</small></a>' for g in G if g['level'] == k) + '</div>'

@@ -1826,3 +1826,7 @@ body.focus .sitefoot{display:none}
 
 /* Telefonda üst çubuk sayfayla birlikte kaysın (sabit kalıp içeriği kapatmasın); alttaki sekme çubuğu sabit kalır */
 @media (max-width:880px){.top{position:relative;top:auto}}
+
+/* Dil bilgisi örneklerinin Türkçeleri */
+.uses li .use-tr{display:block;color:var(--muted);font-size:.9rem;margin-top:3px}
+.form-ex .form-tr{display:block;font-style:normal;font-size:.9rem;opacity:.85;margin-top:2px}

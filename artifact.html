@@ -1830,6 +1830,10 @@ body.focus .sitefoot{display:none}
 /* Telefonda üst çubuk sayfayla birlikte kaysın (sabit kalıp içeriği kapatmasın); alttaki sekme çubuğu sabit kalır */
 @media (max-width:880px){.top{position:relative;top:auto}}
 
+/* Dil bilgisi örneklerinin Türkçeleri */
+.uses li .use-tr{display:block;color:var(--muted);font-size:.9rem;margin-top:3px}
+.form-ex .form-tr{display:block;font-style:normal;font-size:.9rem;opacity:.85;margin-top:2px}
+
 </style>
 
 <header class="top">
@@ -5448,6 +5452,233 @@ Object.assign(EXAM,{
  ["The thieves are believed ___ through the window.",["to escape","to have escaped","escaping","escaped"],1,"Geçmişteki olay: to have + V3."]]
 });
 
+/* Dil bilgisi: "Ne zaman kullanılır?" ve "Cümle yapısı" örneklerinin Türkçeleri.
+   Anahtar: kullanım satırının tamamı ya da cümle yapısı örneği (data-grammar*.js ile birebir aynı metin). */
+var GTR={
+/* to-be */
+"Kimlik ve meslek: I am a teacher.":"Ben öğretmenim.",
+"Yaş, durum ve duygu: She is 20. We are tired.":"O 20 yaşında. Biz yorgunuz.",
+"Yer bildirmek: They are at home.":"Onlar evde.",
+"Özellik anlatmak: The car is red.":"Araba kırmızı.",
+"She is a nurse.":"O bir hemşire.",
+"He is not (isn't) at school.":"O okulda değil.",
+"Are you ready?":"Hazır mısın?",
+/* simple-present */
+"Alışkanlıklar ve rutinler: I get up at 7.":"Saat 7'de kalkarım.",
+"Genel gerçekler: Water boils at 100 °C.":"Su 100 °C'de kaynar.",
+"Sabit durumlar: She lives in Ankara.":"O Ankara'da yaşıyor.",
+"Tarifeler ve programlar: The train leaves at 9.":"Tren saat 9'da kalkar.",
+"She works in a bank.":"O bir bankada çalışıyor.",
+"He doesn't eat meat.":"O et yemez.",
+"Do you like coffee?":"Kahve sever misin?",
+/* articles */
+"a + ünsüz sesle başlayan kelime: a book, a university":"bir kitap, bir üniversite",
+"an + ünlü sesle başlayan kelime: an apple, an hour":"bir elma, bir saat",
+"the + belirli, daha önce bahsedilen ya da tek olan şeyler: the sun, the book on the table":"güneş, masanın üstündeki kitap",
+"Genel anlamdaki çoğul ve sayılamayan isimlerde tanımlık kullanılmaz: I like cats.":"Kedileri severim.",
+/* there-is */
+"Tekil ve sayılamayan isimler: There is a cat. There is some milk.":"Bir kedi var. Biraz süt var.",
+"Çoğul isimler: There are three chairs.":"Üç sandalye var.",
+"Olumsuz: There isn't / There aren't any…":"Hiç … yok.",
+"Soru: Is there…? / Are there…?":"… var mı?",
+"There is a bank near here.":"Buraya yakın bir banka var.",
+"There aren't any eggs.":"Hiç yumurta yok.",
+"Is there a pharmacy nearby?":"Yakınlarda bir eczane var mı?",
+/* can */
+"Yetenek: I can swim.":"Yüzebilirim.",
+"İzin istemek: Can I open the window?":"Pencereyi açabilir miyim?",
+"Rica: Can you help me?":"Bana yardım edebilir misin?",
+"İmkân: You can buy tickets online.":"Biletleri internetten alabilirsin.",
+"She can speak French.":"O Fransızca konuşabilir.",
+"I can't drive.":"Araba kullanamam.",
+"Can you play the guitar?":"Gitar çalabilir misin?",
+/* possessives */
+"İyelik sıfatı isimden önce gelir: my phone":"benim telefonum",
+"İyelik zamiri ismin yerini tutar: This phone is mine.":"Bu telefon benim.",
+"Kişilere 's eklenir: my mother's bag":"annemin çantası",
+"-s ile biten çoğullara sadece ' eklenir: my parents' house":"annemle babamın evi",
+/* question-words */
+"What: ne? — What is your name?":"Adın ne?",
+"Where: nerede, nereye? — Where do you live?":"Nerede yaşıyorsun?",
+"When: ne zaman? — When does the film start?":"Film ne zaman başlıyor?",
+"Who: kim? — Who is that man?":"Şu adam kim?",
+"Why: neden? — Why are you late?":"Neden geç kaldın?",
+"How: nasıl? — How do you go to school?":"Okula nasıl gidiyorsun?",
+"Where is the station?":"İstasyon nerede?",
+"What do you want?":"Ne istiyorsun?",
+"When did you arrive?":"Ne zaman geldin?",
+/* present-continuous */
+"Şu an olanlar: I am studying now.":"Şu an ders çalışıyorum.",
+"Bu aralar süren durumlar: She is learning Spanish this year.":"Bu yıl İspanyolca öğreniyor.",
+"Kesinleşmiş yakın gelecek planları: We are meeting at 6 tomorrow.":"Yarın 6'da buluşuyoruz.",
+"Değişen durumlar: Prices are rising.":"Fiyatlar yükseliyor.",
+"They are playing football.":"Onlar futbol oynuyor.",
+"I'm not working today.":"Bugün çalışmıyorum.",
+"Is it raining?":"Yağmur yağıyor mu?",
+/* simple-past */
+"Geçmişte belirli bir zamanda biten olaylar: I visited Rome in 2022.":"2022'de Roma'yı ziyaret ettim.",
+"Sırayla olan geçmiş olaylar: He came home, ate and slept.":"Eve geldi, yemek yedi ve uyudu.",
+"Geçmişteki alışkanlıklar: We played outside every day.":"Her gün dışarıda oynardık.",
+"She watched a film.":"Bir film izledi.",
+"I didn't see him.":"Onu görmedim.",
+"Did you go out?":"Dışarı çıktın mı?",
+/* comparatives */
+"İki şeyi karşılaştırmak: Ankara is colder than Izmir.":"Ankara İzmir'den daha soğuktur.",
+"Bir grupta en üstün olan: This is the best day of my life.":"Bu, hayatımın en güzel günü.",
+"Eşitlik: She is as tall as her mother.":"O, annesi kadar uzun.",
+/* future */
+"will → anlık karar: I'm thirsty. I'll get some water.":"Susadım. Biraz su alayım.",
+"will → tahmin ve fikir: I think it will rain tomorrow.":"Bence yarın yağmur yağacak.",
+"will → söz ve teklif: I'll help you.":"Sana yardım ederim.",
+"going to → plan: I'm going to study medicine.":"Tıp okuyacağım.",
+"going to → kanıta dayalı tahmin: Look at the clouds! It's going to rain.":"Bulutlara bak! Yağmur yağacak.",
+"She will be famous one day.":"Bir gün ünlü olacak.",
+"I won't tell anyone.":"Kimseye söylemeyeceğim.",
+"We are going to buy a house.":"Bir ev alacağız.",
+/* countable */
+"some → olumlu cümleler ve ikramlar: Would you like some tea?":"Biraz çay ister misin?",
+"any → olumsuz cümleler ve sorular: Do you have any questions?":"Hiç sorunuz var mı?",
+/* adverbs-frequency */
+"Alışkanlıklar: I usually get up at seven.":"Genellikle yedide kalkarım.",
+"Ne sıklıkla olduğu: She never eats meat.":"O asla et yemez.",
+"How often? sorusuna cevap: How often do you exercise? — Twice a week.":"Ne sıklıkla spor yaparsın? — Haftada iki kez.",
+"I often walk to work.":"İşe sık sık yürüyerek giderim.",
+"He is always late.":"O hep geç kalır.",
+"How often do you go swimming?":"Ne sıklıkla yüzmeye gidersin?",
+/* used-to */
+"Eski alışkanlıklar: I used to play football every day.":"Eskiden her gün futbol oynardım.",
+"Eskiden geçerli olan durumlar: There used to be a cinema here.":"Eskiden burada bir sinema vardı.",
+"Değişimi vurgulamak: She used to be shy, but now she's very confident.":"Eskiden utangaçtı ama şimdi kendine çok güveniyor.",
+"I used to live in Ankara.":"Eskiden Ankara'da yaşardım.",
+"He didn't use to like vegetables.":"Eskiden sebze sevmezdi.",
+"Did you use to have long hair?":"Eskiden saçların uzun muydu?",
+/* present-perfect */
+"Hayat deneyimleri: I have been to Paris twice.":"Paris'e iki kez gittim.",
+"Yeni bitmiş ve etkisi süren olaylar: I've lost my keys (şu an yok).":"Anahtarlarımı kaybettim.",
+"Geçmişte başlayıp hâlâ süren durumlar: She has lived here since 2015.":"2015'ten beri burada yaşıyor.",
+"Henüz bitmemiş zaman dilimleri: I've drunk three coffees today.":"Bugün üç kahve içtim.",
+"He has finished his project.":"Projesini bitirdi.",
+"I haven't seen that film.":"O filmi görmedim.",
+"Have you ever eaten sushi?":"Hiç suşi yedin mi?",
+/* past-continuous */
+"Geçmişte belirli bir anda süren iş: At 8 pm I was having dinner.":"Akşam 8'de yemek yiyordum.",
+"Kesilen olay: I was sleeping when the phone rang.":"Telefon çaldığında uyuyordum.",
+"Aynı anda süren iki olay: She was cooking while he was reading.":"O okurken kadın yemek yapıyordu.",
+"Hikâyelerde arka plan: The sun was shining…":"Güneş parlıyordu…",
+"They were playing cards.":"Kâğıt oynuyorlardı.",
+"I wasn't listening.":"Dinlemiyordum.",
+"What were you doing?":"Ne yapıyordun?",
+/* passive */
+"İşi yapan bilinmiyor: My wallet was stolen.":"Cüzdanım çalındı.",
+"İşi yapan önemsiz ya da belli: English is spoken here.":"Burada İngilizce konuşulur.",
+"Resmî ve bilimsel anlatım: The results were analysed.":"Sonuçlar analiz edildi.",
+"İşi yapanı belirtmek istersek \"by\" kullanılır: written by Orhan Pamuk":"Orhan Pamuk tarafından yazılmış",
+/* gerund-infinitive */
+"Edatlardan sonra her zaman -ing: I'm interested in learning Korean.":"Korece öğrenmekle ilgileniyorum.",
+"Cümlenin öznesi olarak -ing: Swimming is good for you.":"Yüzmek sana iyi gelir.",
+"Amaç bildirmek için to: I went out to buy bread.":"Ekmek almak için dışarı çıktım.",
+/* question-tags */
+"Onay almak: It's cold today, isn't it?":"Bugün hava soğuk, değil mi?",
+"Emin olmadığımız şeyi sormak (yükselen ton): You're coming, aren't you?":"Geliyorsun, değil mi?",
+"Sohbeti sürdürmek: That was a great film, wasn't it?":"Harika bir filmdi, değil mi?",
+"You like pizza, don't you?":"Pizza seversin, değil mi?",
+"She isn't here, is she?":"O burada değil, değil mi?",
+"I'm late, aren't I?":"Geç kaldım, değil mi?",
+/* too-enough */
+"Fazlalık ve olumsuz sonuç: This coffee is too hot to drink.":"Bu kahve içilemeyecek kadar sıcak.",
+"Yeterlilik: She is old enough to drive.":"Araba kullanacak yaşta.",
+"Yetersizlik: We don't have enough time.":"Yeterince zamanımız yok.",
+"The box is too heavy to carry.":"Kutu taşınamayacak kadar ağır.",
+"He isn't tall enough to reach the shelf.":"Rafa uzanacak kadar uzun değil.",
+"Do we have enough chairs?":"Yeterince sandalyemiz var mı?",
+/* be-used-to */
+"Alışkın olmak: I'm used to working at night.":"Gece çalışmaya alışkınım.",
+"Alışmak (süreç): You'll soon get used to the weather here.":"Buranın havasına yakında alışırsın.",
+"Alışkın olmamak: She isn't used to spicy food.":"Acılı yemeğe alışkın değil.",
+"They are used to the noise.":"Gürültüye alışkınlar.",
+"She got used to living alone.":"Yalnız yaşamaya alıştı.",
+"I'm not used to waking up early.":"Erken kalkmaya alışkın değilim.",
+/* past-perfect */
+"Geçmişteki bir olaydan daha önce olan: When I arrived, the film had started.":"Vardığımda film başlamıştı.",
+"Pişmanlık ve geçmişle ilgili koşullar: I wish I had studied.":"Keşke ders çalışsaydım.",
+"Dolaylı anlatımda: She said she had seen it.":"Onu gördüğünü söyledi.",
+"They had left.":"Gitmişlerdi.",
+"I hadn't eaten all day.":"Bütün gün yemek yememiştim.",
+"Had you met her before?":"Onunla daha önce tanışmış mıydın?",
+/* third-conditional */
+"If I had studied, I would have passed.":"Ders çalışsaydım geçerdim.",
+"If she hadn't helped, we wouldn't have finished.":"O yardım etmeseydi bitiremezdik.",
+/* reported-speech */
+"say + (that) cümle: She said (that) she was busy.":"Meşgul olduğunu söyledi.",
+"tell + kişi + (that): He told me (that) he was busy.":"Bana meşgul olduğunu söyledi.",
+"Sorular düz cümle sırasına girer: She asked where I lived.":"Nerede yaşadığımı sordu.",
+"Evet/hayır soruları: He asked if/whether I was ready.":"Hazır olup olmadığımı sordu.",
+"Emirler: She told me to sit down.":"Bana oturmamı söyledi.",
+/* relative-clauses */
+"Ek bilgi veren (non-defining): Virgülle ayrılır, \"that\" kullanılamaz: My mother, who is a doctor, lives in Izmir.":"Doktor olan annem İzmir'de yaşıyor.",
+"Nesne konumunda zamir düşebilir: The book (that) I read.":"Okuduğum kitap.",
+/* modals-deduction */
+"Neredeyse eminiz (olmalı): She must be tired; she worked all night.":"Yorgun olmalı; bütün gece çalıştı.",
+"Olası (olabilir): He might be at home.":"Evde olabilir.",
+"İmkânsız (olamaz): That can't be true!":"Bu doğru olamaz!",
+"Geçmiş çıkarım: They must have left early.":"Erken gitmiş olmalılar.",
+"He must be hungry.":"Aç olmalı.",
+"She can't have seen us.":"Bizi görmüş olamaz.",
+"They might be sleeping.":"Uyuyor olabilirler.",
+/* causative */
+"Hizmet almak: I had my hair cut yesterday.":"Dün saçımı kestirdim.",
+"Tamir ve bakım: We're getting the car repaired.":"Arabayı tamir ettiriyoruz.",
+"İstenmeyen bir şeyin başımıza gelmesi: He had his wallet stolen.":"Cüzdanını çaldırdı.",
+"I had my car washed.":"Arabamı yıkattım.",
+"She is having her house painted.":"Evini boyatıyor.",
+"We're going to have the kitchen redesigned.":"Mutfağı yeniden tasarlatacağız.",
+/* mixed-conditionals */
+"Geçmiş koşul → şimdiki sonuç: If I had taken the job, I would be rich now.":"O işi kabul etseydim şimdi zengin olurdum.",
+"Şimdiki/kalıcı durum → geçmiş sonuç: If I spoke French, I would have understood the film.":"Fransızca bilseydim filmi anlardım.",
+"Pişmanlık ve hayal: If she hadn't moved, we would still be neighbours.":"O taşınmasaydı hâlâ komşu olurduk.",
+"If I had studied medicine, I would be a doctor now.":"Tıp okusaydım şimdi doktor olurdum.",
+"If I were braver, I would have said something.":"Daha cesur olsaydım bir şey söylerdim.",
+/* inversion */
+"Hiç/asla vurgusu: Never have I seen such a beautiful view.":"Hiç bu kadar güzel bir manzara görmedim.",
+"Nadirlik: Rarely do we get such good weather.":"Böyle güzel bir havaya nadiren denk geliriz.",
+"İkili vurgu: Not only is he clever, but he is also kind.":"Sadece zeki değil, aynı zamanda nazik.",
+"Zaman sırası: No sooner had I sat down than the phone rang.":"Oturur oturmaz telefon çaldı.",
+"Never have I felt so tired.":"Hiç bu kadar yorgun hissetmedim.",
+"Rarely does he complain.":"Nadiren şikâyet eder.",
+/* participle-clauses */
+"Aynı anda olan işler: Walking home, I met an old friend.":"Eve yürürken eski bir arkadaşla karşılaştım.",
+"Sebep: Feeling tired, she went to bed early.":"Yorgun hissettiği için erken yattı.",
+"Önce olan iş: Having finished his work, he left.":"İşini bitirdikten sonra gitti.",
+"Edilgen anlam: Built in 1890, the bridge is still in use.":"1890'da inşa edilen köprü hâlâ kullanılıyor.",
+"Opening the door, she saw a cat.":"Kapıyı açınca bir kedi gördü.",
+"Having read the book, I watched the film.":"Kitabı okuduktan sonra filmi izledim.",
+"Written in 1850, the novel is still popular.":"1850'de yazılan roman hâlâ seviliyor.",
+/* cleft-sentences */
+"Kişiyi/şeyi vurgulamak: It was Ali who broke the window.":"Camı kıran Ali'ydi.",
+"İhtiyacı vurgulamak: What I need is a long holiday.":"İhtiyacım olan şey uzun bir tatil.",
+"Eylemi vurgulamak: What she did was call the police.":"Yaptığı şey polisi aramak oldu.",
+"Zamanı/yeri vurgulamak: It was in 2015 that we met.":"Tanıştığımız yıl 2015'ti.",
+"It was my sister who called.":"Arayan kız kardeşimdi.",
+"What I love is your smile.":"Sevdiğim şey senin gülüşün.",
+"What he did was apologise.":"Yaptığı şey özür dilemek oldu.",
+/* future-perfect */
+"Gelecekte süren iş: This time tomorrow, I'll be flying to London.":"Yarın bu saatte Londra'ya uçuyor olacağım.",
+"Belli bir zamana kadar bitmiş iş: By June, I'll have finished my degree.":"Hazirana kadar okulumu bitirmiş olacağım.",
+"Süre vurgusu: By next year, we'll have been living here for ten years.":"Gelecek yıl burada on yıldır yaşıyor olacağız.",
+"Kibar soru: Will you be using the car tonight?":"Bu akşam arabayı kullanacak mısın?",
+"At 8 pm, I'll be having dinner.":"Akşam 8'de yemek yiyor olacağım.",
+"By 2030, they will have built the bridge.":"2030'a kadar köprüyü inşa etmiş olacaklar.",
+"By May, she'll have been working here for a year.":"Mayısa kadar burada bir yıldır çalışıyor olacak.",
+/* passive-reporting */
+"Genel kanaat: It is believed that the painting is fake.":"Tablonun sahte olduğuna inanılıyor.",
+"Kişi özne olarak: The painting is believed to be fake.":"Tablonun sahte olduğu düşünülüyor.",
+"Geçmişe ait kanaat: He is thought to have left the country.":"Ülkeyi terk ettiği düşünülüyor.",
+"Resmî ve tarafsız üslup: It has been reported that…":"… olduğu bildirildi.",
+"It is said that he is rich.":"Zengin olduğu söyleniyor.",
+"He is said to be rich.":"Zengin olduğu söyleniyor.",
+"He is said to have made a fortune.":"Bir servet kazandığı söyleniyor."
+};
+
 /* Sesli diyaloglar: gerçek hayattan kısa konuşmalar.
    lines: [konuşan, İngilizce, Türkçe, yanlış seçenekler?]  · konuşan "A" = karşıdaki kişi, "S" = sen
    Yanlış seçenek verilen "S" satırları "Sen konuş" bölümünde soru olur. */
@@ -8204,10 +8435,10 @@ function renderTopic(t){
   h+='<header class="thero" data-big="'+esc(t.title)+'"><div class="thero-top"><span class="badge" style="--c:'+L.color+'">'+t.level+' · '+L.name+'</span><span class="note">Konu '+(idx+1)+' / '+GRAMMAR.length+'</span></div>'+
     '<h1>'+esc(t.title)+'</h1><span class="sub">'+esc(t.sub)+' · '+esc(t.tr)+'</span><p>'+esc(t.intro)+'</p></header>';
   if(t.uses){secs.push(["s-uses","Ne zaman kullanılır?"]);
-    h+='<section class="tsec" id="s-uses"><h2>'+ic("bulb")+'Ne zaman kullanılır?</h2><ul class="uses">'+t.uses.map(u=>{const p=u.indexOf(": ");return '<li>'+(p>0?'<em>'+esc(u.slice(0,p))+'</em>: '+esc(u.slice(p+2)):esc(u))+'</li>'}).join("")+'</ul></section>'}
+    h+='<section class="tsec" id="s-uses"><h2>'+ic("bulb")+'Ne zaman kullanılır?</h2><ul class="uses">'+t.uses.map(u=>{const p=u.indexOf(": "),tr=typeof GTR!=="undefined"&&GTR[u];return '<li>'+(p>0?'<em>'+esc(u.slice(0,p))+'</em>: '+esc(u.slice(p+2)):esc(u))+(tr?'<small class="use-tr">'+esc(tr)+'</small>':'')+'</li>'}).join("")+'</ul></section>'}
   if(t.forms){secs.push(["s-forms","Cümle yapısı"]);
     h+='<section class="tsec" id="s-forms"><h2>'+ic("cards")+'Cümle yapısı</h2><div class="forms">'+t.forms.map(f=>'<div class="form"><span class="form-l">'+esc(f[0])+'</span><div class="formula">'+
-      f[1].split(" + ").map((tk,i)=>(i?'<span class="plus">+</span>':'')+'<span class="tok'+(/^(Özne|tamamlayıcı|isim|yer)/i.test(tk)?"":" v")+'">'+esc(tk)+'</span>').join("")+'</div><span class="form-ex">'+esc(f[2])+'</span></div>').join("")+'</div></section>'}
+      f[1].split(" + ").map((tk,i)=>(i?'<span class="plus">+</span>':'')+'<span class="tok'+(/^(Özne|tamamlayıcı|isim|yer)/i.test(tk)?"":" v")+'">'+esc(tk)+'</span>').join("")+'</div><span class="form-ex">'+esc(f[2])+(typeof GTR!=="undefined"&&GTR[f[2]]?'<small class="form-tr">'+esc(GTR[f[2]])+'</small>':'')+'</span></div>').join("")+'</div></section>'}
   if(t.table){secs.push(["s-table","Tablo"]);
     h+='<section class="tsec" id="s-table"><h2>'+ic("book")+'Özet tablo</h2><div class="tbl-wrap"><table class="tbl"><thead><tr>'+t.table.head.map(c=>'<th>'+esc(c)+'</th>').join("")+'</tr></thead><tbody>'+
       t.table.rows.map(r=>'<tr>'+r.map(c=>'<td>'+esc(c)+'</td>').join("")+'</tr>').join("")+'</tbody></table></div></section>'}
