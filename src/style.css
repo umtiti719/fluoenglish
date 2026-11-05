@@ -1833,3 +1833,7 @@ body.focus .sitefoot{display:none}
 
 .ex-ut{border-top:1px dashed var(--line);padding-top:10px;margin-top:4px}
 .ex-ut .note .ic{width:14px;height:14px;vertical-align:-2px;margin-right:4px}
+
+/* Beta etiketi */
+.beta{display:inline-block;align-self:center;font-size:.62rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase;line-height:1;padding:3px 6px 3px;border-radius:99px;
+  color:#fff;background:linear-gradient(110deg,var(--gr1,#4F80EC),var(--gr2,#8A5CF0) 55%,var(--gr3,#EB6D9F));white-space:nowrap}

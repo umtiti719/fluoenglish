@@ -43,7 +43,7 @@ def _hov(line):
     if not line or line[0] in ' @\t' or ':hover' not in line: return line
     return re.sub(r'([^{}]+)\{([^{}]*)\}',lambda m:('@media (hover:hover){'+m.group(0)+'}') if ':hover' in m.group(1) else m.group(0),line)
 css='\n'.join(_hov(l) for l in css.split('\n'))
-js='\n'.join((src/f).read_text() for f in ['config.js','data-quiz.js','data-quiz2.js','data-texts2.js','data-examples.js','data-learn.js','data-learn2.js','data-learn2b.js','data-learn2c.js','data-learn2d.js','data-grammar.js','data-test.js','data-reading.js','data-exam.js','data-grammar-c1.js','data-grammar-tr.js','data-tbank1.js','data-tbank2.js','data-tbank3.js','data-grammar-c2.js','data-dialog.js','data-hatalar.js','data-aile.js','support.js','yasal.js','hedef.js','calismam.js','sinav.js','konutest.js','cumle.js','gunun.js','okuma.js','telaffuz.js','diyalog.js','hatalar.js','buyuksozluk.js','pwa.js','pomodoro.js','yarisma2.js','app.js','auth.js'])
+js='\n'.join((src/f).read_text() for f in ['config.js','data-quiz.js','data-quiz2.js','data-texts2.js','data-examples.js','data-learn.js','data-learn2.js','data-learn2b.js','data-learn2c.js','data-learn2d.js','data-learn-c2.js','data-grammar.js','data-test.js','data-reading.js','data-reading-c2.js','data-exam.js','data-grammar-c1.js','data-grammar-tr.js','data-tbank1.js','data-tbank2.js','data-tbank3.js','data-grammar-c2.js','data-dialog.js','data-hatalar.js','data-aile.js','support.js','yasal.js','hedef.js','calismam.js','sinav.js','konutest.js','cumle.js','gunun.js','okuma.js','telaffuz.js','diyalog.js','hatalar.js','buyuksozluk.js','pwa.js','pomodoro.js','yarisma2.js','app.js','auth.js'])
 js=js.replace('/*AIDX*/{}',json.dumps(aidx,separators=(',',':'))).replace('/*SILENT*/""','"'+silent+'"')
 out=shell.replace('/*CSS*/',css).replace('/*JS*/',js)
 # artifact.html: Claude yayını için (yayın sistemi sayfa iskeletini kendisi ekler)
@@ -51,8 +51,8 @@ out=shell.replace('/*CSS*/',css).replace('/*JS*/',js)
 FAVICON="%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 120 120'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0' y1='1' x2='1' y2='0'%3E%3Cstop offset='0' stop-color='%234F80EC'/%3E%3Cstop offset='.5' stop-color='%238A5CF0'/%3E%3Cstop offset='1' stop-color='%23EB6D9F'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='120' height='120' rx='28' fill='url(%23g)'/%3E%3Cg fill='none' stroke='%23fff' stroke-width='11' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M24 82c6-10 12-10 18 0s12 10 18 0V46c0-13 9-19 22-16'/%3E%3Cpath d='M48 57H76'/%3E%3C/g%3E%3C/svg%3E"
 # Google ve paylaşım önizlemesi (yalnızca index.html; Claude önizlemesi etkilenmez)
 SITE='https://fluo-english.com/'
-TITLE='Fluo · Türkçe anlatımlı ücretsiz İngilizce: kelime, gramer, okuma'
-DESC='Türkçe anlatımlı ücretsiz İngilizce çalışma alanı: 1.400+ örnekli kelime, A1–C2 dil bilgisi, seviye testi, okuma, dinleme, diyaloglar ve kelime yarışmaları.'
+TITLE='Ücretsiz İngilizce Öğren · Türkçe Anlatımlı Kelime, Gramer ve Seviye Testi | Fluo'
+DESC='Ücretsiz İngilizce çalış: Türkçe anlatımlı A1–C2 gramer konuları, 1.400+ örnek cümleli kelime, seviye testi, okuma ve dinleme. Reklamsız, kayıt zorunlu değil.'
 OG=SITE+'icons/og-image.png'
 UMAMI='<script defer src="https://cloud.umami.is/script.js" data-website-id="4d5c94d2-f55d-4985-a1c7-fed7a95657f6" data-domains="fluo-english.com,www.fluo-english.com" data-auto-track="false" data-do-not-track="true"></script>\n'
 SEO=(UMAMI+'<meta name="description" content="'+DESC+'">\n'
@@ -83,7 +83,7 @@ today=datetime.date.today().isoformat()
 (root/'sitemap.xml').write_text('<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n'
   '  <url><loc>'+SITE+'</loc><lastmod>'+today+'</lastmod><changefreq>weekly</changefreq><priority>1.0</priority></url>\n'
   +''.join('  <url><loc>'+SITE+u+'</loc><lastmod>'+today+'</lastmod><priority>'+('0.8' if u.count('/')==1 else '0.6')+'</priority></url>\n' for u in seo_urls)+'</urlset>\n')
-SEOLINKS='<a href="/gramer/">Gramer konu anlatımları</a><a href="/kelime/">Kelime listeleri</a><a href="/okuma/">Okuma metinleri</a>'
+SEOLINKS='<a href="/ingilizce-ogren/">Ücretsiz İngilizce öğren</a><a href="/ingilizce-seviye-testi/">Seviye testi</a><a href="/gramer/">Gramer konu anlatımları</a><a href="/kelime/">Kelime listeleri</a><a href="/okuma/">Okuma metinleri</a>'
 # index.html: tek başına açılan tam sayfa (GitHub, dosyadan açma) — telefon için viewport ayarı dahil
 full=('<!doctype html>\n<html lang="tr">\n<head>\n<meta charset="utf-8">\n'
       '<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">\n'

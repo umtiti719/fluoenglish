@@ -1837,13 +1837,17 @@ body.focus .sitefoot{display:none}
 .ex-ut{border-top:1px dashed var(--line);padding-top:10px;margin-top:4px}
 .ex-ut .note .ic{width:14px;height:14px;vertical-align:-2px;margin-right:4px}
 
+/* Beta etiketi */
+.beta{display:inline-block;align-self:center;font-size:.62rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase;line-height:1;padding:3px 6px 3px;border-radius:99px;
+  color:#fff;background:linear-gradient(110deg,var(--gr1,#4F80EC),var(--gr2,#8A5CF0) 55%,var(--gr3,#EB6D9F));white-space:nowrap}
+
 </style>
 
 <header class="top">
   <div class="top-in">
     <a class="brand" href="#ana">
       <span class="mark" id="logoMark" aria-hidden="true"><svg viewBox="0 0 120 120"><defs><linearGradient id="lg-tile" x1="0" y1="1" x2="1" y2="0"><stop offset="0" class="lg1"></stop><stop offset="0.5" class="lg2"></stop><stop offset="1" class="lg3"></stop></linearGradient></defs><rect width="120" height="120" rx="28" fill="url(#lg-tile)"></rect><g fill="none" stroke="#FFFFFF" stroke-width="11" stroke-linecap="round" stroke-linejoin="round"><path class="lw1" pathLength="100" d="M24 82 c6 -10 12 -10 18 0 s12 10 18 0 V46 c0 -13 9 -19 22 -16"></path><path class="lw2" pathLength="100" d="M48 57 H76"></path></g><path class="lsp" d="M95 15 l3 7.4 7.4 3 -7.4 3 -3 7.4 -3 -7.4 -7.4 -3 7.4 -3 z" fill="#FFFFFF"></path></svg></span>
-      <span class="brand-t"><b>Fluo</b><small>İngilizce çalışma alanın</small></span>
+      <span class="brand-t"><b>Fluo</b><span class="beta" title="Fluo hâlâ geliştiriliyor; hata görürsen Bildir düğmesiyle bize yaz">Beta</span><small>İngilizce çalışma alanın</small></span>
     </a>
     <nav class="nav" id="nav" aria-label="Bölümler"></nav>
     <div class="top-r">
@@ -4288,6 +4292,94 @@ beautiful:[
     var k=w[0].toLowerCase();if(bad[w[0]]||seen[k]||w.length<5)return;seen[k]=1;d.words.push(w)})});
 })();
 
+/* C2 kelime desteleri (sıralama yapıldıktan sonra sona eklenir) */
+(function(){
+var add=[
+{id:"c2-formal",name:"Resmî ve Akademik Dil",en:"Formal & Academic (C2)",level:"C1–C2",icon:"book",hue:"var(--d26)",desc:"Makale, rapor ve resmî yazıların üst düzey kelimeleri: IELTS, YDS, YÖKDİL ve akademik okuma için.",
+ words:[
+  ["notwithstanding","-e rağmen","edat","The project went ahead, **notwithstanding** the objections.","İtirazlara rağmen proje devam etti."],
+  ["hitherto","şimdiye kadar","zarf","The study revealed a **hitherto** unknown species.","Çalışma şimdiye kadar bilinmeyen bir türü ortaya çıkardı."],
+  ["whereby","ki bununla, … sayesinde","zarf","They set up a system **whereby** students can borrow laptops.","Öğrencilerin dizüstü bilgisayar ödünç alabileceği bir sistem kurdular."],
+  ["inherent","doğasında olan","sıfat","There are risks **inherent** in any investment.","Her yatırımın doğasında riskler vardır."],
+  ["ubiquitous","her yerde bulunan","sıfat","Smartphones have become **ubiquitous**.","Akıllı telefonlar her yerde bulunur hâle geldi."],
+  ["paradigm","model, paradigma","isim","The discovery led to a **paradigm** shift in physics.","Keşif fizikte bir paradigma değişimine yol açtı."],
+  ["empirical","deneysel, gözleme dayalı","sıfat","There is little **empirical** evidence for this claim.","Bu iddia için gözleme dayalı çok az kanıt var."],
+  ["ambiguous","belirsiz, iki anlamlı","sıfat","The wording of the contract is **ambiguous**.","Sözleşmenin ifadesi belirsiz."],
+  ["coherent","tutarlı","sıfat","She gave a clear and **coherent** explanation.","Açık ve tutarlı bir açıklama yaptı."],
+  ["contentious","tartışmalı","sıfat","Immigration remains a **contentious** issue.","Göç tartışmalı bir konu olmaya devam ediyor."],
+  ["corroborate","doğrulamak","fiil","Two witnesses **corroborated** his story.","İki tanık onun anlattıklarını doğruladı."],
+  ["discrepancy","tutarsızlık","isim","There is a **discrepancy** between the two reports.","İki rapor arasında bir tutarsızlık var."],
+  ["elucidate","açıklığa kavuşturmak","fiil","Could you **elucidate** your main point?","Ana fikrinizi açıklığa kavuşturabilir misiniz?"],
+  ["exacerbate","kötüleştirmek","fiil","The drought **exacerbated** the food shortage.","Kuraklık gıda kıtlığını kötüleştirdi."],
+  ["feasible","uygulanabilir","sıfat","Is it **feasible** to finish by Friday?","Cumaya kadar bitirmek mümkün mü?"],
+  ["mitigate","hafifletmek","fiil","Trees can **mitigate** the effects of pollution.","Ağaçlar kirliliğin etkilerini hafifletebilir."],
+  ["plausible","akla yatkın","sıfat","His excuse sounded **plausible**.","Bahanesi akla yatkın geliyordu."],
+  ["pragmatic","pratik, gerçekçi","sıfat","We need a **pragmatic** approach to the problem.","Soruna gerçekçi bir yaklaşıma ihtiyacımız var."],
+  ["scrutiny","yakından inceleme","isim","The plan came under close **scrutiny**.","Plan yakından incelemeye tabi tutuldu."],
+  ["substantiate","kanıtlamak","fiil","He could not **substantiate** his allegations.","İddialarını kanıtlayamadı."],
+  ["tentative","geçici, kesin olmayan","sıfat","We made a **tentative** plan to meet in June.","Haziranda buluşmak için kesin olmayan bir plan yaptık."],
+  ["unprecedented","eşi görülmemiş","sıfat","The pandemic caused **unprecedented** disruption.","Salgın eşi görülmemiş bir aksamaya yol açtı."],
+  ["viable","yaşayabilir, uygulanabilir","sıfat","Solar power is now a **viable** alternative.","Güneş enerjisi artık uygulanabilir bir alternatif."],
+  ["intrinsic","özünde olan, içsel","sıfat","Learning has **intrinsic** value.","Öğrenmenin kendi içinde bir değeri vardır."],
+  ["salient","göze çarpan, önemli","sıfat","Let me summarise the **salient** points.","Önemli noktaları özetleyeyim."],
+  ["nuanced","incelikli","sıfat","She has a **nuanced** understanding of the issue.","Konuyu incelikli bir şekilde kavrıyor."],
+  ["juxtapose","yan yana koymak","fiil","The artist **juxtaposes** old and new styles.","Sanatçı eski ve yeni tarzları yan yana koyuyor."],
+  ["paramount","en önemli","sıfat","Safety is **paramount**.","Güvenlik her şeyden önemlidir."],
+  ["inadvertently","istemeden","zarf","I **inadvertently** deleted the file.","Dosyayı istemeden sildim."],
+  ["preclude","engellemek, imkânsız kılmak","fiil","His injury **precludes** him from playing.","Sakatlığı oynamasını engelliyor."],
+  ["commensurate","orantılı","sıfat","Salary will be **commensurate** with experience.","Maaş deneyimle orantılı olacak."],
+  ["delineate","ana hatlarını belirlemek","fiil","The report **delineates** our responsibilities.","Rapor sorumluluklarımızın ana hatlarını belirliyor."],
+  ["predominantly","ağırlıklı olarak","zarf","The audience was **predominantly** young.","İzleyiciler ağırlıklı olarak gençti."],
+  ["proliferation","hızla çoğalma","isim","The **proliferation** of fake news is worrying.","Sahte haberlerin hızla çoğalması endişe verici."],
+  ["reconcile","bağdaştırmak; barıştırmak","fiil","It's hard to **reconcile** work and family life.","İş ve aile hayatını bağdaştırmak zor."],
+  ["tenuous","zayıf, çürük","sıfat","The link between the two events is **tenuous**.","İki olay arasındaki bağlantı zayıf."],
+  ["undermine","zayıflatmak, baltalamak","fiil","Constant criticism can **undermine** confidence.","Sürekli eleştiri özgüveni zayıflatabilir."],
+  ["vindicate","haklı çıkarmak","fiil","The results **vindicated** her decision.","Sonuçlar onun kararını haklı çıkardı."]
+ ]},
+{id:"c2-nuance",name:"İncelikli İfadeler",en:"Nuanced Expressions (C2)",level:"C1–C2",icon:"spark",hue:"var(--d11)",desc:"Anadili İngilizce olanların sık kullandığı kalıplar: konuşmayı doğal ve etkileyici yapan ifadeler.",
+ words:[
+  ["by no means","asla, hiç de değil","kalıp","It is **by no means** an easy task.","Bu hiç de kolay bir iş değil."],
+  ["to all intents and purposes","fiilen, pratikte","kalıp","**To all intents and purposes**, the project is finished.","Pratikte proje bitti."],
+  ["a far cry from","-den çok farklı","kalıp","This flat is **a far cry from** our old house.","Bu daire eski evimizden çok farklı."],
+  ["in the wake of","-in ardından","kalıp","Prices rose **in the wake of** the crisis.","Krizin ardından fiyatlar yükseldi."],
+  ["take for granted","hafife almak, olağan saymak","kalıp","Don't **take** your health **for granted**.","Sağlığını olağan sayma."],
+  ["come to terms with","kabullenmek","kalıp","She finally **came to terms with** the loss.","Sonunda kaybı kabullendi."],
+  ["at stake","tehlikede, söz konusu","kalıp","Millions of jobs are **at stake**.","Milyonlarca iş tehlikede."],
+  ["beside the point","konu dışı","kalıp","Whether it's expensive is **beside the point**.","Pahalı olup olmaması konu dışı."],
+  ["a moot point","tartışmalı/önemsiz hâle gelmiş konu","kalıp","Whether he was right is now **a moot point**.","Haklı olup olmadığı artık önemsiz bir konu."],
+  ["in hindsight","geriye dönüp bakınca","kalıp","**In hindsight**, we should have waited.","Geriye dönüp bakınca beklemeliydik."],
+  ["on the verge of","-in eşiğinde","kalıp","The company is **on the verge of** collapse.","Şirket çöküşün eşiğinde."],
+  ["get to the bottom of","işin aslını öğrenmek","kalıp","We need to **get to the bottom of** this.","Bu işin aslını öğrenmemiz lazım."],
+  ["play it by ear","duruma göre davranmak","kalıp","Let's not plan; we'll **play it by ear**.","Plan yapmayalım; duruma göre davranırız."],
+  ["cut both ways","iki tarafı keskin olmak","kalıp","Freedom of speech **cuts both ways**.","İfade özgürlüğü iki tarafı keskin bir kılıçtır."],
+  ["err on the side of caution","temkinli davranmayı seçmek","kalıp","I'd **err on the side of caution** and stay home.","Temkinli davranıp evde kalırdım."],
+  ["read between the lines","satır aralarını okumak","kalıp","You have to **read between the lines** of his emails.","E-postalarının satır aralarını okumalısın."],
+  ["food for thought","düşündürücü şey","kalıp","Her speech gave us **food for thought**.","Konuşması bize düşünecek çok şey verdi."],
+  ["a double-edged sword","iki ucu keskin kılıç","kalıp","Social media is **a double-edged sword**.","Sosyal medya iki ucu keskin bir kılıçtır."],
+  ["the tip of the iceberg","buzdağının görünen kısmı","kalıp","These problems are just **the tip of the iceberg**.","Bu sorunlar buzdağının sadece görünen kısmı."],
+  ["go to great lengths","büyük zahmete girmek","kalıp","They **went to great lengths** to help us.","Bize yardım etmek için büyük zahmete girdiler."],
+  ["by and large","genel olarak","kalıp","**By and large**, the trip was a success.","Genel olarak gezi başarılıydı."],
+  ["for the time being","şimdilik","kalıp","We'll stay here **for the time being**.","Şimdilik burada kalacağız."],
+  ["give the benefit of the doubt","şüpheyi lehine yorumlamak","kalıp","I'll **give** him **the benefit of the doubt**.","Şüpheyi onun lehine yorumlayacağım."],
+  ["leave no stone unturned","her yolu denemek","kalıp","The police **left no stone unturned**.","Polis her yolu denedi."],
+  ["a foregone conclusion","baştan belli sonuç","kalıp","The result was **a foregone conclusion**.","Sonuç baştan belliydi."],
+  ["at odds with","ile çelişen, anlaşmazlık içinde","kalıp","His words are **at odds with** his actions.","Sözleri davranışlarıyla çelişiyor."],
+  ["bear the brunt of","-in yükünü çekmek","kalıp","The poor **bear the brunt of** the crisis.","Krizin yükünü yoksullar çekiyor."],
+  ["in the long run","uzun vadede","kalıp","It will save money **in the long run**.","Uzun vadede para kazandıracak."],
+  ["to say the least","en hafif deyimiyle","kalıp","The meeting was tense, **to say the least**.","Toplantı, en hafif deyimiyle, gergindi."],
+  ["second to none","eşsiz, rakipsiz","kalıp","The service here is **second to none**.","Buradaki hizmet eşsiz."],
+  ["a case in point","tipik bir örnek","kalıp","Traffic is awful; this morning was **a case in point**.","Trafik berbat; bu sabah tipik bir örnekti."],
+  ["for what it's worth","ne kadar işe yarar bilmem ama","kalıp","**For what it's worth**, I think you did the right thing.","Ne kadar işe yarar bilmem ama bence doğru olanı yaptın."],
+  ["make allowances for","hoş görmek, hesaba katmak","kalıp","You should **make allowances for** his age.","Yaşını hesaba katmalısın."],
+  ["get the gist","ana fikri anlamak","kalıp","I didn't understand every word, but I **got the gist**.","Her kelimeyi anlamadım ama ana fikri kavradım."],
+  ["stand to reason","mantıklı olmak","kalıp","It **stands to reason** that prices will rise.","Fiyatların artacağı mantıklı."],
+  ["with a view to","amacıyla","kalıp","He moved to London **with a view to** finding work.","İş bulmak amacıyla Londra'ya taşındı."]
+ ]}
+];
+var seen={};DECKS.forEach(function(d){d.words.forEach(function(w){seen[w[0].toLowerCase()]=1})});
+add.forEach(function(d){d.words=d.words.filter(function(w){var k=w[0].toLowerCase();if(seen[k])return false;seen[k]=1;return true});DECKS.push(d)});
+})();
+
 /* Dil bilgisi konuları
    forms: formül parçaları " + " ile ayrılır; examples/mistakes içinde **vurgu** kullanılabilir
    quiz: [cümle (___ boşluk), seçenekler, doğru indeks, açıklama] */
@@ -5243,6 +5335,52 @@ qs:[["Fikrin \"en güçlü biçimi\" hakkında bugün ne düşünülüyor?",["B�
 ];
 /* Seviye sırası: kolay → uzman; aynı seviyede yazım sırası korunur */
 READING.sort((a,b)=>["kolay","orta","zor","uzman"].indexOf(a.lv)-["kolay","orta","zor","uzman"].indexOf(b.lv));
+
+/* C2 düzeyi okuma metinleri (Fluo için özgün yazıldı) */
+READING.push(
+{id:"attention",lv:"uzman",title:"The Attention Economy",tt:"Dikkat ekonomisi",
+en:`Few commodities have become as fiercely contested as human attention. Every app on your phone, every headline and every notification is, in effect, a bid for a few seconds of your focus. Economists call this the attention economy: a market in which the scarce resource is not information, which is now abundant, but the time and concentration needed to process it.
+
+The business model is deceptively simple. Many platforms are free to use, yet they are among the most profitable companies ever created. Their revenue depends on advertising, and advertising depends on engagement. Consequently, designers have every incentive to make their products as compelling, some would say as addictive, as possible. Infinite scrolling, autoplay and variable rewards are not accidental features; they are carefully engineered to keep us coming back.
+
+Critics argue that the costs are borne by users. Studies have linked heavy social media use to shorter attention spans, poorer sleep and heightened anxiety, although the evidence remains contentious and correlation should not be mistaken for causation. Defenders counter that people are not passive victims and that the same tools enable unprecedented access to knowledge and community.
+
+What is beyond dispute is that attention, once spent, cannot be recovered. Much as we might like to believe that we are in control, it would be naive to assume that technology designed by thousands of engineers is neutral. Reclaiming our focus may require not only individual discipline but also regulation that holds platforms accountable for the way they are designed.`,
+tr:`Çok az şey insan dikkati kadar şiddetle üzerinde mücadele edilen bir mala dönüştü. Telefonunuzdaki her uygulama, her manşet ve her bildirim aslında odağınızın birkaç saniyesi için verilmiş bir tekliftir. Ekonomistler buna dikkat ekonomisi diyor: kıt kaynağın artık bol olan bilgi değil, onu işlemek için gereken zaman ve konsantrasyon olduğu bir piyasa.
+
+İş modeli aldatıcı derecede basit. Pek çok platform ücretsiz, ama yine de bugüne kadar kurulmuş en kârlı şirketler arasında yer alıyorlar. Gelirleri reklama, reklam da kullanıcı etkileşimine bağlı. Bu yüzden tasarımcıların ürünlerini olabildiğince çekici, bazılarına göre olabildiğince bağımlılık yapıcı hâle getirmek için her türlü nedeni var. Sonsuz kaydırma, otomatik oynatma ve değişken ödüller tesadüfi özellikler değil; bizi geri döndürmek için özenle tasarlanmışlar.
+
+Eleştirmenler bedeli kullanıcıların ödediğini savunuyor. Araştırmalar yoğun sosyal medya kullanımını daha kısa dikkat süresi, daha kötü uyku ve artan kaygıyla ilişkilendirdi; yine de kanıtlar tartışmalı ve korelasyon nedensellikle karıştırılmamalı. Savunucular ise insanların pasif kurbanlar olmadığını ve aynı araçların bilgiye ve topluluğa eşi görülmemiş bir erişim sağladığını söylüyor.
+
+Tartışmasız olan şu: dikkat bir kez harcandığında geri kazanılamaz. Kontrolün bizde olduğuna ne kadar inanmak istesek de binlerce mühendisin tasarladığı teknolojinin tarafsız olduğunu varsaymak saflık olur. Odağımızı geri kazanmak yalnızca bireysel disiplin değil, platformları tasarım biçimlerinden sorumlu tutan düzenlemeler de gerektirebilir.`,
+vocab:[["commodity","mal, meta"],["scarce","kıt"],["deceptively","aldatıcı biçimde"],["incentive","teşvik, neden"],["contentious","tartışmalı"],["accountable","hesap verebilir, sorumlu"]],
+qs:[["Metne göre dikkat ekonomisinde kıt olan kaynak nedir?",["Bilgiyi işlemek için gereken zaman ve odak","Bilginin kendisi","Reklam alanı","Telefonlar ve uygulamalar"],"\"the scarce resource is not information… but the time and concentration\""],
+ ["Ücretsiz platformlar nasıl para kazanıyor?",["Reklam yoluyla, etkileşime bağlı olarak","Abonelik ücretiyle","Veri satmayı reddederek","Devlet desteğiyle"],"\"Their revenue depends on advertising, and advertising depends on engagement.\""],
+ ["Yazar sosyal medyanın zararlarıyla ilgili kanıtları nasıl değerlendiriyor?",["Tartışmalı buluyor ve korelasyonun nedensellik olmadığını hatırlatıyor","Kesin ve tartışmasız buluyor","Tamamen yanlış buluyor","Hiç değinmiyor"],"\"the evidence remains contentious and correlation should not be mistaken for causation\""],
+ ["Sonsuz kaydırma ve otomatik oynatma için ne deniyor?",["Bilinçli olarak tasarlanmış özellikler oldukları","Tesadüfen ortaya çıktıkları","Kullanıcıların istediği için eklendikleri","Yakında kaldırılacakları"],"\"they are carefully engineered to keep us coming back\""],
+ ["Yazarın sonuçtaki önerisi nedir?",["Bireysel disiplinin yanında düzenleme de gerekebileceği","Sosyal medyanın tamamen yasaklanması","Teknolojinin tarafsız olduğunun kabulü","Reklamların artırılması"],"\"may require not only individual discipline but also regulation\""]]},
+{id:"translation",lv:"uzman",title:"Lost and Found in Translation",tt:"Çeviride kaybolan ve bulunan",
+en:`It is often said that translation is an act of betrayal. The Italian proverb "traduttore, traditore" (translator, traitor) captures a long-standing suspicion that something essential is inevitably lost when words cross from one language to another. Puns collapse, rhythms falter and cultural references that were transparent to the original reader become opaque.
+
+Yet this view, however popular, is arguably too pessimistic. Translators do not merely replace words; they make countless judgements about tone, register and intention. Faced with a joke that relies on a double meaning, a skilled translator may invent an entirely new joke that produces the same effect. Strictly speaking, the result is not what the author wrote, but it may well be closer to what the author meant.
+
+Some languages also force choices that others leave open. Turkish, for instance, does not distinguish between "he" and "she", so a translator working into English must decide on a gender that the original may have deliberately left ambiguous. Conversely, Turkish verb suffixes can signal whether the speaker witnessed an event or merely heard about it, a nuance that English can express only with additional words such as "apparently".
+
+Machine translation has made these dilemmas more visible rather than less. Algorithms produce fluent sentences at astonishing speed, albeit sometimes with confident errors. The human translator's role is shifting from producing a first draft to scrutinising one. Far from making translators obsolete, technology may be reminding us how much interpretation every translation requires.`,
+tr:`Çevirinin bir ihanet olduğu sık sık söylenir. İtalyanca "traduttore, traditore" (çevirmen, hain) atasözü, kelimeler bir dilden diğerine geçtiğinde özsel bir şeyin kaçınılmaz olarak kaybolduğuna dair köklü bir şüpheyi yansıtır. Kelime oyunları çöker, ritimler aksar ve asıl okur için apaçık olan kültürel göndermeler anlaşılmaz hâle gelir.
+
+Ancak bu görüş, ne kadar yaygın olsa da, tartışmaya açık biçimde fazla karamsar. Çevirmenler yalnızca kelimeleri değiştirmez; ton, üslup ve niyet hakkında sayısız karar verirler. İki anlamlılığa dayanan bir şakayla karşılaşan usta bir çevirmen, aynı etkiyi yaratan tamamen yeni bir şaka uydurabilir. Kesin konuşmak gerekirse sonuç yazarın yazdığı şey değildir, ama yazarın kastettiğine pekâlâ daha yakın olabilir.
+
+Bazı diller, başkalarının açık bıraktığı seçimleri yapmaya zorlar. Örneğin Türkçe "he" ve "she" arasında ayrım yapmaz; bu yüzden İngilizceye çeviri yapan biri, aslında bilerek belirsiz bırakılmış olabilecek bir cinsiyete karar vermek zorundadır. Tersine, Türkçe fiil ekleri konuşanın bir olaya tanık olup olmadığını ya da yalnızca duyup duymadığını gösterebilir; İngilizce bu inceliği ancak "apparently" gibi ek kelimelerle ifade edebilir.
+
+Makine çevirisi bu ikilemleri daha az değil, daha görünür hâle getirdi. Algoritmalar şaşırtıcı bir hızla akıcı cümleler üretiyor, gerçi bazen kendinden emin hatalarla. İnsan çevirmenin rolü ilk taslağı üretmekten onu titizlikle incelemeye kayıyor. Teknoloji çevirmenleri gereksiz kılmak bir yana, her çevirinin ne kadar yorum gerektirdiğini bize hatırlatıyor olabilir.`,
+vocab:[["inevitably","kaçınılmaz olarak"],["opaque","anlaşılmaz, bulanık"],["register","üslup (dil düzeyi)"],["deliberately","bilerek, kasıtlı olarak"],["scrutinise","titizlikle incelemek"],["obsolete","modası geçmiş, gereksiz"]],
+qs:[["\"Traduttore, traditore\" atasözü hangi düşünceyi yansıtır?",["Çeviride önemli bir şeyin kaçınılmaz olarak kaybolduğunu","Çevirmenlerin her zaman doğru olduğunu","İtalyancanın zor bir dil olduğunu","Çevirinin gereksiz olduğunu"],"\"something essential is inevitably lost\""],
+ ["Yazara göre usta bir çevirmen kelime oyununa dayanan bir şakayı nasıl çevirebilir?",["Aynı etkiyi yaratan yeni bir şaka yazarak","Şakayı tamamen atlayarak","Kelimesi kelimesine çevirerek","Dipnot ekleyerek"],"\"may invent an entirely new joke that produces the same effect\""],
+ ["Türkçeden İngilizceye çeviride hangi zorluk anlatılıyor?",["Türkçe \"o\" zamirinin cinsiyet belirtmemesi","Türkçede fiil olmaması","İngilizcenin ek almaması","Türkçe kelimelerin çok uzun olması"],"\"Turkish… does not distinguish between he and she\""],
+ ["Türkçe fiil eklerinin gösterebildiği incelik nedir?",["Konuşanın olaya tanık olup olmadığı","Konuşanın yaşı","Olayın yeri","Fiilin uzunluğu"],"\"whether the speaker witnessed an event or merely heard about it\""],
+ ["Yazara göre makine çevirisi insan çevirmenin rolünü nasıl değiştiriyor?",["İlk taslağı üretmekten onu incelemeye kaydırıyor","Rolünü tamamen ortadan kaldırıyor","Hiç etkilemiyor","Sadece hızını artırıyor"],"\"shifting from producing a first draft to scrutinising one\""]]}
+);
 
 /* Ünite sınavları: her dil bilgisi seviyesi (A1, A2, B1, B2) bir ünitedir.
    Her konu için 3 sınav sorusu (alıştırmalardan farklı). Biçim: [cümle (___ boşluk), seçenekler, doğru indeks, açıklama]

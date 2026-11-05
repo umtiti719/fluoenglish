@@ -8,6 +8,7 @@ a{color:var(--br)}
 .top{position:sticky;top:0;z-index:5;display:flex;align-items:center;gap:16px;padding:12px 20px;background:color-mix(in srgb,var(--bg) 88%,transparent);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
 .brand{display:flex;align-items:center;gap:8px;color:var(--ink);text-decoration:none;font-size:1.15rem}
 .brand svg{width:30px;height:30px}
+.beta{font-size:.6rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase;padding:3px 6px;border-radius:99px;color:#fff;background:linear-gradient(110deg,#4F80EC,#8A5CF0 55%,#EB6D9F)}
 .tnav{display:flex;gap:14px;margin-right:auto}
 .tnav a{color:var(--mut);text-decoration:none;font-weight:600;font-size:.95rem}
 .tnav a:hover{color:var(--ink)}
@@ -36,6 +37,7 @@ th{background:var(--s2);font-size:.85rem}
 .mis .ok{color:var(--ok);font-weight:600}
 .mis small{display:block;color:var(--mut)}
 .tags{display:flex;flex-wrap:wrap;gap:8px}
+.tags a.pill{text-decoration:none;color:var(--ink)}
 .tags span{background:var(--s2);border-radius:999px;padding:4px 12px;font-weight:600}
 .words td:first-child{font-weight:700;white-space:nowrap}
 .words small{color:var(--mut);display:block}

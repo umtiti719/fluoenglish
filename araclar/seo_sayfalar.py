@@ -57,8 +57,8 @@ def page(path, title, desc, crumbs, body, app_href, app_label):
 {UMAMI}
 </head>
 <body>
-<header class="top"><a class="brand" href="/">{LOGO}<b>Fluo</b></a>
-<nav class="tnav"><a href="/gramer/">Gramer</a><a href="/kelime/">Kelimeler</a><a href="/okuma/">Okuma</a></nav>
+<header class="top"><a class="brand" href="/">{LOGO}<b>Fluo</b><span class="beta">Beta</span></a>
+<nav class="tnav"><a href="/gramer/">Gramer</a><a href="/kelime/">Kelimeler</a><a href="/okuma/">Okuma</a><a href="/seviye/">Seviyeler</a></nav>
 <a class="cta-s" href="/">Uygulamayı aç</a></header>
 <main>
 <p class="crumbs">{nav}</p>
@@ -66,7 +66,7 @@ def page(path, title, desc, crumbs, body, app_href, app_label):
 <aside class="cta"><div><b>Fluo'da çalış</b><span>Ücretsiz · kayıt gerekmez · sesli telaffuz, alıştırmalar ve ilerleme takibi</span></div>
 <a class="btn" href="{app_href}">{e(app_label)} →</a></aside>
 </main>
-<footer class="foot"><span>Fluo · Türkçe anlatımlı ücretsiz İngilizce</span><a href="/gramer/">Gramer konuları</a><a href="/kelime/">Kelime listeleri</a><a href="/okuma/">Okuma metinleri</a><a href="/#yasal">KVKK</a><a href="/#yasal-gizlilik">Gizlilik</a><a href="/#destek">İletişim</a></footer>
+<footer class="foot"><span>Fluo · Türkçe anlatımlı ücretsiz İngilizce</span><a href="/ingilizce-ogren/">Ücretsiz İngilizce öğren</a><a href="/ingilizce-seviye-testi/">Seviye testi</a><a href="/gramer/">Gramer konuları</a><a href="/kelime/">Kelime listeleri</a><a href="/ingilizce-kelime-ezberleme/">Kelime ezberleme</a><a href="/okuma/">Okuma metinleri</a><a href="/seviye/">Seviyeler</a><a href="/#yasal">KVKK</a><a href="/#yasal-gizlilik">Gizlilik</a><a href="/#destek">İletişim</a></footer>
 </body>
 </html>
 '''
@@ -82,6 +82,7 @@ a{color:var(--br)}
 .top{position:sticky;top:0;z-index:5;display:flex;align-items:center;gap:16px;padding:12px 20px;background:color-mix(in srgb,var(--bg) 88%,transparent);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
 .brand{display:flex;align-items:center;gap:8px;color:var(--ink);text-decoration:none;font-size:1.15rem}
 .brand svg{width:30px;height:30px}
+.beta{font-size:.6rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase;padding:3px 6px;border-radius:99px;color:#fff;background:linear-gradient(110deg,#4F80EC,#8A5CF0 55%,#EB6D9F)}
 .tnav{display:flex;gap:14px;margin-right:auto}
 .tnav a{color:var(--mut);text-decoration:none;font-weight:600;font-size:.95rem}
 .tnav a:hover{color:var(--ink)}
@@ -110,6 +111,7 @@ th{background:var(--s2);font-size:.85rem}
 .mis .ok{color:var(--ok);font-weight:600}
 .mis small{display:block;color:var(--mut)}
 .tags{display:flex;flex-wrap:wrap;gap:8px}
+.tags a.pill{text-decoration:none;color:var(--ink)}
 .tags span{background:var(--s2);border-radius:999px;padding:4px 12px;font-weight:600}
 .words td:first-child{font-weight:700;white-space:nowrap}
 .words small{color:var(--mut);display:block}
@@ -260,6 +262,8 @@ def build(root, data):
                             f'<a href="/okuma/{r["id"]}/"><b>{e(r["title"])}</b><small>{e(r["tt"])} · {len(r["en"].split())} kelime</small></a>' for r in R if r['lv'] == lv) + '</div>'
                                 for lv in LV_NAME),
                         '/#okuma', 'Okuma bölümünü aç'))
+    from seo_rehber import build_guides
+    build_guides(write, data)
     return urls
 
 
