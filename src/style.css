@@ -1830,3 +1830,6 @@ body.focus .sitefoot{display:none}
 /* Dil bilgisi örneklerinin Türkçeleri */
 .uses li .use-tr{display:block;color:var(--muted);font-size:.9rem;margin-top:3px}
 .form-ex .form-tr{display:block;font-style:normal;font-size:.9rem;opacity:.85;margin-top:2px}
+
+.ex-ut{border-top:1px dashed var(--line);padding-top:10px;margin-top:4px}
+.ex-ut .note .ic{width:14px;height:14px;vertical-align:-2px;margin-right:4px}

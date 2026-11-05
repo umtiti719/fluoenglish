@@ -1,19 +1,24 @@
 /* ================= BÖLÜM TESTİ (dil bilgisi konusunun en altında) =================
-   İsteğe bağlı. Konunun alıştırma soruları + ünite sınavı soruları + "Hangisi doğru?" (sık yapılan hatalardan) karışık gelir.
+   İsteğe bağlı. Sorular TBANK'tan (alıştırma ve ünite sınavı sorularından ayrı havuz) gelir: önce hiç görülmemişler,
+   sonra en uzun zamandır görülmeyenler; aynı test içinde tekrar yok. Görülen sorular P.seen["tb:…"] ile işaretlenir.
    Sınav sırasında doğru/yanlış gösterilmez; sonunda puan, değerlendirme ve açıklamalar. Sonuç: P.ttest[konu]={best,last,n,at,runs}
    %60 ve üstü konu "tamamlandı" sayılır. */
 var TT=null;
+const TT_N=10;
+function ttPool(t){
+  const bank=(typeof TBANK!=="undefined"&&TBANK[t.id])||[];
+  if(bank.length)return bank;
+  return ((typeof EXAM!=="undefined"&&EXAM[t.id])||[]).concat(t.quiz||[]); /* havuzu olmayan konu için yedek */
+}
 function ttBuild(t){
-  const items=[];
-  (t.quiz||[]).forEach(q=>items.push({q:q[0],opts:q[1],right:q[2],why:q[3]}));
-  ((typeof EXAM!=="undefined"&&EXAM[t.id])||[]).forEach(q=>items.push({q:q[0],opts:q[1],right:q[2],why:q[3]}));
-  (t.mistakes||[]).slice(0,3).forEach(m=>items.push({q:"Hangisi doğru?",opts:[m[0],plain(m[1])],right:1,why:m[2]}));
-  return shuffle(items).map(it=>{const order=shuffle(it.opts.map((_,i)=>i));return{...it,order}});
+  const seenQ=new Set(),pool=ttPool(t).filter(q=>{const k=q[0]+"|"+q[1].join();if(seenQ.has(k))return false;seenQ.add(k);return true});
+  const pick=pickFresh(pool,q=>"tb:"+q[0],Math.min(TT_N,pool.length));
+  return shuffle(pick).map(q=>({q:q[0],opts:q[1],right:q[2],why:q[3],order:shuffle(q[1].map((_,i)=>i))}));
 }
 function ttVerdict(r){return r>=.85?{k:"ok",t:"Konuyu biliyorsun",d:"Harika! Bir sonraki konuya geçebilirsin."}:r>=.6?{k:"mid",t:"Birkaç eksik var",d:"Konu tamamlandı sayıldı. Yanlışlarının açıklamalarına göz at."}:{k:"bad",t:"Konuyu tekrar et",d:"Anlatımı ve sık yapılan hataları bir kez daha oku, sonra yeniden dene."}}
 function ttIntro(t){
-  const r=P.ttest&&P.ttest[t.id],n=ttBuild(t).length;
-  return '<div class="tt-intro"><div><b>'+n+' soruluk bölüm testi</b><span>İstersen konuyu bitirince kendini dene. Cevaplar testin sonunda gösterilir.'+
+  const r=P.ttest&&P.ttest[t.id],pool=ttPool(t),n=Math.min(TT_N,pool.length),seenN=pool.filter(q=>P.seen["tb:"+q[0]]).length;
+  return '<div class="tt-intro"><div><b>'+n+' soruluk bölüm testi</b><span>Sorular alıştırmadakilerden farklı, '+pool.length+' soruluk ayrı bir havuzdan gelir; her seferinde önce görmediklerin çıkar'+(seenN?' ('+seenN+' / '+pool.length+' soruyu gördün)':'')+'. Cevaplar testin sonunda gösterilir.'+
     (r?' Son sonucun <b>'+r.last+'/'+r.n+'</b>, en iyisi <b>'+r.best+'/'+r.n+'</b>.':'')+'</span></div><button class="primary" id="ttStart">'+(r?ic("refresh")+"Yeniden çöz":"Teste başla"+ic("right"))+'</button></div>';
 }
 function ttRender(){
@@ -46,7 +51,7 @@ function ttRender(){
   if($("ttTop"))$("ttTop").onclick=()=>window.scrollTo({top:0,behavior:reduceMotion()?"auto":"smooth"});
 }
 function ttFinish(){
-  trk("bolum-testi",{konu:TT.t.id});const t=TT.t,n=TT.items.length,ok=TT.items.filter((it,i)=>TT.pick[i]===it.right).length;
+  trk("bolum-testi",{konu:TT.t.id});TT.items.forEach(it=>touch("tb:"+it.q));const t=TT.t,n=TT.items.length,ok=TT.items.filter((it,i)=>TT.pick[i]===it.right).length;
   P.ttest=P.ttest||{};const prev=P.ttest[t.id];
   P.ttest[t.id]={best:Math.max(ok,prev?prev.best:0),last:ok,n,at:Date.now(),runs:(prev?prev.runs||1:0)+1};
   if(ok/n>=.6){const g=P.gram[t.id]||{best:0,total:t.quiz.length,done:false};P.gram[t.id]={...g,done:true}}

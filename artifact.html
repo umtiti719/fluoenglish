@@ -1834,6 +1834,9 @@ body.focus .sitefoot{display:none}
 .uses li .use-tr{display:block;color:var(--muted);font-size:.9rem;margin-top:3px}
 .form-ex .form-tr{display:block;font-style:normal;font-size:.9rem;opacity:.85;margin-top:2px}
 
+.ex-ut{border-top:1px dashed var(--line);padding-top:10px;margin-top:4px}
+.ex-ut .note .ic{width:14px;height:14px;vertical-align:-2px;margin-right:4px}
+
 </style>
 
 <header class="top">
@@ -5679,6 +5682,737 @@ var GTR={
 "He is said to have made a fortune.":"Bir servet kazandığı söyleniyor."
 };
 
+/* Bölüm testi ve ünite testleri için soru havuzu (alıştırma ve ünite sınavı sorularından AYRI).
+   Biçim: [cümle (___ boşluk), seçenekler, doğru indeks, açıklama] · Bölüm 1: A1–A2 */
+var TBANK={
+/* ---------------- A1 ---------------- */
+"to-be":[
+ ["The children ___ in the garden.",["is","are","am","be"],1,"\"The children\" çoğuldur (they), bu yüzden \"are\"."],
+ ["I ___ very happy today.",["is","are","am","be"],2,"\"I\" ile her zaman \"am\" kullanılır."],
+ ["This book ___ very interesting.",["are","am","is","be"],2,"\"This book\" tekildir (it): \"is\"."],
+ ["___ your parents at home now?",["Is","Are","Am","Be"],1,"\"Your parents\" çoğul, soru \"Are\" ile başlar."],
+ ["My sister and I ___ twins.",["is","am","are","be"],2,"\"My sister and I\" = we, bu yüzden \"are\"."],
+ ["He ___ not a student; he is a teacher.",["are","is","am","be"],1,"\"He\" ile \"is not\"."],
+ ["We ___ late for the lesson. Sorry!",["is","am","are","be"],2,"\"We\" ile \"are\"."],
+ ["___ it cold outside?",["Are","Am","Is","Be"],2,"\"It\" ile soru \"Is\" ile kurulur."],
+ ["The weather ___ terrible yesterday.",["is","was","are","were"],1,"\"Yesterday\" geçmiş zaman: tekil özneyle \"was\"."],
+ ["You ___ my best friend.",["is","am","are","be"],2,"\"You\" her zaman \"are\" alır."],
+ ["Where ___ the toilets, please?",["is","am","are","be"],2,"\"The toilets\" çoğul: \"are\"."],
+ ["Ali ___ at work right now.",["are","am","is","be"],2,"\"Ali\" = he, \"is\"."]],
+"simple-present":[
+ ["My father ___ to work by bus.",["go","goes","going","is go"],1,"He/she/it ile fiile -es eklenir: goes."],
+ ["They ___ English and French.",["speaks","speak","speaking","are speak"],1,"\"They\" ile fiil yalın kalır."],
+ ["She ___ like spicy food.",["don't","doesn't","isn't","not"],1,"He/she/it olumsuzu \"doesn't\" ile."],
+ ["___ your brother play tennis?",["Do","Is","Does","Are"],2,"\"Your brother\" = he, soru \"Does\" ile."],
+ ["The sun ___ in the east.",["rise","rises","rising","is rise"],1,"Genel gerçek, tekil özne: rises."],
+ ["I ___ watch TV in the morning.",["doesn't","don't","not","isn't"],1,"\"I\" ile olumsuz \"don't\"."],
+ ["My cat ___ a lot.",["sleep","sleeps","sleeping","is sleep"],1,"\"My cat\" = it: sleeps."],
+ ["What time ___ the shop close?",["do","is","does","are"],2,"\"The shop\" tekil: \"does\"."],
+ ["He ___ his homework after dinner.",["do","does","doing","dos"],1,"\"Do\" fiili he/she/it ile \"does\" olur."],
+ ["We ___ in a small flat.",["lives","live","living","are live"],1,"\"We\" ile yalın fiil."],
+ ["She ___ two languages.",["study","studys","studies","studying"],2,"Ünsüz + y ile biten fiillerde y → ies: studies."],
+ ["Does he ___ in Istanbul?",["lives","live","living","lived"],1,"\"Does\" ile soru kurulunca fiil yalın kalır."]],
+"articles":[
+ ["There is ___ owl in that tree.",["a","an","the","—"],1,"\"Owl\" ünlü sesle başlar: an."],
+ ["She wants to be ___ doctor.",["a","an","the","—"],0,"Meslekte ve ünsüz sesle: a doctor."],
+ ["___ moon is very bright tonight.",["A","An","The","—"],2,"Tek olan şeyler \"the\" alır: the moon."],
+ ["___ coffee is very popular in Turkey.",["A","An","The","—"],3,"Genel anlamdaki sayılamayan isim: tanımlık yok."],
+ ["We stayed at ___ hotel. ___ hotel was very nice.",["a / The","the / A","an / The","a / A"],0,"İlk söz edilişte \"a\", ikincisinde \"the\"."],
+ ["It takes ___ hour to get there.",["a","an","the","—"],1,"\"Hour\" kelimesinde h okunmaz: an hour."],
+ ["He goes to ___ university in Ankara.",["a","an","the","—"],0,"\"University\" \"yu\" sesiyle başlar (ünsüz ses): a."],
+ ["Can you pass me ___ salt, please?",["a","an","the","—"],2,"Masadaki belli tuz: the salt."],
+ ["Dogs are ___ friendly animals.",["a","an","the","—"],3,"Genel anlamdaki çoğul isimde tanımlık kullanılmaz."],
+ ["She plays ___ piano very well.",["a","an","the","—"],2,"Çalgı adlarıyla \"the\": play the piano."],
+ ["I need ___ umbrella. It's raining.",["a","an","the","—"],1,"\"Umbrella\" ünlü sesle başlar: an."],
+ ["___ Amazon is the longest river in South America.",["A","An","The","—"],2,"Nehir adları \"the\" alır."]],
+"there-is":[
+ ["There ___ two cats under the table.",["is","are","be","has"],1,"Çoğul: there are."],
+ ["There ___ some cheese in the fridge.",["are","is","be","have"],1,"\"Cheese\" sayılamaz: there is."],
+ ["___ there a post office near here?",["Are","Is","Do","Has"],1,"Tekil isimle soru: Is there…?"],
+ ["There aren't ___ shops in my village.",["some","any","a","much"],1,"Olumsuzda \"any\"."],
+ ["How many students ___ in your class?",["is there","there are","are there","there is"],2,"Soru: How many + çoğul + are there?"],
+ ["There ___ a park and two cafés on my street.",["is","are","be","has"],0,"\"There is/are\" ilk isme uyar: a park → is."],
+ ["___ any milk in the cup?",["Are there","Is there","There is","Has there"],1,"\"Milk\" sayılamaz: Is there any…?"],
+ ["There ___ any buses after midnight.",["isn't","aren't","not","no"],1,"\"Buses\" çoğul: there aren't."],
+ ["There ___ a problem with my computer.",["are","is","be","have"],1,"\"A problem\" tekil: there is."],
+ ["Is there a bank near here? — Yes, there ___.",["is","are","has","it is"],0,"Kısa cevap: Yes, there is."],
+ ["___ many hotels in this town?",["Is there","Are there","There are","Have there"],1,"Çoğul isimle soru: Are there…?"],
+ ["There ___ no chairs in the room.",["is","are","be","has"],1,"\"No chairs\" çoğul: there are no…"]],
+"can":[
+ ["My little brother ___ read yet. He's only three.",["can","can't","cans","doesn't can"],1,"Henüz yapamıyor: can't."],
+ ["___ you speak Japanese?",["Do","Are","Can","Does"],2,"Yetenek sorusu: Can you…?"],
+ ["She can ___ very fast.",["runs","run","running","to run"],1,"\"Can\"den sonra fiil yalın gelir."],
+ ["___ I use your phone, please?",["Can","Do","Am","Does"],0,"İzin istemek: Can I…?"],
+ ["Penguins ___ fly, but they can swim.",["can","can't","cans","don't can"],1,"Penguenler uçamaz: can't."],
+ ["Can he play chess? — Yes, he ___.",["can","does","is","cans"],0,"Kısa cevap: Yes, he can."],
+ ["I ___ hear you. Please speak louder.",["can","can't","cannot to","don't can"],1,"Duyamıyorum: can't."],
+ ["You ___ park here. It's not allowed.",["can","can't","must","cans"],1,"Yasak: can't."],
+ ["___ you help me with this box?",["Can","Are","Does","Do"],0,"Rica: Can you…?"],
+ ["My grandmother ___ use a smartphone.",["can't","isn't","doesn't","not can"],0,"Olumsuz: can't + yalın fiil."],
+ ["Where can I ___ a taxi?",["finds","find","to find","finding"],1,"\"Can\"den sonra yalın fiil."],
+ ["Can they ___ to the party tonight?",["comes","coming","come","to come"],2,"\"Can\" soru cümlesinde de fiil yalın kalır."]],
+"possessives":[
+ ["This is ___ new car. We bought it last week.",["us","our","ours","we"],1,"İsimden önce iyelik sıfatı: our car."],
+ ["Is this pen ___? — No, it's Ali's.",["your","yours","you","you're"],1,"İsim yoksa iyelik zamiri: yours."],
+ ["The dog is wagging ___ tail.",["it's","its","it","his"],1,"Hayvan/nesne için iyelik \"its\" (kesme işaretsiz)."],
+ ["___ name is Ayşe. She's my cousin.",["His","Her","She","Hers"],1,"Kadın için iyelik sıfatı: her."],
+ ["That house is ___. They live there.",["their","theirs","them","they"],1,"İsimden sonra, tek başına: theirs."],
+ ["This is ___ bike.",["my brother","my brother's","my brothers'","my brother is"],1,"Tekil kişi + 's: my brother's bike."],
+ ["The ___ toys are everywhere.",["children's","childrens'","children","childs'"],0,"\"Children\" -s ile bitmeyen çoğul: children's."],
+ ["My ___ car is very old.",["parents","parent's","parents'","parents's"],2,"-s ile biten çoğulda sadece kesme işareti: parents'."],
+ ["I can't find ___ keys.",["me","mine","my","I"],2,"İsimden önce: my keys."],
+ ["Whose jacket is this? — It's ___.",["him","his","he","he's"],1,"\"His\" hem sıfat hem zamir olarak kullanılır."],
+ ["We love ___ teacher. She's great.",["our","ours","us","we're"],0,"İsimden önce: our teacher."],
+ ["Is this ___ bag or mine?",["yours","your","you","you're"],1,"İsimden önce: your bag."]],
+"question-words":[
+ ["___ is your birthday? — In May.",["Where","When","Who","What"],1,"Zaman soruluyor: When."],
+ ["___ wrote this book? — Orhan Pamuk.",["What","Who","Which","Whose"],1,"Kişi soruluyor: Who."],
+ ["___ are my glasses? — On the table.",["When","Why","Where","How"],2,"Yer: Where."],
+ ["___ are you crying? — Because I'm sad.",["Why","What","How","Who"],0,"Sebep soruluyor: Why."],
+ ["___ old are you?",["What","How","Which","Who"],1,"Yaş: How old."],
+ ["___ much is this T-shirt?",["How","What","Which","Why"],0,"Fiyat: How much."],
+ ["___ bag is this? — It's mine.",["Who","Whose","Which","What"],1,"Sahiplik: Whose."],
+ ["___ time does the bus leave?",["What","How","Why","Who"],0,"Saat: What time."],
+ ["___ do you prefer, tea or coffee?",["What","Which","Who","Where"],1,"Belli seçenekler arasında: Which."],
+ ["___ often do you go to the gym?",["How","What","When","Why"],0,"Sıklık: How often."],
+ ["___ many brothers do you have?",["How","What","Which","Much"],0,"Sayılabilen sayısı: How many."],
+ ["___ does your father do? — He's a pilot.",["What","Who","How","Which"],0,"Meslek: What does he do?"]],
+/* ---------------- A2 ---------------- */
+"present-continuous":[
+ ["Shh! Dad ___ on the phone.",["talks","is talking","talk","talking"],1,"Şu an: is talking."],
+ ["Look! It ___ again.",["snows","is snowing","snowing","snow"],1,"\"Look!\" şu an olduğunu gösterir."],
+ ["I ___ a book about history these days.",["read","am reading","reads","reading"],1,"Bu aralar süren iş: am reading."],
+ ["What ___ you doing right now?",["do","are","is","does"],1,"\"You\" ile: are you doing."],
+ ["They ___ football at the moment.",["aren't playing","don't playing","not playing","isn't playing"],0,"Olumsuz: aren't + -ing."],
+ ["She ___ to Paris tomorrow. Her ticket is ready.",["flies","is flying","fly","flying"],1,"Kesinleşmiş yakın plan: present continuous."],
+ ["___ he working today?",["Does","Is","Do","Are"],1,"\"He\" ile soru: Is he…?"],
+ ["Prices ___ every month.",["goes up","are going up","is going up","go upping"],1,"Değişen durum: are going up."],
+ ["I ___ this soup. It tastes great!",["love","am loving","loving","loves"],0,"\"Love\" durum fiilidir; genelde -ing almaz."],
+ ["Why ___ you smiling?",["do","are","is","does"],1,"Şu an: Why are you smiling?"],
+ ["We ___ dinner. Can I call you later?",["have","are having","has","having"],1,"Şu an yemek yiyoruz: are having."],
+ ["He ___ in front of the cinema.",["is waiting","waits","wait","waiting is"],0,"Şu an bekliyor: is waiting."]],
+"simple-past":[
+ ["We ___ to the beach last weekend.",["go","went","gone","goes"],1,"\"Go\" düzensiz: went."],
+ ["She ___ her keys yesterday.",["lose","lost","losed","loses"],1,"\"Lose\" düzensiz: lost."],
+ ["I ___ like the film. It was boring.",["don't","didn't","wasn't","not"],1,"Geçmiş olumsuz: didn't + yalın fiil."],
+ ["___ you see the match last night?",["Do","Did","Were","Was"],1,"Geçmiş soru: Did you…?"],
+ ["They ___ in London in 2019.",["live","lived","living","lives"],1,"Düzenli fiil: lived."],
+ ["He didn't ___ the email.",["sent","send","sends","sending"],1,"\"Didn't\"ten sonra fiil yalın."],
+ ["When ___ you arrive?",["did","do","were","was"],0,"Geçmiş soru: When did you arrive?"],
+ ["The film ___ at 8 and finished at 10.",["starts","started","start","starting"],1,"Geçmişte biten: started."],
+ ["I ___ a strange noise last night.",["heard","heared","hear","hears"],0,"\"Hear\" düzensiz: heard."],
+ ["She ___ a cake for my birthday.",["maked","made","make","makes"],1,"\"Make\" düzensiz: made."],
+ ["Did they ___ the bus?",["missed","miss","misses","missing"],1,"\"Did\" sorusunda fiil yalın."],
+ ["We ___ tired, so we went to bed early.",["was","were","are","did"],1,"\"We\" ile geçmişte \"were\"."]],
+"comparatives":[
+ ["This road is ___ than the other one.",["narrow","narrower","narrowest","more narrow"],1,"Kısa sıfat: -er + than."],
+ ["My brother is ___ person in our family.",["the funniest","funnier","the funnier","most funny"],0,"Grupta en: the + -est (y → iest)."],
+ ["This exam was ___ than the last one.",["difficulter","more difficult","most difficult","the difficult"],1,"Uzun sıfat: more + sıfat + than."],
+ ["Today is ___ than yesterday.",["hot","hotter","hottest","more hot"],1,"Tek heceli, ünlü+ünsüz: hot → hotter."],
+ ["She runs ___ than her sister.",["fast","faster","fastest","more fast"],1,"\"Fast\" → faster."],
+ ["This is ___ restaurant in town.",["the worse","the worst","worse","the baddest"],1,"\"Bad\" düzensiz: the worst."],
+ ["My English is ___ now than last year.",["good","better","best","gooder"],1,"\"Good\" düzensiz: better."],
+ ["He is not as tall ___ his father.",["than","as","that","like"],1,"Eşitlik: as … as."],
+ ["Gold is ___ than silver.",["expensiver","more expensive","most expensive","the expensive"],1,"Uzun sıfat: more expensive."],
+ ["It's ___ day of the year.",["the shortest","shorter","the shorter","most short"],0,"En kısa: the shortest."],
+ ["Your bag is ___ than mine.",["heavy","heavier","heaviest","more heavy"],1,"y ile biten: heavy → heavier."],
+ ["Which is ___, a lion or a cat?",["dangerous","more dangerous","most dangerous","dangerouser"],1,"İki şey karşılaştırılıyor: more dangerous."]],
+"future":[
+ ["The phone is ringing. — I ___ answer it.",["will","am going to","going to","would"],0,"Anlık karar: will."],
+ ["Watch out! You ___ fall!",["will","are going to","go to","would"],1,"Kanıta dayalı: going to."],
+ ["We ___ visit our grandparents next Sunday. We planned it.",["will","are going to","go to","would"],1,"Önceden yapılmış plan: going to."],
+ ["I think people ___ live on Mars one day.",["are going","will","going to","are"],1,"Fikir/tahmin: I think … will."],
+ ["Don't worry. I ___ tell your secret.",["won't","am not going","don't","willn't"],0,"Söz: won't."],
+ ["She ___ to study law. She has already chosen a university.",["will","is going","going","goes"],1,"Plan: is going to."],
+ ["___ you help me carry this bag?",["Will","Are","Going","Do"],0,"Rica: Will you…?"],
+ ["It's cold. I ___ close the window.",["am going","will","going to","am"],1,"Anlık karar: I'll close."],
+ ["They ___ not going to come tonight.",["are","will","do","is"],0,"\"They are not going to…\""],
+ ["I'm sure you ___ pass the exam.",["are going","will","going","are"],1,"Fikir/tahmin: will."],
+ ["What ___ you going to do this weekend?",["will","are","do","is"],1,"\"You\" ile: are you going to…?"],
+ ["The meeting ___ start at 10 tomorrow, according to the schedule.",["is going","will","goes to","going to"],1,"Resmî program/tahmin: will (ya da present simple)."]],
+"countable":[
+ ["How ___ water do you drink every day?",["many","much","a lot","few"],1,"\"Water\" sayılamaz: How much."],
+ ["There aren't ___ tomatoes left.",["much","many","a","some"],1,"Sayılabilen çoğul, olumsuz: many."],
+ ["Would you like ___ coffee?",["any","some","many","a"],1,"İkramda \"some\"."],
+ ["I don't have ___ money.",["many","some","much","a"],2,"Sayılamaz, olumsuz: much."],
+ ["She has ___ friends in this city.",["much","a lot of","a","any"],1,"Olumlu cümlede \"a lot of\" uygundur."],
+ ["Is there ___ sugar in my tea?",["many","any","a","few"],1,"Soru cümlesinde \"any\"."],
+ ["How ___ people came to the party?",["much","many","lot","any"],1,"\"People\" sayılabilir: How many."],
+ ["We need ___ eggs for the cake.",["some","much","any","a"],0,"Olumlu ihtiyaç: some eggs."],
+ ["There isn't ___ information about it.",["many","much","a","few"],1,"\"Information\" sayılamaz: much."],
+ ["I have ___ homework tonight.",["many","a lot of","a","few"],1,"\"Homework\" sayılamaz; olumlu: a lot of."],
+ ["Can I have ___ bread, please?",["any","some","many","a"],1,"Rica ederken \"some\"."],
+ ["There were too ___ cars on the road.",["much","many","lot","any"],1,"\"Cars\" sayılabilir: too many."]],
+"prepositions":[
+ ["My birthday is ___ July.",["in","on","at","to"],0,"Aylar: in."],
+ ["See you ___ Monday!",["in","on","at","to"],1,"Günler: on."],
+ ["The film starts ___ 9 o'clock.",["in","on","at","by"],2,"Saatler: at."],
+ ["We moved here ___ 2019.",["on","at","in","to"],2,"Yıllar: in."],
+ ["She is ___ the bus stop.",["in","on","at","into"],2,"Belli bir nokta: at."],
+ ["The keys are ___ the table.",["in","on","at","into"],1,"Yüzeyin üstünde: on."],
+ ["We go skiing ___ winter.",["on","at","in","by"],2,"Mevsimler: in."],
+ ["I'll meet you ___ the weekend.",["in","at","on","to"],1,"İngiliz İngilizcesinde: at the weekend."],
+ ["There's milk ___ the fridge.",["on","at","in","to"],2,"Kapalı alanın içi: in."],
+ ["He works ___ night.",["in","on","at","by"],2,"Kalıp: at night."],
+ ["The party is ___ Saturday evening.",["in","on","at","to"],1,"Belli günün bölümü: on Saturday evening."],
+ ["They live ___ the third floor.",["in","on","at","to"],1,"Kat: on the third floor."]],
+"adverbs-frequency":[
+ ["She ___ drinks coffee. She hates it.",["always","never","often","usually"],1,"Hiç içmiyor: never."],
+ ["I ___ late for school. Maybe once a year.",["am always","am rarely","always am","rarely am"],1,"\"Be\" fiilinden sonra: am rarely."],
+ ["He ___ goes to the gym on Mondays.",["usually","usual","use","usually is"],0,"Sıklık zarfı ana fiilden önce gelir."],
+ ["We ___ eat out. Maybe twice a month.",["sometimes","always","never","every day"],0,"Arada sırada: sometimes."],
+ ["They are ___ tired after work.",["often","oftenly","ever","many"],0,"\"Be\" fiilinden sonra: are often."],
+ ["How ___ do you visit your grandparents?",["often","much","many","long"],0,"Sıklık sorusu: How often."],
+ ["I ___ forget my password.",["always","am always","always am","alway"],0,"Ana fiilden önce: I always forget."],
+ ["She ___ cooks. She usually orders food.",["hardly ever","always","usually","often"],0,"Neredeyse hiç: hardly ever."],
+ ["Do you ___ watch horror films?",["ever","never","once","always is"],0,"Soru: Do you ever…?"],
+ ["My dad ___ at home on Sundays.",["is usually","usually is","usual is","is usual"],0,"\"Be\" ile: is usually."],
+ ["I go to the dentist ___ a year.",["twice","two","second","double"],0,"Yılda iki kez: twice a year."],
+ ["He doesn't ___ eat breakfast.",["often","oftens","ever often","is often"],0,"Olumsuzda: doesn't often eat."]],
+"used-to":[
+ ["I ___ have a bike when I was a child.",["used to","use to","was used to","am used to"],0,"Eski durum: used to + V1."],
+ ["She didn't ___ like coffee, but now she loves it.",["used to","use to","using to","uses to"],1,"Olumsuzda \"didn't use to\"."],
+ ["___ you use to live in Ankara?",["Do","Did","Were","Are"],1,"Soru: Did you use to…?"],
+ ["There ___ to be a cinema on this street.",["use","used","was","were"],1,"Eskiden vardı: There used to be."],
+ ["My grandfather used to ___ every morning.",["swims","swim","swimming","swam"],1,"\"Used to\"dan sonra yalın fiil."],
+ ["We ___ go camping every summer.",["used to","were used to","are used to","use"],0,"Eski alışkanlık: used to."],
+ ["He used to be thin, but now he ___.",["isn't","didn't","wasn't","doesn't"],0,"Şimdiki durum: now he isn't."],
+ ["Did your parents ___ to work abroad?",["used","use","using","uses"],1,"Soruda \"use to\"."],
+ ["I ___ to play the violin, but I stopped.",["use","used","am used","using"],1,"Eskiden çalardım: used to."],
+ ["This building used to ___ a school.",["is","be","been","being"],1,"\"Used to be\"."],
+ ["She ___ to wear glasses. Now she wears contact lenses.",["used","uses","is used","use"],0,"Eski durum: used to."],
+ ["They didn't use to ___ a car.",["had","have","having","has"],1,"\"Didn't use to\" + yalın fiil."]]
+};
+
+/* Test soru havuzu · Bölüm 2: B1–B2 */
+Object.assign(TBANK,{
+/* ---------------- B1 ---------------- */
+"present-perfect":[
+ ["I ___ never ___ a horse.",["have / ridden","has / ridden","have / rode","did / ride"],0,"Deneyim: have never + V3 (ridden)."],
+ ["My parents ___ married for 30 years.",["are","have been","were","has been"],1,"Süren durum: have been."],
+ ["___ you finished your homework yet?",["Did","Have","Has","Are"],1,"\"Yet\" ile soru: Have you…?"],
+ ["We ___ that film last week.",["have seen","saw","has seen","see"],1,"Belirli geçmiş zaman (last week): simple past."],
+ ["He has lived in Izmir ___ ten years.",["since","for","ago","during"],1,"Süre: for ten years."],
+ ["I've ___ eaten. I'm not hungry.",["yet","just","ever","since"],1,"Az önce: just."],
+ ["They haven't arrived ___.",["already","yet","just","ever"],1,"Olumsuzda sonda: yet."],
+ ["Have you ___ been to Japan?",["ever","yet","since","already"],0,"Deneyim sorusu: ever."],
+ ["She ___ her phone. She can't call anyone.",["lost","has lost","loses","is losing"],1,"Etkisi süren olay: has lost."],
+ ["How long ___ you known him?",["do","did","have","are"],2,"Süre sorusu: How long have you known…?"],
+ ["I have ___ finished the report. Here it is.",["yet","already","ever","since"],1,"Beklenenden önce bitmiş: already."],
+ ["It ___ rained since Monday.",["didn't","hasn't","haven't","doesn't"],1,"\"It\" ile: hasn't + V3."]],
+"past-continuous":[
+ ["I ___ TV when you called.",["watched","was watching","were watching","am watching"],1,"Kesilen süren iş: was watching."],
+ ["They ___ dinner at 8 last night.",["were having","was having","had having","are having"],0,"\"They\" ile: were having."],
+ ["While she ___, the doorbell rang.",["cooked","was cooking","cooks","is cooking"],1,"While + süren iş: was cooking."],
+ ["Who ___ you talking to when I saw you?",["was","were","did","are"],1,"\"You\" ile: were."],
+ ["He ___ when he fell off his bike.",["was cycling","cycled","were cycling","cycles"],0,"Arka planda süren iş: was cycling."],
+ ["It ___ raining when we left home.",["was","were","is","did"],0,"\"It\" ile: was raining."],
+ ["I wasn't ___, so I didn't hear the question.",["listen","listening","listened","listens"],1,"Was/wasn't + -ing."],
+ ["We ___ along the beach when we saw a dolphin.",["walked","were walking","was walking","walk"],1,"\"We\" ile: were walking."],
+ ["She broke her arm while she ___.",["skied","was skiing","were skiing","skis"],1,"While + süren iş: was skiing."],
+ ["When the teacher came in, the students ___.",["talked","were talking","was talking","talk"],1,"O an sürmekte olan: were talking."],
+ ["At 7 am I ___ to work.",["drove","was driving","were driving","drive"],1,"Belli bir anda süren: was driving."],
+ ["The sun ___ and the birds were singing.",["shone","was shining","were shining","shines"],1,"Hikâyede arka plan: was shining."]],
+"modals":[
+ ["You ___ wear a seatbelt. It's the law.",["should","must","might","could"],1,"Kural/zorunluluk: must."],
+ ["You ___ see a doctor. You look ill.",["should","mustn't","have to not","can't"],0,"Tavsiye: should."],
+ ["We ___ wear a uniform at my school.",["have to","has to","must to","should to"],0,"\"We\" ile dış zorunluluk: have to."],
+ ["You ___ smoke here. It's forbidden.",["don't have to","mustn't","shouldn't to","needn't"],1,"Yasak: mustn't."],
+ ["Tomorrow is Sunday, so I ___ get up early.",["mustn't","don't have to","haven't to","shouldn't to"],1,"Gerek yok: don't have to."],
+ ["She ___ work on Saturdays.",["have to","has to","must to","haves to"],1,"\"She\" ile: has to."],
+ ["You ___ eat so much sugar. It's bad for you.",["shouldn't","mustn't to","don't must","haven't"],0,"Tavsiye (olumsuz): shouldn't."],
+ ["Did you ___ wait long?",["must","have to","had to","should"],1,"Geçmiş soru: Did you have to…?"],
+ ["Yesterday I ___ finish my project before midnight.",["must","had to","have to","should"],1,"Geçmişte zorunluluk: had to."],
+ ["___ I bring anything to the party?",["Should","Must to","Have","Do"],0,"Tavsiye sorusu: Should I…?"],
+ ["Students ___ use their phones during the exam.",["mustn't","don't have","shouldn't to","haven't to"],0,"Yasak: mustn't."],
+ ["He ___ to take the bus because his car broke down.",["must","has","should","have"],1,"\"Has to\"."]],
+"conditionals":[
+ ["If you heat ice, it ___.",["melts","will melt","melted","would melt"],0,"Zero conditional (genel gerçek): present + present."],
+ ["If you press this button, the machine ___.",["stops","would stop","stopped","had stopped"],0,"Zero conditional: present."],
+ ["If I ___ rich, I would travel the world.",["am","was","were","will be"],2,"Second conditional: if + were."],
+ ["If she ___ hard, she will pass.",["studies","will study","studied","would study"],0,"First conditional: if + present simple."],
+ ["What would you do if you ___ a million dollars?",["win","won","will win","would win"],1,"Second conditional: if + past simple."],
+ ["If you don't hurry, you ___ the bus.",["miss","will miss","would miss","missed"],1,"First conditional: will."],
+ ["I ___ him if I knew his number.",["will call","would call","call","called"],1,"Second conditional: would + V1."],
+ ["Unless you ___, you'll be late.",["leave now","don't leave now","left now","will leave now"],0,"\"Unless\" = if not; yanına olumsuz gelmez."],
+ ["If I were you, I ___ that job.",["take","will take","would take","took"],2,"Tavsiye: If I were you, I would…"],
+ ["If you mix red and blue, you ___ purple.",["get","will got","would get","got"],0,"Zero conditional: get."],
+ ["She would be happier if she ___ closer to her family.",["lives","lived","will live","would live"],1,"Second conditional: lived."],
+ ["We'll go to the beach if the weather ___ nice.",["will be","is","would be","was"],1,"If tarafında \"will\" kullanılmaz: is."]],
+"passive":[
+ ["This bridge ___ in 1973.",["built","was built","is built","has build"],1,"Geçmiş edilgen: was built."],
+ ["Rice ___ in many Asian countries.",["grows","is grown","grown","is growing"],1,"Edilgen: is grown."],
+ ["The offices ___ every evening.",["clean","are cleaned","is cleaned","cleaned"],1,"Çoğul edilgen: are cleaned."],
+ ["My car ___ last night.",["was stolen","stole","is stolen","stolen"],0,"Geçmiş edilgen: was stolen."],
+ ["The new hospital will ___ next year.",["open","be opened","opened","been opened"],1,"Gelecek edilgen: will be + V3."],
+ ["\"Hamlet\" was written ___ Shakespeare.",["from","by","with","of"],1,"İşi yapan: by."],
+ ["The room ___ cleaned yet.",["hasn't been","haven't been","wasn't","isn't been"],0,"Present perfect edilgen: hasn't been cleaned."],
+ ["Coffee ___ in Brazil.",["grows","is grown","grown","is growing"],1,"Edilgen: is grown."],
+ ["The windows ___ yesterday.",["were cleaned","was cleaned","cleaned","are cleaned"],0,"Çoğul, geçmiş: were cleaned."],
+ ["A new road ___ at the moment.",["is building","is being built","builds","was built"],1,"Şu an süren edilgen: is being built."],
+ ["Were you ___ to the party?",["invite","invited","inviting","invites"],1,"Was/were + V3: invited."],
+ ["The results ___ announced tomorrow.",["will","will be","are being","were"],1,"Gelecek edilgen: will be announced."]],
+"gerund-infinitive":[
+ ["I enjoy ___ in the rain.",["to walk","walking","walk","walked"],1,"\"Enjoy\"dan sonra -ing."],
+ ["She decided ___ a new car.",["buying","to buy","buy","bought"],1,"\"Decide\"dan sonra to + V1."],
+ ["He's good at ___ jokes.",["telling","to tell","tell","told"],0,"Edattan (at) sonra -ing."],
+ ["We hope ___ you soon.",["seeing","to see","see","seen"],1,"\"Hope\"dan sonra to + V1."],
+ ["Would you mind ___ a little quieter?",["to be","being","be","been"],1,"Mind + -ing."],
+ ["I'm learning English ___ a better job.",["for getting","to get","get","getting"],1,"Amaç: to + V1."],
+ ["They avoided ___ about the problem.",["to talk","talking","talk","talked"],1,"\"Avoid\"dan sonra -ing."],
+ ["She promised ___ on time.",["being","to be","be","been"],1,"\"Promise\"dan sonra to + V1."],
+ ["___ too much coffee is bad for your sleep.",["Drink","To drinking","Drinking","Drank"],2,"Özne olarak -ing: Drinking."],
+ ["I can't stand ___ in queues.",["to waiting","waiting","wait","waited"],1,"\"Can't stand\"den sonra -ing."],
+ ["He wants ___ a doctor.",["becoming","to become","become","became"],1,"\"Want\"tan sonra to + V1."],
+ ["Thank you for ___ me.",["help","to help","helping","helped"],2,"Edattan (for) sonra -ing."]],
+"question-tags":[
+ ["She's a teacher, ___?",["is she","isn't she","doesn't she","wasn't she"],1,"Olumlu cümle → olumsuz etiket: isn't she?"],
+ ["They don't live here, ___?",["don't they","do they","are they","aren't they"],1,"Olumsuz → do they?"],
+ ["They went to Rome, ___?",["didn't they","don't they","weren't they","did they"],0,"Geçmiş olumlu → didn't they?"],
+ ["He can swim, ___?",["can he","can't he","doesn't he","isn't he"],1,"Modal ile: can't he?"],
+ ["It wasn't expensive, ___?",["wasn't it","was it","isn't it","did it"],1,"Olumsuz → was it?"],
+ ["You've finished, ___?",["haven't you","have you","didn't you","don't you"],0,"Present perfect: haven't you?"],
+ ["Let's go, ___?",["will we","shall we","don't we","let us"],1,"\"Let's\" → shall we?"],
+ ["She won't be late, ___?",["won't she","will she","isn't she","is she"],1,"Olumsuz \"won't\" → will she?"],
+ ["Nobody called, ___?",["did they","didn't they","did he","called they"],0,"\"Nobody\" olumsuz anlam taşır → did they?"],
+ ["Your brother lives in Bursa, ___?",["does he","doesn't he","isn't he","didn't he"],1,"Geniş zaman olumlu → doesn't he?"],
+ ["Open the door, ___?",["will you","do you","are you","don't you"],0,"Emir cümlesi → will you?"],
+ ["We should leave now, ___?",["should we","shouldn't we","don't we","won't we"],1,"Modal: shouldn't we?"]],
+"too-enough":[
+ ["I can't buy it. It's ___ expensive.",["too","enough","very much","so much"],0,"Fazlalık ve olumsuz sonuç: too."],
+ ["He isn't old ___ to vote.",["too","enough","so","very"],1,"Sıfat + enough."],
+ ["We don't have ___ money for a holiday.",["too","enough","so","much too"],1,"Enough + isim."],
+ ["The soup is ___ salty to eat.",["enough","too","very","so"],1,"too + sıfat + to."],
+ ["Is the water warm ___ for swimming?",["enough","too","so","much"],0,"Sıfat + enough."],
+ ["She speaks ___ quickly. I can't understand her.",["enough","too","so much","very much"],1,"too + zarf."],
+ ["There are ___ many people here. Let's go.",["enough","too","so much","very"],1,"too many + sayılabilen."],
+ ["I didn't sleep ___ last night.",["too","enough","so","very"],1,"Fiil + enough."],
+ ["This box is too heavy for me ___.",["to carry","carrying","carry","carried"],0,"too + sıfat + to + V1."],
+ ["He's not tall ___ to reach the top shelf.",["too","enough","so","very"],1,"Sıfat + enough."],
+ ["There's ___ much sugar in this tea.",["enough","too","very","so many"],1,"too much + sayılamayan."],
+ ["Are there ___ chairs for everyone?",["too","enough","so","very"],1,"Enough + isim."]],
+"be-used-to":[
+ ["I'm used to ___ early.",["get up","getting up","got up","gets up"],1,"Be used to + -ing."],
+ ["She ___ living in a big city now.",["is used to","used to","use to","is use to"],0,"Şimdi alışkın: is used to."],
+ ["It took me months to get used to ___ on the left.",["drive","driving","drove","drives"],1,"Get used to + -ing."],
+ ["We aren't used to ___ weather.",["such cold","such a cold","so cold","cold such"],0,"Be used to + isim öbeği: such cold weather."],
+ ["He ___ to play tennis, but he stopped.",["is used","used","gets used","was used"],1,"Eski alışkanlık: used to + V1 (farklı yapı)."],
+ ["You'll soon get used ___ the noise.",["to","with","at","for"],0,"Get used to."],
+ ["Are you used to ___ alone?",["live","living","lived","lives"],1,"Be used to + -ing."],
+ ["When I moved to London, I ___ used to the rain quickly.",["got","was","use","get"],0,"Alışma süreci (geçmiş): got used to."],
+ ["After a week, she ___ to the new job.",["got used","used","was use","gets use"],0,"Geçmişte alıştı: got used to."],
+ ["They ___ used to working long hours.",["are","do","have","get to"],0,"Be used to: they are used to."],
+ ["I can't get used ___ my new glasses.",["to","with","by","for"],0,"Get used to."],
+ ["He was used to ___ by everyone.",["help","being helped","helped","helping by"],1,"Edilgen anlam: being helped."]],
+/* ---------------- B2 ---------------- */
+"past-perfect":[
+ ["When we reached the cinema, the film ___.",["began","had begun","has begun","begins"],1,"Öncesinde: had begun."],
+ ["She ___ never ___ snow before she moved to Erzurum.",["had / seen","has / seen","did / see","had / saw"],0,"Daha önceki deneyim: had never seen."],
+ ["They were tired because they ___ all day.",["worked","had worked","have worked","work"],1,"Sebep, öncesinde olmuş: had worked."],
+ ["By the time we arrived, the film ___.",["started","had started","has started","starts"],1,"\"By the time\" + öncelik: had started."],
+ ["I ___ him before, so I didn't recognise him.",["hadn't met","didn't meet","haven't met","wasn't meeting"],0,"Daha önce tanışmamıştım: hadn't met."],
+ ["___ you ever travelled abroad before 2020?",["Have","Had","Did","Were"],1,"Geçmişteki bir zamandan önce: Had you…?"],
+ ["After she ___ the letter, she cried.",["read","had read","has read","was reading"],1,"Önce okudu, sonra ağladı: had read."],
+ ["He told me he ___ the keys.",["lost","had lost","has lost","loses"],1,"Dolaylı anlatımda geri kayma: had lost."],
+ ["The room was clean because someone ___ it.",["cleaned","had cleaned","has cleaned","was clean"],1,"Önceden yapılmış: had cleaned."],
+ ["I wish I ___ to the concert last week.",["went","had gone","have gone","go"],1,"Geçmiş pişmanlık: wish + had + V3."],
+ ["When I opened the fridge, someone ___ all the cake.",["ate","had eaten","has eaten","eats"],1,"Öncesinde: had eaten."],
+ ["They ___ just ___ when the storm started.",["had / arrived","have / arrived","did / arrive","had / arrive"],0,"had just + V3."]],
+"third-conditional":[
+ ["If I had known, I ___ you.",["would tell","would have told","will tell","had told"],1,"Third conditional: would have + V3."],
+ ["If she ___ earlier, she wouldn't have missed the bus.",["left","had left","has left","would leave"],1,"If + had + V3."],
+ ["We would have won if we ___ harder.",["played","had played","have played","would play"],1,"If + had + V3."],
+ ["If it hadn't rained, we ___ a picnic.",["would have had","would had","will have","had had"],0,"would have + V3."],
+ ["If you ___ me, I would have helped.",["asked","had asked","have asked","would ask"],1,"If + had asked."],
+ ["He ___ the job if he had prepared for the interview.",["would get","would have got","will get","had got"],1,"would have got."],
+ ["If they hadn't been late, they ___ the start.",["wouldn't miss","wouldn't have missed","didn't miss","hadn't missed"],1,"wouldn't have + V3."],
+ ["I wouldn't have bought it if I ___ the price.",["knew","had known","have known","would know"],1,"If + had known."],
+ ["If he had studied, he ___ the exam.",["would pass","would have passed","passed","had passed"],1,"would have passed."],
+ ["Would you have come if I ___ you?",["invited","had invited","have invited","would invite"],1,"If + had invited."],
+ ["If the alarm ___, I wouldn't have overslept.",["rang","had rung","has rung","would ring"],1,"If + had rung."],
+ ["She ___ angry if you had told her the truth.",["wouldn't be","wouldn't have been","won't be","hadn't been"],1,"Geçmişe ait sonuç: wouldn't have been."]],
+"reported-speech":[
+ ["\"I'm tired,\" she said. → She said she ___ tired.",["is","was","has been","be"],1,"Zaman geri kayar: is → was."],
+ ["\"I will call you,\" he said. → He said he ___ call me.",["will","would","shall","can"],1,"will → would."],
+ ["\"Where do you live?\" → She asked me where I ___.",["live","lived","do live","did live"],1,"Soru düz sıraya girer ve zaman kayar: lived."],
+ ["\"Are you ready?\" → He asked ___ I was ready.",["that","if","what","do"],1,"Evet/hayır sorusu: if/whether."],
+ ["\"Close the door.\" → She told me ___ the door.",["close","to close","closing","closed"],1,"Emir: told + kişi + to + V1."],
+ ["\"I saw the film.\" → He said he ___ the film.",["saw","had seen","has seen","sees"],1,"Past → past perfect: had seen."],
+ ["\"Don't be late.\" → My mum told me ___ late.",["not be","not to be","don't be","to not being"],1,"Olumsuz emir: not to + V1."],
+ ["She ___ me that she was moving to Izmir.",["said","told","asked","spoke"],1,"Kişiyle birlikte: told me."],
+ ["He ___ that he was busy.",["told","said","asked","talked"],1,"Kişi olmadan: said (that)."],
+ ["\"I can swim.\" → She said she ___ swim.",["can","could","may","will"],1,"can → could."],
+ ["\"We are leaving tomorrow.\" → They said they were leaving ___.",["tomorrow","the next day","yesterday","today"],1,"Zaman ifadesi kayar: tomorrow → the next day."],
+ ["\"What time is it?\" → He asked what time ___.",["is it","it was","was it","it is"],1,"Soru düz sıraya girer: what time it was."]],
+"relative-clauses":[
+ ["The man ___ lives next door is a pilot.",["which","who","whose","where"],1,"Kişi: who."],
+ ["This is the book ___ I told you about.",["who","which","whose","where"],1,"Nesne/şey: which (ya da that)."],
+ ["That's the girl ___ father is a famous actor.",["who","which","whose","whom"],2,"Sahiplik: whose."],
+ ["The town ___ I grew up is very small.",["which","where","who","whose"],1,"Yer: where."],
+ ["My car, ___ is ten years old, still works well.",["that","which","who","what"],1,"Virgüllü (ek bilgi) cümlede \"that\" kullanılmaz: which."],
+ ["I remember the day ___ we first met.",["which","where","when","who"],2,"Zaman: when."],
+ ["She's the person ___ I trust most.",["which","whose","who","where"],2,"Kişi (nesne): who/whom/that."],
+ ["The phone ___ I bought last week is broken.",["who","what","that","whose"],2,"Şey: that/which."],
+ ["Ali, ___ works with me, is very funny.",["that","who","which","whose"],1,"Virgüllü cümlede kişi: who."],
+ ["Is this the shop ___ sells second-hand books?",["who","where","which","whose"],2,"Özne konumunda şey: which/that."],
+ ["The students ___ passed the exam got a certificate.",["which","who","whose","where"],1,"Kişi: who."],
+ ["I met a woman ___ son is in my class.",["who","whose","which","that"],1,"Sahiplik: whose."]],
+"wish":[
+ ["I wish I ___ a bigger flat.",["have","had","will have","having"],1,"Şimdiki istek: had."],
+ ["She wishes she ___ a car.",["has","had","have","will have"],1,"Şimdiki durum için: wish + past simple."],
+ ["I wish I ___ so much yesterday.",["didn't eat","hadn't eaten","don't eat","won't eat"],1,"Geçmiş pişmanlık: wish + had + V3."],
+ ["If only it ___ raining!",["stops","would stop","stopped to","will stop"],1,"Şikâyet/istek (değişsin): would + V1."],
+ ["I wish you ___ talking during the film.",["stop","would stop","stopped to","will stop"],1,"Başkasının davranışından şikâyet: would."],
+ ["He wishes he ___ French. He'd like to live in Paris.",["speaks","spoke","has spoken","will speak"],1,"Şimdiki durum: past simple."],
+ ["If only I ___ to her advice!",["listened","had listened","listen","would listen"],1,"Geçmiş pişmanlık: had listened."],
+ ["I wish I ___ come to your party, but I'm working.",["can","could","will","would"],1,"Şimdiki yetenek: could."],
+ ["They wish they ___ the house. It's too expensive now.",["didn't buy","hadn't bought","don't buy","won't buy"],1,"Geçmiş pişmanlık: hadn't bought."],
+ ["I wish my neighbours ___ so noisy.",["aren't","weren't","won't be","haven't been"],1,"Şimdiki durum: weren't."],
+ ["She wishes she ___ more time with her kids last year.",["spent","had spent","spends","would spend"],1,"Geçmiş: had spent."],
+ ["I wish I ___ the answer. Sorry!",["know","knew","have known","will know"],1,"Şimdiki: knew."]],
+"modals-deduction":[
+ ["The lights are off. They ___ be at home.",["must","can't","should","have to"],1,"Neredeyse imkânsız: can't."],
+ ["She's been working all day. She ___ be exhausted.",["must","can't","mustn't","couldn't"],0,"Güçlü tahmin: must."],
+ ["I'm not sure where he is. He ___ be in the library.",["must","might","can't","has to"],1,"Olasılık: might."],
+ ["The ground is wet. It ___ have rained.",["must","can't","shouldn't","needn't"],0,"Geçmiş güçlü tahmin: must have."],
+ ["He ___ have stolen it; he was with me all evening.",["must","can't","might","should"],1,"Geçmiş imkânsızlık: can't have."],
+ ["She ___ have missed the bus. That's why she's late.",["might","can't","mustn't","needn't"],0,"Geçmiş olasılık: might have."],
+ ["You ___ be hungry. You've just eaten a huge pizza!",["must","can't","might","should"],1,"İmkânsız: can't."],
+ ["They didn't answer. They ___ have been asleep.",["could","can't","mustn't","needn't"],0,"Olasılık: could have."],
+ ["That ___ be Ayşe at the door. She said she'd come at 5.",["must","can't","mustn't","needn't"],0,"Güçlü tahmin: must."],
+ ["I can't find my wallet. I ___ have left it at the café.",["must","may","can't","should"],1,"Olasılık: may have."],
+ ["Someone is knocking. It ___ be the postman; he always comes at ten.",["must","can't","mustn't","needn't"],0,"Güçlü tahmin: must."],
+ ["She ___ have seen us. She didn't wave.",["mustn't","can't","might not","needn't"],2,"Olası değil: might not have."]],
+"causative":[
+ ["I ___ my hair cut every month.",["have","make","do","let"],0,"Hizmet almak: have something done."],
+ ["She had her car ___ yesterday.",["repair","repaired","repairing","to repair"],1,"have + nesne + V3."],
+ ["We're getting our house ___ next week.",["paint","painted","painting","to paint"],1,"get + nesne + V3."],
+ ["He had his phone ___ on the bus.",["steal","stolen","stealing","stole"],1,"İstenmeyen olay: had his phone stolen."],
+ ["Where do you ___ your clothes cleaned?",["have","make","let","do"],0,"Have + nesne + V3."],
+ ["I need to get my eyes ___.",["test","tested","testing","to test"],1,"get + nesne + V3."],
+ ["They ___ their kitchen redesigned last year.",["had","made","did","let"],0,"Geçmiş: had + nesne + V3."],
+ ["You should have your teeth ___.",["check","checked","checking","to check"],1,"have + nesne + V3."],
+ ["She's having a new dress ___ for the wedding.",["make","made","making","to make"],1,"having + nesne + V3."],
+ ["I'm going to ___ my bike fixed.",["get","make","let","take"],0,"get something fixed."],
+ ["Did you ___ the documents translated?",["have","made","do","let"],0,"Did you have … translated?"],
+ ["My grandmother had her bag ___ at the market.",["snatched","snatch","snatching","to snatch"],0,"İstenmeyen olay: had her bag snatched."]]
+});
+
+/* Test soru havuzu · Bölüm 3: C1 */
+Object.assign(TBANK,{
+"mixed-conditionals":[
+ ["If I had eaten breakfast, I ___ hungry now.",["wouldn't be","wouldn't have been","won't be","hadn't been"],0,"Geçmiş → şimdi: would + V1."],
+ ["If she ___ Spanish, she would have understood the guide.",["speaks","spoke","had spoken","would speak"],1,"Kalıcı durum → geçmiş sonuç: if + V2."],
+ ["We would still be living in Izmir if my father ___ a new job.",["didn't get","hadn't got","wouldn't get","doesn't get"],1,"Geçmiş koşul: hadn't got."],
+ ["If he ___ so lazy, he would have finished the project on time.",["isn't","weren't","hadn't been","wouldn't be"],1,"Genel özellik (şimdi) → geçmiş sonuç: weren't."],
+ ["If you had told me earlier, I ___ a solution by now.",["would find","would have found","will find","found"],1,"\"By now\" yine de tamamlanmışlık: would have found."],
+ ["If I had accepted that offer, I ___ in London today.",["would live","would have lived","will live","lived"],0,"\"Today\" → would + V1."],
+ ["She wouldn't be in hospital now if she ___ more careful.",["was","had been","would be","is"],1,"Geçmiş koşul: had been."],
+ ["If I ___ afraid of flying, I would have visited you in Canada.",["wasn't","hadn't been","wouldn't be","am not"],0,"Kalıcı durum: wasn't/weren't."],
+ ["If they hadn't cancelled the flight, we ___ on the beach right now.",["would lie","would be lying","would have lain","will be lying"],1,"Şu an sürecek iş: would be + -ing."],
+ ["If I were you, I ___ that email yesterday.",["wouldn't send","wouldn't have sent","won't send","didn't send"],1,"Şimdi (senin yerinde olsam) → geçmiş: wouldn't have sent."],
+ ["He would be a famous singer now if he ___ music.",["studied","had studied","has studied","would study"],1,"Geçmiş koşul: had studied."],
+ ["If I knew more about computers, I ___ my laptop last week.",["would fix","could have fixed","can fix","had fixed"],1,"Şimdiki bilgi → geçmiş sonuç: could have fixed."]],
+"inversion":[
+ ["Never ___ such a beautiful sunset.",["I have seen","have I seen","I saw","seen I have"],1,"Olumsuz zarf başta: yardımcı fiil + özne."],
+ ["Rarely ___ he arrive on time.",["does","do","did he","is"],0,"Geniş zaman, he: Rarely does he…"],
+ ["Not only ___ late, but he also forgot the tickets.",["he was","was he","he is","did he was"],1,"Not only + yardımcı fiil + özne."],
+ ["No sooner ___ home than it started to rain.",["had I got","I had got","did I got","I got"],0,"No sooner had + özne + V3 … than."],
+ ["Hardly ___ the door when the phone rang.",["I had opened","had I opened","did I opened","I opened"],1,"Hardly had + özne + V3 … when."],
+ ["Under no circumstances ___ open this door.",["you should","should you","you must","must"],1,"Under no circumstances + yardımcı + özne."],
+ ["Only after the exam ___ how easy it had been.",["did I realise","I realised","I did realise","realised I"],0,"Only after … + did + özne."],
+ ["Little ___ that she was planning a surprise.",["did I know","I knew","I did know","knew I"],0,"Little did I know…"],
+ ["Seldom ___ such talent in a young player.",["we see","do we see","we do see","see we"],1,"Seldom + do + özne + V1."],
+ ["Not until I got home ___ I had lost my wallet.",["I realised","did I realise","realised I","had I realise"],1,"Not until … + did + özne."],
+ ["Only then ___ how serious the problem was.",["she understood","did she understand","she did understand","understood she"],1,"Only then + did + özne."],
+ ["At no time ___ the passengers in danger.",["were","was","they were","did"],0,"At no time + were + özne (çoğul)."]],
+"participle-clauses":[
+ ["___ the news, she burst into tears.",["Hearing","Heard","To hear","Having heard of"],0,"Aynı anda/hemen ardından: Hearing."],
+ ["___ in 1920, the house needs a lot of repairs.",["Building","Built","Having built","To build"],1,"Edilgen anlam: Built."],
+ ["___ his homework, he went out to play.",["Finishing","Having finished","Finished","To finish"],1,"Önce biten iş: Having finished."],
+ ["Not ___ what to say, I kept quiet.",["knowing","known","having know","to know"],0,"Sebep (olumsuz): Not knowing."],
+ ["The man ___ next to me on the train was reading a novel.",["sitting","sat","having sat","sits"],0,"Etken anlam (who was sitting): sitting."],
+ ["___ by the storm, the trees fell onto the road.",["Damaging","Damaged","Having damaged","Damage"],1,"Edilgen: Damaged."],
+ ["___ the instructions carefully, you'll avoid mistakes.",["Following","Followed","Having been followed","To following"],0,"Koşul/yöntem: Following."],
+ ["The books ___ on the table are mine.",["leaving","left","having left","leave"],1,"Edilgen (which were left): left."],
+ ["___ been warned twice, he was still late.",["Having","Have","Had","Being"],0,"Önce gelen edilgen: Having been warned."],
+ ["___ tired, I decided to stay at home.",["Feeling","Felt","Having feel","To feel"],0,"Sebep: Feeling tired."],
+ ["___ in simple English, the book is easy to read.",["Writing","Written","Having written","To write"],1,"Edilgen: Written."],
+ ["___ all his money, he had to borrow from a friend.",["Spending","Having spent","Spent","To spend"],1,"Önce olan: Having spent."]],
+"cleft-sentences":[
+ ["It was my brother ___ broke the vase.",["which","who","what","whom"],1,"Kişi vurgusu: It was … who."],
+ ["___ I need is a cup of coffee.",["That","What","Which","It"],1,"What-cleft: What I need is…"],
+ ["It was in Paris ___ they first met.",["where","that","which","what"],1,"Yer vurgusu: It was in Paris that…"],
+ ["What she did ___ call the police.",["is","was","were","did"],1,"Geçmiş: What she did was…"],
+ ["It's not the money ___ I care about; it's the time.",["what","that","who","where"],1,"It is … that."],
+ ["___ annoys me is his attitude.",["That","What","Which","It"],1,"What annoys me is…"],
+ ["All I want ___ some peace and quiet.",["are","is","were","be"],1,"All I want is…"],
+ ["It was only when I read the letter ___ I understood.",["when","that","which","what"],1,"It was only when … that."],
+ ["The thing ___ worries me is the cost.",["what","that","who","where"],1,"The thing that…"],
+ ["What happened ___ that the car broke down.",["is","was","were","had"],1,"What happened was that…"],
+ ["It was Ayşe, not Ali, ___ won the prize.",["which","who","whom","what"],1,"Kişi: who."],
+ ["The reason ___ I called is to apologise.",["why","what","which","who"],0,"The reason why…"]],
+"future-perfect":[
+ ["By the time you arrive, we ___ dinner.",["will finish","will have finished","finish","are finishing"],1,"Belli zamana kadar bitmiş: will have finished."],
+ ["This time next week, I ___ on a beach in Antalya.",["will lie","will be lying","will have lain","lie"],1,"Gelecekte süren iş: will be lying."],
+ ["By 2030, scientists ___ a cure for this disease.",["will find","will have found","will be finding","find"],1,"By + zaman: will have found."],
+ ["Don't call at 9. I ___ my favourite show.",["will watch","will be watching","will have watched","watch"],1,"O saatte sürecek: will be watching."],
+ ["By June, she ___ here for ten years.",["will work","will have been working","will be working","works"],1,"Süre vurgusu: will have been working."],
+ ["___ you be using your laptop this evening?",["Will","Are","Do","Have"],0,"Kibar soru: Will you be using…?"],
+ ["By the end of the day, I ___ 300 emails.",["will answer","will have answered","will be answering","answer"],1,"will have answered."],
+ ["At midnight, they ___ over the Atlantic.",["will fly","will be flying","will have flown","fly"],1,"O anda sürecek: will be flying."],
+ ["She ___ her degree by the time she's 22.",["will complete","will have completed","completes","is completing"],1,"will have completed."],
+ ["I ___ you at the airport. I'll be wearing a red coat.",["will meet","will have met","meet","am meet"],0,"Basit gelecek: will meet."],
+ ["By next month, he ___ smoking for a whole year.",["will stop","will have stopped","will be stopping","stops"],1,"Tamamlanmış: will have stopped."],
+ ["Tomorrow at this time, we ___ our exam.",["will take","will be taking","will have taken","take"],1,"O sırada sürecek: will be taking."]],
+"passive-reporting":[
+ ["It ___ that the minister will resign.",["says","is said","said","is saying"],1,"Edilgen kanaat: It is said that…"],
+ ["He is believed ___ the country last year.",["to leave","to have left","leaving","left"],1,"Geçmişe ait: to have + V3."],
+ ["The company is reported ___ losing money.",["to be","being","be","to have"],0,"Şu an süren: to be + -ing."],
+ ["It ___ that the painting is a fake.",["thinks","is thought","thought","has thinking"],1,"It is thought that…"],
+ ["She is said ___ very rich.",["being","to be","be","to been"],1,"is said to be."],
+ ["The thieves are thought ___ through the window.",["to escape","to have escaped","escaping","escaped"],1,"Geçmiş: to have escaped."],
+ ["It has been ___ that prices will rise.",["announce","announced","announcing","to announce"],1,"Present perfect edilgen: has been announced."],
+ ["The singer is expected ___ a new album soon.",["to release","releasing","to have released","released"],0,"Gelecek beklenti: to + V1."],
+ ["___ is known that smoking causes cancer.",["There","It","This","That"],1,"It is known that…"],
+ ["The ship is believed ___ in the storm.",["to sink","to have sunk","sinking","sank"],1,"Geçmiş: to have sunk."],
+ ["The president is said ___ his decision.",["to be reconsidering","reconsider","to reconsidering","reconsidered"],0,"Şu an süren: to be + -ing."],
+ ["It was reported that two people ___ injured.",["are","were","have","had"],1,"Geçmiş edilgen: were injured."]]
+});
+
+/* ---------------- C2 · Ustalık ---------------- */
+GRAMMAR_LEVELS.C2={name:"Ustalık",desc:"Resmî üslup, incelikli vurgu ve anadil düzeyi yapılar",color:"var(--g5)"};
+GRAMMAR.push(
+{id:"subjunctive",level:"C2",title:"The Subjunctive",sub:"suggest that he be / It's vital that she go",tr:"Dilek ve gereklilik kipi",
+ intro:"Subjunctive (dilek kipi), resmî İngilizcede bir öneri, talep ya da gerekliliği anlatırken fiilin hiç çekimlenmemiş yalın hâlinin kullanılmasıdır. \"He goes\" yerine \"that he go\", \"she is\" yerine \"that she be\" denir. Türkçedeki \"-mesi gerekir, -mesini önerdi\" yapılarına karşılık gelir. Gazete, hukuk ve akademik metinlerde sık görülür.",
+ uses:["Öneri ve talep fiillerinden sonra: The doctor recommended that he stop smoking.","Önem ve gereklilik sıfatlarından sonra: It is essential that every student be present.","Kalıplaşmış ifadeler: God save the King. / Be that as it may…","Olumsuz yapı (not + yalın fiil): They insisted that he not be told."],
+ forms:[["Fiil + that","suggest / insist / demand + that + özne + V1","She insisted that he leave immediately."],["Sıfat + that","It is vital / essential + that + özne + V1","It is vital that she be informed."],["Olumsuz","that + özne + not + V1","We asked that the meeting not be recorded."]],
+ examples:[["The committee **demanded** that the report **be** published.","Komite raporun yayımlanmasını talep etti."],["I **suggest** that she **apply** for the scholarship.","Bursa başvurmasını öneririm."],["It is **crucial** that everyone **arrive** on time.","Herkesin zamanında gelmesi çok önemli."],["The judge **ordered** that he **pay** a fine.","Hâkim onun para cezası ödemesine hükmetti."],["It is **important** that he **not** **be** disturbed.","Rahatsız edilmemesi önemli."],["**Be that as it may**, we still need a decision.","Her ne olursa olsun, yine de bir karar vermemiz gerekiyor."]],
+ signals:["suggest","recommend","insist","demand","essential","vital","crucial","imperative"],
+ mistakes:[["The doctor suggested that he stops smoking.","The doctor suggested that he **stop** smoking.","Dilek kipinde üçüncü tekil şahısta bile -s eklenmez."],["It is essential that she is there.","It is essential that she **be** there.","Resmî dilde \"is\" yerine yalın \"be\" kullanılır."],["They insisted that he didn't come.","They insisted that he **not come**.","Olumsuzu \"not + yalın fiil\" ile yapılır; \"didn't\" kullanılmaz."]],
+ quiz:[["The manager insisted that the report ___ finished today.",["is","be","was","being"],1,"Insist that + özne + be."],
+  ["I recommend that he ___ a lawyer.",["consults","consult","consulted","will consult"],1,"Recommend that + yalın fiil."],
+  ["It is vital that she ___ the medicine every day.",["takes","take","took","is taking"],1,"Vital that + yalın fiil (-s yok)."],
+  ["They asked that we ___ smoke inside.",["don't","not","didn't","weren't"],1,"Olumsuz dilek kipi: not + V1."],
+  ["It's essential that every guest ___ registered.",["is","be","are","been"],1,"Essential that + be."],
+  ["She proposed that the meeting ___ postponed.",["be","is","was","will be"],0,"Propose that + be + V3."]]},
+{id:"inverted-conditionals",level:"C2",title:"Inverted Conditionals",sub:"Had I known… / Should you need… / Were I to…",tr:"If'siz koşul cümleleri",
+ intro:"Resmî İngilizcede koşul cümlelerinde \"if\" atılıp yardımcı fiil başa alınabilir. \"If I had known\" yerine \"Had I known\", \"If you should need\" yerine \"Should you need\" denir. Anlam aynıdır ama cümle daha resmî ve akıcı olur. İş e-postalarında, resmî yazılarda ve edebî metinlerde çok kullanılır.",
+ uses:["Üçüncü tip (geçmiş): Had I known about the problem, I would have helped.","İkinci tip (varsayım): Were I in your position, I would accept the offer.","Birinci tip (olasılık, kibar): Should you have any questions, please contact us.","Gelecekteki varsayım: Were the company to close, hundreds would lose their jobs."],
+ forms:[["Had","Had + özne + V3, … would have + V3","Had she left earlier, she would have caught the train."],["Were","Were + özne + (to V1), … would + V1","Were I rich, I would buy an island."],["Should","Should + özne + V1, … will/imperative","Should you need help, call me."]],
+ examples:[["**Had** we **known** about the traffic, we **would have taken** the train.","Trafiği bilseydik trene binerdik."],["**Should** you **require** further information, please do not hesitate to contact us.","Daha fazla bilgiye ihtiyacınız olursa lütfen bizimle iletişime geçmekten çekinmeyin."],["**Were** I **to** win the lottery, I **would** quit my job.","Piyangoyu kazanacak olsam işimi bırakırdım."],["**Had** it not **been** for your help, I **would have failed**.","Senin yardımın olmasaydı başarısız olurdum."],["**Were** it not for the rain, we **could** go out.","Yağmur olmasa dışarı çıkabilirdik."],["**Should** the flight **be** delayed, we **will** inform you by text.","Uçuş rötar yaparsa size mesajla bilgi vereceğiz."]],
+ signals:["had","were","should","had it not been for","were it not for"],
+ mistakes:[["Had I knew, I would have come.","Had I **known**, I would have come.","\"Had\"den sonra fiilin 3. hâli gelir."],["If had I known, I would have told you.","**Had I known**, I would have told you.","Devrik yapıda \"if\" kullanılmaz."],["Hadn't I seen it, I wouldn't believe it.","**Had I not seen** it, I wouldn't believe it.","Olumsuz devrik koşulda \"not\" özneden sonra gelir; kısaltma yapılmaz."]],
+ quiz:[["___ I known you were ill, I would have visited you.",["If","Had","Were","Should"],1,"Geçmiş: Had + özne + V3."],
+  ["___ you need any help, just let me know.",["Should","Had","Were","Would"],0,"Olası gelecek: Should you need…"],
+  ["___ I in your shoes, I would apologise.",["Was","Were","Had","Should"],1,"Varsayım: Were I…"],
+  ["Had it not ___ for the doctor, he would have died.",["be","been","being","was"],1,"Had it not been for…"],
+  ["___ it not for her support, the project would fail.",["Had","Were","Should","Did"],1,"Şimdiki varsayım: Were it not for…"],
+  ["Had they ___ earlier, they wouldn't have missed the start.",["leave","left","leaving","leaves"],1,"Had + V3: left."]]},
+{id:"ellipsis-substitution",level:"C2",title:"Ellipsis & Substitution",sub:"so / not / do so / one / neither",tr:"Tekrardan kaçınma: eksiltme ve yerine koyma",
+ intro:"Anadili İngilizce olanlar aynı kelimeleri tekrar etmekten kaçınır. Önceden söyleneni \"so, not, one, do so\" gibi kelimelerle karşılar ya da tamamen atlarlar. \"Do you think it will rain? — I hope not.\" cümlesinde \"I hope it won't rain\" yerine kısaca \"I hope not\" denmiştir. Bu yapılar konuşmayı doğal ve akıcı yapar.",
+ uses:["Cümle yerine so / not: Is she coming? — I think so. / I hope not.","İsim yerine one / ones: I don't like the red shirt; I prefer the blue one.","Fiil öbeği yerine do so: He promised to help, and he did so.","Eksiltme (tekrarı atlamak): I wanted to go, but I couldn't."],
+ forms:[["so / not","think / hope / suppose / be afraid + so / not","I'm afraid not."],["one / ones","sıfat + one(s)","Which ones do you want?"],["do so","do so / did so / doing so","She was asked to resign, and she did so."]],
+ examples:[["Will it be expensive? — I **suppose so**.","Pahalı olur mu? — Sanırım."],["Is the shop open on Sunday? — I'm **afraid not**.","Dükkân pazar günü açık mı? — Maalesef değil."],["These shoes are too small. Do you have bigger **ones**?","Bu ayakkabılar çok küçük. Daha büyüklerinden var mı?"],["You can leave early if you wish to **do so**.","İsterseniz erken çıkabilirsiniz."],["She can speak Chinese, and **so can** her brother.","O Çince konuşabiliyor, kardeşi de."],["I've never been to Peru, and **neither has** my wife.","Ben Peru'ya hiç gitmedim, eşim de gitmedi."]],
+ signals:["so","not","one","ones","do so","neither","nor","either"],
+ mistakes:[["Do you think he'll come? — I don't hope.","Do you think he'll come? — I **hope not**.","\"Hope\" ile olumsuz kısa cevap \"I hope not\" olur."],["I like the green dress, but my sister prefers the red.","…my sister prefers the red **one**.","Sayılabilen tekil isim yerine \"one\" kullanılır."],["I'm not hungry. — Me neither not.","I'm not hungry. — **Me neither.** / **Neither am I.**","\"Neither\" zaten olumsuzdur; ayrıca \"not\" eklenmez."]],
+ quiz:[["Will the train be late? — I hope ___.",["no","not","don't","neither"],1,"Olumsuz dilek: I hope not."],
+  ["Is she coming tonight? — I think ___.",["yes","it","so","that"],2,"I think so."],
+  ["I don't like these glasses. Can I see those ___?",["one","ones","them ones","it"],1,"Çoğul: ones."],
+  ["He can't swim, and ___ can I.",["so","neither","either","not"],1,"Olumsuz katılma: neither can I."],
+  ["She asked us to leave, and we ___.",["did so","did it so","so did","made so"],0,"Fiil öbeği yerine: did so."],
+  ["I've finished. — ___ have I.",["Neither","So","Too","Also"],1,"Olumlu katılma: So have I."]]},
+{id:"past-modals",level:"C2",title:"Past Modals: Needn't Have & Should Have",sub:"needn't have / didn't need to / should have / could have",tr:"Geçmişe yönelik gereklilik, eleştiri ve fırsat",
+ intro:"Geçmişe dönük modal yapılar ince anlam farkları taşır. \"I needn't have bought milk\" süt alındığını ama gereksiz olduğunu söyler; \"I didn't need to buy milk\" ise genellikle alınmadığını anlatır. \"Should have\" pişmanlık ya da eleştiri, \"could have\" kullanılmamış bir fırsat ya da olasılık bildirir.",
+ uses:["Gereksiz yere yapılmış iş: You needn't have cooked; we'd already eaten.","Gerekli olmadığı için yapılmamış iş: I didn't need to take a taxi, so I walked.","Pişmanlık ve eleştiri: You should have told me the truth.","Kaçırılmış fırsat: We could have won if we'd tried harder."],
+ forms:[["needn't have","needn't have + V3","She needn't have worried."],["should(n't) have","should / shouldn't have + V3","I shouldn't have eaten so much."],["could have","could have + V3","You could have called me!"]],
+ examples:[["You **needn't have brought** a present, but thank you!","Hediye getirmene gerek yoktu ama teşekkürler!"],["We **didn't need to** wait; the doctor saw us at once.","Beklememize gerek kalmadı; doktor bizi hemen gördü."],["I **should have studied** harder for the exam.","Sınava daha çok çalışmalıydım."],["He **shouldn't have spoken** to her like that.","Onunla öyle konuşmamalıydı."],["You **could have hurt** yourself!","Kendine zarar verebilirdin!"],["They **might have taken** the earlier train.","Daha erken trene binmiş olabilirler."]],
+ signals:["needn't have","didn't need to","should have","ought to have","could have","might have"],
+ mistakes:[["I needn't have go there.","I needn't have **gone** there.","\"Have\"den sonra fiilin 3. hâli gelir."],["You should told me.","You should **have told** me.","Geçmiş eleştiri: should + have + V3."],["I didn't need to buy bread, but I bought it anyway, which was a waste.","I **needn't have bought** bread.","Yapılmış ama gereksiz iş için \"needn't have + V3\" daha doğal."]],
+ quiz:[["You ___ have cooked dinner. We'd already eaten.",["shouldn't","needn't","mustn't","can't"],1,"Gereksiz yere yapılmış: needn't have."],
+  ["I ___ have listened to my parents. They were right.",["should","needn't","must","can"],0,"Pişmanlık: should have."],
+  ["You ___ have called me! I was worried.",["could","needn't","mustn't","shall"],0,"Fırsat/sitem: could have."],
+  ["We ___ to hurry, so we took our time.",["needn't have","didn't need","shouldn't have","couldn't"],1,"Gerek olmadığı için yapılmadı: didn't need to."],
+  ["He shouldn't have ___ so much money on clothes.",["spend","spent","spending","to spend"],1,"Should have + V3."],
+  ["She ___ have taken the wrong bus; she's never late.",["might","needn't","should","mustn't"],0,"Geçmiş olasılık: might have."]]},
+{id:"nominalisation",level:"C2",title:"Nominalisation",sub:"decide → the decision to…",tr:"Fiilleri isimleştirerek resmî anlatım",
+ intro:"Nominalisation (isimleştirme), fiil ve sıfatları isme çevirerek cümleyi daha resmî ve yoğun hâle getirmektir. \"The government decided to raise taxes, which surprised people\" yerine \"The government's decision to raise taxes came as a surprise\" denir. Akademik yazı, raporlar ve haber dilinde temel bir beceridir; IELTS, YDS ve YÖKDİL gibi sınavlarda da sıkça karşına çıkar.",
+ uses:["Akademik ve resmî yazı: The analysis of the data took three months.","Bilgiyi tek cümlede yoğunlaştırmak: The rapid growth of cities has caused problems.","Kişiyi geri planda bırakmak: There has been an increase in prices.","Fiil + isim kalıpları: make a decision, reach an agreement, carry out research"],
+ forms:[["Fiil → isim","decide → decision, analyse → analysis","Their decision surprised everyone."],["Sıfat → isim","important → importance, able → ability","The importance of sleep is often ignored."],["Kalıp","the + isim + of + isim","The development of the city was rapid."]],
+ examples:[["The **introduction** of the new law caused protests.","Yeni yasanın getirilmesi protestolara yol açtı."],["There has been a sharp **increase** in unemployment.","İşsizlikte keskin bir artış oldu."],["The **failure** of the project was due to poor **planning**.","Projenin başarısızlığı kötü planlamadan kaynaklandı."],["Her **refusal** to cooperate made things difficult.","İş birliği yapmayı reddetmesi işleri zorlaştırdı."],["The **availability** of cheap flights has changed tourism.","Ucuz uçuşların bulunabilmesi turizmi değiştirdi."],["Scientists carried out an **investigation** into the causes.","Bilim insanları nedenlere yönelik bir araştırma yürüttü."]],
+ signals:["-tion","-ment","-ance / -ence","-ity","-ness","-al","the … of"],
+ mistakes:[["The analyse of the results took weeks.","The **analysis** of the results took weeks.","\"Analyse\" fiildir; isim hâli \"analysis\"tir."],["We made a decide quickly.","We made a **decision** quickly.","\"Make\" bir isimle kullanılır: make a decision."],["The increase of prices was huge.","The increase **in** prices was huge.","\"Increase / rise / fall\" isimleri \"in\" ile kullanılır."]],
+ quiz:[["The ___ of the new bridge took five years.",["construct","construction","constructive","constructed"],1,"İsim: construction."],
+  ["There has been a sharp ___ in house prices.",["rise","rising","risen","rose"],0,"İsim: a rise in."],
+  ["Her ___ to answer the question surprised us.",["refuse","refusal","refusing","refused"],1,"İsim: refusal."],
+  ["The ___ of clean water is a serious problem.",["short","shortly","shortage","shorten"],2,"İsim: shortage."],
+  ["They reached an ___ after long talks.",["agree","agreement","agreeable","agreed"],1,"Kalıp: reach an agreement."],
+  ["The ___ of the results will take time.",["analyse","analytic","analysis","analysed"],2,"İsim: analysis."]]},
+{id:"concession",level:"C2",title:"Advanced Concession",sub:"Much as I… / However hard… / albeit / Strange as it may seem",tr:"İleri düzey zıtlık ve kabul yapıları",
+ intro:"Zıtlık ve kabul bildirmek için \"although\" ve \"but\" dışında daha zarif yapılar vardır. \"Much as I like him, I can't agree\" (Onu ne kadar sevsem de katılamam), \"However hard he tried, he failed\" (Ne kadar uğraşsa da başaramadı), \"Strange as it may seem…\" (Garip görünse de) gibi. Bu yapılar konuşma ve yazıya incelik katar.",
+ uses:["Much as = ne kadar … olsa da: Much as I love her, I can't live with her.","Sıfat + as/though + özne + fiil: Tired as he was, he kept working.","However / No matter how: However hard I try, I can't remember his name.","albeit (= though, resmî): The plan worked, albeit slowly."],
+ forms:[["Much as","Much as + özne + fiil, …","Much as I admire him, I disagree."],["Sıfat + as","Sıfat + as + özne + be, …","Strange as it may seem, it's true."],["However","However + sıfat/zarf + özne + fiil","However rich you are, you can't buy time."]],
+ examples:[["**Much as** I'd like to help, I simply don't have time.","Yardım etmeyi ne kadar istesem de gerçekten vaktim yok."],["**Strange as it may seem**, I've never seen the sea.","Garip görünse de denizi hiç görmedim."],["**However** hard she worked, her boss was never satisfied.","Ne kadar sıkı çalışsa da patronu asla memnun olmadı."],["The results were positive, **albeit** limited.","Sonuçlar sınırlı da olsa olumluydu."],["**Whatever** you decide, I'll support you.","Ne karar verirsen ver, seni desteklerim."],["**Tired as** we were, we finished the climb.","Yorgun olmamıza rağmen tırmanışı bitirdik."]],
+ signals:["much as","however","no matter how","whatever","albeit","as / though (devrik)"],
+ mistakes:[["As tired as he was, he finished. (zıtlık anlamında)","**Tired as he was**, he finished.","Zıtlık bildiren yapıda baştaki \"as\" kullanılmaz: sıfat + as + özne."],["However he tried hard, he failed.","**However hard he tried**, he failed.","\"However\"dan hemen sonra sıfat/zarf gelir."],["The plan worked, albeit it was slow.","The plan worked, **albeit slowly**.","\"Albeit\"tan sonra tam cümle değil, sıfat/zarf/isim öbeği gelir."]],
+ quiz:[["___ as I like him, I don't trust him.",["Much","Many","So","Very"],0,"Much as + özne + fiil."],
+  ["___ hard I try, I can't lose weight.",["Whatever","However","Although","Despite"],1,"However + sıfat/zarf."],
+  ["Strange ___ it may seem, he has never used a computer.",["though","as","so","like"],1,"Sıfat + as + özne."],
+  ["The trip was enjoyable, ___ a little expensive.",["albeit","although it","despite","however"],0,"albeit + sıfat."],
+  ["___ you do, don't tell her.",["However","Whatever","Whenever it","No matter"],1,"Whatever + özne + fiil."],
+  ["Tired ___ she was, she kept smiling.",["as","so","like","because"],0,"Sıfat + as + özne + be."]]}
+);
+Object.assign(EXAM,{
+"subjunctive":[
+ ["The teacher suggested that she ___ the essay again.",["writes","write","wrote","will write"],1,"Suggest that + yalın fiil."],
+ ["It is imperative that the patient ___ kept warm.",["is","be","was","being"],1,"Imperative that + be."],
+ ["We requested that the noise ___ stopped.",["is","be","was","will be"],1,"Request that + be + V3."]],
+"inverted-conditionals":[
+ ["___ we left earlier, we would have avoided the traffic.",["If","Had","Were","Should"],1,"Had + özne + V3."],
+ ["___ you see Ali, tell him to call me.",["Should","Had","Were","Would"],0,"Should you see…"],
+ ["___ I to accept the job, I would have to move.",["Was","Were","Had","Should"],1,"Were I to…"]],
+"ellipsis-substitution":[
+ ["Is it going to snow? — I don't think ___.",["it","so","not","that"],1,"I don't think so."],
+ ["I like the black boots more than the brown ___.",["one","ones","them","it"],1,"Çoğul: ones."],
+ ["She hasn't paid yet, and ___ has her husband.",["so","neither","either","nor has"],1,"Neither has…"]],
+"past-modals":[
+ ["We ___ have bought so much food. Nobody came.",["needn't","mustn't","can't","didn't need"],0,"Gereksiz yere yapılmış: needn't have."],
+ ["You ___ have warned me about the exam!",["should","needn't","mustn't","can"],0,"Sitem: should have."],
+ ["She ___ have been killed. The accident was terrible.",["could","needn't","mustn't","should"],0,"Gerçekleşmemiş olasılık: could have."]],
+"nominalisation":[
+ ["The ___ of the company surprised investors.",["grow","growth","grew","growing"],1,"İsim: growth."],
+ ["We need to make a ___ by Friday.",["decide","decision","decisive","decided"],1,"Make a decision."],
+ ["There was a sudden fall ___ temperatures.",["of","in","at","on"],1,"A fall in…"]],
+"concession":[
+ ["___ as it may sound, I enjoy doing homework.",["Strange","Strangely","Stranger","Strangeness"],0,"Sıfat + as."],
+ ["___ much money you earn, you'll never be happy without friends.",["However","No matter","Whatever","Although"],0,"However much…"],
+ ["The car is reliable, ___ rather slow.",["albeit","although it","despite","in spite"],0,"albeit + sıfat."]]
+});
+Object.assign(TBANK,{
+"subjunctive":[
+ ["The doctor recommended that she ___ more water.",["drinks","drink","drank","will drink"],1,"Recommend that + V1."],
+ ["It is essential that the form ___ signed.",["is","be","was","been"],1,"Essential that + be."],
+ ["They demanded that the manager ___ immediately.",["resigns","resign","resigned","will resign"],1,"Demand that + V1."],
+ ["I insist that he ___ us the truth.",["tells","tell","told","telling"],1,"Insist that + V1."],
+ ["It is crucial that nobody ___ about this.",["knows","know","knew","is knowing"],1,"Crucial that + V1."],
+ ["She asked that her name ___ mentioned.",["not be","isn't","not is","doesn't be"],0,"Olumsuz: not be."],
+ ["The law requires that every driver ___ insured.",["is","be","are","been"],1,"Require that + be."],
+ ["We suggest that the meeting ___ at 10.",["starts","start","started","will start"],1,"Suggest that + V1."],
+ ["___ that as it may, we must continue.",["Being","Be","Is","Was"],1,"Kalıp: Be that as it may."],
+ ["It is advisable that he ___ a doctor.",["sees","see","saw","seeing"],1,"Advisable that + V1."],
+ ["The board proposed that salaries ___ increased.",["are","be","were","been"],1,"Propose that + be."],
+ ["It was important that she ___ late.",["not be","wasn't","isn't","not was"],0,"Olumsuz dilek kipi: not be."]],
+"inverted-conditionals":[
+ ["___ I known about the party, I would have come.",["If","Had","Were","Should"],1,"Had I known…"],
+ ["___ you have any questions, please ask.",["Should","Had","Were","Would"],0,"Should you have…"],
+ ["___ I you, I'd accept the offer.",["Was","Were","Had","Should"],1,"Were I you…"],
+ ["Had she ___ the bus, she would have been on time.",["catch","caught","catching","catches"],1,"Had + V3."],
+ ["___ it not been for the map, we would have got lost.",["Had","Were","Should","If"],0,"Had it not been for…"],
+ ["Were the weather better, we ___ go to the beach.",["will","would","had","should have"],1,"Were … , would + V1."],
+ ["Should the price ___, we will buy more.",["falls","fall","fell","fallen"],1,"Should + özne + V1."],
+ ["___ it not for his help, I would still be lost.",["Had","Were","Should","Did"],1,"Were it not for…"],
+ ["Had I not ___ you, I would never have learned English.",["meet","met","meeting","meets"],1,"Had I not + V3."],
+ ["Were she ___ the truth, she would be shocked.",["know","to know","knowing","known"],1,"Were + özne + to + V1."],
+ ["Should you ___ to cancel, please call us.",["wish","wished","wishing","wishes"],0,"Should + V1."],
+ ["___ they told me earlier, I could have helped.",["Should","Were","Had","Did"],2,"Had + V3."]],
+"ellipsis-substitution":[
+ ["Will you be there? — I expect ___.",["it","so","yes","that"],1,"I expect so."],
+ ["Is it true? — I'm afraid ___.",["yes","so","it","that"],1,"Olumlu ve üzücü: I'm afraid so."],
+ ["Did they win? — I don't think ___.",["so","not","it","yes"],0,"Olumsuz düşünce: I don't think so."],
+ ["This cake is delicious. Can I have another ___?",["one","ones","it","some one"],0,"Tekil: one."],
+ ["I haven't seen that film. — Neither ___ I.",["have","do","am","did"],0,"Neither have I."],
+ ["She can play the piano, and ___ can her son.",["so","neither","too","also"],0,"So can her son."],
+ ["He was told to leave the room, and he ___.",["did so","did it so","so did","made so"],0,"did so."],
+ ["Do you need a pen? — No, I've got ___.",["one","it","ones","the one"],0,"Belirsiz tekil: one."],
+ ["I don't like coffee. — I don't ___.",["too","either","neither","so"],1,"Olumsuz katılma: I don't either."],
+ ["Are they coming? — I hope ___. It would be great.",["so","not","it","yes"],0,"I hope so."],
+ ["Which jacket is yours? — The leather ___.",["one","ones","it","that"],0,"Tekil: the leather one."],
+ ["You told me to call him, and I've done ___.",["so","it so","such","that so"],0,"done so."]],
+"past-modals":[
+ ["You ___ have bought tickets. Entry was free.",["needn't","mustn't","can't","couldn't"],0,"Gereksiz yere: needn't have."],
+ ["I ___ have gone to bed earlier. I'm exhausted.",["should","needn't","must","can"],0,"Pişmanlık: should have."],
+ ["We ___ to book a table; the restaurant was empty.",["didn't need","needn't have","shouldn't","mustn't"],0,"Yapılmadı, gerek yoktu: didn't need to."],
+ ["She could have ___ the prize if she had entered.",["win","won","winning","wins"],1,"Could have + V3."],
+ ["You shouldn't have ___ him the secret.",["tell","told","telling","tells"],1,"Should have + V3."],
+ ["They ___ have forgotten; they never forget.",["can't","needn't","should","mustn't"],0,"İmkânsız: can't have."],
+ ["I ___ have studied medicine, but I chose law.",["could","needn't","mustn't","should"],0,"Kaçırılmış seçenek: could have."],
+ ["He ___ have left without paying! That's rude.",["shouldn't","needn't","couldn't","mustn't"],0,"Eleştiri: shouldn't have."],
+ ["You needn't have ___ so early. The shop opens at 10.",["come","came","coming","comes"],0,"Needn't have + V3."],
+ ["We ___ have taken a taxi; the hotel was very close.",["needn't","mustn't","shouldn't to","can't"],0,"Gereksiz: needn't have."],
+ ["She ought to have ___ the instructions.",["read","reading","reads","to read"],0,"Ought to have + V3 (read)."],
+ ["It ___ have been worse. At least nobody was hurt.",["could","needn't","should","must"],0,"Kalıp: It could have been worse."]],
+"nominalisation":[
+ ["The ___ of the museum was celebrated.",["open","opening","opened","opens"],1,"İsim: opening."],
+ ["His ___ to the problem was very creative.",["solve","solution","solving","solved"],1,"İsim: solution."],
+ ["There has been a decline ___ the number of students.",["of","in","on","at"],1,"A decline in…"],
+ ["The ___ of the drug is still being tested.",["effective","effectiveness","effect","effectively"],1,"İsim: effectiveness."],
+ ["They carried out a detailed ___ of the market.",["analyse","analysis","analytical","analyst"],1,"İsim: analysis."],
+ ["Her ___ in the competition made her famous.",["succeed","success","successful","successfully"],1,"İsim: success."],
+ ["The ___ of the city's population caused housing problems.",["expand","expansion","expanding","expansive"],1,"İsim: expansion."],
+ ["We are concerned about the ___ of the river.",["pollute","pollution","polluted","polluting"],1,"İsim: pollution."],
+ ["The company made an ___ about job cuts.",["announce","announcement","announcing","announced"],1,"İsim: announcement."],
+ ["The ___ of the evidence led to his release.",["weak","weakness","weaken","weakly"],1,"İsim: weakness."],
+ ["Students need a good ___ of grammar.",["understand","understanding","understood","understandable"],1,"İsim: understanding."],
+ ["The ___ of the bridge will cost millions.",["repair","repairing","repaired","to repair"],0,"İsim: repair (the repair of)."]],
+"concession":[
+ ["___ as I respect her, I can't support this idea.",["Much","Many","Such","So"],0,"Much as…"],
+ ["___ difficult the task, we'll complete it.",["However","Whatever","Although","Even"],0,"However + sıfat."],
+ ["Clever ___ he is, he makes silly mistakes.",["as","so","like","because"],0,"Sıfat + as + özne."],
+ ["The hotel was comfortable, ___ a bit noisy.",["albeit","although it","despite","however"],0,"albeit + sıfat."],
+ ["___ happens, stay calm.",["However","Whatever","Whoever","Wherever it"],1,"Whatever happens."],
+ ["No matter ___ you say, I won't change my mind.",["what","how","that","which"],0,"No matter what."],
+ ["___ the rain, the match continued.",["Despite","Although","However","Albeit"],0,"Despite + isim."],
+ ["___ much I try, I can't understand physics.",["However","Whatever","Although","Much"],0,"However much…"],
+ ["Try ___ she might, she couldn't open the jar.",["as","so","like","though it"],0,"Kalıp: Try as she might…"],
+ ["___ we may disagree, we respect each other.",["Much as","Much so","So much","Very much"],0,"Much as…"],
+ ["___ you go, I'll follow you.",["Wherever","However","Whatever","Whoever"],0,"Wherever…"],
+ ["The results were impressive, ___ not perfect.",["albeit","although it","despite","in spite"],0,"albeit + not + sıfat."]]
+});
+Object.assign(GTR,{
+"Öneri ve talep fiillerinden sonra: The doctor recommended that he stop smoking.":"Doktor sigarayı bırakmasını önerdi.",
+"Önem ve gereklilik sıfatlarından sonra: It is essential that every student be present.":"Her öğrencinin hazır bulunması şarttır.",
+"Kalıplaşmış ifadeler: God save the King. / Be that as it may…":"Tanrı kralı korusun. / Her ne olursa olsun…",
+"Olumsuz yapı (not + yalın fiil): They insisted that he not be told.":"Ona söylenmemesi konusunda ısrar ettiler.",
+"She insisted that he leave immediately.":"Hemen gitmesi konusunda ısrar etti.",
+"It is vital that she be informed.":"Onun bilgilendirilmesi hayati önemde.",
+"We asked that the meeting not be recorded.":"Toplantının kaydedilmemesini istedik.",
+"Üçüncü tip (geçmiş): Had I known about the problem, I would have helped.":"Sorunu bilseydim yardım ederdim.",
+"İkinci tip (varsayım): Were I in your position, I would accept the offer.":"Senin yerinde olsam teklifi kabul ederdim.",
+"Birinci tip (olasılık, kibar): Should you have any questions, please contact us.":"Herhangi bir sorunuz olursa lütfen bize ulaşın.",
+"Gelecekteki varsayım: Were the company to close, hundreds would lose their jobs.":"Şirket kapanacak olsa yüzlerce kişi işini kaybeder.",
+"Had she left earlier, she would have caught the train.":"Daha erken çıksaydı trene yetişirdi.",
+"Were I rich, I would buy an island.":"Zengin olsam bir ada alırdım.",
+"Should you need help, call me.":"Yardıma ihtiyacın olursa beni ara.",
+"Cümle yerine so / not: Is she coming? — I think so. / I hope not.":"Geliyor mu? — Sanırım. / Umarım gelmez.",
+"İsim yerine one / ones: I don't like the red shirt; I prefer the blue one.":"Kırmızı gömleği sevmiyorum; maviyi tercih ederim.",
+"Fiil öbeği yerine do so: He promised to help, and he did so.":"Yardım edeceğine söz verdi ve etti.",
+"Eksiltme (tekrarı atlamak): I wanted to go, but I couldn't.":"Gitmek istedim ama gidemedim.",
+"I'm afraid not.":"Maalesef hayır.",
+"Which ones do you want?":"Hangilerini istiyorsun?",
+"She was asked to resign, and she did so.":"İstifa etmesi istendi, o da etti.",
+"Gereksiz yere yapılmış iş: You needn't have cooked; we'd already eaten.":"Yemek yapmana gerek yoktu; biz zaten yemiştik.",
+"Gerekli olmadığı için yapılmamış iş: I didn't need to take a taxi, so I walked.":"Taksiye binmeme gerek yoktu, yürüdüm.",
+"Pişmanlık ve eleştiri: You should have told me the truth.":"Bana gerçeği söylemeliydin.",
+"Kaçırılmış fırsat: We could have won if we'd tried harder.":"Daha çok uğraşsaydık kazanabilirdik.",
+"She needn't have worried.":"Endişelenmesine gerek yoktu.",
+"I shouldn't have eaten so much.":"Bu kadar çok yememeliydim.",
+"You could have called me!":"Beni arayabilirdin!",
+"Akademik ve resmî yazı: The analysis of the data took three months.":"Verilerin analizi üç ay sürdü.",
+"Bilgiyi tek cümlede yoğunlaştırmak: The rapid growth of cities has caused problems.":"Şehirlerin hızlı büyümesi sorunlara yol açtı.",
+"Kişiyi geri planda bırakmak: There has been an increase in prices.":"Fiyatlarda bir artış oldu.",
+"Fiil + isim kalıpları: make a decision, reach an agreement, carry out research":"karar vermek, anlaşmaya varmak, araştırma yürütmek",
+"Their decision surprised everyone.":"Verdikleri karar herkesi şaşırttı.",
+"The importance of sleep is often ignored.":"Uykunun önemi çoğu zaman göz ardı edilir.",
+"The development of the city was rapid.":"Şehrin gelişimi hızlıydı.",
+"Much as = ne kadar … olsa da: Much as I love her, I can't live with her.":"Onu ne kadar sevsem de onunla yaşayamam.",
+"Sıfat + as/though + özne + fiil: Tired as he was, he kept working.":"Yorgun olmasına rağmen çalışmaya devam etti.",
+"However / No matter how: However hard I try, I can't remember his name.":"Ne kadar uğraşsam da adını hatırlayamıyorum.",
+"albeit (= though, resmî): The plan worked, albeit slowly.":"Plan yavaş da olsa işe yaradı.",
+"Much as I admire him, I disagree.":"Ona ne kadar hayran olsam da katılmıyorum.",
+"Strange as it may seem, it's true.":"Garip görünse de doğru.",
+"However rich you are, you can't buy time.":"Ne kadar zengin olursan ol, zamanı satın alamazsın."
+});
+
 /* Sesli diyaloglar: gerçek hayattan kısa konuşmalar.
    lines: [konuşan, İngilizce, Türkçe, yanlış seçenekler?]  · konuşan "A" = karşıdaki kişi, "S" = sen
    Yanlış seçenek verilen "S" satırları "Sen konuş" bölümünde soru olur. */
@@ -6570,9 +7304,38 @@ function renderExamList(){
       (r?'<div class="ex-last v-'+v.k+'">'+ic(v.k==="ok"?"check":"alert")+'<div><b>'+r.ok+' / '+r.n+' · '+v.short+'</b><small>'+new Date(r.at).toLocaleDateString("tr-TR",{day:"numeric",month:"long"})+'</small></div></div>':'')+
       '<div class="ex-uf"><span class="note">'+n+' soru · yaklaşık '+Math.round(n*.4)+' dakika</span>'+
       (r?'<a class="ghost" href="#sinav-'+k.toLowerCase()+'-sonuc">Sonucu gör</a>':'')+
-      '<a class="primary" href="#sinav-'+k.toLowerCase()+'">'+(r?"Yeniden gir":"Sınava gir")+'</a></div></article>'}).join("")+'</div>';
+      '<a class="primary" href="#sinav-'+k.toLowerCase()+'">'+(r?"Yeniden gir":"Sınava gir")+'</a></div>'+
+      (()=>{const pool=unitPool(k),u=P.utest&&P.utest[k],sn=pool.filter(it=>P.seen["tb:"+it.q[0]]).length;return pool.length?'<div class="ex-uf ex-ut"><span class="note">'+ic("refresh")+'<b>Ünite testleri</b> · '+pool.length+' soruluk havuz, her test 20 soru'+(u?' · '+u.runs+' test çözdün, en iyi '+u.best+'/'+u.n:'')+(sn?' · '+sn+' soru görüldü':'')+'</span><a class="ghost" href="#sinav-'+k.toLowerCase()+'-test">'+(u?"Yeni test":"Teste başla")+'</a></div>':''})()+'</article>'}).join("")+'</div>';
 }
 
+/* ÜNİTE TESTLERİ: ünitenin tüm konularının test havuzundan (TBANK) 20 soruluk, her seferinde farklı karışık test.
+   Önce görülmemiş sorular gelir. Sonuç: P.utest[seviye]={runs,best,last,n,at} (ünite sınavı sonucunu değiştirmez). */
+const UT_N=20;
+function unitPool(lv){return GRAMMAR.filter(t=>t.level===lv).flatMap(t=>((typeof TBANK!=="undefined"&&TBANK[t.id])||[]).map(q=>({tid:t.id,q})))}
+function startUnitTest(lv){
+  const pool=unitPool(lv);if(!pool.length){location.hash="sinav-"+lv.toLowerCase();return}
+  const qs=shuffle(pickFresh(pool,it=>"tb:"+it.q[0],Math.min(UT_N,pool.length))).map(it=>({...it,order:shuffle(it.q[1].map((_,i)=>i))}));
+  EX={lv,qs,i:0,pick:[],done:false,test:true};renderExam();
+}
+function finishUnitTest(){
+  let ok=0;EX.qs.forEach((it,i)=>{if(EX.pick[i]===it.q[2])ok++;touch("tb:"+it.q[0])});
+  trk("unite-testi",{seviye:EX.lv});P.utest=P.utest||{};const prev=P.utest[EX.lv];
+  P.utest[EX.lv]={runs:(prev?prev.runs:0)+1,best:Math.max(ok,prev?prev.best:0),last:ok,n:EX.qs.length,at:Date.now()};
+  save();EX.done=true;renderExam();window.scrollTo({top:0,behavior:"auto"});
+}
+function renderUnitTestResult(run){
+  const box=$("exam"),lv=run.lv,L=GRAMMAR_LEVELS[lv],n=run.qs.length,ok=run.qs.filter((it,i)=>run.pick[i]===it.q[2]).length,v=examVerdict(ok/n);
+  const pool=unitPool(lv),seenN=pool.filter(it=>P.seen["tb:"+it.q[0]]).length;
+  const wrong=run.qs.map((it,i)=>[it,run.pick[i]]).filter(([it,p])=>p!==it.q[2]);
+  box.innerHTML='<div class="exres" style="--c:'+L.color+'"><section class="card ex-sum v-'+v.k+'"><div class="ex-score"><b>'+Math.round(ok/n*100)+'<small>%</small></b><span>'+ok+' / '+n+' doğru</span></div>'+
+    '<div><small class="eyebrow">Ünite '+unitNo(lv)+' testi · '+lv+' '+esc(L.name)+'</small><h2>'+esc(v.short)+'</h2><p>Bu ünitenin '+pool.length+' soruluk test havuzundan <b>'+seenN+'</b> soruyu gördün. Yeni testte önce görmediğin sorular gelir.</p>'+
+    '<div class="hero-row"><a class="primary" href="#sinav-'+lv.toLowerCase()+'-test" id="utAgain">'+ic("refresh")+'Yeni ünite testi</a><a class="ghost" href="#sinav-'+lv.toLowerCase()+'">Ünite sınavı</a></div></div></section>'+
+    '<section class="card ex-review"><h2 class="tres-h">'+(wrong.length?'Yanlış cevapların <small>'+wrong.length+'</small>':'Tüm sorular doğru!')+'</h2>'+
+    wrong.map(([it,p])=>{const q=it.q,t=GRAMMAR.find(x=>x.id===it.tid);return '<div class="ex-w"><p class="ex-wq">'+esc(q[0]).replace("___","<u>"+esc(q[1][q[2]])+"</u>")+'</p>'+
+      '<p class="ex-wa"><span class="chip miss">Senin cevabın: '+esc(q[1][p])+'</span><span class="chip hit">Doğrusu: '+esc(q[1][q[2]])+'</span></p><p class="note">'+ic("bulb")+esc(q[3])+' <a href="#g-'+t.id+'">'+esc(t.title)+'</a></p></div>'}).join("")+'</section>'+
+    '<p class="note ex-back"><a href="#sinav">'+ic("left")+'Tüm üniteler</a></p></div>';
+  $("utAgain").onclick=e=>{e.preventDefault();startUnitTest(lv);window.scrollTo({top:0,behavior:"auto"})};
+}
 function startExam(lv){
   const ts=GRAMMAR.filter(t=>t.level===lv);
   const qs=shuffle(ts.flatMap(t=>(EXAM[t.id]||[]).map(q=>({tid:t.id,q,order:shuffle(q[1].map((_,i)=>i))}))));
@@ -6580,20 +7343,20 @@ function startExam(lv){
 }
 function renderExam(){
   const box=$("exam");if(!box||!EX)return;
-  if(EX.done){renderExamResult(EX.lv,EX);return}
+  if(EX.done){if(EX.test)renderUnitTestResult(EX);else renderExamResult(EX.lv,EX);return}
   const L=GRAMMAR_LEVELS[EX.lv],n=EX.qs.length,it=EX.qs[EX.i],q=it.q,sel=EX.pick[EX.i];
   const parts=esc(q[0]).split("___");
   box.innerHTML='<div class="exrun card" style="--c:'+L.color+'">'+
-    '<div class="ex-top"><span class="badge" style="--c:'+L.color+'">Ünite '+unitNo(EX.lv)+' · '+EX.lv+'</span><span class="note">Soru '+(EX.i+1)+' / '+n+'</span></div>'+
+    '<div class="ex-top"><span class="badge" style="--c:'+L.color+'">'+(EX.test?'Ünite testi':'Ünite '+unitNo(EX.lv))+' · '+EX.lv+'</span><span class="note">Soru '+(EX.i+1)+' / '+n+'</span></div>'+
     '<div class="mbar ex-bar"><i style="width:'+(EX.i/n*100)+'%"></i></div>'+
     '<p class="pr-q">'+parts[0]+(parts.length>1?'<span class="blank">'+(sel!==undefined?esc(q[1][sel]):"&nbsp;")+'</span>'+parts[1]:"")+'</p>'+
     '<div class="opts" id="exOpts">'+it.order.map((oi,p)=>'<button class="opt'+(sel===oi?" sel":"")+'" data-i="'+oi+'" aria-pressed="'+(sel===oi)+'"><span class="k">'+"ABCD"[p]+'</span><span>'+esc(q[1][oi])+'</span></button>').join("")+'</div>'+
-    '<div class="ex-foot">'+(EX.i?'<button class="ghost" id="exPrev">'+ic("left")+'Önceki</button>':'<a class="linkbtn" href="#sinav">Sınavdan çık</a>')+'<span class="sp"></span>'+
-      '<button class="primary" id="exNext"'+(sel===undefined?" disabled":"")+'>'+(EX.i+1<n?"Sonraki":"Sınavı bitir")+ic("right")+'</button></div>'+
-    '<p class="note ex-hint">Sınav sırasında cevaplar gösterilmez; sonunda konu konu değerlendirme ve açıklamalar gelir.</p></div>';
+    '<div class="ex-foot">'+(EX.i?'<button class="ghost" id="exPrev">'+ic("left")+'Önceki</button>':'<a class="linkbtn" href="#sinav">'+(EX.test?'Testten çık':'Sınavdan çık')+'</a>')+'<span class="sp"></span>'+
+      '<button class="primary" id="exNext"'+(sel===undefined?" disabled":"")+'>'+(EX.i+1<n?"Sonraki":EX.test?"Testi bitir":"Sınavı bitir")+ic("right")+'</button></div>'+
+    '<p class="note ex-hint">'+(EX.test?'Cevaplar testin sonunda açıklamalarıyla gösterilir.':'Sınav sırasında cevaplar gösterilmez; sonunda konu konu değerlendirme ve açıklamalar gelir.')+'</p></div>';
   box.querySelectorAll("#exOpts .opt").forEach(b=>b.onclick=()=>{EX.pick[EX.i]=+b.dataset.i;markActive();renderExam()});
   if($("exPrev"))$("exPrev").onclick=()=>{EX.i--;renderExam()};
-  $("exNext").onclick=()=>{if(EX.pick[EX.i]===undefined)return;if(EX.i+1<n){EX.i++;renderExam()}else finishExam()};
+  $("exNext").onclick=()=>{if(EX.pick[EX.i]===undefined)return;if(EX.i+1<n){EX.i++;renderExam()}else if(EX.test)finishUnitTest();else finishExam()};
 }
 function finishExam(){
   const t={};let ok=0;
@@ -6632,9 +7395,10 @@ function renderExamResult(lv,run){
 function openExamRoute(h){
   // "sinav" | "sinav-a1" | "sinav-a1-sonuc" | "sinav-kelime" | "sinav-k-<deste>" | "sinav-k-<deste>-sonuc"  → bölüm adı döner
   let sec="gramer";
-  const m=h.match(/^sinav-(a1|a2|b1|b2|c1)(-sonuc)?$/),k=h.match(/^sinav-k-([a-z0-9]+?)(-sonuc)?$/);
+  const ut=h.match(/^sinav-(a1|a2|b1|b2|c1|c2)-test$/),m=h.match(/^sinav-(a1|a2|b1|b2|c1|c2)(-sonuc)?$/),k=h.match(/^sinav-k-([a-z0-9]+?)(-sonuc)?$/);
   if(h==="sinav")renderExamList();
   else if(h==="sinav-kelime"){renderVList();sec="ogren"}
+  else if(ut)startUnitTest(ut[1].toUpperCase());
   else if(m){const lv=m[1].toUpperCase();if(m[2])renderExamResult(lv,EX&&EX.lv===lv&&EX.done?EX:null);else startExam(lv)}
   else if(k){const d=DECKS.find(x=>x.id===k[1]);if(!d)return false;sec="ogren";
     if(k[2])renderVResult(d,VX&&VX.d===d&&VX.done?VX:null);else startVExam(d)}
@@ -6726,21 +7490,26 @@ function renderVList(){
 }
 
 /* ================= BÖLÜM TESTİ (dil bilgisi konusunun en altında) =================
-   İsteğe bağlı. Konunun alıştırma soruları + ünite sınavı soruları + "Hangisi doğru?" (sık yapılan hatalardan) karışık gelir.
+   İsteğe bağlı. Sorular TBANK'tan (alıştırma ve ünite sınavı sorularından ayrı havuz) gelir: önce hiç görülmemişler,
+   sonra en uzun zamandır görülmeyenler; aynı test içinde tekrar yok. Görülen sorular P.seen["tb:…"] ile işaretlenir.
    Sınav sırasında doğru/yanlış gösterilmez; sonunda puan, değerlendirme ve açıklamalar. Sonuç: P.ttest[konu]={best,last,n,at,runs}
    %60 ve üstü konu "tamamlandı" sayılır. */
 var TT=null;
+const TT_N=10;
+function ttPool(t){
+  const bank=(typeof TBANK!=="undefined"&&TBANK[t.id])||[];
+  if(bank.length)return bank;
+  return ((typeof EXAM!=="undefined"&&EXAM[t.id])||[]).concat(t.quiz||[]); /* havuzu olmayan konu için yedek */
+}
 function ttBuild(t){
-  const items=[];
-  (t.quiz||[]).forEach(q=>items.push({q:q[0],opts:q[1],right:q[2],why:q[3]}));
-  ((typeof EXAM!=="undefined"&&EXAM[t.id])||[]).forEach(q=>items.push({q:q[0],opts:q[1],right:q[2],why:q[3]}));
-  (t.mistakes||[]).slice(0,3).forEach(m=>items.push({q:"Hangisi doğru?",opts:[m[0],plain(m[1])],right:1,why:m[2]}));
-  return shuffle(items).map(it=>{const order=shuffle(it.opts.map((_,i)=>i));return{...it,order}});
+  const seenQ=new Set(),pool=ttPool(t).filter(q=>{const k=q[0]+"|"+q[1].join();if(seenQ.has(k))return false;seenQ.add(k);return true});
+  const pick=pickFresh(pool,q=>"tb:"+q[0],Math.min(TT_N,pool.length));
+  return shuffle(pick).map(q=>({q:q[0],opts:q[1],right:q[2],why:q[3],order:shuffle(q[1].map((_,i)=>i))}));
 }
 function ttVerdict(r){return r>=.85?{k:"ok",t:"Konuyu biliyorsun",d:"Harika! Bir sonraki konuya geçebilirsin."}:r>=.6?{k:"mid",t:"Birkaç eksik var",d:"Konu tamamlandı sayıldı. Yanlışlarının açıklamalarına göz at."}:{k:"bad",t:"Konuyu tekrar et",d:"Anlatımı ve sık yapılan hataları bir kez daha oku, sonra yeniden dene."}}
 function ttIntro(t){
-  const r=P.ttest&&P.ttest[t.id],n=ttBuild(t).length;
-  return '<div class="tt-intro"><div><b>'+n+' soruluk bölüm testi</b><span>İstersen konuyu bitirince kendini dene. Cevaplar testin sonunda gösterilir.'+
+  const r=P.ttest&&P.ttest[t.id],pool=ttPool(t),n=Math.min(TT_N,pool.length),seenN=pool.filter(q=>P.seen["tb:"+q[0]]).length;
+  return '<div class="tt-intro"><div><b>'+n+' soruluk bölüm testi</b><span>Sorular alıştırmadakilerden farklı, '+pool.length+' soruluk ayrı bir havuzdan gelir; her seferinde önce görmediklerin çıkar'+(seenN?' ('+seenN+' / '+pool.length+' soruyu gördün)':'')+'. Cevaplar testin sonunda gösterilir.'+
     (r?' Son sonucun <b>'+r.last+'/'+r.n+'</b>, en iyisi <b>'+r.best+'/'+r.n+'</b>.':'')+'</span></div><button class="primary" id="ttStart">'+(r?ic("refresh")+"Yeniden çöz":"Teste başla"+ic("right"))+'</button></div>';
 }
 function ttRender(){
@@ -6773,7 +7542,7 @@ function ttRender(){
   if($("ttTop"))$("ttTop").onclick=()=>window.scrollTo({top:0,behavior:reduceMotion()?"auto":"smooth"});
 }
 function ttFinish(){
-  trk("bolum-testi",{konu:TT.t.id});const t=TT.t,n=TT.items.length,ok=TT.items.filter((it,i)=>TT.pick[i]===it.right).length;
+  trk("bolum-testi",{konu:TT.t.id});TT.items.forEach(it=>touch("tb:"+it.q));const t=TT.t,n=TT.items.length,ok=TT.items.filter((it,i)=>TT.pick[i]===it.right).length;
   P.ttest=P.ttest||{};const prev=P.ttest[t.id];
   P.ttest[t.id]={best:Math.max(ok,prev?prev.best:0),last:ok,n,at:Date.now(),runs:(prev?prev.runs||1:0)+1};
   if(ok/n>=.6){const g=P.gram[t.id]||{best:0,total:t.quiz.length,done:false};P.gram[t.id]={...g,done:true}}
@@ -7853,7 +8622,7 @@ Object.values(WORDS).flat().forEach(w=>WINFO[w[0]]=[w[0],w[1],w[2],w[3]||"",w[4]
 DECKS.forEach(d=>d.words.forEach(w=>WINFO[w[0]]=w));
 const EXTRA={};
 /* Yarışma havuzu: seçilmiş yarışma kelimeleri + seviyesine göre deste kelimeleri + çekirdek sözlükten sık kelimeler (data-quiz2.js) */
-const DECK_LV={"A1–A2":"kolay","A2":"kolay","A2–B1":"orta","B1":"orta","B1–B2":"zor","B2":"zor","B2–C1":"uzman","C1":"uzman"};
+const DECK_LV={"A1–A2":"kolay","A2":"kolay","A2–B1":"orta","B1":"orta","B1–B2":"zor","B2":"zor","B2–C1":"uzman","C1":"uzman","C1–C2":"uzman","C2":"uzman"};
 const QCACHE={};
 function quizPool(k){
   if(QCACHE[k])return QCACHE[k];
@@ -8066,7 +8835,7 @@ function renderHome(){
   const mods=[
     {id:"ogren",t:"Kelime Öğren",c:"var(--m-learn)",tint:"var(--t-learn)",icon:"cards",d:DECKS.length+" konu destesi, örnek cümleler ve telaffuzla kalıcı kelime öğrenimi.",f:learned+" / "+totalW+" kelime",p:learned/totalW},
     {id:"yarisma",t:"Kelime Yarışması",c:"var(--m-quiz)",tint:"var(--t-quiz)",icon:"trophy",d:"5 yarışma türü: Klasik, 60 Saniye, Doğru mu?, Eşleştir, Dinle ve Yaz.",f:rec+" / 4 seviyede rekor",p:rec/4},
-    {id:"gramer",t:"Dil Bilgisi",c:"var(--m-gram)",tint:"var(--t-gram)",icon:"book",d:"A1'den C1'e "+GRAMMAR.length+" konu: anlatım, tablolar, örnekler ve alıştırmalar.",f:gd+" / "+GRAMMAR.length+" konu",p:gd/GRAMMAR.length},
+    {id:"gramer",t:"Dil Bilgisi",c:"var(--m-gram)",tint:"var(--t-gram)",icon:"book",d:"A1'den C2'ye "+GRAMMAR.length+" konu: anlatım, tablolar, örnekler ve alıştırmalar.",f:gd+" / "+GRAMMAR.length+" konu",p:gd/GRAMMAR.length},
     {id:"metin",t:"Metin Çevirisi",c:"var(--m-trans)",tint:"var(--t-trans)",icon:"doc",d:"Gerçek metinleri oku, kelimelere dokun, çevir ve puan al.",f:P.trans+" çeviri yapıldı",p:Math.min(1,P.trans/16)}
   ];
   $("modules").innerHTML=mods.map(m=>'<a class="mod" href="#'+m.id+'" style="--c:'+m.c+';--t:'+m.tint+'"><span class="mod-ic">'+ic(m.icon)+'</span><h3>'+m.t+'</h3><p>'+m.d+'</p>'+
@@ -8420,7 +9189,7 @@ function renderGramList(){
   $("gramList").innerHTML='<div class="ex-ctas"><a class="ex-cta" href="#hatalar" style="--c:var(--bad)"><span class="mod-ic">'+ic("alert")+'</span><div><b>Sık yapılan hatalar</b><span>En yaygın '+MISTAKES.length+' hata ve doğruları</span></div><span class="tool-go">Aç '+ic("right")+'</span></a><a class="ex-cta" href="#sinav"><span class="mod-ic">'+ic("target")+'</span><div><b>Ünite sınavları</b><span>'+(exN?exN+' / '+Object.keys(GRAMMAR_LEVELS).length+' ünite sınandı · eksik konular işaretli':'Ünitenin tüm konularını tek sınavda dene')+'</span></div><span class="tool-go">'+(exN?"Sınavlar":"Başla")+' '+ic("right")+'</span></a></div>'+Object.entries(GRAMMAR_LEVELS).filter(([k])=>gFilter==="all"||gFilter===k).map(([k,L])=>{
     const ts=GRAMMAR.filter(t=>t.level===k),dn=ts.filter(t=>P.gram[t.id]?.done).length,er=P.exam&&P.exam[k];
     return '<section class="glevel"><div class="glevel-h" style="--c:'+L.color+'"><span class="glevel-badge">'+k+'</span><div><h2>'+L.name+'</h2><p>'+L.desc+'</p></div>'+
-      '<div class="gl-prog">'+dn+' / '+ts.length+'<div class="mbar"><i style="width:'+(dn/ts.length*100)+'%"></i></div><a class="gl-ex" href="#sinav-'+k.toLowerCase()+(er?'-sonuc':'')+'">'+ic("target")+(er?'Sınav: '+er.ok+'/'+er.n:'Ünite sınavı')+'</a></div></div>'+
+      '<div class="gl-prog">'+dn+' / '+ts.length+'<div class="mbar"><i style="width:'+(dn/ts.length*100)+'%"></i></div><a class="gl-ex" href="#sinav-'+k.toLowerCase()+(er?'-sonuc':'')+'">'+ic("target")+(er?'Sınav: '+er.ok+'/'+er.n:'Ünite sınavı')+'</a><a class="gl-ex" href="#sinav-'+k.toLowerCase()+'-test">'+ic("refresh")+'Ünite testleri</a></div></div>'+
       '<div class="gtopics">'+ts.map((t,i)=>{const g=P.gram[t.id];
         return '<a class="gt'+(g?.done?" done":"")+'" href="#g-'+t.id+'" style="--c:'+L.color+'"><span class="gt-n">'+(g?.done?ic("check"):i+1)+'</span>'+
           '<b>'+esc(t.title)+'</b><span class="sub">'+esc(t.sub)+'</span><span class="trt">'+esc(t.tr)+'</span>'+
@@ -8461,9 +9230,9 @@ function renderTopic(t){
   $("toc").querySelectorAll("[data-jump]").forEach(a=>a.onclick=e=>{e.preventDefault();$(a.dataset.jump).scrollIntoView({behavior:reduceMotion()?"auto":"smooth"})});
   PR=newPractice(t);renderPractice();ttMount(t);
 }
-/* Alıştırma: konunun alıştırma + sınav soruları arasından, en uzun zamandır görülmeyenler önce (her denemede farklı bir set) */
+/* Alıştırma: yalnızca konunun alıştırma soruları (sınav ve test soruları ayrı havuzlarda), karışık sırayla */
 function newPractice(t){
-  const all=t.quiz.concat((typeof EXAM!=="undefined"&&EXAM[t.id])||[]),seenQ=new Set();
+  const all=t.quiz.slice(),seenQ=new Set();
   const uniq=all.filter(q=>{if(seenQ.has(q[0]+"|"+q[1].join()))return false;seenQ.add(q[0]+"|"+q[1].join());return true});
   return{t,i:0,score:0,res:[],answered:false,qs:shuffle(pickFresh(uniq,q=>"gq:"+q[0],Math.min(t.quiz.length,uniq.length)))};
 }
@@ -9261,7 +10030,7 @@ function mergeP(a,b){
         for(const w in o){const d=del["s:"+w];if(d&&d>(o[w][3]||0))delete o[w]}r[k]=o;break}
       case "notes":{const del=maxMap(a._del||{},b._del||{}),o={...x};for(const id in y){if(!o[id]||(y[id].u||0)>(o[id].u||0))o[id]=y[id]}
         for(const id in o){const d=del["n:"+id];if(d&&d>(o[id].u||0))delete o[id]}r[k]=o;break}
-      case "exam":case "vexam":case "ttest":{const o={...x};for(const lv in y){const p=o[lv],q=y[lv];o[lv]=!p||(q.at||0)>(p.at||0)?{...q,best:Math.max(q.best||0,p?p.best||0:0)}:{...p,best:Math.max(p.best||0,q.best||0)}}r[k]=o;break}
+      case "exam":case "vexam":case "ttest":case "utest":{const o={...x};for(const lv in y){const p=o[lv],q=y[lv];o[lv]=!p||(q.at||0)>(p.at||0)?{...q,best:Math.max(q.best||0,p?p.best||0:0)}:{...p,best:Math.max(p.best||0,q.best||0)}}r[k]=o;break}
       case "pomoLog":{const m={};[...x,...y].forEach(e=>{if(e&&e.t)m[e.t]=e});r[k]=Object.values(m).sort((a,b)=>a.t-b.t).slice(-500);break}
       case "_del":r[k]=maxMap(x,y);break;
       case "hist":r[k]=newer.hist;break;

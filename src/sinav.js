@@ -26,9 +26,38 @@ function renderExamList(){
       (r?'<div class="ex-last v-'+v.k+'">'+ic(v.k==="ok"?"check":"alert")+'<div><b>'+r.ok+' / '+r.n+' · '+v.short+'</b><small>'+new Date(r.at).toLocaleDateString("tr-TR",{day:"numeric",month:"long"})+'</small></div></div>':'')+
       '<div class="ex-uf"><span class="note">'+n+' soru · yaklaşık '+Math.round(n*.4)+' dakika</span>'+
       (r?'<a class="ghost" href="#sinav-'+k.toLowerCase()+'-sonuc">Sonucu gör</a>':'')+
-      '<a class="primary" href="#sinav-'+k.toLowerCase()+'">'+(r?"Yeniden gir":"Sınava gir")+'</a></div></article>'}).join("")+'</div>';
+      '<a class="primary" href="#sinav-'+k.toLowerCase()+'">'+(r?"Yeniden gir":"Sınava gir")+'</a></div>'+
+      (()=>{const pool=unitPool(k),u=P.utest&&P.utest[k],sn=pool.filter(it=>P.seen["tb:"+it.q[0]]).length;return pool.length?'<div class="ex-uf ex-ut"><span class="note">'+ic("refresh")+'<b>Ünite testleri</b> · '+pool.length+' soruluk havuz, her test 20 soru'+(u?' · '+u.runs+' test çözdün, en iyi '+u.best+'/'+u.n:'')+(sn?' · '+sn+' soru görüldü':'')+'</span><a class="ghost" href="#sinav-'+k.toLowerCase()+'-test">'+(u?"Yeni test":"Teste başla")+'</a></div>':''})()+'</article>'}).join("")+'</div>';
 }
 
+/* ÜNİTE TESTLERİ: ünitenin tüm konularının test havuzundan (TBANK) 20 soruluk, her seferinde farklı karışık test.
+   Önce görülmemiş sorular gelir. Sonuç: P.utest[seviye]={runs,best,last,n,at} (ünite sınavı sonucunu değiştirmez). */
+const UT_N=20;
+function unitPool(lv){return GRAMMAR.filter(t=>t.level===lv).flatMap(t=>((typeof TBANK!=="undefined"&&TBANK[t.id])||[]).map(q=>({tid:t.id,q})))}
+function startUnitTest(lv){
+  const pool=unitPool(lv);if(!pool.length){location.hash="sinav-"+lv.toLowerCase();return}
+  const qs=shuffle(pickFresh(pool,it=>"tb:"+it.q[0],Math.min(UT_N,pool.length))).map(it=>({...it,order:shuffle(it.q[1].map((_,i)=>i))}));
+  EX={lv,qs,i:0,pick:[],done:false,test:true};renderExam();
+}
+function finishUnitTest(){
+  let ok=0;EX.qs.forEach((it,i)=>{if(EX.pick[i]===it.q[2])ok++;touch("tb:"+it.q[0])});
+  trk("unite-testi",{seviye:EX.lv});P.utest=P.utest||{};const prev=P.utest[EX.lv];
+  P.utest[EX.lv]={runs:(prev?prev.runs:0)+1,best:Math.max(ok,prev?prev.best:0),last:ok,n:EX.qs.length,at:Date.now()};
+  save();EX.done=true;renderExam();window.scrollTo({top:0,behavior:"auto"});
+}
+function renderUnitTestResult(run){
+  const box=$("exam"),lv=run.lv,L=GRAMMAR_LEVELS[lv],n=run.qs.length,ok=run.qs.filter((it,i)=>run.pick[i]===it.q[2]).length,v=examVerdict(ok/n);
+  const pool=unitPool(lv),seenN=pool.filter(it=>P.seen["tb:"+it.q[0]]).length;
+  const wrong=run.qs.map((it,i)=>[it,run.pick[i]]).filter(([it,p])=>p!==it.q[2]);
+  box.innerHTML='<div class="exres" style="--c:'+L.color+'"><section class="card ex-sum v-'+v.k+'"><div class="ex-score"><b>'+Math.round(ok/n*100)+'<small>%</small></b><span>'+ok+' / '+n+' doğru</span></div>'+
+    '<div><small class="eyebrow">Ünite '+unitNo(lv)+' testi · '+lv+' '+esc(L.name)+'</small><h2>'+esc(v.short)+'</h2><p>Bu ünitenin '+pool.length+' soruluk test havuzundan <b>'+seenN+'</b> soruyu gördün. Yeni testte önce görmediğin sorular gelir.</p>'+
+    '<div class="hero-row"><a class="primary" href="#sinav-'+lv.toLowerCase()+'-test" id="utAgain">'+ic("refresh")+'Yeni ünite testi</a><a class="ghost" href="#sinav-'+lv.toLowerCase()+'">Ünite sınavı</a></div></div></section>'+
+    '<section class="card ex-review"><h2 class="tres-h">'+(wrong.length?'Yanlış cevapların <small>'+wrong.length+'</small>':'Tüm sorular doğru!')+'</h2>'+
+    wrong.map(([it,p])=>{const q=it.q,t=GRAMMAR.find(x=>x.id===it.tid);return '<div class="ex-w"><p class="ex-wq">'+esc(q[0]).replace("___","<u>"+esc(q[1][q[2]])+"</u>")+'</p>'+
+      '<p class="ex-wa"><span class="chip miss">Senin cevabın: '+esc(q[1][p])+'</span><span class="chip hit">Doğrusu: '+esc(q[1][q[2]])+'</span></p><p class="note">'+ic("bulb")+esc(q[3])+' <a href="#g-'+t.id+'">'+esc(t.title)+'</a></p></div>'}).join("")+'</section>'+
+    '<p class="note ex-back"><a href="#sinav">'+ic("left")+'Tüm üniteler</a></p></div>';
+  $("utAgain").onclick=e=>{e.preventDefault();startUnitTest(lv);window.scrollTo({top:0,behavior:"auto"})};
+}
 function startExam(lv){
   const ts=GRAMMAR.filter(t=>t.level===lv);
   const qs=shuffle(ts.flatMap(t=>(EXAM[t.id]||[]).map(q=>({tid:t.id,q,order:shuffle(q[1].map((_,i)=>i))}))));
@@ -36,20 +65,20 @@ function startExam(lv){
 }
 function renderExam(){
   const box=$("exam");if(!box||!EX)return;
-  if(EX.done){renderExamResult(EX.lv,EX);return}
+  if(EX.done){if(EX.test)renderUnitTestResult(EX);else renderExamResult(EX.lv,EX);return}
   const L=GRAMMAR_LEVELS[EX.lv],n=EX.qs.length,it=EX.qs[EX.i],q=it.q,sel=EX.pick[EX.i];
   const parts=esc(q[0]).split("___");
   box.innerHTML='<div class="exrun card" style="--c:'+L.color+'">'+
-    '<div class="ex-top"><span class="badge" style="--c:'+L.color+'">Ünite '+unitNo(EX.lv)+' · '+EX.lv+'</span><span class="note">Soru '+(EX.i+1)+' / '+n+'</span></div>'+
+    '<div class="ex-top"><span class="badge" style="--c:'+L.color+'">'+(EX.test?'Ünite testi':'Ünite '+unitNo(EX.lv))+' · '+EX.lv+'</span><span class="note">Soru '+(EX.i+1)+' / '+n+'</span></div>'+
     '<div class="mbar ex-bar"><i style="width:'+(EX.i/n*100)+'%"></i></div>'+
     '<p class="pr-q">'+parts[0]+(parts.length>1?'<span class="blank">'+(sel!==undefined?esc(q[1][sel]):"&nbsp;")+'</span>'+parts[1]:"")+'</p>'+
     '<div class="opts" id="exOpts">'+it.order.map((oi,p)=>'<button class="opt'+(sel===oi?" sel":"")+'" data-i="'+oi+'" aria-pressed="'+(sel===oi)+'"><span class="k">'+"ABCD"[p]+'</span><span>'+esc(q[1][oi])+'</span></button>').join("")+'</div>'+
-    '<div class="ex-foot">'+(EX.i?'<button class="ghost" id="exPrev">'+ic("left")+'Önceki</button>':'<a class="linkbtn" href="#sinav">Sınavdan çık</a>')+'<span class="sp"></span>'+
-      '<button class="primary" id="exNext"'+(sel===undefined?" disabled":"")+'>'+(EX.i+1<n?"Sonraki":"Sınavı bitir")+ic("right")+'</button></div>'+
-    '<p class="note ex-hint">Sınav sırasında cevaplar gösterilmez; sonunda konu konu değerlendirme ve açıklamalar gelir.</p></div>';
+    '<div class="ex-foot">'+(EX.i?'<button class="ghost" id="exPrev">'+ic("left")+'Önceki</button>':'<a class="linkbtn" href="#sinav">'+(EX.test?'Testten çık':'Sınavdan çık')+'</a>')+'<span class="sp"></span>'+
+      '<button class="primary" id="exNext"'+(sel===undefined?" disabled":"")+'>'+(EX.i+1<n?"Sonraki":EX.test?"Testi bitir":"Sınavı bitir")+ic("right")+'</button></div>'+
+    '<p class="note ex-hint">'+(EX.test?'Cevaplar testin sonunda açıklamalarıyla gösterilir.':'Sınav sırasında cevaplar gösterilmez; sonunda konu konu değerlendirme ve açıklamalar gelir.')+'</p></div>';
   box.querySelectorAll("#exOpts .opt").forEach(b=>b.onclick=()=>{EX.pick[EX.i]=+b.dataset.i;markActive();renderExam()});
   if($("exPrev"))$("exPrev").onclick=()=>{EX.i--;renderExam()};
-  $("exNext").onclick=()=>{if(EX.pick[EX.i]===undefined)return;if(EX.i+1<n){EX.i++;renderExam()}else finishExam()};
+  $("exNext").onclick=()=>{if(EX.pick[EX.i]===undefined)return;if(EX.i+1<n){EX.i++;renderExam()}else if(EX.test)finishUnitTest();else finishExam()};
 }
 function finishExam(){
   const t={};let ok=0;
@@ -88,9 +117,10 @@ function renderExamResult(lv,run){
 function openExamRoute(h){
   // "sinav" | "sinav-a1" | "sinav-a1-sonuc" | "sinav-kelime" | "sinav-k-<deste>" | "sinav-k-<deste>-sonuc"  → bölüm adı döner
   let sec="gramer";
-  const m=h.match(/^sinav-(a1|a2|b1|b2|c1)(-sonuc)?$/),k=h.match(/^sinav-k-([a-z0-9]+?)(-sonuc)?$/);
+  const ut=h.match(/^sinav-(a1|a2|b1|b2|c1|c2)-test$/),m=h.match(/^sinav-(a1|a2|b1|b2|c1|c2)(-sonuc)?$/),k=h.match(/^sinav-k-([a-z0-9]+?)(-sonuc)?$/);
   if(h==="sinav")renderExamList();
   else if(h==="sinav-kelime"){renderVList();sec="ogren"}
+  else if(ut)startUnitTest(ut[1].toUpperCase());
   else if(m){const lv=m[1].toUpperCase();if(m[2])renderExamResult(lv,EX&&EX.lv===lv&&EX.done?EX:null);else startExam(lv)}
   else if(k){const d=DECKS.find(x=>x.id===k[1]);if(!d)return false;sec="ogren";
     if(k[2])renderVResult(d,VX&&VX.d===d&&VX.done?VX:null);else startVExam(d)}

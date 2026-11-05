@@ -74,7 +74,7 @@ Object.values(WORDS).flat().forEach(w=>WINFO[w[0]]=[w[0],w[1],w[2],w[3]||"",w[4]
 DECKS.forEach(d=>d.words.forEach(w=>WINFO[w[0]]=w));
 const EXTRA={};
 /* Yarışma havuzu: seçilmiş yarışma kelimeleri + seviyesine göre deste kelimeleri + çekirdek sözlükten sık kelimeler (data-quiz2.js) */
-const DECK_LV={"A1–A2":"kolay","A2":"kolay","A2–B1":"orta","B1":"orta","B1–B2":"zor","B2":"zor","B2–C1":"uzman","C1":"uzman"};
+const DECK_LV={"A1–A2":"kolay","A2":"kolay","A2–B1":"orta","B1":"orta","B1–B2":"zor","B2":"zor","B2–C1":"uzman","C1":"uzman","C1–C2":"uzman","C2":"uzman"};
 const QCACHE={};
 function quizPool(k){
   if(QCACHE[k])return QCACHE[k];
@@ -287,7 +287,7 @@ function renderHome(){
   const mods=[
     {id:"ogren",t:"Kelime Öğren",c:"var(--m-learn)",tint:"var(--t-learn)",icon:"cards",d:DECKS.length+" konu destesi, örnek cümleler ve telaffuzla kalıcı kelime öğrenimi.",f:learned+" / "+totalW+" kelime",p:learned/totalW},
     {id:"yarisma",t:"Kelime Yarışması",c:"var(--m-quiz)",tint:"var(--t-quiz)",icon:"trophy",d:"5 yarışma türü: Klasik, 60 Saniye, Doğru mu?, Eşleştir, Dinle ve Yaz.",f:rec+" / 4 seviyede rekor",p:rec/4},
-    {id:"gramer",t:"Dil Bilgisi",c:"var(--m-gram)",tint:"var(--t-gram)",icon:"book",d:"A1'den C1'e "+GRAMMAR.length+" konu: anlatım, tablolar, örnekler ve alıştırmalar.",f:gd+" / "+GRAMMAR.length+" konu",p:gd/GRAMMAR.length},
+    {id:"gramer",t:"Dil Bilgisi",c:"var(--m-gram)",tint:"var(--t-gram)",icon:"book",d:"A1'den C2'ye "+GRAMMAR.length+" konu: anlatım, tablolar, örnekler ve alıştırmalar.",f:gd+" / "+GRAMMAR.length+" konu",p:gd/GRAMMAR.length},
     {id:"metin",t:"Metin Çevirisi",c:"var(--m-trans)",tint:"var(--t-trans)",icon:"doc",d:"Gerçek metinleri oku, kelimelere dokun, çevir ve puan al.",f:P.trans+" çeviri yapıldı",p:Math.min(1,P.trans/16)}
   ];
   $("modules").innerHTML=mods.map(m=>'<a class="mod" href="#'+m.id+'" style="--c:'+m.c+';--t:'+m.tint+'"><span class="mod-ic">'+ic(m.icon)+'</span><h3>'+m.t+'</h3><p>'+m.d+'</p>'+
@@ -641,7 +641,7 @@ function renderGramList(){
   $("gramList").innerHTML='<div class="ex-ctas"><a class="ex-cta" href="#hatalar" style="--c:var(--bad)"><span class="mod-ic">'+ic("alert")+'</span><div><b>Sık yapılan hatalar</b><span>En yaygın '+MISTAKES.length+' hata ve doğruları</span></div><span class="tool-go">Aç '+ic("right")+'</span></a><a class="ex-cta" href="#sinav"><span class="mod-ic">'+ic("target")+'</span><div><b>Ünite sınavları</b><span>'+(exN?exN+' / '+Object.keys(GRAMMAR_LEVELS).length+' ünite sınandı · eksik konular işaretli':'Ünitenin tüm konularını tek sınavda dene')+'</span></div><span class="tool-go">'+(exN?"Sınavlar":"Başla")+' '+ic("right")+'</span></a></div>'+Object.entries(GRAMMAR_LEVELS).filter(([k])=>gFilter==="all"||gFilter===k).map(([k,L])=>{
     const ts=GRAMMAR.filter(t=>t.level===k),dn=ts.filter(t=>P.gram[t.id]?.done).length,er=P.exam&&P.exam[k];
     return '<section class="glevel"><div class="glevel-h" style="--c:'+L.color+'"><span class="glevel-badge">'+k+'</span><div><h2>'+L.name+'</h2><p>'+L.desc+'</p></div>'+
-      '<div class="gl-prog">'+dn+' / '+ts.length+'<div class="mbar"><i style="width:'+(dn/ts.length*100)+'%"></i></div><a class="gl-ex" href="#sinav-'+k.toLowerCase()+(er?'-sonuc':'')+'">'+ic("target")+(er?'Sınav: '+er.ok+'/'+er.n:'Ünite sınavı')+'</a></div></div>'+
+      '<div class="gl-prog">'+dn+' / '+ts.length+'<div class="mbar"><i style="width:'+(dn/ts.length*100)+'%"></i></div><a class="gl-ex" href="#sinav-'+k.toLowerCase()+(er?'-sonuc':'')+'">'+ic("target")+(er?'Sınav: '+er.ok+'/'+er.n:'Ünite sınavı')+'</a><a class="gl-ex" href="#sinav-'+k.toLowerCase()+'-test">'+ic("refresh")+'Ünite testleri</a></div></div>'+
       '<div class="gtopics">'+ts.map((t,i)=>{const g=P.gram[t.id];
         return '<a class="gt'+(g?.done?" done":"")+'" href="#g-'+t.id+'" style="--c:'+L.color+'"><span class="gt-n">'+(g?.done?ic("check"):i+1)+'</span>'+
           '<b>'+esc(t.title)+'</b><span class="sub">'+esc(t.sub)+'</span><span class="trt">'+esc(t.tr)+'</span>'+
@@ -682,9 +682,9 @@ function renderTopic(t){
   $("toc").querySelectorAll("[data-jump]").forEach(a=>a.onclick=e=>{e.preventDefault();$(a.dataset.jump).scrollIntoView({behavior:reduceMotion()?"auto":"smooth"})});
   PR=newPractice(t);renderPractice();ttMount(t);
 }
-/* Alıştırma: konunun alıştırma + sınav soruları arasından, en uzun zamandır görülmeyenler önce (her denemede farklı bir set) */
+/* Alıştırma: yalnızca konunun alıştırma soruları (sınav ve test soruları ayrı havuzlarda), karışık sırayla */
 function newPractice(t){
-  const all=t.quiz.concat((typeof EXAM!=="undefined"&&EXAM[t.id])||[]),seenQ=new Set();
+  const all=t.quiz.slice(),seenQ=new Set();
   const uniq=all.filter(q=>{if(seenQ.has(q[0]+"|"+q[1].join()))return false;seenQ.add(q[0]+"|"+q[1].join());return true});
   return{t,i:0,score:0,res:[],answered:false,qs:shuffle(pickFresh(uniq,q=>"gq:"+q[0],Math.min(t.quiz.length,uniq.length)))};
 }

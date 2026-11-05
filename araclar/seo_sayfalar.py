@@ -224,10 +224,10 @@ def build(root, data):
     lst = ''.join(f'<h2>{e(k)} · {e(v["name"])}</h2><p class="sub">{e(v["desc"])}</p><div class="grid">' +
                   ''.join(f'<a href="/gramer/{g["id"]}/"><b>{e(g["title"])}</b><small>{e(g["sub"])} · {e(g["tr"])}</small></a>' for g in G if g['level'] == k) + '</div>'
                   for k, v in GL.items())
-    write('gramer', page('gramer/', 'İngilizce gramer konu anlatımları (A1–C1) · Türkçe | Fluo',
-                         f'A1\'den C1\'e {len(G)} İngilizce dil bilgisi konusu Türkçe anlatım, cümle yapıları, örnek cümleler ve sık yapılan hatalarla.',
+    write('gramer', page('gramer/', 'İngilizce gramer konu anlatımları (A1–C2) · Türkçe | Fluo',
+                         f'A1\'den C2\'ye {len(G)} İngilizce dil bilgisi konusu Türkçe anlatım, cümle yapıları, örnek cümleler ve sık yapılan hatalarla.',
                          [('Fluo', ''), ('Gramer', 'gramer/')],
-                         f'<h1>İngilizce gramer konu anlatımları</h1><p class="sub">A1\'den C1\'e {len(G)} konu, Türkçe anlatım ve örneklerle</p>' + lst,
+                         f'<h1>İngilizce gramer konu anlatımları</h1><p class="sub">A1\'den C2\'ye {len(G)} konu, Türkçe anlatım ve örneklerle</p>' + lst,
                          '/#gramer', 'Gramer bölümünü aç'))
 
     D = data['DECKS']

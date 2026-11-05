@@ -43,7 +43,7 @@ def _hov(line):
     if not line or line[0] in ' @\t' or ':hover' not in line: return line
     return re.sub(r'([^{}]+)\{([^{}]*)\}',lambda m:('@media (hover:hover){'+m.group(0)+'}') if ':hover' in m.group(1) else m.group(0),line)
 css='\n'.join(_hov(l) for l in css.split('\n'))
-js='\n'.join((src/f).read_text() for f in ['config.js','data-quiz.js','data-quiz2.js','data-texts2.js','data-examples.js','data-learn.js','data-learn2.js','data-learn2b.js','data-learn2c.js','data-learn2d.js','data-grammar.js','data-test.js','data-reading.js','data-exam.js','data-grammar-c1.js','data-grammar-tr.js','data-dialog.js','data-hatalar.js','data-aile.js','support.js','yasal.js','hedef.js','calismam.js','sinav.js','konutest.js','cumle.js','gunun.js','okuma.js','telaffuz.js','diyalog.js','hatalar.js','buyuksozluk.js','pwa.js','pomodoro.js','yarisma2.js','app.js','auth.js'])
+js='\n'.join((src/f).read_text() for f in ['config.js','data-quiz.js','data-quiz2.js','data-texts2.js','data-examples.js','data-learn.js','data-learn2.js','data-learn2b.js','data-learn2c.js','data-learn2d.js','data-grammar.js','data-test.js','data-reading.js','data-exam.js','data-grammar-c1.js','data-grammar-tr.js','data-tbank1.js','data-tbank2.js','data-tbank3.js','data-grammar-c2.js','data-dialog.js','data-hatalar.js','data-aile.js','support.js','yasal.js','hedef.js','calismam.js','sinav.js','konutest.js','cumle.js','gunun.js','okuma.js','telaffuz.js','diyalog.js','hatalar.js','buyuksozluk.js','pwa.js','pomodoro.js','yarisma2.js','app.js','auth.js'])
 js=js.replace('/*AIDX*/{}',json.dumps(aidx,separators=(',',':'))).replace('/*SILENT*/""','"'+silent+'"')
 out=shell.replace('/*CSS*/',css).replace('/*JS*/',js)
 # artifact.html: Claude yayını için (yayın sistemi sayfa iskeletini kendisi ekler)
@@ -52,7 +52,7 @@ FAVICON="%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 120 120'%3E%3Cde
 # Google ve paylaşım önizlemesi (yalnızca index.html; Claude önizlemesi etkilenmez)
 SITE='https://fluo-english.com/'
 TITLE='Fluo · Türkçe anlatımlı ücretsiz İngilizce: kelime, gramer, okuma'
-DESC='Türkçe anlatımlı ücretsiz İngilizce çalışma alanı: 1.400+ örnekli kelime, A1–C1 dil bilgisi, seviye testi, okuma, dinleme, diyaloglar ve kelime yarışmaları.'
+DESC='Türkçe anlatımlı ücretsiz İngilizce çalışma alanı: 1.400+ örnekli kelime, A1–C2 dil bilgisi, seviye testi, okuma, dinleme, diyaloglar ve kelime yarışmaları.'
 OG=SITE+'icons/og-image.png'
 UMAMI='<script defer src="https://cloud.umami.is/script.js" data-website-id="4d5c94d2-f55d-4985-a1c7-fed7a95657f6" data-domains="fluo-english.com,www.fluo-english.com" data-auto-track="false" data-do-not-track="true"></script>\n'
 SEO=(UMAMI+'<meta name="description" content="'+DESC+'">\n'
@@ -67,7 +67,7 @@ SEO=(UMAMI+'<meta name="description" content="'+DESC+'">\n'
      '<script type="application/ld+json">'+json.dumps({"@context":"https://schema.org","@type":"WebApplication","name":"Fluo","url":SITE,
         "description":DESC,"inLanguage":"tr","applicationCategory":"EducationalApplication","operatingSystem":"Web",
         "offers":{"@type":"Offer","price":"0","priceCurrency":"TRY"},"author":{"@type":"Person","name":"Ümit Erdoğan"},
-        "educationalLevel":"A1–C1","teaches":"İngilizce (English as a foreign language)"},ensure_ascii=False)+'</script>\n')
+        "educationalLevel":"A1–C2","teaches":"İngilizce (English as a foreign language)"},ensure_ascii=False)+'</script>\n')
 NOSCRIPT=('<noscript><h1>Fluo · Türkçe anlatımlı ücretsiz İngilizce</h1><p>'+DESC+'</p>'
           '<p>Fluo\'yu kullanmak için tarayıcında JavaScript\'i aç.</p></noscript>')
 (root/'robots.txt').write_text('User-agent: *\nAllow: /\n\nSitemap: '+SITE+'sitemap.xml\n')
